@@ -181,6 +181,9 @@ BREW_CASKS=(
     daisydisk
     blip
 
+    # Music Production
+    native-access
+
     # Microsoft Office
     microsoft-word
     microsoft-excel
