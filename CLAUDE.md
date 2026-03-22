@@ -19,10 +19,32 @@ When asked to write, draft, compose, or produce any text, use the writing-style 
 This repo is the durable knowledge layer. Every Claude surface reads from it.
 
 - `knowledge/` — Research, references, domain knowledge. Grows over time.
+  - `memory.md` — Persistent memory across sessions. Updated via the `remember` skill.
 - `templates/` — Reusable document structures.
 - `tools/` — Scripts and utilities.
 - `.claude/skills/` — Claude Code skills.
 - `.claude/scheduled-tasks/` — Automated tasks.
+
+## Memory System
+
+This repo has a persistent memory system. Claude learns and retains information across sessions.
+
+### How it works
+1. **SessionStart hook** runs at the beginning of every session, loading `knowledge/memory.md` into context.
+2. **`/remember` skill** — when Jaime says "remember this", "don't forget", or corrects a behavior, Claude appends the information to `knowledge/memory.md` under the right section, commits, and confirms.
+3. **`CLAUDE.md`** (this file) holds durable rules and instructions. Update this file for structural changes to how Claude behaves.
+4. **`knowledge/memory.md`** holds accumulated session learnings — preferences, people, decisions, workflows, recurring issues.
+
+### When to update memory
+- Jaime explicitly asks to remember something.
+- Jaime corrects Claude's behavior and the correction should persist.
+- A decision is made that shouldn't be re-litigated.
+- A recurring problem is solved.
+
+### When to update CLAUDE.md instead
+- New permanent rules or behavioral instructions.
+- Changes to repo structure or workflow.
+- New skills or scheduled tasks added.
 
 ## Weekly Ops Summary Rules
 
