@@ -10,8 +10,12 @@
 #   3. Installs CLI tools, languages, runtimes, cloud CLIs
 #   4. Installs GUI apps via Homebrew Cask
 #   5. Installs Mac App Store apps via mas
-#   6. Configures Oh My Zsh, nvm, pyenv, yt-dlp
-#   7. Applies macOS system preferences (defaults write)
+#   6. Configures Oh My Zsh, nvm, pyenv
+#   7. Installs global npm packages (Claude Code CLI, Vercel)
+#   8. Sets up Git identity, SSH key, GitHub CLI auth
+#   9. Clones Claude knowledge base repo (~/claude)
+#  10. Configures yt-dlp, fzf
+#  11. Applies macOS system preferences (defaults write)
 #
 # What this does NOT install (manual install required):
 #   - Affinity 3 (download from serif.com)
@@ -323,7 +327,69 @@ else
 fi
 
 # =============================================================================
-# 10. yt-dlp config
+# 10. Git identity
+# =============================================================================
+info "Configuring Git identity..."
+
+if [[ -z "$(git config --global user.name)" ]]; then
+    git config --global user.name "Jaime de la Torre"
+    git config --global user.email "jaime@dcycle.io"
+    success "Git identity set (Jaime de la Torre <jaime@dcycle.io>)."
+else
+    success "Git identity already configured: $(git config --global user.name) <$(git config --global user.email)>"
+fi
+
+# Sensible Git defaults
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+git config --global push.autoSetupRemote true
+
+# =============================================================================
+# 11. SSH key for GitHub
+# =============================================================================
+info "Checking SSH key..."
+
+SSH_KEY="$HOME/.ssh/id_ed25519"
+if [[ -f "$SSH_KEY" ]]; then
+    success "SSH key already exists at $SSH_KEY."
+else
+    info "Generating SSH key..."
+    ssh-keygen -t ed25519 -C "jaime@dcycle.io" -f "$SSH_KEY" -N ""
+    eval "$(ssh-agent -s)" >/dev/null
+    ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || ssh-add "$SSH_KEY"
+    success "SSH key generated. Public key:"
+    cat "${SSH_KEY}.pub"
+    echo ""
+    warn "Add this key to GitHub: gh ssh-key add ${SSH_KEY}.pub --title \"Mac $(date +%Y)\""
+fi
+
+# =============================================================================
+# 12. GitHub CLI authentication
+# =============================================================================
+info "Checking GitHub CLI auth..."
+
+if gh auth status &>/dev/null 2>&1; then
+    success "GitHub CLI already authenticated."
+else
+    warn "GitHub CLI not authenticated. Running interactive login..."
+    gh auth login -p ssh -w || warn "gh auth login failed — run it manually after setup."
+fi
+
+# =============================================================================
+# 13. Clone Claude knowledge base repo
+# =============================================================================
+info "Checking Claude knowledge base repo..."
+
+CLAUDE_REPO_DIR="$HOME/claude"
+if [[ -d "$CLAUDE_REPO_DIR/.git" ]]; then
+    success "Knowledge base repo already cloned at $CLAUDE_REPO_DIR."
+else
+    info "Cloning Ysasmendi/claude repo..."
+    git clone git@github.com:Ysasmendi/claude.git "$CLAUDE_REPO_DIR" || warn "Failed to clone repo — make sure SSH key is added to GitHub first."
+fi
+
+# =============================================================================
+# 14. yt-dlp config
 # =============================================================================
 info "Configuring yt-dlp..."
 
@@ -351,7 +417,7 @@ else
 fi
 
 # =============================================================================
-# 11. fzf key bindings
+# 15. fzf key bindings
 # =============================================================================
 info "Setting up fzf key bindings..."
 if [[ -f "$(brew --prefix fzf)/install" ]]; then
@@ -360,7 +426,7 @@ if [[ -f "$(brew --prefix fzf)/install" ]]; then
 fi
 
 # =============================================================================
-# 12. macOS System Preferences
+# 16. macOS System Preferences
 # =============================================================================
 info "Applying macOS system preferences..."
 
@@ -634,10 +700,11 @@ echo "============================================="
 echo ""
 echo "Manual steps remaining:"
 echo "  1. Open a new terminal for shell changes to take effect"
-echo "  2. Install manually (not available via Homebrew or App Store):"
+echo "  2. Log in to Claude Code: claude login"
+echo "  3. Install manually (not available via Homebrew or App Store):"
 echo "     - Affinity 3       → https://affinity.serif.com"
 echo "     - Nuo-Stems 4      → vendor website"
 echo "     - iStat Menus 6    → https://bjango.com/mac/istatmenus/"
-echo "  3. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
-echo "  4. Configure Raycast (replaces Spotlight with ⌘Space)"
+echo "  4. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
+echo "  5. Configure Raycast (replaces Spotlight with ⌘Space)"
 echo ""
