@@ -102,6 +102,9 @@ BREW_FORMULAE=(
     pyenv
     go
 
+    # Python tools
+    uv
+
     # Cloud CLIs
     supabase/tap/supabase
     awscli
