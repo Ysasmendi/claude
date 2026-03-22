@@ -9,10 +9,10 @@
 #   2. Installs Homebrew
 #   3. Installs CLI tools, languages, runtimes, cloud CLIs
 #   4. Installs GUI apps via Homebrew Cask
-#   5. Configures Oh My Zsh, nvm, pyenv, yt-dlp
+#   5. Installs Mac App Store apps via mas
+#   6. Configures Oh My Zsh, nvm, pyenv, yt-dlp
 #
 # What this does NOT install (manual install required):
-#   - Amphetamine (Mac App Store only)
 #   - Affinity 3 (download from serif.com)
 #   - Nuo-Stems 4 (download from vendor)
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
@@ -106,6 +106,9 @@ BREW_FORMULAE=(
     supabase/tap/supabase
     awscli
 
+    # Mac App Store CLI
+    mas
+
     # Media tools
     yt-dlp
     ffmpeg
@@ -194,7 +197,24 @@ for cask in "${BREW_CASKS[@]}"; do
 done
 
 # =============================================================================
-# 5. Oh My Zsh
+# 5. Mac App Store apps (via mas)
+# =============================================================================
+info "Installing Mac App Store apps..."
+
+if command -v mas &>/dev/null; then
+    # Amphetamine (keep-awake utility) — App Store ID: 937984704
+    if mas list | grep -q "937984704"; then
+        success "Amphetamine already installed."
+    else
+        info "Installing Amphetamine..."
+        mas install 937984704 || warn "Failed to install Amphetamine — you may need to sign in to the App Store first."
+    fi
+else
+    warn "mas not available. Install it first (brew install mas), then run: mas install 937984704"
+fi
+
+# =============================================================================
+# 6. Oh My Zsh
 # =============================================================================
 info "Checking Oh My Zsh..."
 if [[ -d "$HOME/.oh-my-zsh" ]]; then
@@ -206,7 +226,7 @@ else
 fi
 
 # =============================================================================
-# 6. Node.js via nvm
+# 7. Node.js via nvm
 # =============================================================================
 info "Setting up Node.js via nvm..."
 
@@ -239,7 +259,7 @@ else
 fi
 
 # =============================================================================
-# 7. Python via pyenv
+# 8. Python via pyenv
 # =============================================================================
 info "Setting up Python via pyenv..."
 
@@ -267,7 +287,7 @@ else
 fi
 
 # =============================================================================
-# 8. Global npm packages
+# 9. Global npm packages
 # =============================================================================
 info "Installing global npm packages..."
 
@@ -290,7 +310,7 @@ else
 fi
 
 # =============================================================================
-# 9. yt-dlp config
+# 10. yt-dlp config
 # =============================================================================
 info "Configuring yt-dlp..."
 
@@ -318,7 +338,7 @@ else
 fi
 
 # =============================================================================
-# 10. fzf key bindings
+# 11. fzf key bindings
 # =============================================================================
 info "Setting up fzf key bindings..."
 if [[ -f "$(brew --prefix fzf)/install" ]]; then
@@ -336,12 +356,10 @@ echo "============================================="
 echo ""
 echo "Manual steps remaining:"
 echo "  1. Open a new terminal for shell changes to take effect"
-echo "  2. Install from Mac App Store:"
-echo "     - Amphetamine"
-echo "  3. Install manually (not available via Homebrew):"
+echo "  2. Install manually (not available via Homebrew or App Store):"
 echo "     - Affinity 3       → https://affinity.serif.com"
 echo "     - Nuo-Stems 4      → vendor website"
 echo "     - iStat Menus 6    → https://bjango.com/mac/istatmenus/"
-echo "  4. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
-echo "  5. Configure Raycast (replaces Spotlight with ⌘Space)"
+echo "  3. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
+echo "  4. Configure Raycast (replaces Spotlight with ⌘Space)"
 echo ""
