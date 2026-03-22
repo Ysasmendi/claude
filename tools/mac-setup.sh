@@ -41,6 +41,12 @@ if [[ "$(uname)" != "Darwin" ]]; then
     exit 1
 fi
 
+# --- Acquire sudo upfront -----------------------------------------------------
+info "Requesting administrator privileges..."
+sudo -v
+# Keep sudo alive for the duration of the script
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 echo ""
 echo "============================================="
 echo "  Mac Dev Setup — Let's go"
