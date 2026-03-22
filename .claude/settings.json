@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(cd:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(pip3:*)",
+      "Bash(pip:*)",
+      "Bash(curl:*)",
+      "Bash(echo:*)",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "mcp__372adc9f-4d4f-42b3-9380-0c565d50aa2b__*",
+      "mcp__c5bbed2c-264e-4c8a-a341-eb9fa6497049__*",
+      "mcp__7825a4b2-0e48-4ee3-b806-1e8ece5f42be__*",
+      "mcp__91ba630a-fbf5-4834-b6fb-f26a7589fec6__*",
+      "mcp__4825daa8-b7d1-4982-8772-ebc55932abab__*",
+      "mcp__c1fc4002-5f49-5f9d-a4e5-93c4ef5d6a75__*",
+      "mcp__b98ee9aa-4dc4-493c-9c17-550a285dcec1__*",
+      "mcp__ed69fea0-459b-4f8b-9c0e-3300845928be__*",
+      "mcp__Claude_in_Chrome__*",
+      "mcp__Claude_Preview__*",
+      "mcp__slack-lists__*",
+      "mcp__scheduled-tasks__*",
+      "mcp__mcp-registry__*",
+      "WebFetch",
+      "WebSearch"
+    ]
+  },
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": false,
+    "vercel@claude-plugins-official": false
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
+  }
+}

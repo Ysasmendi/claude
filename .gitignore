@@ -1,0 +1,25 @@
+# Machine-specific settings
+.claude/settings.local.json
+.claude/.mcp.local.json
+.claude/mcp-needs-auth-cache.json
+.claude/policy-limits.json
+.claude/history.jsonl
+
+# Auto-generated directories
+.claude/cache/
+.claude/plugins/
+.claude/plans/
+.claude/session-env/
+.claude/backups/
+.claude/debug/
+.claude/shell-snapshots/
+.claude/projects/
+.claude/downloads/
+.claude/sessions/
+.claude/telemetry/
+
+# Session transcripts
+*.jsonl
+
+# OS
+.DS_Store
