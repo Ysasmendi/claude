@@ -162,8 +162,6 @@ BREW_CASKS=(
     iterm2
     visual-studio-code
     sublime-text
-    docker
-    bruno
     claude
 
     # Productivity
@@ -178,8 +176,6 @@ BREW_CASKS=(
     syncthing
     maestral
     daisydisk
-    appcleaner
-    shottr
 
     # Microsoft Office
     microsoft-word
@@ -345,7 +341,7 @@ echo "  3. Install manually (not available via Homebrew):"
 echo "     - Affinity 3       → https://affinity.serif.com"
 echo "     - Nuo-Stems 4      → vendor website"
 echo "     - iStat Menus 6    → https://bjango.com/mac/istatmenus/"
-echo "     - Blip              → vendor website"
+echo "     - Blip              → https://blip.net"
 echo "  4. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
 echo "  5. Configure Raycast (replaces Spotlight with ⌘Space)"
 echo ""
