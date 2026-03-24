@@ -65,6 +65,21 @@ else
 fi
 
 # =============================================================================
+# 1b. Rosetta 2 (for Intel-only binaries on Apple Silicon)
+# =============================================================================
+if [[ "$(uname -m)" == "arm64" ]]; then
+    if /usr/bin/pgrep -q oahd; then
+        success "Rosetta 2 already installed."
+    else
+        info "Installing Rosetta 2..."
+        softwareupdate --install-rosetta --agree-to-license
+        success "Rosetta 2 installed."
+    fi
+else
+    success "Intel Mac — Rosetta not needed."
+fi
+
+# =============================================================================
 # 2. Homebrew
 # =============================================================================
 info "Checking Homebrew..."
