@@ -6,15 +6,14 @@
 #
 # What this does:
 #   1. Installs Xcode Command Line Tools
-#   2. Prompts for user identity (name + email)
-#   3. Installs Homebrew
-#   4. Installs CLI tools, languages, runtimes, cloud CLIs
-#   5. Installs GUI apps via Homebrew Cask
-#   6. Configures Oh My Zsh, nvm, pyenv
-#   7. Installs global npm packages (Claude Code CLI, Vercel)
-#   8. Sets up Git identity, SSH key, GitHub CLI auth
-#   9. Configures fzf
-#  10. Applies macOS system preferences (defaults write)
+#   2. Installs Homebrew
+#   3. Installs CLI tools, languages, runtimes, cloud CLIs
+#   4. Installs GUI apps via Homebrew Cask
+#   5. Configures Oh My Zsh, nvm, pyenv
+#   6. Installs global npm packages (Claude Code CLI, Vercel)
+#   7. Sets up Git defaults, SSH key, GitHub CLI auth
+#   8. Configures fzf
+#   9. Applies macOS system preferences (defaults write)
 #
 # Safe to re-run — Homebrew skips already-installed packages.
 # =============================================================================
@@ -66,23 +65,7 @@ else
 fi
 
 # =============================================================================
-# 2. User Identity
-# =============================================================================
-echo ""
-info "We need your name and email for Git and SSH key setup."
-echo ""
-read -rp "Full name: " USER_FULL_NAME
-read -rp "Email: " USER_EMAIL
-
-if [[ -z "$USER_FULL_NAME" || -z "$USER_EMAIL" ]]; then
-    fail "Name and email are required."
-    exit 1
-fi
-
-success "Identity: $USER_FULL_NAME <$USER_EMAIL>"
-
-# =============================================================================
-# 3. Homebrew
+# 2. Homebrew
 # =============================================================================
 info "Checking Homebrew..."
 if command -v brew &>/dev/null; then
@@ -291,18 +274,14 @@ else
 fi
 
 # =============================================================================
-# 10. Git identity
+# 10. Git defaults
 # =============================================================================
-info "Configuring Git identity..."
+info "Configuring Git defaults..."
 
-git config --global user.name "$USER_FULL_NAME"
-git config --global user.email "$USER_EMAIL"
-success "Git identity set ($USER_FULL_NAME <$USER_EMAIL>)."
-
-# Sensible Git defaults
 git config --global init.defaultBranch main
 git config --global pull.rebase true
 git config --global push.autoSetupRemote true
+success "Git defaults set. Configure your identity later with: git config --global user.name / user.email"
 
 # =============================================================================
 # 11. SSH key for GitHub
@@ -314,7 +293,7 @@ if [[ -f "$SSH_KEY" ]]; then
     success "SSH key already exists at $SSH_KEY."
 else
     info "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "$USER_EMAIL" -f "$SSH_KEY" -N ""
+    ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)" -f "$SSH_KEY" -N ""
     eval "$(ssh-agent -s)" >/dev/null
     ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || ssh-add "$SSH_KEY"
     success "SSH key generated. Public key:"
