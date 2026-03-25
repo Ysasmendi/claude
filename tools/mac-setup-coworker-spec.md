@@ -17,6 +17,9 @@ Requires admin privileges (sudo acquired upfront and kept alive).
 ### 1. Xcode Command Line Tools
 Installs Apple's CLI developer tools (`xcode-select --install`). If not yet installed, prompts the user and exits — re-run after installation.
 
+### 1b. Rosetta 2
+Installs Rosetta 2 on Apple Silicon Macs (`softwareupdate --install-rosetta --agree-to-license`). Required for Intel-only binaries. Skips on Intel Macs. Detects existing install by checking for the `oahd` daemon.
+
 ### 2. User Identity
 Prompts for full name and email. Used in Git config and SSH key generation.
 
