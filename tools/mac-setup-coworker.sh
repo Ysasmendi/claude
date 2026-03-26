@@ -127,6 +127,9 @@ BREW_FORMULAE=(
     # Cloud CLIs
     supabase/tap/supabase
     awscli
+
+    # Media
+    yt-dlp
 )
 
 for formula in "${BREW_FORMULAE[@]}"; do

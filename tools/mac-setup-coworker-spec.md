@@ -33,6 +33,7 @@ Installs Homebrew if missing. Adds `/opt/homebrew/bin/brew` to PATH for Apple Si
 | Languages & version managers | nvm, pyenv, go |
 | Python tooling | uv |
 | Cloud CLIs | supabase, awscli |
+| Media | yt-dlp |
 
 Google Cloud SDK installed separately as a cask.
 
