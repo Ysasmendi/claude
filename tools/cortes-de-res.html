@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cortes de Res — Guía Interactiva</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#faf5ef;color:#3a2a1a;min-height:100vh}
+  header{background:#5a3e2b;color:#faf5ef;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+  header h1{font-size:1.5rem;letter-spacing:.5px}
+  .filters{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .filter-btn{padding:.4rem .8rem;border:2px solid #faf5ef55;border-radius:6px;background:transparent;color:#faf5ef;cursor:pointer;font-size:.9rem;transition:all .2s}
+  .filter-btn:hover,.filter-btn.active{background:#faf5ef;color:#5a3e2b;border-color:#faf5ef}
+  .search-box{padding:.4rem .8rem;border:2px solid #faf5ef55;border-radius:6px;background:#5a3e2b;color:#faf5ef;font-size:.9rem;width:160px}
+  .search-box::placeholder{color:#faf5ef99}
+  .main{display:grid;grid-template-columns:1.2fr 1fr;gap:0;min-height:calc(100vh - 140px)}
+  .svg-panel{padding:1.5rem;display:flex;align-items:center;justify-content:center;background:#faf5ef}
+  .list-panel{background:#f0e6d6;border-left:2px solid #d4c4a8;overflow-y:auto;max-height:calc(100vh - 140px)}
+  .list-header{padding:.75rem 1rem;background:#e8d5c4;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;color:#5a3e2b;position:sticky;top:0;z-index:2}
+  .cut-item{padding:.6rem 1rem;border-bottom:1px solid #d4c4a855;cursor:pointer;display:flex;align-items:center;gap:.6rem;transition:background .15s}
+  .cut-item:hover{background:#e8d5c4}
+  .cut-item.active{background:#c0392b22;border-left:3px solid #c0392b}
+  .cut-name{font-weight:600;font-size:.95rem;flex:1}
+  .cut-flag{font-size:1.1rem}
+  .cut-region-tag{font-size:.7rem;background:#5a3e2b22;padding:.15rem .4rem;border-radius:3px;color:#5a3e2b}
+  .detail-panel{grid-column:1/-1;background:#5a3e2b;color:#faf5ef;padding:1.25rem 1.5rem;display:none;gap:1.5rem;align-items:start}
+  .detail-panel.visible{display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem}
+  .detail-name{font-size:1.4rem;font-weight:700}
+  .detail-country{font-size:1rem;opacity:.85;margin-top:.2rem}
+  .detail-section{font-size:.9rem;line-height:1.6}
+  .detail-section strong{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-bottom:.2rem}
+  .detail-uses span{display:inline-block;background:#faf5ef22;padding:.2rem .5rem;border-radius:4px;margin:.15rem .25rem .15rem 0;font-size:.85rem}
+  .detail-close{background:none;border:none;color:#faf5ef;font-size:1.5rem;cursor:pointer;opacity:.6;transition:opacity .2s;align-self:start}
+  .detail-close:hover{opacity:1}
+  svg{width:100%;max-width:650px;height:auto}
+  .region{fill:#e8d5c4;stroke:#5a3e2b;stroke-width:1.5;cursor:pointer;transition:fill .25s,stroke-width .2s}
+  .region:hover{fill:#f0c8a0}
+  .region.active{fill:#c0392b;stroke:#7b241c;stroke-width:2.5}
+  .region-label{font-size:10px;fill:#5a3e2b;pointer-events:none;font-weight:600;text-anchor:middle}
+  .cow-outline{fill:none;stroke:#5a3e2b;stroke-width:2.5;stroke-linejoin:round}
+  .cow-detail{fill:none;stroke:#5a3e2b;stroke-width:1.5}
+  .no-results{padding:2rem 1rem;text-align:center;color:#5a3e2b99;font-style:italic}
+  @media(max-width:768px){
+    .main{grid-template-columns:1fr}
+    .svg-panel{padding:1rem}
+    .list-panel{max-height:50vh;border-left:none;border-top:2px solid #d4c4a8}
+    .detail-panel.visible{grid-template-columns:1fr;gap:.75rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🥩 Cortes de Res</h1>
+  <div class="filters">
+    <input type="text" class="search-box" id="search" placeholder="Buscar corte...">
+    <button class="filter-btn active" data-country="all">Todos</button>
+    <button class="filter-btn" data-country="ES">🇪🇸 España</button>
+    <button class="filter-btn" data-country="AR">🇦🇷 Argentina</button>
+    <button class="filter-btn" data-country="US">🇺🇸 USA</button>
+  </div>
+</header>
+
+<div class="detail-panel" id="detail">
+  <div>
+    <div class="detail-name" id="detail-name"></div>
+    <div class="detail-country" id="detail-country"></div>
+  </div>
+  <div class="detail-section">
+    <div style="margin-bottom:.6rem">
+      <strong>Región</strong>
+      <span id="detail-region"></span>
+    </div>
+    <div style="margin-bottom:.6rem">
+      <strong>Descripción</strong>
+      <span id="detail-desc"></span>
+    </div>
+    <div>
+      <strong>Usos óptimos</strong>
+      <div class="detail-uses" id="detail-uses"></div>
+    </div>
+  </div>
+  <button class="detail-close" id="detail-close" title="Cerrar">✕</button>
+</div>
+
+<div class="main">
+  <div class="svg-panel">
+    <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" id="cow-svg">
+      <!-- Legs and non-meat parts (not interactive) -->
+      <!-- Front left leg -->
+      <path class="cow-outline" d="M185,340 L175,400 L165,450 L160,480 L180,482 L185,460 L195,400 L210,345" fill="#ddd0be" stroke="#5a3e2b" stroke-width="2"/>
+      <!-- Front right leg (behind) -->
+      <path class="cow-outline" d="M210,345 L215,400 L210,450 L205,480 L225,482 L230,455 L235,400 L240,350" fill="#d5c8b5" stroke="#5a3e2b" stroke-width="2"/>
+      <!-- Rear left leg -->
+      <path class="cow-outline" d="M560,340 L545,400 L535,450 L530,480 L550,482 L555,455 L565,400 L575,345" fill="#ddd0be" stroke="#5a3e2b" stroke-width="2"/>
+      <!-- Rear right leg (behind) -->
+      <path class="cow-outline" d="M590,340 L600,400 L605,450 L600,480 L620,482 L618,455 L612,400 L605,345" fill="#d5c8b5" stroke="#5a3e2b" stroke-width="2"/>
+
+      <!-- Tail -->
+      <path class="cow-detail" d="M680,165 Q720,170 730,200 Q735,220 725,240" stroke-width="3" stroke="#5a3e2b"/>
+
+      <!-- Horns -->
+      <path class="cow-detail" d="M60,95 Q45,60 55,40" stroke-width="3" stroke="#5a3e2b"/>
+      <path class="cow-detail" d="M75,90 Q70,55 80,38" stroke-width="3" stroke="#5a3e2b"/>
+
+      <!-- Ear -->
+      <path d="M88,80 Q105,55 100,85" fill="#ddd0be" stroke="#5a3e2b" stroke-width="1.5"/>
+
+      <!-- Eye -->
+      <circle cx="58" cy="118" r="4" fill="#3a2a1a"/>
+
+      <!-- Nostril -->
+      <circle cx="22" cy="148" r="3" fill="#3a2a1a"/>
+
+      <!-- Interactive meat regions -->
+      <!-- Cabeza -->
+      <path class="region" data-region="cabeza"
+        d="M20,105 Q15,90 40,80 L90,85 L110,100 L115,140 L110,175 L90,190 L40,180 Q10,165 15,145 Z"/>
+
+      <!-- Aguja / Cuello -->
+      <path class="region" data-region="aguja"
+        d="M110,100 L170,105 L185,120 L190,180 L170,210 L110,200 L110,175 L115,140 Z"/>
+
+      <!-- Espaldilla -->
+      <path class="region" data-region="espaldilla"
+        d="M110,200 L170,210 L190,235 L200,290 L190,340 L165,340 L150,290 L130,240 L110,220 Z"/>
+
+      <!-- Pecho -->
+      <path class="region" data-region="pecho"
+        d="M170,210 L190,180 L250,175 L255,210 L250,270 L230,310 L200,340 L190,340 L200,290 L190,235 Z"/>
+
+      <!-- Brazuelo -->
+      <path class="region" data-region="brazuelo"
+        d="M200,340 L230,310 L260,335 L240,355 Z"/>
+
+      <!-- Lomo alto -->
+      <path class="region" data-region="lomo-alto"
+        d="M185,120 L170,105 L250,95 L330,100 L335,120 L340,175 L250,175 L190,180 Z"/>
+
+      <!-- Costillar -->
+      <path class="region" data-region="costillar"
+        d="M250,175 L340,175 L350,250 L350,310 L310,335 L260,335 L250,310 L250,270 L255,210 Z"/>
+
+      <!-- Lomo bajo -->
+      <path class="region" data-region="lomo-bajo"
+        d="M335,120 L330,100 L430,100 L440,120 L445,175 L340,175 Z"/>
+
+      <!-- Falda -->
+      <path class="region" data-region="falda"
+        d="M340,175 L445,175 L455,250 L450,310 L420,340 L370,345 L350,335 L350,310 L350,250 Z"/>
+
+      <!-- Solomillo (narrow strip) -->
+      <path class="region" data-region="solomillo"
+        d="M440,120 L430,100 L490,105 L500,115 L500,145 L495,175 L445,175 Z"/>
+
+      <!-- Cadera -->
+      <path class="region" data-region="cadera"
+        d="M500,115 L490,105 L560,110 L590,130 L600,160 L590,185 L560,195 L530,195 L495,175 L500,145 Z"/>
+
+      <!-- Tapa -->
+      <path class="region" data-region="tapa"
+        d="M495,175 L530,195 L560,195 L570,230 L560,290 L530,320 L500,335 L475,310 L455,250 L460,210 Z"/>
+
+      <!-- Contra -->
+      <path class="region" data-region="contra"
+        d="M560,195 L590,185 L620,200 L635,240 L630,290 L610,320 L580,335 L560,320 L560,290 L570,230 Z"/>
+
+      <!-- Babilla -->
+      <path class="region" data-region="babilla"
+        d="M455,250 L475,310 L500,335 L480,350 L450,345 L420,340 L450,310 Z"/>
+
+      <!-- Morcillo -->
+      <path class="region" data-region="morcillo"
+        d="M560,320 L580,335 L610,320 L620,345 L595,355 L570,350 L555,345 Z"/>
+
+      <!-- Rabo -->
+      <path class="region" data-region="rabo"
+        d="M600,160 L590,130 L630,135 L660,150 L680,165 L670,185 L645,195 L620,200 L590,185 Z"/>
+
+      <!-- Region labels -->
+      <text class="region-label" x="65" y="145">Cabeza</text>
+      <text class="region-label" x="150" y="160">Aguja</text>
+      <text class="region-label" x="148" y="275">Espaldilla</text>
+      <text class="region-label" x="225" y="265">Pecho</text>
+      <text class="region-label" x="230" y="348">Brazuelo</text>
+      <text class="region-label" x="265" y="140">Lomo alto</text>
+      <text class="region-label" x="300" y="265">Costillar</text>
+      <text class="region-label" x="390" y="140">Lomo bajo</text>
+      <text class="region-label" x="395" y="270">Falda</text>
+      <text class="region-label" x="468" y="148">Solomillo</text>
+      <text class="region-label" x="545" y="155">Cadera</text>
+      <text class="region-label" x="515" y="265">Tapa</text>
+      <text class="region-label" x="595" y="265">Contra</text>
+      <text class="region-label" x="460" y="335">Babilla</text>
+      <text class="region-label" x="588" y="348">Morcillo</text>
+      <text class="region-label" x="645" y="170">Rabo</text>
+    </svg>
+  </div>
+
+  <div class="list-panel" id="list-panel">
+    <div class="list-header">Cortes <span id="cut-count"></span></div>
+    <div id="cut-list"></div>
+  </div>
+</div>
+
+<script>
+const PAISES = { ES: '🇪🇸 España', AR: '🇦🇷 Argentina', US: '🇺🇸 USA' };
+const FLAGS = { ES: '🇪🇸', AR: '🇦🇷', US: '🇺🇸' };
+const REGIONES = {
+  'cabeza': 'Cabeza', 'aguja': 'Aguja', 'espaldilla': 'Espaldilla',
+  'lomo-alto': 'Lomo alto', 'lomo-bajo': 'Lomo bajo', 'solomillo': 'Solomillo',
+  'cadera': 'Cadera', 'tapa': 'Tapa', 'contra': 'Contra', 'babilla': 'Babilla',
+  'costillar': 'Costillar', 'pecho': 'Pecho', 'falda': 'Falda',
+  'brazuelo': 'Brazuelo', 'morcillo': 'Morcillo', 'rabo': 'Rabo'
+};
+
+const CORTES = [
+  // España
+  { id:'chuleton-es', nombre:'Chuletón', pais:'ES', region:'lomo-alto', usos:['Parrilla','Plancha','Horno'], descripcion:'Corte grueso con hueso de la zona del lomo alto. El rey de la parrilla española.' },
+  { id:'solomillo-es', nombre:'Solomillo', pais:'ES', region:'solomillo', usos:['Plancha','Horno','Tartar','Wellington'], descripcion:'El corte más tierno de la res. Magro, suave y muy apreciado.' },
+  { id:'entrecot-es', nombre:'Entrecot', pais:'ES', region:'lomo-alto', usos:['Plancha','Parrilla'], descripcion:'Corte deshuesado del lomo alto, jugoso y con buen marmoleado.' },
+  { id:'tapa-es', nombre:'Tapa', pais:'ES', region:'tapa', usos:['Guiso','Plancha','Empanado','Filetes'], descripcion:'Pieza grande y magra de la pierna trasera. Versátil en cocina.' },
+  { id:'contra-es', nombre:'Contra', pais:'ES', region:'contra', usos:['Guiso','Mechado','Horno'], descripcion:'Pieza de la pierna trasera, algo más dura. Ideal para cocciones lentas.' },
+  { id:'babilla-es', nombre:'Babilla', pais:'ES', region:'babilla', usos:['Filetes','Guiso','Plancha'], descripcion:'Situada junto a la rodilla trasera. Buena para filetes finos.' },
+  { id:'falda-es', nombre:'Falda', pais:'ES', region:'falda', usos:['Guiso','Rellena','Caldo'], descripcion:'Corte económico de la zona ventral. Rica en colágeno y sabor.' },
+  { id:'aguja-es', nombre:'Aguja', pais:'ES', region:'aguja', usos:['Guiso','Estofado','Caldo'], descripcion:'Zona del cuello, con grasa infiltrada. Sabor intenso en cocciones largas.' },
+  { id:'morcillo-es', nombre:'Morcillo', pais:'ES', region:'morcillo', usos:['Cocido','Guiso','Ossobuco'], descripcion:'Parte baja de la pata trasera. Imprescindible en el cocido madrileño.' },
+  { id:'rabo-es', nombre:'Rabo de toro', pais:'ES', region:'rabo', usos:['Estofado','Guiso'], descripcion:'Cola de la res. Plato emblemático de Córdoba, gelatinoso y profundo.' },
+
+  // Argentina
+  { id:'asado-ar', nombre:'Asado de tira', pais:'AR', region:'costillar', usos:['Parrilla','Horno'], descripcion:'Costillas cortadas transversalmente. El corte insignia del asado argentino.' },
+  { id:'bife-chorizo-ar', nombre:'Bife de chorizo', pais:'AR', region:'lomo-bajo', usos:['Parrilla','Plancha'], descripcion:'Equivalente al NY strip. Jugoso, con borde de grasa que le da sabor.' },
+  { id:'ojo-bife-ar', nombre:'Ojo de bife', pais:'AR', region:'lomo-alto', usos:['Parrilla','Plancha'], descripcion:'Corte del centro del lomo, redondo y marmoleado. Muy tierno.' },
+  { id:'vacio-ar', nombre:'Vacío', pais:'AR', region:'falda', usos:['Parrilla','Horno'], descripcion:'Corte triangular de la zona ventral. Sello argentino, con costra crujiente.' },
+  { id:'entrana-ar', nombre:'Entraña', pais:'AR', region:'falda', usos:['Parrilla'], descripcion:'Músculo del diafragma, fino y muy sabroso. Se cocina rápido y al punto.' },
+  { id:'matambre-ar', nombre:'Matambre', pais:'AR', region:'costillar', usos:['Relleno','Parrilla','Arrollado'], descripcion:'Capa fina entre el cuero y las costillas. Se rellena o se hace a la pizza.' },
+  { id:'colita-cuadril-ar', nombre:'Colita de cuadril', pais:'AR', region:'cadera', usos:['Parrilla','Horno'], descripcion:'Punta de la cadera, pequeña y triangular. Muy tierna al punto justo.' },
+  { id:'tapa-asado-ar', nombre:'Tapa de asado', pais:'AR', region:'costillar', usos:['Parrilla','Horno'], descripcion:'Cubre las costillas por fuera. Con buena grasa, ideal para asar lento.' },
+  { id:'nalga-ar', nombre:'Nalga', pais:'AR', region:'tapa', usos:['Milanesas','Mechada','Horno'], descripcion:'Pieza magra de la pierna. La reina de la milanesa argentina.' },
+  { id:'bife-costilla-ar', nombre:'Bife de costilla', pais:'AR', region:'lomo-alto', usos:['Parrilla'], descripcion:'T-bone argentino. Lomo y solomillo unidos por el hueso en T.' },
+
+  // USA
+  { id:'ribeye-us', nombre:'Ribeye', pais:'US', region:'lomo-alto', usos:['Grill','Pan-sear','Reverse sear'], descripcion:'Highly marbled cut from the rib section. Rich, beefy, and juicy.' },
+  { id:'tbone-us', nombre:'T-Bone', pais:'US', region:'lomo-bajo', usos:['Grill','Broil'], descripcion:'Two steaks in one: strip and tenderloin separated by a T-shaped bone.' },
+  { id:'filet-mignon-us', nombre:'Filet Mignon', pais:'US', region:'solomillo', usos:['Grill','Pan-sear','Roast'], descripcion:'The most tender cut. Lean, buttery, and prized for its texture.' },
+  { id:'brisket-us', nombre:'Brisket', pais:'US', region:'pecho', usos:['Smoked','Braised'], descripcion:'Chest muscle, tough but transforms with low-and-slow smoking. Texas BBQ icon.' },
+  { id:'ny-strip-us', nombre:'NY Strip', pais:'US', region:'lomo-bajo', usos:['Grill','Pan-sear'], descripcion:'Firm, flavorful steak from the short loin. Great balance of tenderness and taste.' },
+  { id:'chuck-roast-us', nombre:'Chuck Roast', pais:'US', region:'aguja', usos:['Pot roast','Braised','Ground'], descripcion:'Shoulder cut with rich connective tissue. Perfect for slow braises and stews.' },
+  { id:'flank-us', nombre:'Flank Steak', pais:'US', region:'falda', usos:['Grill','Stir-fry','Fajitas'], descripcion:'Lean, flat cut from the belly. Best sliced thin against the grain.' },
+  { id:'short-ribs-us', nombre:'Short Ribs', pais:'US', region:'costillar', usos:['Braised','Smoked','Grill'], descripcion:'Meaty rib segments. Fall-off-the-bone tender when braised or smoked.' },
+  { id:'tri-tip-us', nombre:'Tri-Tip', pais:'US', region:'cadera', usos:['Grill','Roast'], descripcion:'Triangular cut from the bottom sirloin. Santa Maria BBQ signature.' },
+  { id:'skirt-us', nombre:'Skirt Steak', pais:'US', region:'falda', usos:['Grill','Fajitas','Tacos'], descripcion:'Long, flat diaphragm muscle. Intense beef flavor, the original fajita cut.' }
+];
+
+// State
+let activeCountry = 'all';
+let activeRegion = null;
+let activeCutId = null;
+
+// DOM refs
+const cutListEl = document.getElementById('cut-list');
+const cutCountEl = document.getElementById('cut-count');
+const searchEl = document.getElementById('search');
+const detailEl = document.getElementById('detail');
+const detailName = document.getElementById('detail-name');
+const detailCountry = document.getElementById('detail-country');
+const detailRegion = document.getElementById('detail-region');
+const detailDesc = document.getElementById('detail-desc');
+const detailUses = document.getElementById('detail-uses');
+const detailClose = document.getElementById('detail-close');
+const regions = document.querySelectorAll('.region');
+
+function getFilteredCuts() {
+  const q = searchEl.value.toLowerCase().trim();
+  return CORTES.filter(c => {
+    if (activeCountry !== 'all' && c.pais !== activeCountry) return false;
+    if (activeRegion && c.region !== activeRegion) return false;
+    if (q && !c.nombre.toLowerCase().includes(q) && !c.region.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function renderList() {
+  const cuts = getFilteredCuts();
+  cutCountEl.textContent = `(${cuts.length})`;
+  if (cuts.length === 0) {
+    cutListEl.innerHTML = '<div class="no-results">No se encontraron cortes</div>';
+    return;
+  }
+  cutListEl.innerHTML = cuts.map(c => `
+    <div class="cut-item${activeCutId === c.id ? ' active' : ''}" data-id="${c.id}">
+      <span class="cut-flag">${FLAGS[c.pais]}</span>
+      <span class="cut-name">${c.nombre}</span>
+      <span class="cut-region-tag">${REGIONES[c.region]}</span>
+    </div>
+  `).join('');
+
+  cutListEl.querySelectorAll('.cut-item').forEach(el => {
+    el.addEventListener('click', () => selectCut(el.dataset.id));
+  });
+}
+
+function highlightRegion(regionId) {
+  regions.forEach(r => r.classList.remove('active'));
+  if (regionId) {
+    const target = document.querySelector(`[data-region="${regionId}"]`);
+    if (target) target.classList.add('active');
+  }
+}
+
+function selectCut(id) {
+  const cut = CORTES.find(c => c.id === id);
+  if (!cut) return;
+  activeCutId = id;
+  activeRegion = null;
+  highlightRegion(cut.region);
+  showDetail(cut);
+  renderList();
+}
+
+function showDetail(cut) {
+  detailName.textContent = `${FLAGS[cut.pais]} ${cut.nombre}`;
+  detailCountry.textContent = PAISES[cut.pais];
+  detailRegion.textContent = REGIONES[cut.region];
+  detailDesc.textContent = cut.descripcion;
+  detailUses.innerHTML = cut.usos.map(u => `<span>${u}</span>`).join('');
+  detailEl.classList.add('visible');
+}
+
+function hideDetail() {
+  detailEl.classList.remove('visible');
+  activeCutId = null;
+  highlightRegion(null);
+  renderList();
+}
+
+// Region click
+regions.forEach(r => {
+  r.addEventListener('click', () => {
+    const regionId = r.dataset.region;
+    if (activeRegion === regionId) {
+      activeRegion = null;
+      highlightRegion(null);
+    } else {
+      activeRegion = regionId;
+      activeCutId = null;
+      highlightRegion(regionId);
+      detailEl.classList.remove('visible');
+    }
+    renderList();
+
+    // Auto-show detail if only one cut in this region with current filters
+    const filtered = getFilteredCuts();
+    if (filtered.length === 1) {
+      selectCut(filtered[0].id);
+    }
+  });
+});
+
+// Country filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCountry = btn.dataset.country;
+    activeRegion = null;
+    activeCutId = null;
+    highlightRegion(null);
+    detailEl.classList.remove('visible');
+    renderList();
+  });
+});
+
+// Search
+searchEl.addEventListener('input', () => {
+  activeRegion = null;
+  renderList();
+});
+
+// Close detail
+detailClose.addEventListener('click', hideDetail);
+
+// Init
+renderList();
+</script>
+</body>
+</html>
