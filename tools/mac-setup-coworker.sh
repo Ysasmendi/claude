@@ -127,6 +127,9 @@ BREW_FORMULAE=(
     # Cloud CLIs
     supabase/tap/supabase
     awscli
+
+    # Media
+    yt-dlp
 )
 
 for formula in "${BREW_FORMULAE[@]}"; do
@@ -588,6 +591,28 @@ sudo launchctl disable system/com.apple.screensharing 2>/dev/null || true
 sudo launchctl disable system/com.apple.smbd 2>/dev/null || true
 
 success "Sharing configured."
+
+# --- Privacy: App Permissions -------------------------------------------------
+# TCC permissions (camera, mic, screen recording) require manual approval.
+# Open the relevant System Settings panes so the user can grant them.
+info "Opening Privacy settings — grant Camera, Microphone, and Screen Recording to Chrome, Firefox, and Slack."
+
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera"
+echo "  → Add: Google Chrome, Firefox, Slack"
+echo "  Press Enter when done..."
+read -r
+
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone"
+echo "  → Add: Google Chrome, Firefox, Slack"
+echo "  Press Enter when done..."
+read -r
+
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"
+echo "  → Add: Google Chrome, Firefox, Slack"
+echo "  Press Enter when done..."
+read -r
+
+success "Privacy permissions configured (manual)."
 
 # --- Restart affected apps ----------------------------------------------------
 info "Restarting Dock, Finder, and SystemUIServer to apply changes..."

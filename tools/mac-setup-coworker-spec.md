@@ -33,6 +33,7 @@ Installs Homebrew if missing. Adds `/opt/homebrew/bin/brew` to PATH for Apple Si
 | Languages & version managers | nvm, pyenv, go |
 | Python tooling | uv |
 | Cloud CLIs | supabase, awscli |
+| Media | yt-dlp |
 
 Google Cloud SDK installed separately as a cask.
 
@@ -102,6 +103,7 @@ Installs fzf shell key bindings and completion for zsh.
 | Spotlight | Siri Suggestions disabled |
 | Language & Region | English (US) + Spanish, region Spain, Celsius, metric, Monday first day |
 | Sharing | Screen sharing and SMB disabled |
+| Privacy | Opens Camera, Microphone, and Screen Recording panes — user grants access to Chrome, Firefox, and Slack |
 
 Restarts Dock, Finder, and SystemUIServer to apply.
 
