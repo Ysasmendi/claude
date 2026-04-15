@@ -46,10 +46,15 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Logs for end-of-run summary
+WARN_LOG=$(mktemp -t mac-setup-warn.XXXXXX)
+FAIL_LOG=$(mktemp -t mac-setup-fail.XXXXXX)
+trap 'rm -f "$WARN_LOG" "$FAIL_LOG"' EXIT
+
 info()    { echo -e "${BLUE}[INFO]${NC} $*"; }
 success() { echo -e "${GREEN}[OK]${NC} $*"; }
-warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; }
-fail()    { echo -e "${RED}[FAIL]${NC} $*"; }
+warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; echo "$*" >> "$WARN_LOG"; }
+fail()    { echo -e "${RED}[FAIL]${NC} $*"; echo "$*" >> "$FAIL_LOG"; }
 
 # --- Preflight ---------------------------------------------------------------
 if [[ "$(uname)" != "Darwin" ]]; then
@@ -178,9 +183,6 @@ BREW_FORMULAE=(
     supabase/tap/supabase
     awscli
 
-    # Mac App Store CLI
-    mas
-
     # Media tools
     yt-dlp
     ffmpeg
@@ -219,7 +221,6 @@ BREW_CASKS=(
     google-chrome
 
     # Privacy & Security
-    proton-mail
     proton-pass
     protonvpn
     ente-auth
@@ -977,7 +978,7 @@ echo "  [ ] Test: git commit --allow-empty -m 'sig test' && git log --show-signa
 echo "  [ ] Once verified end-to-end, delete the file-based key from GitHub + ~/.ssh/id_ed25519*"
 echo ""
 echo "Sign in / activate apps:"
-echo "  [ ] Proton (Mail, Pass, VPN)"
+echo "  [ ] Proton (Pass, VPN)"
 echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion"
 echo "  [ ] Fathom (sign in, grant mic + screen recording)"
@@ -999,3 +1000,34 @@ echo "  [ ] Default browser:        System Settings → Desktop & Dock → Defau
 echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code)"
 echo "  [ ] Privacy: Accessibility (Rectangle)"
 echo ""
+
+# =============================================================================
+# Summary: collected warnings and errors
+# =============================================================================
+WARN_COUNT=0
+FAIL_COUNT=0
+[[ -s "$WARN_LOG" ]] && WARN_COUNT=$(wc -l < "$WARN_LOG" | tr -d ' ')
+[[ -s "$FAIL_LOG" ]] && FAIL_COUNT=$(wc -l < "$FAIL_LOG" | tr -d ' ')
+
+echo "============================================="
+if (( FAIL_COUNT == 0 && WARN_COUNT == 0 )); then
+    echo -e "  ${GREEN}Run summary: clean — no warnings or errors.${NC}"
+    echo "============================================="
+    echo ""
+else
+    echo -e "  Run summary: ${RED}${FAIL_COUNT} error(s)${NC}, ${YELLOW}${WARN_COUNT} warning(s)${NC}"
+    echo "============================================="
+    echo ""
+    if (( FAIL_COUNT > 0 )); then
+        echo -e "${RED}Errors:${NC}"
+        nl -ba -w2 -s'. ' "$FAIL_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    if (( WARN_COUNT > 0 )); then
+        echo -e "${YELLOW}Warnings:${NC}"
+        nl -ba -w2 -s'. ' "$WARN_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    echo "Review the items above before handing the Mac over."
+    echo ""
+fi
