@@ -131,6 +131,7 @@ BREW_FORMULAE=(
     tree
     htop
     btop
+    dockutil      # CLI tool to add/remove Dock items (used at end of script)
 
     # Shell quality-of-life
     starship      # cross-shell prompt
@@ -687,7 +688,21 @@ fi
 # =============================================================================
 # 16. macOS System Preferences
 # =============================================================================
-info "Applying macOS system preferences..."
+# ⚠️  macOS Tahoe (26+) note:
+# Apple has tightened preference sandboxing in recent macOS releases.
+# A growing number of the `defaults write` calls below are silently ignored
+# on Tahoe — especially anything touching Lock Screen, Siri, AirDrop
+# discoverability, Software Update, Widget appearance, and BezelServices.
+#
+# The block still runs (no-ops are harmless) but don't assume every setting
+# actually applied. For settings that MUST stick, either:
+#   1. Set them manually in System Settings after the script finishes, or
+#   2. Push them via a configuration profile / MDM (Mosyle for Dcycle machines).
+#
+# Dock, Trackpad, Keyboard, Appearance, Finder, Language/Region, DNS, Firewall
+# and pmset (battery / display sleep) are the blocks most likely to still work.
+# =============================================================================
+info "Applying macOS system preferences (see Tahoe caveat above)..."
 
 # --- Appearance ---------------------------------------------------------------
 # Dark mode
@@ -962,6 +977,31 @@ echo "  Press Enter when done..."
 read -r
 
 success "Privacy permissions configured (manual)."
+
+# --- Dock layout: wipe everything except Finder, then add the 4 essentials --
+# Finder is always pinned at position 1 and cannot be removed from the Dock.
+if command -v dockutil &>/dev/null; then
+    info "Setting Dock layout (Firefox, Claude, Spotify, System Settings)..."
+    dockutil --remove all --no-restart "$HOME" >/dev/null 2>&1 || true
+
+    DOCK_APPS=(
+        "/Applications/Firefox.app"
+        "/Applications/Claude.app"
+        "/Applications/Spotify.app"
+        "/System/Applications/System Settings.app"
+    )
+    for app in "${DOCK_APPS[@]}"; do
+        if [[ -d "$app" ]]; then
+            dockutil --add "$app" --no-restart "$HOME" >/dev/null \
+                || warn "dockutil failed to add $app to Dock."
+        else
+            warn "$app not found — skipping Dock add."
+        fi
+    done
+    success "Dock layout set."
+else
+    warn "dockutil not available — skipping Dock layout."
+fi
 
 # --- Restart affected apps ----------------------------------------------------
 info "Restarting Dock, Finder, and SystemUIServer to apply changes..."

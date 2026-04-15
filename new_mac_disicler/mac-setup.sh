@@ -660,7 +660,20 @@ fi
 # =============================================================================
 # 15. macOS System Preferences
 # =============================================================================
-info "Applying macOS system preferences..."
+# ⚠️  macOS Tahoe (26+) note — IMPORTANT for Dcycle machines:
+# Apple has tightened preference sandboxing. Many of the `defaults write` calls
+# below are silently ignored on Tahoe — especially anything touching Lock
+# Screen, Siri, AirDrop discoverability, Software Update, Widget appearance,
+# and BezelServices.
+#
+# FOR DCYCLE: these settings should be pushed via a Mosyle configuration
+# profile instead of this script. The block still runs (no-ops are harmless)
+# but treat it as best-effort. Ops owns the canonical profile in Mosyle.
+#
+# Still likely to work: Dock, Trackpad, Keyboard, Appearance, Finder,
+# Language/Region, DNS (networksetup), Firewall (socketfilterfw), pmset.
+# =============================================================================
+info "Applying macOS system preferences (see Tahoe caveat above)..."
 
 # --- Appearance ---------------------------------------------------------------
 # Dark mode
