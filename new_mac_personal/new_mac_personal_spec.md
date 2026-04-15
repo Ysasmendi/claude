@@ -1,8 +1,8 @@
 # Mac Dev Setup Script — Spec
 
-**File:** `tools/mac-setup.sh`
+**File:** `new_mac_personal/new_mac_personal_setup.sh`
 **Target:** macOS (Apple Silicon), fresh install or re-run.
-**Run:** `chmod +x mac-setup.sh && ./mac-setup.sh`
+**Run:** `chmod +x new_mac_personal_setup.sh && ./new_mac_personal_setup.sh`
 
 ## Overview
 

@@ -166,15 +166,16 @@ BREW_FORMULAE=(
     # GNU coreutils (so Bash-tool commands behave portably)
     coreutils
     gnu-sed
-    gnu-grep
+    # gnu-grep dropped: no longer a Homebrew formula; use `brew install grep`
+    # (ships GNU grep as `ggrep`) if you need it. Ripgrep covers most use cases.
 
     # Languages & version managers
     nvm
     pyenv
     go
 
-    # Language servers (used by Claude Code for code intelligence)
-    clangd        # C/C++/Objective-C LSP
+    # Note: clangd is only available via `brew install llvm` (~1.5GB). Skipped;
+    # VS Code's C/C++ extension ships its own clangd, and Xcode has its own.
 
     # Python tools
     uv
@@ -249,9 +250,6 @@ BREW_CASKS=(
 
     # Utilities
     blip
-
-    # Meetings
-    fathom       # meeting note-taker
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -557,19 +555,24 @@ else
     success "yt-dlp config already exists."
 fi
 
-# --- yt-dlp plugins (pip-based, since we install yt-dlp via Homebrew) ------
-if command -v pip3 &>/dev/null; then
-    info "Installing yt-dlp pip plugins..."
-    # PO Token provider — bypasses YouTube "Sign in to confirm you're not a bot"
-    pip3 install --user --upgrade bgutil-ytdlp-pot-provider \
-        || warn "Failed to install bgutil-ytdlp-pot-provider — install manually with: pip3 install --user bgutil-ytdlp-pot-provider"
-    # curl_cffi — TLS fingerprint impersonation (bypasses some bot detection)
-    pip3 install --user --upgrade curl-cffi \
-        || warn "Failed to install curl-cffi — install manually with: pip3 install --user curl-cffi"
+# --- yt-dlp plugins --------------------------------------------------------
+# yt-dlp is installed via Homebrew which sets up its own Python venv at
+# $(brew --prefix yt-dlp)/libexec. Install plugins INTO that venv — yt-dlp
+# picks them up automatically. This sidesteps PEP 668's "externally-managed-
+# environment" error you get from system pip3 on macOS.
+# Caveat: a `brew upgrade yt-dlp` may reset the venv; safe to re-run this script.
+YT_DLP_PREFIX="$(brew --prefix yt-dlp 2>/dev/null || true)"
+YT_DLP_PIP="$YT_DLP_PREFIX/libexec/bin/pip"
+if [[ -n "$YT_DLP_PREFIX" && -x "$YT_DLP_PIP" ]]; then
+    info "Installing yt-dlp plugins into its bundled venv..."
+    "$YT_DLP_PIP" install --upgrade bgutil-ytdlp-pot-provider \
+        || warn "Failed to install bgutil-ytdlp-pot-provider into yt-dlp venv."
+    "$YT_DLP_PIP" install --upgrade curl-cffi \
+        || warn "Failed to install curl-cffi into yt-dlp venv."
     success "yt-dlp plugins installed."
 else
-    warn "pip3 not available. After Python is set up, run:"
-    echo "  pip3 install --user bgutil-ytdlp-pot-provider curl-cffi"
+    warn "yt-dlp's bundled pip not found. After yt-dlp is installed, run:"
+    echo "  \"\$(brew --prefix yt-dlp)/libexec/bin/pip\" install bgutil-ytdlp-pot-provider curl-cffi"
 fi
 
 # =============================================================================
@@ -981,7 +984,7 @@ echo "Sign in / activate apps:"
 echo "  [ ] Proton (Pass, VPN)"
 echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion"
-echo "  [ ] Fathom (sign in, grant mic + screen recording)"
+echo "  [ ] Fathom — download manually from https://fathom.video/download (Homebrew cask is currently broken)"
 echo ""
 echo "App config:"
 echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
