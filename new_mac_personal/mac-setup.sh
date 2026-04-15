@@ -14,7 +14,7 @@
 #   7. Installs global npm packages (Claude Code CLI, Vercel)
 #   8. Sets up Git identity, SSH key, GitHub CLI auth
 #   9. Clones Claude knowledge base repo (~/claude)
-#  10. Configures yt-dlp, fzf
+#  10. Configures fzf
 #  11. Applies macOS system preferences (defaults write)
 #
 # What this does NOT install (manual install required):
@@ -347,9 +347,9 @@ fi
 info "Configuring Git identity..."
 
 if [[ -z "$(git config --global user.name)" ]]; then
-    git config --global user.name "Jaime de la Torre"
-    git config --global user.email "jaime@dcycle.io"
-    success "Git identity set (Jaime de la Torre <jaime@dcycle.io>)."
+    git config --global user.name "ysasmendi"
+    git config --global user.email "jaime@tastylabels.com"
+    success "Git identity set (ysasmendi <jaime@tastylabels.com>)."
 else
     success "Git identity already configured: $(git config --global user.name) <$(git config --global user.email)>"
 fi
@@ -369,7 +369,7 @@ if [[ -f "$SSH_KEY" ]]; then
     success "SSH key already exists at $SSH_KEY."
 else
     info "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "jaime@dcycle.io" -f "$SSH_KEY" -N ""
+    ssh-keygen -t ed25519 -C "jaime@tastylabels.com" -f "$SSH_KEY" -N ""
     eval "$(ssh-agent -s)" >/dev/null
     ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || ssh-add "$SSH_KEY"
     success "SSH key generated. Public key:"
@@ -404,35 +404,7 @@ else
 fi
 
 # =============================================================================
-# 14. yt-dlp config
-# =============================================================================
-info "Configuring yt-dlp..."
-
-YT_DLP_CONFIG_DIR="$HOME/.config/yt-dlp"
-YT_DLP_CONFIG="$YT_DLP_CONFIG_DIR/config"
-
-mkdir -p "$YT_DLP_CONFIG_DIR"
-
-if [[ ! -f "$YT_DLP_CONFIG" ]]; then
-    cat > "$YT_DLP_CONFIG" << 'YTEOF'
-# Use aria2 for faster downloads (16 connections)
---downloader aria2c
---downloader-args aria2c:"-x 16 -s 16"
-
-# Embed metadata and thumbnails
---embed-metadata
---embed-thumbnail
-
-# Output template
--o "%(title)s.%(ext)s"
-YTEOF
-    success "yt-dlp config created at $YT_DLP_CONFIG"
-else
-    success "yt-dlp config already exists."
-fi
-
-# =============================================================================
-# 15. fzf key bindings
+# 14. fzf key bindings
 # =============================================================================
 info "Setting up fzf key bindings..."
 if [[ -f "$(brew --prefix fzf)/install" ]]; then
@@ -441,7 +413,7 @@ if [[ -f "$(brew --prefix fzf)/install" ]]; then
 fi
 
 # =============================================================================
-# 16. macOS System Preferences
+# 15. macOS System Preferences
 # =============================================================================
 info "Applying macOS system preferences..."
 
@@ -735,13 +707,47 @@ echo "============================================="
 echo -e "  ${GREEN}Setup complete!${NC}"
 echo "============================================="
 echo ""
-echo "Manual steps remaining:"
-echo "  1. Open a new terminal for shell changes to take effect"
-echo "  2. Log in to Claude Code: claude login"
-echo "  3. Install manually (not available via Homebrew or App Store):"
-echo "     - Affinity 3       → https://affinity.serif.com"
-echo "     - Nuo-Stems 4      → vendor website"
-echo "     - iStat Menus 6    → https://bjango.com/mac/istatmenus/"
-echo "  4. Sign in to apps: Proton, Spotify, Slack, Notion, etc."
-echo "  5. Configure Raycast (replaces Spotlight with ⌘Space)"
+echo -e "${YELLOW}== STILL TO DO MANUALLY ==${NC}"
+echo ""
+echo "Shell & dev environment:"
+echo "  [ ] Open a new terminal for ~/.zshrc changes (nvm, pyenv) to load"
+echo "  [ ] Log in to Claude Code:           claude login"
+echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y)\""
+echo "  [ ] Verify GitHub SSH:               ssh -T git@github.com"
+echo "  [ ] Authenticate gcloud:             gcloud auth login"
+echo "  [ ] Authenticate AWS:                aws configure"
+echo "  [ ] Authenticate Vercel:             vercel login"
+echo "  [ ] Authenticate Supabase:           supabase login"
+echo ""
+echo "Apps to install manually (no Homebrew/App Store):"
+echo "  [ ] Affinity 3       → https://affinity.serif.com"
+echo "  [ ] Nuo-Stems 4      → vendor website"
+echo "  [ ] iStat Menus 6    → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
+echo ""
+echo "Sign in to apps:"
+echo "  [ ] Proton (Mail, Pass, VPN)"
+echo "  [ ] Ente Auth"
+echo "  [ ] Spotify, Slack, Notion, Discord"
+echo "  [ ] OneDrive / Microsoft 365"
+echo "  [ ] Maestral (Dropbox)"
+echo "  [ ] Syncthing (configure devices)"
+echo "  [ ] Native Access (Native Instruments account)"
+echo ""
+echo "App config:"
+echo "  [ ] Raycast            → set ⌘Space, import settings, enable extensions"
+echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
+echo "  [ ] iTerm2             → import profile, set as default terminal"
+echo "  [ ] VS Code / Cursor   → sign in to sync settings & extensions"
+echo "  [ ] Obsidian           → open vault from iCloud / sync"
+echo ""
+echo "macOS settings that need the GUI:"
+echo "  [ ] Touch ID & passcode"
+echo "  [ ] iCloud sign-in & which apps sync"
+echo "  [ ] Apple ID / App Store sign-in (needed before mas can install)"
+echo "  [ ] Time Machine / backup destination"
+echo "  [ ] Login items (Bartender, iStat Menus, Rectangle, Maestral, Syncthing, Amphetamine)"
+echo "  [ ] Default browser:        System Settings → Desktop & Dock → Default web browser"
+echo "  [ ] Keyboard shortcuts you customise"
+echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code, backup tools)"
+echo "  [ ] Privacy: Accessibility (Rectangle, Raycast)"
 echo ""
