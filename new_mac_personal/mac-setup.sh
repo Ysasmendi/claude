@@ -13,14 +13,14 @@
 #   6. Configures Oh My Zsh, nvm, pyenv
 #   7. Installs global npm packages (Claude Code CLI, Vercel)
 #   8. Sets up Git identity, SSH key, GitHub CLI auth
-#   9. Clones Claude knowledge base repo (~/claude)
-#  10. Configures fzf
-#  11. Applies macOS system preferences (defaults write)
+#   9. Configures yt-dlp + fzf
+#  10. Applies macOS system preferences (defaults write)
 #
 # What this does NOT install (manual install required):
 #   - Affinity 3 (download from serif.com)
 #   - Nuo-Stems 4 (download from vendor)
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
+#   - Insta360 Wave Controller (download from insta360.com)
 #
 # Safe to re-run — Homebrew skips already-installed packages.
 # =============================================================================
@@ -122,6 +122,13 @@ BREW_FORMULAE=(
     fzf
     tree
     htop
+    btop
+
+    # Shell quality-of-life
+    starship      # cross-shell prompt
+    direnv        # per-directory env vars
+    glow          # markdown renderer for the terminal
+    git-delta     # syntax-highlighted git diff
 
     # Languages & version managers
     nvm
@@ -209,6 +216,10 @@ BREW_CASKS=(
     maestral
     daisydisk
     blip
+    bartender    # Bartender 6 — menu bar manager (cask tracks latest major version)
+
+    # Meetings
+    fathom       # meeting note-taker
 
     # Music Production
     native-access
@@ -233,16 +244,28 @@ done
 # =============================================================================
 info "Installing Mac App Store apps..."
 
+MAS_APPS=(
+    "937984704:Amphetamine"      # keep-awake utility
+    "1191449274:ToothFairy"      # one-click Bluetooth audio switcher
+    "1510445899:Meeter"          # meeting links in menu bar
+)
+
 if command -v mas &>/dev/null; then
-    # Amphetamine (keep-awake utility) — App Store ID: 937984704
-    if mas list | grep -q "937984704"; then
-        success "Amphetamine already installed."
-    else
-        info "Installing Amphetamine..."
-        mas install 937984704 || warn "Failed to install Amphetamine — you may need to sign in to the App Store first."
-    fi
+    for entry in "${MAS_APPS[@]}"; do
+        id="${entry%%:*}"
+        name="${entry##*:}"
+        if mas list | grep -q "^$id "; then
+            success "$name already installed."
+        else
+            info "Installing $name (App Store ID $id)..."
+            mas install "$id" || warn "Failed to install $name — you may need to sign in to the App Store first."
+        fi
+    done
 else
-    warn "mas not available. Install it first (brew install mas), then run: mas install 937984704"
+    warn "mas not available. Install it first (brew install mas), then run:"
+    for entry in "${MAS_APPS[@]}"; do
+        echo "  mas install ${entry%%:*}   # ${entry##*:}"
+    done
 fi
 
 # =============================================================================
@@ -348,8 +371,8 @@ info "Configuring Git identity..."
 
 if [[ -z "$(git config --global user.name)" ]]; then
     git config --global user.name "ysasmendi"
-    git config --global user.email "jaime@tastylabels.com"
-    success "Git identity set (ysasmendi <jaime@tastylabels.com>)."
+    git config --global user.email "ikatza@proton.me"
+    success "Git identity set (ysasmendi <ikatza@proton.me>)."
 else
     success "Git identity already configured: $(git config --global user.name) <$(git config --global user.email)>"
 fi
@@ -358,6 +381,30 @@ fi
 git config --global init.defaultBranch main
 git config --global pull.rebase true
 git config --global push.autoSetupRemote true
+
+# Use delta as the git pager (syntax-highlighted diffs)
+if command -v delta &>/dev/null; then
+    git config --global core.pager "delta"
+    git config --global interactive.diffFilter "delta --color-only"
+    git config --global delta.navigate true
+    git config --global merge.conflictstyle "zdiff3"
+    success "delta configured as git pager."
+fi
+
+# --- starship & direnv shell hooks ------------------------------------------
+if ! grep -q 'starship init' ~/.zshrc 2>/dev/null; then
+    echo "" >> ~/.zshrc
+    echo "# starship prompt" >> ~/.zshrc
+    echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+    info "Added starship to ~/.zshrc"
+fi
+
+if ! grep -q 'direnv hook' ~/.zshrc 2>/dev/null; then
+    echo "" >> ~/.zshrc
+    echo "# direnv" >> ~/.zshrc
+    echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
+    info "Added direnv to ~/.zshrc"
+fi
 
 # =============================================================================
 # 11. SSH key for GitHub
@@ -369,7 +416,7 @@ if [[ -f "$SSH_KEY" ]]; then
     success "SSH key already exists at $SSH_KEY."
 else
     info "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "jaime@tastylabels.com" -f "$SSH_KEY" -N ""
+    ssh-keygen -t ed25519 -C "ikatza@proton.me" -f "$SSH_KEY" -N ""
     eval "$(ssh-agent -s)" >/dev/null
     ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || ssh-add "$SSH_KEY"
     success "SSH key generated. Public key:"
@@ -391,16 +438,31 @@ else
 fi
 
 # =============================================================================
-# 13. Clone Claude knowledge base repo
+# 13. yt-dlp config
 # =============================================================================
-info "Checking Claude knowledge base repo..."
+info "Configuring yt-dlp..."
 
-CLAUDE_REPO_DIR="$HOME/claude"
-if [[ -d "$CLAUDE_REPO_DIR/.git" ]]; then
-    success "Knowledge base repo already cloned at $CLAUDE_REPO_DIR."
+YT_DLP_CONFIG_DIR="$HOME/.config/yt-dlp"
+YT_DLP_CONFIG="$YT_DLP_CONFIG_DIR/config"
+
+mkdir -p "$YT_DLP_CONFIG_DIR"
+
+if [[ ! -f "$YT_DLP_CONFIG" ]]; then
+    cat > "$YT_DLP_CONFIG" << 'YTEOF'
+# Use aria2 for faster downloads (16 connections)
+--downloader aria2c
+--downloader-args aria2c:"-x 16 -s 16"
+
+# Embed metadata and thumbnails
+--embed-metadata
+--embed-thumbnail
+
+# Output template
+-o "%(title)s.%(ext)s"
+YTEOF
+    success "yt-dlp config created at $YT_DLP_CONFIG"
 else
-    info "Cloning Ysasmendi/claude repo..."
-    git clone git@github.com:Ysasmendi/claude.git "$CLAUDE_REPO_DIR" || warn "Failed to clone repo — make sure SSH key is added to GitHub first."
+    success "yt-dlp config already exists."
 fi
 
 # =============================================================================
@@ -720,11 +782,12 @@ echo "  [ ] Authenticate Vercel:             vercel login"
 echo "  [ ] Authenticate Supabase:           supabase login"
 echo ""
 echo "Apps to install manually (no Homebrew/App Store):"
-echo "  [ ] Affinity 3       → https://affinity.serif.com"
-echo "  [ ] Nuo-Stems 4      → vendor website"
-echo "  [ ] iStat Menus 6    → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
+echo "  [ ] Affinity 3                → https://affinity.serif.com"
+echo "  [ ] Nuo-Stems 4               → vendor website"
+echo "  [ ] iStat Menus 6             → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
+echo "  [ ] Insta360 Wave Controller  → https://www.insta360.com/download"
 echo ""
-echo "Sign in to apps:"
+echo "Sign in / activate apps:"
 echo "  [ ] Proton (Mail, Pass, VPN)"
 echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion, Discord"
@@ -732,6 +795,10 @@ echo "  [ ] OneDrive / Microsoft 365"
 echo "  [ ] Maestral (Dropbox)"
 echo "  [ ] Syncthing (configure devices)"
 echo "  [ ] Native Access (Native Instruments account)"
+echo "  [ ] Bartender 6 (license + import preset)"
+echo "  [ ] ToothFairy (add Bluetooth devices)"
+echo "  [ ] Meeter (grant Calendar access)"
+echo "  [ ] Fathom (sign in, grant mic + screen recording)"
 echo ""
 echo "App config:"
 echo "  [ ] Raycast            → set ⌘Space, import settings, enable extensions"
