@@ -23,6 +23,7 @@
 #   - Nuo-Stems 4 (download from vendor)
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
 #   - Insta360 Wave Controller (download from insta360.com)
+#   - Fathom (cask currently broken — download from fathom.video/download)
 #
 # Safe to re-run — Homebrew skips already-installed packages.
 # =============================================================================
@@ -36,10 +37,15 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Logs for end-of-run summary
+WARN_LOG=$(mktemp -t mac-setup-warn.XXXXXX)
+FAIL_LOG=$(mktemp -t mac-setup-fail.XXXXXX)
+trap 'rm -f "$WARN_LOG" "$FAIL_LOG"' EXIT
+
 info()    { echo -e "${BLUE}[INFO]${NC} $*"; }
 success() { echo -e "${GREEN}[OK]${NC} $*"; }
-warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; }
-fail()    { echo -e "${RED}[FAIL]${NC} $*"; }
+warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; echo "$*" >> "$WARN_LOG"; }
+fail()    { echo -e "${RED}[FAIL]${NC} $*"; echo "$*" >> "$FAIL_LOG"; }
 
 # --- Preflight ---------------------------------------------------------------
 if [[ "$(uname)" != "Darwin" ]]; then
@@ -135,15 +141,16 @@ BREW_FORMULAE=(
     # GNU coreutils (so Bash-tool commands behave portably)
     coreutils
     gnu-sed
-    gnu-grep
+    # gnu-grep dropped: no longer a Homebrew formula; use `brew install grep`
+    # (ships GNU grep as `ggrep`) if you need it. Ripgrep covers most use cases.
 
     # Languages & version managers
     nvm
     pyenv
     go
 
-    # Language servers (used by Claude Code for code intelligence)
-    clangd        # C/C++/Objective-C LSP
+    # Note: clangd is only available via `brew install llvm` (~1.5GB). Skipped;
+    # VS Code's C/C++ extension ships its own clangd, and Xcode has its own.
 
     # Python tools
     uv
@@ -234,16 +241,13 @@ BREW_CASKS=(
     blip
     bartender    # Bartender 6 — menu bar manager (cask tracks latest major version)
 
-    # Meetings
-    fathom       # meeting note-taker
-
     # Music Production
     native-access
 
     # Microsoft Office
     microsoft-word
     microsoft-excel
-    microsoft-onedrive
+    onedrive       # Microsoft OneDrive (cask was renamed from microsoft-onedrive)
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -578,19 +582,24 @@ else
     success "yt-dlp config already exists."
 fi
 
-# --- yt-dlp plugins (pip-based, since we install yt-dlp via Homebrew) ------
-if command -v pip3 &>/dev/null; then
-    info "Installing yt-dlp pip plugins..."
-    # PO Token provider — bypasses YouTube "Sign in to confirm you're not a bot"
-    pip3 install --user --upgrade bgutil-ytdlp-pot-provider \
-        || warn "Failed to install bgutil-ytdlp-pot-provider — install manually with: pip3 install --user bgutil-ytdlp-pot-provider"
-    # curl_cffi — TLS fingerprint impersonation (bypasses some bot detection)
-    pip3 install --user --upgrade curl-cffi \
-        || warn "Failed to install curl-cffi — install manually with: pip3 install --user curl-cffi"
+# --- yt-dlp plugins --------------------------------------------------------
+# yt-dlp is installed via Homebrew which sets up its own Python venv at
+# $(brew --prefix yt-dlp)/libexec. Install plugins INTO that venv — yt-dlp
+# picks them up automatically. This sidesteps PEP 668's "externally-managed-
+# environment" error you get from system pip3 on macOS.
+# Caveat: a `brew upgrade yt-dlp` may reset the venv; safe to re-run this script.
+YT_DLP_PREFIX="$(brew --prefix yt-dlp 2>/dev/null || true)"
+YT_DLP_PIP="$YT_DLP_PREFIX/libexec/bin/pip"
+if [[ -n "$YT_DLP_PREFIX" && -x "$YT_DLP_PIP" ]]; then
+    info "Installing yt-dlp plugins into its bundled venv..."
+    "$YT_DLP_PIP" install --upgrade bgutil-ytdlp-pot-provider \
+        || warn "Failed to install bgutil-ytdlp-pot-provider into yt-dlp venv."
+    "$YT_DLP_PIP" install --upgrade curl-cffi \
+        || warn "Failed to install curl-cffi into yt-dlp venv."
     success "yt-dlp plugins installed."
 else
-    warn "pip3 not available. After Python is set up, run:"
-    echo "  pip3 install --user bgutil-ytdlp-pot-provider curl-cffi"
+    warn "yt-dlp's bundled pip not found. After yt-dlp is installed, run:"
+    echo "  \"\$(brew --prefix yt-dlp)/libexec/bin/pip\" install bgutil-ytdlp-pot-provider curl-cffi"
 fi
 
 # =============================================================================
@@ -1004,6 +1013,7 @@ echo "  [ ] Affinity 3                → https://affinity.serif.com"
 echo "  [ ] Nuo-Stems 4               → vendor website"
 echo "  [ ] iStat Menus 6             → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
 echo "  [ ] Insta360 Wave Controller  → https://www.insta360.com/download"
+echo "  [ ] Fathom                    → https://fathom.video/download  (Homebrew cask currently broken)"
 echo ""
 echo "Sign in / activate apps:"
 echo "  [ ] Proton (Mail, Pass, VPN)"
@@ -1016,7 +1026,7 @@ echo "  [ ] Native Access (Native Instruments account)"
 echo "  [ ] Bartender 6 (license + import preset)"
 echo "  [ ] ToothFairy (add Bluetooth devices)"
 echo "  [ ] Meeter (grant Calendar access)"
-echo "  [ ] Fathom (sign in, grant mic + screen recording)"
+echo "  [ ] Fathom (install from URL above, then sign in, grant mic + screen recording)"
 echo ""
 echo "App config:"
 echo "  [ ] Raycast            → set ⌘Space, import settings, enable extensions"
@@ -1036,3 +1046,34 @@ echo "  [ ] Keyboard shortcuts you customise"
 echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code, backup tools)"
 echo "  [ ] Privacy: Accessibility (Rectangle, Raycast)"
 echo ""
+
+# =============================================================================
+# Summary: collected warnings and errors
+# =============================================================================
+WARN_COUNT=0
+FAIL_COUNT=0
+[[ -s "$WARN_LOG" ]] && WARN_COUNT=$(wc -l < "$WARN_LOG" | tr -d ' ')
+[[ -s "$FAIL_LOG" ]] && FAIL_COUNT=$(wc -l < "$FAIL_LOG" | tr -d ' ')
+
+echo "============================================="
+if (( FAIL_COUNT == 0 && WARN_COUNT == 0 )); then
+    echo -e "  ${GREEN}Run summary: clean — no warnings or errors.${NC}"
+    echo "============================================="
+    echo ""
+else
+    echo -e "  Run summary: ${RED}${FAIL_COUNT} error(s)${NC}, ${YELLOW}${WARN_COUNT} warning(s)${NC}"
+    echo "============================================="
+    echo ""
+    if (( FAIL_COUNT > 0 )); then
+        echo -e "${RED}Errors:${NC}"
+        nl -ba -w2 -s'. ' "$FAIL_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    if (( WARN_COUNT > 0 )); then
+        echo -e "${YELLOW}Warnings:${NC}"
+        nl -ba -w2 -s'. ' "$WARN_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    echo "Review the items above before considering the setup finished."
+    echo ""
+fi
