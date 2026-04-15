@@ -12,7 +12,8 @@
 #   5. Installs Mac App Store apps via mas
 #   6. Configures Oh My Zsh, nvm, pyenv
 #   7. Installs global npm packages (Claude Code CLI, Vercel)
-#   8. Sets up Git identity, SSH key, GitHub CLI auth
+#   8. Sets up Git identity, file-based SSH key (bootstrap), GitHub CLI auth,
+#      Touch ID for sudo, SSH commit signing (Secretive enclave key set up manually)
 #   9. Configures yt-dlp (+ pip plugins for PO token / TLS impersonation) + fzf
 #  10. Pre-seeds ~/.claude/settings.json (permissions allowlist + GitHub & filesystem MCP servers)
 #  11. Applies macOS system preferences (defaults write)
@@ -220,6 +221,9 @@ BREW_CASKS=(
     obsidian
     rectangle
     the-unarchiver
+
+    # Hardware-backed identity (Secure Enclave SSH keys)
+    secretive
 
     # Utilities
     transmission
@@ -455,6 +459,46 @@ else
     echo ""
     warn "Add this key to GitHub: gh ssh-key add ${SSH_KEY}.pub --title \"Mac $(date +%Y)\""
 fi
+
+# =============================================================================
+# 11b. Hardware-backed identity (Secure Enclave + Touch ID)
+# =============================================================================
+# Secretive is installed as a cask. This block:
+#   - Enables Touch ID for sudo (survives macOS updates via sudo_local).
+#   - Pre-configures git to sign commits with an SSH key (set user.signingkey
+#     manually after creating the enclave key in Secretive).
+#   - Leaves ~/.ssh/config alone — see the manual checklist for the
+#     IdentityAgent line (only safe to add AFTER Secretive has a key).
+info "Configuring hardware-backed identity..."
+
+# --- Touch ID for sudo --------------------------------------------------------
+SUDO_LOCAL="/etc/pam.d/sudo_local"
+SUDO_TEMPLATE="/etc/pam.d/sudo_local.template"
+
+if [[ -f "$SUDO_LOCAL" ]] && grep -q '^auth.*pam_tid.so' "$SUDO_LOCAL"; then
+    success "Touch ID for sudo already enabled."
+elif [[ -f "$SUDO_TEMPLATE" ]]; then
+    info "Enabling Touch ID for sudo via $SUDO_LOCAL..."
+    sudo cp "$SUDO_TEMPLATE" "$SUDO_LOCAL"
+    sudo sed -i '' 's/^#auth\(.*\)pam_tid.so/auth\1pam_tid.so/' "$SUDO_LOCAL"
+    success "Touch ID for sudo enabled."
+else
+    warn "$SUDO_TEMPLATE not found — cannot enable Touch ID for sudo automatically."
+    warn "Add this line manually to /etc/pam.d/sudo (above the Apple lines):"
+    warn "  auth       sufficient     pam_tid.so"
+fi
+
+# --- Git: sign commits with SSH (Secure Enclave key once created) ------------
+git config --global gpg.format ssh
+git config --global commit.gpgsign true
+git config --global tag.gpgsign true
+# user.signingkey will be set manually after the Secretive key exists.
+# Tell git to trust the same allowed_signers file for verifying commits:
+ALLOWED_SIGNERS="$HOME/.ssh/allowed_signers"
+mkdir -p "$HOME/.ssh"
+touch "$ALLOWED_SIGNERS"
+git config --global gpg.ssh.allowedSignersFile "$ALLOWED_SIGNERS"
+success "Git configured for SSH commit signing (set user.signingkey after creating enclave key)."
 
 # =============================================================================
 # 12. GitHub CLI authentication
@@ -932,13 +976,28 @@ echo "Shell & dev environment:"
 echo "  [ ] Open a new terminal for ~/.zshrc changes (nvm, pyenv, starship, direnv) to load"
 echo "  [ ] Log in to Claude Code:           claude login   (or set ANTHROPIC_API_KEY in ~/.zshrc)"
 echo "  [ ] Set GITHUB_TOKEN in ~/.zshrc     (needed by the GitHub MCP server: gh auth token | pbcopy)"
-echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y)\""
+echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y) (file)\""
 echo "  [ ] Verify GitHub SSH:               ssh -T git@github.com"
 echo "  [ ] Authenticate gcloud:             gcloud auth login"
 echo "  [ ] Authenticate AWS:                aws configure"
 echo "  [ ] Authenticate Vercel:             vercel login"
 echo "  [ ] Authenticate Supabase:           supabase login"
 echo "  [ ] Open Claude Desktop & verify it sees CLI + MCP servers"
+echo ""
+echo "Hardware-backed identity (Secretive — do this BEFORE removing the file-based key):"
+echo "  [ ] Open Secretive.app → grant Accessibility + Notifications + Login Item permissions"
+echo "  [ ] Click '+' → create a new key (Ed25519 or ECDSA-256), require auth = Touch ID always"
+echo "  [ ] Copy the public key (Secretive shows a copy button)"
+echo "  [ ] Register as auth key:    gh ssh-key add - --title \"Mac Enclave (auth)\"   (paste pubkey, ^D)"
+echo "  [ ] Register as signing key: gh ssh-key add - --type signing --title \"Mac Enclave (sign)\""
+echo "  [ ] Set git signing key:     git config --global user.signingkey 'key::<paste pubkey>'"
+echo "  [ ] Add to allowed_signers:  echo \"ikatza@proton.me <paste pubkey>\" >> ~/.ssh/allowed_signers"
+echo "  [ ] Point ssh at Secretive's agent — append to ~/.ssh/config:"
+echo "        Host *"
+echo "          IdentityAgent ~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+echo "  [ ] Test: ssh -T git@github.com   (should pop a Touch ID prompt)"
+echo "  [ ] Test: git commit --allow-empty -m 'sig test' && git log --show-signature -1"
+echo "  [ ] Once verified end-to-end, delete the file-based key from GitHub + ~/.ssh/id_ed25519*"
 echo ""
 echo "Apps to install manually (no Homebrew/App Store):"
 echo "  [ ] Affinity 3                → https://affinity.serif.com"
