@@ -1,33 +1,43 @@
 #!/bin/bash
 # =============================================================================
-# Mac Dev Setup Script — Jaime's Machine
+# Dcycle — New Employee Mac Setup
 # =============================================================================
+# Version: 1.0.0
+# GitHub org: https://github.com/orgs/Dcycle-by-WUM
+#
 # Run: chmod +x mac-setup.sh && ./mac-setup.sh
+#
+# Prereqs:
+#   - Mac is already enrolled in Mosyle MDM before running this script
+#   - Employee has signed in with their Apple ID (required for any Mac App
+#     Store apps the employee adds later; this script does not install any)
+#   - FileVault: ships enabled by default on recent Macs — verify in
+#     System Settings → Privacy & Security → FileVault
+#
+# Identity can be supplied via env vars (skips the interactive prompt):
+#   EMPLOYEE_NAME="Jane Doe" EMPLOYEE_EMAIL="jane@dcycle.io" ./mac-setup.sh
 #
 # What this does:
 #   1. Installs Xcode Command Line Tools
 #   2. Installs Homebrew
 #   3. Installs CLI tools, languages, runtimes, cloud CLIs
 #   4. Installs GUI apps via Homebrew Cask
-#   5. Installs Mac App Store apps via mas
-#   6. Configures Oh My Zsh, nvm, pyenv
-#   7. Installs global npm packages (Claude Code CLI, Vercel)
-#   8. Sets up Git identity, file-based SSH key (bootstrap), GitHub CLI auth,
-#      Touch ID for sudo, SSH commit signing (Secretive enclave key set up manually)
-#   9. Configures yt-dlp (+ pip plugins for PO token / TLS impersonation) + fzf
-#  10. Pre-seeds ~/.claude/settings.json (permissions allowlist + GitHub & filesystem MCP servers)
-#  11. Applies macOS system preferences (defaults write)
-#
-# What this does NOT install (manual install required):
-#   - Affinity 3 (download from serif.com)
-#   - Nuo-Stems 4 (download from vendor)
-#   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
-#   - Insta360 Wave Controller (download from insta360.com)
+#   5. Configures Oh My Zsh, nvm, pyenv
+#   6. Installs global npm packages (Claude Code CLI, Vercel, LSPs, MCP servers)
+#   7. Sets up Git identity (prompted), file-based SSH key (bootstrap),
+#      GitHub CLI auth, Touch ID for sudo, SSH commit signing
+#      (Secretive enclave key set up manually)
+#   8. Configures yt-dlp (+ pip plugins) + fzf
+#   9. Pre-seeds ~/.claude/settings.json (permissions allowlist + GitHub &
+#      filesystem MCP servers)
+#  10. Applies macOS system preferences (defaults write)
 #
 # Safe to re-run — Homebrew skips already-installed packages.
 # =============================================================================
 
 set -euo pipefail
+
+SCRIPT_VERSION="1.0.0"
 
 # --- Colors ------------------------------------------------------------------
 RED='\033[0;31m'
@@ -36,10 +46,15 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Logs for end-of-run summary
+WARN_LOG=$(mktemp -t mac-setup-warn.XXXXXX)
+FAIL_LOG=$(mktemp -t mac-setup-fail.XXXXXX)
+trap 'rm -f "$WARN_LOG" "$FAIL_LOG"' EXIT
+
 info()    { echo -e "${BLUE}[INFO]${NC} $*"; }
 success() { echo -e "${GREEN}[OK]${NC} $*"; }
-warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; }
-fail()    { echo -e "${RED}[FAIL]${NC} $*"; }
+warn()    { echo -e "${YELLOW}[WARN]${NC} $*"; echo "$*" >> "$WARN_LOG"; }
+fail()    { echo -e "${RED}[FAIL]${NC} $*"; echo "$*" >> "$FAIL_LOG"; }
 
 # --- Preflight ---------------------------------------------------------------
 if [[ "$(uname)" != "Darwin" ]]; then
@@ -55,8 +70,24 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 echo ""
 echo "============================================="
-echo "  Mac Dev Setup — Let's go"
+echo "  Dcycle New Employee Mac Setup  v${SCRIPT_VERSION}"
 echo "============================================="
+echo ""
+
+# --- Employee identity (prompt unless provided via env) ---------------------
+if [[ -z "${EMPLOYEE_NAME:-}" ]]; then
+    read -r -p "Full name (e.g. Jane Doe): " EMPLOYEE_NAME
+fi
+if [[ -z "${EMPLOYEE_EMAIL:-}" ]]; then
+    read -r -p "Work email (e.g. jane@dcycle.io): " EMPLOYEE_EMAIL
+fi
+
+if [[ -z "$EMPLOYEE_NAME" || -z "$EMPLOYEE_EMAIL" ]]; then
+    fail "EMPLOYEE_NAME and EMPLOYEE_EMAIL are required."
+    exit 1
+fi
+
+info "Setting up for: $EMPLOYEE_NAME <$EMPLOYEE_EMAIL>"
 echo ""
 
 # =============================================================================
@@ -152,9 +183,6 @@ BREW_FORMULAE=(
     supabase/tap/supabase
     awscli
 
-    # Mac App Store CLI
-    mas
-
     # Media tools
     yt-dlp
     ffmpeg
@@ -193,7 +221,6 @@ BREW_CASKS=(
     google-chrome
 
     # Privacy & Security
-    proton-mail
     proton-pass
     protonvpn
     ente-auth
@@ -201,23 +228,18 @@ BREW_CASKS=(
     # Media
     vlc
     spotify
-    stremio
-    calibre
     audacity
 
     # Communication
-    discord
     slack
     notion
 
     # Dev Tools
     iterm2
     visual-studio-code
-    sublime-text
     claude
 
     # Productivity
-    raycast
     obsidian
     rectangle
     the-unarchiver
@@ -226,24 +248,10 @@ BREW_CASKS=(
     secretive
 
     # Utilities
-    transmission
-    balenaetcher
-    syncthing
-    maestral
-    daisydisk
     blip
-    bartender    # Bartender 6 — menu bar manager (cask tracks latest major version)
 
     # Meetings
     fathom       # meeting note-taker
-
-    # Music Production
-    native-access
-
-    # Microsoft Office
-    microsoft-word
-    microsoft-excel
-    microsoft-onedrive
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -266,36 +274,7 @@ else
 fi
 
 # =============================================================================
-# 5. Mac App Store apps (via mas)
-# =============================================================================
-info "Installing Mac App Store apps..."
-
-MAS_APPS=(
-    "937984704:Amphetamine"      # keep-awake utility
-    "1191449274:ToothFairy"      # one-click Bluetooth audio switcher
-    "1510445899:Meeter"          # meeting links in menu bar
-)
-
-if command -v mas &>/dev/null; then
-    for entry in "${MAS_APPS[@]}"; do
-        id="${entry%%:*}"
-        name="${entry##*:}"
-        if mas list | grep -q "^$id "; then
-            success "$name already installed."
-        else
-            info "Installing $name (App Store ID $id)..."
-            mas install "$id" || warn "Failed to install $name — you may need to sign in to the App Store first."
-        fi
-    done
-else
-    warn "mas not available. Install it first (brew install mas), then run:"
-    for entry in "${MAS_APPS[@]}"; do
-        echo "  mas install ${entry%%:*}   # ${entry##*:}"
-    done
-fi
-
-# =============================================================================
-# 6. Oh My Zsh
+# 5. Oh My Zsh
 # =============================================================================
 info "Checking Oh My Zsh..."
 if [[ -d "$HOME/.oh-my-zsh" ]]; then
@@ -307,7 +286,7 @@ else
 fi
 
 # =============================================================================
-# 7. Node.js via nvm
+# 6. Node.js via nvm
 # =============================================================================
 info "Setting up Node.js via nvm..."
 
@@ -340,7 +319,7 @@ else
 fi
 
 # =============================================================================
-# 8. Python via pyenv
+# 7. Python via pyenv
 # =============================================================================
 info "Setting up Python via pyenv..."
 
@@ -368,7 +347,7 @@ else
 fi
 
 # =============================================================================
-# 9. Global npm packages
+# 8. Global npm packages
 # =============================================================================
 info "Installing global npm packages..."
 
@@ -400,14 +379,14 @@ else
 fi
 
 # =============================================================================
-# 10. Git identity
+# 9. Git identity
 # =============================================================================
 info "Configuring Git identity..."
 
 if [[ -z "$(git config --global user.name)" ]]; then
-    git config --global user.name "ysasmendi"
-    git config --global user.email "ikatza@proton.me"
-    success "Git identity set (ysasmendi <ikatza@proton.me>)."
+    git config --global user.name "$EMPLOYEE_NAME"
+    git config --global user.email "$EMPLOYEE_EMAIL"
+    success "Git identity set ($EMPLOYEE_NAME <$EMPLOYEE_EMAIL>)."
 else
     success "Git identity already configured: $(git config --global user.name) <$(git config --global user.email)>"
 fi
@@ -442,7 +421,7 @@ if ! grep -q 'direnv hook' ~/.zshrc 2>/dev/null; then
 fi
 
 # =============================================================================
-# 11. SSH key for GitHub
+# 10. SSH key for GitHub
 # =============================================================================
 info "Checking SSH key..."
 
@@ -451,7 +430,7 @@ if [[ -f "$SSH_KEY" ]]; then
     success "SSH key already exists at $SSH_KEY."
 else
     info "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "ikatza@proton.me" -f "$SSH_KEY" -N ""
+    ssh-keygen -t ed25519 -C "$EMPLOYEE_EMAIL" -f "$SSH_KEY" -N ""
     eval "$(ssh-agent -s)" >/dev/null
     ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || ssh-add "$SSH_KEY"
     success "SSH key generated. Public key:"
@@ -461,7 +440,7 @@ else
 fi
 
 # =============================================================================
-# 11b. Hardware-backed identity (Secure Enclave + Touch ID)
+# 10b. Hardware-backed identity (Secure Enclave + Touch ID)
 # =============================================================================
 # Secretive is installed as a cask. This block:
 #   - Enables Touch ID for sudo (survives macOS updates via sudo_local).
@@ -501,7 +480,7 @@ git config --global gpg.ssh.allowedSignersFile "$ALLOWED_SIGNERS"
 success "Git configured for SSH commit signing (set user.signingkey after creating enclave key)."
 
 # =============================================================================
-# 12. GitHub CLI authentication
+# 11. GitHub CLI authentication
 # =============================================================================
 info "Checking GitHub CLI auth..."
 
@@ -513,7 +492,7 @@ else
 fi
 
 # =============================================================================
-# 13. yt-dlp config
+# 12. yt-dlp config
 # =============================================================================
 info "Configuring yt-dlp..."
 
@@ -594,7 +573,7 @@ else
 fi
 
 # =============================================================================
-# 14. fzf key bindings
+# 13. fzf key bindings
 # =============================================================================
 info "Setting up fzf key bindings..."
 if [[ -f "$(brew --prefix fzf)/install" ]]; then
@@ -603,7 +582,7 @@ if [[ -f "$(brew --prefix fzf)/install" ]]; then
 fi
 
 # =============================================================================
-# 15. Claude Code config (~/.claude/settings.json)
+# 14. Claude Code config (~/.claude/settings.json)
 # =============================================================================
 info "Configuring Claude Code defaults..."
 
@@ -676,7 +655,7 @@ ENVEOF
 fi
 
 # =============================================================================
-# 16. macOS System Preferences
+# 15. macOS System Preferences
 # =============================================================================
 info "Applying macOS system preferences..."
 
@@ -830,8 +809,7 @@ sudo pmset -c displaysleep 10 2>/dev/null || warn "Could not set power display s
 # Show large clock on lock screen
 defaults write com.apple.loginwindow AdminHostInfo -string "HostName"
 # Lock screen message
-defaults write com.apple.loginwindow LoginwindowText -string "Jaime de la Torre de Ysasi-Ysasmendi
-jaime@omg.lol | +34 646 282 833"
+defaults write com.apple.loginwindow LoginwindowText -string "Property of Dcycle — if found, contact ops@dcycle.io"
 # Login window: Name and password (not list of users)
 defaults write com.apple.loginwindow SHOWFULLNAME -bool true
 # Show Sleep, Restart, Shut Down buttons
@@ -991,7 +969,7 @@ echo "  [ ] Copy the public key (Secretive shows a copy button)"
 echo "  [ ] Register as auth key:    gh ssh-key add - --title \"Mac Enclave (auth)\"   (paste pubkey, ^D)"
 echo "  [ ] Register as signing key: gh ssh-key add - --type signing --title \"Mac Enclave (sign)\""
 echo "  [ ] Set git signing key:     git config --global user.signingkey 'key::<paste pubkey>'"
-echo "  [ ] Add to allowed_signers:  echo \"ikatza@proton.me <paste pubkey>\" >> ~/.ssh/allowed_signers"
+echo "  [ ] Add to allowed_signers:  echo \"$EMPLOYEE_EMAIL <paste pubkey>\" >> ~/.ssh/allowed_signers"
 echo "  [ ] Point ssh at Secretive's agent — append to ~/.ssh/config:"
 echo "        Host *"
 echo "          IdentityAgent ~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
@@ -999,40 +977,57 @@ echo "  [ ] Test: ssh -T git@github.com   (should pop a Touch ID prompt)"
 echo "  [ ] Test: git commit --allow-empty -m 'sig test' && git log --show-signature -1"
 echo "  [ ] Once verified end-to-end, delete the file-based key from GitHub + ~/.ssh/id_ed25519*"
 echo ""
-echo "Apps to install manually (no Homebrew/App Store):"
-echo "  [ ] Affinity 3                → https://affinity.serif.com"
-echo "  [ ] Nuo-Stems 4               → vendor website"
-echo "  [ ] iStat Menus 6             → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
-echo "  [ ] Insta360 Wave Controller  → https://www.insta360.com/download"
-echo ""
 echo "Sign in / activate apps:"
-echo "  [ ] Proton (Mail, Pass, VPN)"
+echo "  [ ] Proton (Pass, VPN)"
 echo "  [ ] Ente Auth"
-echo "  [ ] Spotify, Slack, Notion, Discord"
-echo "  [ ] OneDrive / Microsoft 365"
-echo "  [ ] Maestral (Dropbox)"
-echo "  [ ] Syncthing (configure devices)"
-echo "  [ ] Native Access (Native Instruments account)"
-echo "  [ ] Bartender 6 (license + import preset)"
-echo "  [ ] ToothFairy (add Bluetooth devices)"
-echo "  [ ] Meeter (grant Calendar access)"
+echo "  [ ] Spotify, Slack, Notion"
 echo "  [ ] Fathom (sign in, grant mic + screen recording)"
 echo ""
 echo "App config:"
-echo "  [ ] Raycast            → set ⌘Space, import settings, enable extensions"
 echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
 echo "  [ ] iTerm2             → import profile, set as default terminal"
-echo "  [ ] VS Code / Cursor   → sign in to sync settings & extensions"
+echo "  [ ] VS Code            → sign in to sync settings & extensions"
 echo "  [ ] Obsidian           → open vault from iCloud / sync"
 echo ""
 echo "macOS settings that need the GUI:"
 echo "  [ ] Touch ID & passcode"
 echo "  [ ] iCloud sign-in & which apps sync"
-echo "  [ ] Apple ID / App Store sign-in (needed before mas can install)"
-echo "  [ ] Time Machine / backup destination"
-echo "  [ ] Login items (Bartender, iStat Menus, Rectangle, Maestral, Syncthing, Amphetamine)"
+echo "  [ ] Apple ID / App Store sign-in"
+echo "  [ ] Verify FileVault is ON (should be by default on new Macs)"
+echo "  [ ] Verify Mosyle MDM enrolment is active"
+echo "  [ ] Login items (Rectangle, any role-specific apps)"
 echo "  [ ] Default browser:        System Settings → Desktop & Dock → Default web browser"
-echo "  [ ] Keyboard shortcuts you customise"
-echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code, backup tools)"
-echo "  [ ] Privacy: Accessibility (Rectangle, Raycast)"
+echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code)"
+echo "  [ ] Privacy: Accessibility (Rectangle)"
 echo ""
+
+# =============================================================================
+# Summary: collected warnings and errors
+# =============================================================================
+WARN_COUNT=0
+FAIL_COUNT=0
+[[ -s "$WARN_LOG" ]] && WARN_COUNT=$(wc -l < "$WARN_LOG" | tr -d ' ')
+[[ -s "$FAIL_LOG" ]] && FAIL_COUNT=$(wc -l < "$FAIL_LOG" | tr -d ' ')
+
+echo "============================================="
+if (( FAIL_COUNT == 0 && WARN_COUNT == 0 )); then
+    echo -e "  ${GREEN}Run summary: clean — no warnings or errors.${NC}"
+    echo "============================================="
+    echo ""
+else
+    echo -e "  Run summary: ${RED}${FAIL_COUNT} error(s)${NC}, ${YELLOW}${WARN_COUNT} warning(s)${NC}"
+    echo "============================================="
+    echo ""
+    if (( FAIL_COUNT > 0 )); then
+        echo -e "${RED}Errors:${NC}"
+        nl -ba -w2 -s'. ' "$FAIL_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    if (( WARN_COUNT > 0 )); then
+        echo -e "${YELLOW}Warnings:${NC}"
+        nl -ba -w2 -s'. ' "$WARN_LOG" | sed 's/^/  /'
+        echo ""
+    fi
+    echo "Review the items above before handing the Mac over."
+    echo ""
+fi
