@@ -13,8 +13,9 @@
 #   6. Configures Oh My Zsh, nvm, pyenv
 #   7. Installs global npm packages (Claude Code CLI, Vercel)
 #   8. Sets up Git identity, SSH key, GitHub CLI auth
-#   9. Configures yt-dlp + fzf
-#  10. Applies macOS system preferences (defaults write)
+#   9. Configures yt-dlp (+ pip plugins for PO token / TLS impersonation) + fzf
+#  10. Pre-seeds ~/.claude/settings.json (permissions allowlist + GitHub & filesystem MCP servers)
+#  11. Applies macOS system preferences (defaults write)
 #
 # What this does NOT install (manual install required):
 #   - Affinity 3 (download from serif.com)
@@ -130,10 +131,18 @@ BREW_FORMULAE=(
     glow          # markdown renderer for the terminal
     git-delta     # syntax-highlighted git diff
 
+    # GNU coreutils (so Bash-tool commands behave portably)
+    coreutils
+    gnu-sed
+    gnu-grep
+
     # Languages & version managers
     nvm
     pyenv
     go
+
+    # Language servers (used by Claude Code for code intelligence)
+    clangd        # C/C++/Objective-C LSP
 
     # Python tools
     uv
@@ -150,6 +159,9 @@ BREW_FORMULAE=(
     ffmpeg
     atomicparsley
     aria2
+    deno          # JS runtime — REQUIRED by yt-dlp 2025.11+ for YouTube
+    streamlink    # complement to yt-dlp for live streams (Twitch, YT Live, etc.)
+    mkvtoolnix    # MKV muxing / chapter editing
 )
 
 for formula in "${BREW_FORMULAE[@]}"; do
@@ -238,6 +250,16 @@ for cask in "${BREW_CASKS[@]}"; do
         brew install --cask "$cask" || warn "Failed to install $cask — continuing."
     fi
 done
+
+# --- VS Code extensions ---
+if command -v code &>/dev/null; then
+    info "Installing VS Code Claude Code extension..."
+    code --install-extension anthropic.claude-code --force >/dev/null 2>&1 \
+        && success "anthropic.claude-code installed in VS Code." \
+        || warn "Failed to install Claude Code VS Code extension — install manually from the marketplace."
+else
+    warn "VS Code 'code' CLI not on PATH. Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH', then run: code --install-extension anthropic.claude-code"
+fi
 
 # =============================================================================
 # 5. Mac App Store apps (via mas)
@@ -349,6 +371,15 @@ info "Installing global npm packages..."
 NPM_GLOBALS=(
     "@anthropic-ai/claude-code"
     "vercel"
+
+    # Language servers (Claude Code shells out to these)
+    "pyright"
+    "typescript"
+    "ts-node"
+
+    # MCP servers
+    "@modelcontextprotocol/server-github"
+    "@modelcontextprotocol/server-filesystem"
 )
 
 if command -v npm &>/dev/null; then
@@ -449,20 +480,73 @@ mkdir -p "$YT_DLP_CONFIG_DIR"
 
 if [[ ! -f "$YT_DLP_CONFIG" ]]; then
     cat > "$YT_DLP_CONFIG" << 'YTEOF'
-# Use aria2 for faster downloads (16 connections)
+# --- Downloader: aria2c with 16 parallel connections ----------------------
+# (yt-dlp falls back to ffmpeg automatically for HLS/DASH streams)
 --downloader aria2c
---downloader-args aria2c:"-x 16 -s 16"
+--downloader-args aria2c:"-x 16 -s 16 -k 1M"
 
-# Embed metadata and thumbnails
+# --- Format: best video + best audio, prefer mkv as it accepts every codec
+-f "bv*+ba/b"
+--merge-output-format mkv
+--remux-video mkv
+
+# --- Metadata & embeds ------------------------------------------------------
 --embed-metadata
 --embed-thumbnail
+--embed-subs
+--embed-chapters
+--sub-langs "en.*,es.*"
+--write-subs
+--write-auto-subs
 
-# Output template
--o "%(title)s.%(ext)s"
+# --- SponsorBlock (YouTube): mark all categories, auto-cut sponsors --------
+--sponsorblock-mark all
+--sponsorblock-remove sponsor
+
+# --- Archival info files ----------------------------------------------------
+--write-info-json
+--write-description
+
+# --- Output: title + id keeps filenames collision-proof --------------------
+-o "%(title)s [%(id)s].%(ext)s"
+
+# --- Resilience -------------------------------------------------------------
+--retries 10
+--fragment-retries 10
+--retry-sleep 5
+--file-access-retries 3
+--no-overwrites
+--continue
+--ignore-errors
+--no-playlist
+
+# --- Throttle dodge & geo bypass -------------------------------------------
+--throttled-rate 100K
+--geo-bypass
+
+# --- Browser cookies (uncomment ONE) ---------------------------------------
+# Firefox works cleanly on macOS; Chrome prompts Keychain; Safari is broken.
+# --cookies-from-browser firefox
+# --cookies-from-browser chrome
 YTEOF
     success "yt-dlp config created at $YT_DLP_CONFIG"
 else
     success "yt-dlp config already exists."
+fi
+
+# --- yt-dlp plugins (pip-based, since we install yt-dlp via Homebrew) ------
+if command -v pip3 &>/dev/null; then
+    info "Installing yt-dlp pip plugins..."
+    # PO Token provider — bypasses YouTube "Sign in to confirm you're not a bot"
+    pip3 install --user --upgrade bgutil-ytdlp-pot-provider \
+        || warn "Failed to install bgutil-ytdlp-pot-provider — install manually with: pip3 install --user bgutil-ytdlp-pot-provider"
+    # curl_cffi — TLS fingerprint impersonation (bypasses some bot detection)
+    pip3 install --user --upgrade curl-cffi \
+        || warn "Failed to install curl-cffi — install manually with: pip3 install --user curl-cffi"
+    success "yt-dlp plugins installed."
+else
+    warn "pip3 not available. After Python is set up, run:"
+    echo "  pip3 install --user bgutil-ytdlp-pot-provider curl-cffi"
 fi
 
 # =============================================================================
@@ -475,7 +559,80 @@ if [[ -f "$(brew --prefix fzf)/install" ]]; then
 fi
 
 # =============================================================================
-# 15. macOS System Preferences
+# 15. Claude Code config (~/.claude/settings.json)
+# =============================================================================
+info "Configuring Claude Code defaults..."
+
+CLAUDE_DIR="$HOME/.claude"
+CLAUDE_SETTINGS="$CLAUDE_DIR/settings.json"
+mkdir -p "$CLAUDE_DIR"
+
+if [[ ! -f "$CLAUDE_SETTINGS" ]]; then
+    cat > "$CLAUDE_SETTINGS" << 'CCEOF'
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(python3:*)",
+      "Bash(pip3:*)",
+      "Bash(uv:*)",
+      "Bash(brew:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(jq:*)",
+      "Bash(rg:*)",
+      "Bash(tree:*)",
+      "Bash(docker:*)",
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Skill"
+    ]
+  },
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "${HOME}"]
+    }
+  }
+}
+CCEOF
+    success "Claude Code settings written to $CLAUDE_SETTINGS"
+else
+    success "Claude Code settings already exist at $CLAUDE_SETTINGS — leaving untouched."
+fi
+
+# Add ANTHROPIC_API_KEY placeholder + GITHUB_TOKEN reminder to ~/.zshrc if absent
+if ! grep -q 'ANTHROPIC_API_KEY' ~/.zshrc 2>/dev/null; then
+    cat >> ~/.zshrc << 'ENVEOF'
+
+# Claude Code / Anthropic
+# export ANTHROPIC_API_KEY="sk-ant-..."   # Uncomment + paste your key (or rely on `claude login`)
+# export GITHUB_TOKEN="ghp_..."           # Used by the GitHub MCP server in ~/.claude/settings.json
+ENVEOF
+    info "Added ANTHROPIC_API_KEY / GITHUB_TOKEN placeholders to ~/.zshrc"
+fi
+
+# =============================================================================
+# 16. macOS System Preferences
 # =============================================================================
 info "Applying macOS system preferences..."
 
@@ -772,14 +929,16 @@ echo ""
 echo -e "${YELLOW}== STILL TO DO MANUALLY ==${NC}"
 echo ""
 echo "Shell & dev environment:"
-echo "  [ ] Open a new terminal for ~/.zshrc changes (nvm, pyenv) to load"
-echo "  [ ] Log in to Claude Code:           claude login"
+echo "  [ ] Open a new terminal for ~/.zshrc changes (nvm, pyenv, starship, direnv) to load"
+echo "  [ ] Log in to Claude Code:           claude login   (or set ANTHROPIC_API_KEY in ~/.zshrc)"
+echo "  [ ] Set GITHUB_TOKEN in ~/.zshrc     (needed by the GitHub MCP server: gh auth token | pbcopy)"
 echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y)\""
 echo "  [ ] Verify GitHub SSH:               ssh -T git@github.com"
 echo "  [ ] Authenticate gcloud:             gcloud auth login"
 echo "  [ ] Authenticate AWS:                aws configure"
 echo "  [ ] Authenticate Vercel:             vercel login"
 echo "  [ ] Authenticate Supabase:           supabase login"
+echo "  [ ] Open Claude Desktop & verify it sees CLI + MCP servers"
 echo ""
 echo "Apps to install manually (no Homebrew/App Store):"
 echo "  [ ] Affinity 3                → https://affinity.serif.com"
