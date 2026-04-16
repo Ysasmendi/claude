@@ -211,15 +211,6 @@ else
     brew install --cask google-cloud-sdk || warn "Failed to install google-cloud-sdk."
 fi
 
-# Dcycle CLI (private tap)
-info "Installing Dcycle CLI (dcy)..."
-if brew list dcy &>/dev/null 2>&1; then
-    success "dcy already installed."
-else
-    brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap 2>/dev/null || true
-    brew install dcy || warn "Failed to install dcy — check tap access."
-fi
-
 # =============================================================================
 # 4. GUI Apps (Casks)
 # =============================================================================
@@ -496,6 +487,16 @@ if gh auth status &>/dev/null 2>&1; then
 else
     warn "GitHub CLI not authenticated. Running interactive login..."
     gh auth login -p ssh -w || warn "gh auth login failed — run it manually after setup."
+fi
+
+# --- Dcycle CLI (private tap — requires GitHub auth above) ---
+info "Installing Dcycle CLI (dcy)..."
+if brew list dcy &>/dev/null 2>&1; then
+    success "dcy already installed."
+else
+    brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap 2>/dev/null \
+        || warn "Failed to tap Dcycle-by-WUM/tap — is GitHub auth working?"
+    brew install dcy || warn "Failed to install dcy — check tap access."
 fi
 
 # =============================================================================
