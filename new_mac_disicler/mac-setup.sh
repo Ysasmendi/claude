@@ -211,6 +211,15 @@ else
     brew install --cask google-cloud-sdk || warn "Failed to install google-cloud-sdk."
 fi
 
+# Dcycle CLI (private tap)
+info "Installing Dcycle CLI (dcy)..."
+if brew list dcy &>/dev/null 2>&1; then
+    success "dcy already installed."
+else
+    brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap 2>/dev/null || true
+    brew install dcy || warn "Failed to install dcy — check tap access."
+fi
+
 # =============================================================================
 # 4. GUI Apps (Casks)
 # =============================================================================
@@ -660,7 +669,20 @@ fi
 # =============================================================================
 # 15. macOS System Preferences
 # =============================================================================
-info "Applying macOS system preferences..."
+# ⚠️  macOS Tahoe (26+) note — IMPORTANT for Dcycle machines:
+# Apple has tightened preference sandboxing. Many of the `defaults write` calls
+# below are silently ignored on Tahoe — especially anything touching Lock
+# Screen, Siri, AirDrop discoverability, Software Update, Widget appearance,
+# and BezelServices.
+#
+# FOR DCYCLE: these settings should be pushed via a Mosyle configuration
+# profile instead of this script. The block still runs (no-ops are harmless)
+# but treat it as best-effort. Ops owns the canonical profile in Mosyle.
+#
+# Still likely to work: Dock, Trackpad, Keyboard, Appearance, Finder,
+# Language/Region, DNS (networksetup), Firewall (socketfilterfw), pmset.
+# =============================================================================
+info "Applying macOS system preferences (see Tahoe caveat above)..."
 
 # --- Appearance ---------------------------------------------------------------
 # Dark mode
