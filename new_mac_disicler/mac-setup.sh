@@ -478,25 +478,48 @@ git config --global gpg.ssh.allowedSignersFile "$ALLOWED_SIGNERS"
 success "Git configured for SSH commit signing (set user.signingkey after creating enclave key)."
 
 # =============================================================================
-# 11. GitHub CLI authentication
+# 11. GitHub CLI authentication + Dcycle CLI
+# =============================================================================
+# The employee may not have a GitHub account yet on day 1. We prompt before
+# attempting auth so the script doesn't block or confuse a new hire.
+# If skipped, dcy (private tap) is also skipped — both go into the checklist.
 # =============================================================================
 info "Checking GitHub CLI auth..."
 
 if gh auth status &>/dev/null 2>&1; then
     success "GitHub CLI already authenticated."
+    GH_AUTHED=true
 else
-    warn "GitHub CLI not authenticated. Running interactive login..."
-    gh auth login -p ssh -w || warn "gh auth login failed — run it manually after setup."
+    echo ""
+    read -r -p "Has this employee been added to the Dcycle-by-WUM GitHub org? [y/N] " GH_READY
+    if [[ "$GH_READY" =~ ^[Yy]$ ]]; then
+        info "Running GitHub CLI login..."
+        if gh auth login -p ssh -w; then
+            GH_AUTHED=true
+        else
+            warn "gh auth login failed — add GitHub setup to the manual checklist."
+            GH_AUTHED=false
+        fi
+    else
+        info "Skipping GitHub auth — will be part of post-onboarding setup."
+        GH_AUTHED=false
+    fi
 fi
 
-# --- Dcycle CLI (private tap — requires GitHub auth above) ---
-info "Installing Dcycle CLI (dcy)..."
-if brew list dcy &>/dev/null 2>&1; then
-    success "dcy already installed."
+# --- Dcycle CLI (private tap — only if GitHub auth succeeded) ---
+if [[ "$GH_AUTHED" == true ]]; then
+    info "Installing Dcycle CLI (dcy)..."
+    if brew list dcy &>/dev/null 2>&1; then
+        success "dcy already installed."
+    else
+        brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap 2>/dev/null \
+            || warn "Failed to tap Dcycle-by-WUM/tap — is GitHub auth working?"
+        brew install dcy || warn "Failed to install dcy — check tap access."
+    fi
 else
-    brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap 2>/dev/null \
-        || warn "Failed to tap Dcycle-by-WUM/tap — is GitHub auth working?"
-    brew install dcy || warn "Failed to install dcy — check tap access."
+    warn "Skipping dcy install (needs GitHub auth). Run after onboarding:"
+    echo "  gh auth login -p ssh -w"
+    echo "  brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap && brew install dcy"
 fi
 
 # =============================================================================
@@ -974,57 +997,59 @@ echo "============================================="
 echo -e "  ${GREEN}Setup complete!${NC}"
 echo "============================================="
 echo ""
-echo -e "${YELLOW}== STILL TO DO MANUALLY ==${NC}"
+echo -e "${YELLOW}== DO NOW (no accounts needed) ==${NC}"
 echo ""
-echo "Shell & dev environment:"
 echo "  [ ] Open a new terminal for ~/.zshrc changes (nvm, pyenv, starship, direnv) to load"
-echo "  [ ] Log in to Claude Code:           claude login   (or set ANTHROPIC_API_KEY in ~/.zshrc)"
-echo "  [ ] Set GITHUB_TOKEN in ~/.zshrc     (needed by the GitHub MCP server: gh auth token | pbcopy)"
-echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y) (file)\""
-echo "  [ ] Verify GitHub SSH:               ssh -T git@github.com"
-echo "  [ ] Authenticate gcloud:             gcloud auth login"
-echo "  [ ] Authenticate AWS:                aws configure"
-echo "  [ ] Authenticate Vercel:             vercel login"
-echo "  [ ] Authenticate Supabase:           supabase login"
-echo "  [ ] Open Claude Desktop & verify it sees CLI + MCP servers"
-echo ""
-echo "Hardware-backed identity (Secretive — do this BEFORE removing the file-based key):"
-echo "  [ ] Open Secretive.app → grant Accessibility + Notifications + Login Item permissions"
-echo "  [ ] Click '+' → create a new key (Ed25519 or ECDSA-256), require auth = Touch ID always"
-echo "  [ ] Copy the public key (Secretive shows a copy button)"
-echo "  [ ] Register as auth key:    gh ssh-key add - --title \"Mac Enclave (auth)\"   (paste pubkey, ^D)"
-echo "  [ ] Register as signing key: gh ssh-key add - --type signing --title \"Mac Enclave (sign)\""
-echo "  [ ] Set git signing key:     git config --global user.signingkey 'key::<paste pubkey>'"
-echo "  [ ] Add to allowed_signers:  echo \"$EMPLOYEE_EMAIL <paste pubkey>\" >> ~/.ssh/allowed_signers"
-echo "  [ ] Point ssh at Secretive's agent — append to ~/.ssh/config:"
-echo "        Host *"
-echo "          IdentityAgent ~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
-echo "  [ ] Test: ssh -T git@github.com   (should pop a Touch ID prompt)"
-echo "  [ ] Test: git commit --allow-empty -m 'sig test' && git log --show-signature -1"
-echo "  [ ] Once verified end-to-end, delete the file-based key from GitHub + ~/.ssh/id_ed25519*"
-echo ""
-echo "Sign in / activate apps:"
-echo "  [ ] Proton (Pass, VPN)"
-echo "  [ ] Ente Auth"
-echo "  [ ] Spotify, Slack, Notion"
-echo "  [ ] Fathom — download manually from https://fathom.video/download (Homebrew cask is currently broken)"
-echo ""
-echo "App config:"
-echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
-echo "  [ ] iTerm2             → import profile, set as default terminal"
-echo "  [ ] VS Code            → sign in to sync settings & extensions"
-echo "  [ ] Obsidian           → open vault from iCloud / sync"
-echo ""
-echo "macOS settings that need the GUI:"
-echo "  [ ] Touch ID & passcode"
-echo "  [ ] iCloud sign-in & which apps sync"
-echo "  [ ] Apple ID / App Store sign-in"
-echo "  [ ] Verify FileVault is ON (should be by default on new Macs)"
+echo "  [ ] Touch ID & passcode (System Settings)"
+echo "  [ ] Verify FileVault is ON (System Settings → Privacy & Security → FileVault)"
 echo "  [ ] Verify Mosyle MDM enrolment is active"
-echo "  [ ] Login items (Rectangle, any role-specific apps)"
 echo "  [ ] Default browser:        System Settings → Desktop & Dock → Default web browser"
+echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
 echo "  [ ] Privacy: Full Disk Access (iTerm2, Claude Code)"
 echo "  [ ] Privacy: Accessibility (Rectangle)"
+echo "  [ ] Fathom             → download from https://fathom.video/download (cask is broken)"
+echo ""
+echo -e "${YELLOW}== AFTER IT PROVISIONS ACCOUNTS (GitHub, Slack, Claude, etc.) ==${NC}"
+echo ""
+echo "GitHub (once added to Dcycle-by-WUM org):"
+if [[ "$GH_AUTHED" != true ]]; then
+    echo "  [ ] gh auth login -p ssh -w"
+    echo "  [ ] brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap && brew install dcy"
+fi
+echo "  [ ] Add SSH key to GitHub:           gh ssh-key add ~/.ssh/id_ed25519.pub --title \"Mac $(date +%Y)\""
+echo "  [ ] Verify GitHub SSH:               ssh -T git@github.com"
+echo "  [ ] Set GITHUB_TOKEN in ~/.zshrc:    echo \"export GITHUB_TOKEN=\$(gh auth token)\" >> ~/.zshrc"
+echo ""
+echo "Secretive (hardware-backed identity — AFTER GitHub is set up):"
+echo "  [ ] Open Secretive.app → grant Accessibility + Notifications + Login Item"
+echo "  [ ] Create key (Ed25519 or ECDSA-256), require auth = Touch ID always"
+echo "  [ ] Register as auth key:    gh ssh-key add - --title \"Mac Enclave (auth)\""
+echo "  [ ] Register as signing key: gh ssh-key add - --type signing --title \"Mac Enclave (sign)\""
+echo "  [ ] git config --global user.signingkey 'key::<paste pubkey>'"
+echo "  [ ] echo \"$EMPLOYEE_EMAIL <paste pubkey>\" >> ~/.ssh/allowed_signers"
+echo "  [ ] Add to ~/.ssh/config:"
+echo "        Host *"
+echo "          IdentityAgent ~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+echo "  [ ] Test: ssh -T git@github.com (Touch ID prompt)"
+echo "  [ ] Once working, delete file-based key: rm ~/.ssh/id_ed25519*"
+echo ""
+echo "Cloud CLIs (once IT gives credentials):"
+echo "  [ ] claude login                     (or set ANTHROPIC_API_KEY in ~/.zshrc)"
+echo "  [ ] gcloud auth login"
+echo "  [ ] aws configure"
+echo "  [ ] vercel login"
+echo "  [ ] supabase login"
+echo "  [ ] Open Claude Desktop & verify it sees CLI + MCP servers"
+echo ""
+echo "App sign-ins (once employee has their accounts):"
+echo "  [ ] Proton (Pass, VPN)"
+echo "  [ ] Ente Auth"
+echo "  [ ] Slack, Notion"
+echo "  [ ] Spotify"
+echo "  [ ] Fathom (sign in, grant mic + screen recording)"
+echo "  [ ] VS Code → sign in to sync settings & extensions"
+echo "  [ ] Obsidian → open vault"
+echo "  [ ] iCloud sign-in (if applicable)"
 echo ""
 
 # =============================================================================
