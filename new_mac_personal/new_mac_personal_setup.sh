@@ -232,7 +232,7 @@ BREW_CASKS=(
     claude
 
     # LLM tooling (menu bar)
-    codex-bar     # LLM usage tracker in the menu bar (verify cask name on first run)
+    codexbar      # menu bar usage monitor for Codex and Claude
 
     # Productivity
     raycast
@@ -241,7 +241,7 @@ BREW_CASKS=(
     the-unarchiver
 
     # Menu bar
-    thaw          # menu bar manager (verify cask name on first run)
+    thaw          # menu bar manager
 
     # Utilities
     transmission
@@ -288,6 +288,7 @@ MAS_APPS=(
     "937984704:Amphetamine"      # keep-awake utility
     "1191449274:ToothFairy"      # one-click Bluetooth audio switcher
     "1510445899:Meeter"          # meeting links in menu bar
+    "409183694:Keynote"          # Apple presentation app
 )
 
 if command -v mas &>/dev/null; then

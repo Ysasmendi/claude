@@ -54,14 +54,13 @@ Google Cloud SDK installed separately as a cask.
 
 Plus the VS Code Claude Code extension (`anthropic.claude-code`) via `code --install-extension`, if the `code` CLI is on PATH.
 
-> Note: `codex-bar` and `thaw` cask names are best guesses — verify on first run. The script logs failed casks to the end-of-run summary and continues.
-
 ### 6. Mac App Store Apps (via `mas`)
 | ID | App |
 |---|---|
 | 937984704 | Amphetamine (keep-awake) |
 | 1191449274 | ToothFairy (Bluetooth audio switcher) |
 | 1510445899 | Meeter (meeting links in menu bar) |
+| 409183694 | Keynote (Apple presentation app) |
 
 ### 7. Oh My Zsh
 Installs Oh My Zsh unattended if not present.
