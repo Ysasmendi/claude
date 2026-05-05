@@ -25,6 +25,7 @@
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
 #   - Insta360 Wave Controller (download from insta360.com)
 #   - Fathom (cask currently broken — download from fathom.video/download)
+#   - Microsoft Word / Excel / OneDrive (install manually from Microsoft 365)
 #
 # What this NO LONGER does (removed; handle manually):
 #   - Git identity (user.name / user.email / signing config)
@@ -252,11 +253,6 @@ BREW_CASKS=(
 
     # Music Production
     native-access
-
-    # Microsoft Office
-    microsoft-word
-    microsoft-excel
-    onedrive       # Microsoft OneDrive (cask was renamed from microsoft-onedrive)
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -557,12 +553,13 @@ echo "  [ ] Nuo-Stems 4               → vendor website"
 echo "  [ ] iStat Menus 6             → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
 echo "  [ ] Insta360 Wave Controller  → https://www.insta360.com/download"
 echo "  [ ] Fathom                    → https://fathom.video/download  (Homebrew cask currently broken)"
+echo "  [ ] Microsoft Word / Excel / OneDrive → https://www.microsoft.com/microsoft-365"
 echo ""
 echo "Sign in / activate apps:"
 echo "  [ ] Proton (Mail, Pass, VPN)"
 echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion, Discord"
-echo "  [ ] OneDrive / Microsoft 365"
+echo "  [ ] Microsoft 365 (Word, Excel, OneDrive)"
 echo "  [ ] Maestral (Dropbox)"
 echo "  [ ] Native Access (Native Instruments account)"
 echo "  [ ] Thaw (configure menu bar layout)"
