@@ -190,12 +190,12 @@ for formula in "${BREW_FORMULAE[@]}"; do
     fi
 done
 
-# Google Cloud SDK (separate tap)
+# Google Cloud SDK (cask renamed from google-cloud-sdk)
 info "Installing Google Cloud SDK..."
-if brew list --cask google-cloud-sdk &>/dev/null 2>&1; then
-    success "google-cloud-sdk already installed."
+if brew list --cask gcloud-cli &>/dev/null 2>&1; then
+    success "gcloud-cli already installed."
 else
-    brew install --cask google-cloud-sdk || warn "Failed to install google-cloud-sdk."
+    brew install --cask gcloud-cli || warn "Failed to install gcloud-cli."
 fi
 
 # =============================================================================
@@ -231,8 +231,8 @@ BREW_CASKS=(
     sublime-text
     claude
 
-    # LLM tooling (menu bar)
-    codexbar      # menu bar usage monitor for Codex and Claude
+    # LLM tooling (menu bar) — third-party tap, fully qualified
+    steipete/tap/codexbar    # menu bar usage monitor for Codex and Claude
 
     # Productivity
     raycast
@@ -246,7 +246,6 @@ BREW_CASKS=(
     # Utilities
     transmission
     balenaetcher
-    syncthing
     maestral
     daisydisk
     blip
@@ -565,7 +564,6 @@ echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion, Discord"
 echo "  [ ] OneDrive / Microsoft 365"
 echo "  [ ] Maestral (Dropbox)"
-echo "  [ ] Syncthing (configure devices)"
 echo "  [ ] Native Access (Native Instruments account)"
 echo "  [ ] Thaw (configure menu bar layout)"
 echo "  [ ] Codex Bar (sign in / configure)"
@@ -587,7 +585,7 @@ echo "  [ ] Touch ID & passcode (incl. Touch ID for sudo via /etc/pam.d/sudo_loc
 echo "  [ ] iCloud sign-in & which apps sync"
 echo "  [ ] Apple ID / App Store sign-in (needed before mas can install)"
 echo "  [ ] Time Machine / backup destination"
-echo "  [ ] Login items (iStat Menus, Rectangle, Maestral, Syncthing, Amphetamine, Thaw, Codex Bar)"
+echo "  [ ] Login items (iStat Menus, Rectangle, Maestral, Amphetamine, Thaw, Codex Bar)"
 echo "  [ ] Default browser:        System Settings → Desktop & Dock → Default web browser"
 echo "  [ ] Privacy: Camera / Microphone / Screen Recording for Chrome, Firefox, Slack"
 echo "  [ ] Privacy: Full Disk Access (Claude Code, backup tools)"

@@ -48,7 +48,7 @@ Google Cloud SDK installed separately as a cask.
 | LLM tooling (menu bar) | Codex Bar |
 | Productivity | Raycast, Obsidian, Rectangle, The Unarchiver |
 | Menu bar | Thaw |
-| Utilities | Transmission, balenaEtcher, Syncthing, Maestral, DaisyDisk, Blip |
+| Utilities | Transmission, balenaEtcher, Maestral, DaisyDisk, Blip |
 | Music Production | Native Access |
 | Microsoft Office | Word, Excel, OneDrive |
 
@@ -134,7 +134,7 @@ The following were previously automated and have been removed. They now belong t
 5. `claude login` (or set `ANTHROPIC_API_KEY` in `~/.zshrc`).
 6. Authenticate cloud CLIs: `gcloud auth login`, `aws configure`, `vercel login`, `supabase login`.
 7. Install the manual apps listed above.
-8. Sign in to apps (Proton, Spotify, Slack, Notion, OneDrive, Maestral, Syncthing, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
+8. Sign in to apps (Proton, Spotify, Slack, Notion, OneDrive, Maestral, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
 9. Configure Raycast (⌘Space), Rectangle (Accessibility), VS Code / Cursor sync, Obsidian vault.
 10. Create `~/.claude/settings.json` (permissions allowlist + MCP servers); set `GITHUB_TOKEN` in `~/.zshrc`.
 11. Set every macOS preference manually: Appearance, Dock, Trackpad, Keyboard, Lock Screen, Sound, Mission Control, DNS, Firewall, AirDrop, Siri / Apple Intelligence, Software Update, Language & Region, Sharing, Notifications, Touch ID (incl. for sudo via `/etc/pam.d/sudo_local`), iCloud, Time Machine, Login items, default browser, Privacy panes (Camera, Mic, Screen Recording, Full Disk Access, Accessibility).
