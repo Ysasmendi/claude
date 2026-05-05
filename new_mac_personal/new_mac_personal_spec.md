@@ -50,7 +50,6 @@ Google Cloud SDK installed separately as a cask.
 | Menu bar | Thaw |
 | Utilities | Transmission, balenaEtcher, Maestral, DaisyDisk, Blip |
 | Music Production | Native Access |
-| Microsoft Office | Word, Excel, OneDrive |
 
 Plus the VS Code Claude Code extension (`anthropic.claude-code`) via `code --install-extension`, if the `code` CLI is on PATH.
 
@@ -116,6 +115,7 @@ Installs fzf shell key bindings and completion for zsh.
 - **iStat Menus 6** — cask installs latest; get v6 from vendor if needed.
 - **Insta360 Wave Controller** — download from insta360.com.
 - **Fathom** — Homebrew cask currently broken; download from fathom.video/download.
+- **Microsoft Word / Excel / OneDrive** — install manually from Microsoft 365.
 
 ## Removed From This Script (Handle Manually)
 The following were previously automated and have been removed. They now belong to the post-run manual checklist.
@@ -134,7 +134,7 @@ The following were previously automated and have been removed. They now belong t
 5. `claude login` (or set `ANTHROPIC_API_KEY` in `~/.zshrc`).
 6. Authenticate cloud CLIs: `gcloud auth login`, `aws configure`, `vercel login`, `supabase login`.
 7. Install the manual apps listed above.
-8. Sign in to apps (Proton, Spotify, Slack, Notion, OneDrive, Maestral, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
+8. Sign in to apps (Proton, Spotify, Slack, Notion, Microsoft 365, Maestral, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
 9. Configure Raycast (⌘Space), Rectangle (Accessibility), VS Code / Cursor sync, Obsidian vault.
 10. Create `~/.claude/settings.json` (permissions allowlist + MCP servers); set `GITHUB_TOKEN` in `~/.zshrc`.
 11. Set every macOS preference manually: Appearance, Dock, Trackpad, Keyboard, Lock Screen, Sound, Mission Control, DNS, Firewall, AirDrop, Siri / Apple Intelligence, Software Update, Language & Region, Sharing, Notifications, Touch ID (incl. for sudo via `/etc/pam.d/sudo_local`), iCloud, Time Machine, Login items, default browser, Privacy panes (Camera, Mic, Screen Recording, Full Disk Access, Accessibility).
