@@ -6,7 +6,9 @@
 
 ## Overview
 
-Single idempotent bash script that takes a clean Mac from zero to fully configured dev machine. Safe to re-run — Homebrew skips already-installed packages, config writes are upserted.
+Single idempotent bash script that takes a clean Mac from zero to a configured dev machine — packages, languages, runtimes, and a couple of shell hooks. Identity, auth, and macOS preferences are NOT handled here; do them manually after the run.
+
+Safe to re-run — Homebrew skips already-installed packages.
 
 Requires admin privileges (sudo acquired upfront and kept alive).
 
@@ -15,117 +17,124 @@ Requires admin privileges (sudo acquired upfront and kept alive).
 ### 1. Xcode Command Line Tools
 Installs Apple's CLI developer tools (`xcode-select --install`). If not yet installed, prompts the user and exits — re-run after installation.
 
-### 1b. Rosetta 2
+### 2. Rosetta 2
 Installs Rosetta 2 on Apple Silicon Macs (`softwareupdate --install-rosetta --agree-to-license`). Required for Intel-only binaries. Skips on Intel Macs. Detects existing install by checking for the `oahd` daemon.
 
-### 2. Homebrew
+### 3. Homebrew
 Installs Homebrew if missing. Adds `/opt/homebrew/bin/brew` to PATH for Apple Silicon. Updates if already installed.
 
-### 3. CLI Tools (via `brew install`)
+### 4. CLI Tools (via `brew install`)
 | Category | Packages |
 |---|---|
-| Core | git, gh, jq, curl, wget, ripgrep, fzf, tree, htop |
+| Core | git, gh, jq, curl, wget, ripgrep, fzf, tree, htop, btop |
+| Shell QoL | starship, direnv, glow, git-delta |
+| GNU coreutils | coreutils, gnu-sed |
 | Languages & version managers | nvm, pyenv, go |
 | Python tooling | uv |
-| Cloud CLIs | supabase, awscli |
+| Cloud CLIs | supabase (via supabase/tap/supabase), awscli |
 | Mac App Store CLI | mas |
-| Media | yt-dlp, ffmpeg, atomicparsley, aria2 |
+| Media | yt-dlp, ffmpeg, atomicparsley, aria2, deno, streamlink, mkvtoolnix |
 
 Google Cloud SDK installed separately as a cask.
 
-### 4. GUI Apps (via `brew install --cask`)
+### 5. GUI Apps (via `brew install --cask`)
 | Category | Apps |
 |---|---|
 | Browsers | Firefox, Google Chrome |
 | Privacy & Security | Proton Mail, Proton Pass, ProtonVPN, Ente Auth |
 | Media | VLC, Spotify, Stremio, Calibre, Audacity |
 | Communication | Discord, Slack, Notion |
-| Dev Tools | iTerm2, VS Code, Sublime Text, Claude |
+| Dev Tools | VS Code, Sublime Text, Claude |
+| LLM tooling (menu bar) | Codex Bar |
 | Productivity | Raycast, Obsidian, Rectangle, The Unarchiver |
-| Utilities | Transmission, balenaEtcher, Syncthing, Maestral, DaisyDisk, Blip |
+| Menu bar | Thaw |
+| Utilities | Transmission, balenaEtcher, Maestral, DaisyDisk, Blip |
 | Music Production | Native Access |
 | Microsoft Office | Word, Excel, OneDrive |
 
-### 5. Mac App Store Apps (via `mas`)
-- **Amphetamine** (ID: 937984704) — keep-awake utility.
+Plus the VS Code Claude Code extension (`anthropic.claude-code`) via `code --install-extension`, if the `code` CLI is on PATH.
 
-### 6. Shell: Oh My Zsh
+### 6. Mac App Store Apps (via `mas`)
+| ID | App |
+|---|---|
+| 937984704 | Amphetamine (keep-awake) |
+| 1191449274 | ToothFairy (Bluetooth audio switcher) |
+| 1510445899 | Meeter (meeting links in menu bar) |
+| 409183694 | Keynote (Apple presentation app) |
+
+### 7. Oh My Zsh
 Installs Oh My Zsh unattended if not present.
 
-### 7. Node.js via nvm
+### 8. Node.js via nvm
 - Sources nvm from Homebrew path.
 - Adds nvm init snippet to `~/.zshrc`.
 - Installs latest LTS and sets it as default.
 - `npx` is included with npm — no separate install.
 
-### 8. Python via pyenv
+### 9. Python via pyenv
 - Adds pyenv init snippet to `~/.zshrc`.
 - Installs latest stable Python 3.x and sets it as global default.
 
-### 9. Global npm Packages
+### 10. Global npm Packages
 | Package | Purpose |
 |---|---|
 | `@anthropic-ai/claude-code` | Claude Code CLI |
 | `vercel` | Vercel deployment CLI |
+| `pyright` | Python language server |
+| `typescript` | TypeScript compiler |
+| `ts-node` | TS execution / REPL |
+| `@modelcontextprotocol/server-github` | GitHub MCP server |
+| `@modelcontextprotocol/server-filesystem` | Filesystem MCP server |
 
-### 10. Git Identity
-- Sets `user.name` and `user.email` (Jaime de la Torre / jaime@dcycle.io).
-- Defaults: `init.defaultBranch main`, `pull.rebase true`, `push.autoSetupRemote true`.
+### 11. Shell hooks
+Appends to `~/.zshrc` if not already present:
+- `eval "$(starship init zsh)"`
+- `eval "$(direnv hook zsh)"`
 
-### 11. SSH Key
-- Generates Ed25519 key at `~/.ssh/id_ed25519` if missing.
-- Adds to ssh-agent with Apple Keychain integration.
-- Prints public key and instructions to add to GitHub.
-
-### 12. GitHub CLI Auth
-Runs `gh auth login` interactively if not already authenticated.
-
-### 13. Clone Knowledge Base
-Clones `git@github.com:Ysasmendi/claude.git` to `~/claude` if not present.
-
-### 14. yt-dlp Config
+### 12. yt-dlp config
 Creates `~/.config/yt-dlp/config` with:
-- aria2c downloader (16 connections).
-- Embedded metadata and thumbnails.
-- Clean output template (`%(title)s.%(ext)s`).
+- aria2c downloader (16 parallel connections, 1M segments)
+- **Output: mp4** (`--merge-output-format mp4`, `--remux-video mp4`, format selector prefers mp4-native streams and falls back to best+best with remux)
+- Embeds: metadata, thumbnail, subs (en+es, auto + uploaded), chapters
+- SponsorBlock: mark all categories, auto-remove `sponsor`
+- Archival: writes `.info.json` and `.description`
+- Output template: `%(title)s [%(id)s].%(ext)s`
+- Resilience: 10 retries, 5s sleep, no-overwrite, continue, ignore-errors, no-playlist
+- Throttle dodge (`--throttled-rate 100K`) + `--geo-bypass`
+- Browser cookies lines commented (firefox / chrome)
 
-### 15. fzf Key Bindings
+Plugins installed into yt-dlp's bundled Homebrew venv:
+- `bgutil-ytdlp-pot-provider`
+- `curl-cffi`
+
+### 13. fzf Key Bindings
 Installs fzf shell key bindings and completion for zsh.
-
-### 16. macOS System Preferences (`defaults write`)
-
-| Area | Key settings |
-|---|---|
-| Appearance | Dark mode, Graphite accent, large sidebar icons, always show scroll bars |
-| Dock | 48px icons, auto-hide, minimize to app icon, bottom position, show recents |
-| Mission Control | Don't rearrange Spaces, group windows by app |
-| Desktop | Click wallpaper reveals desktop only in Stage Manager, monochrome widgets |
-| Trackpad | Tap to click, light click, natural scroll OFF, tracking speed 1.5, three-finger Mission Control/App Exposé |
-| Keyboard | Fast repeat (KeyRepeat 2, InitialKeyRepeat 15), Globe key does nothing |
-| Lock Screen | 5 min screen saver, password after 5 sec, 10 min display sleep (battery & power), contact info on lock screen |
-| Sound | Bubble alert, startup mute, UI sounds on, volume feedback on |
-| Network | DNS → Cloudflare (1.1.1.1, 1.0.0.1), firewall enabled |
-| Battery | Low Power Mode off |
-| Software Update | Auto-download off, auto-macOS-update off, App Store auto-update on, security responses on |
-| AirDrop | Discoverable by everyone |
-| Siri | Disabled, removed from menu bar |
-| Apple Intelligence | Disabled |
-| Control Center | Wi-Fi in menu bar, Spotlight hidden from menu bar |
-| Spotlight | Siri Suggestions disabled |
-| Language & Region | English (US) + Spanish, region Spain, Celsius, metric, Monday first day |
-| Sharing | Screen sharing and SMB disabled |
-| Privacy | Opens Camera, Microphone, and Screen Recording panes — user grants access to Chrome, Firefox, and Slack |
-
-Restarts Dock, Finder, and SystemUIServer to apply.
 
 ## Not Automated (Manual Install Required)
 - **Affinity 3** — download from serif.com.
 - **Nuo-Stems 4** — download from vendor.
 - **iStat Menus 6** — cask installs latest; get v6 from vendor if needed.
+- **Insta360 Wave Controller** — download from insta360.com.
+- **Fathom** — Homebrew cask currently broken; download from fathom.video/download.
+
+## Removed From This Script (Handle Manually)
+The following were previously automated and have been removed. They now belong to the post-run manual checklist.
+- **Git identity** — `user.name`, `user.email`, `init.defaultBranch`, `pull.rebase`, `push.autoSetupRemote`, delta as pager.
+- **SSH key** — Ed25519 generation, ssh-agent + Apple Keychain, GitHub registration.
+- **Hardware-backed identity** — Secretive cask, Touch ID for sudo, SSH commit signing config, `allowed_signers`.
+- **GitHub CLI auth** — `gh auth login`.
+- **Claude Code config** — `~/.claude/settings.json` (permissions allowlist + GitHub & filesystem MCP servers), `ANTHROPIC_API_KEY` / `GITHUB_TOKEN` placeholders in `~/.zshrc`.
+- **macOS system preferences** — every `defaults write`, `pmset`, `nvram`, `networksetup`, `socketfilterfw`, `launchctl disable`, the interactive privacy panes, and the dockutil-driven Dock layout.
 
 ## Post-Run Manual Steps
-1. Open new terminal for shell changes.
-2. `claude login` to authenticate Claude Code.
-3. Install manual apps listed above.
-4. Sign in to apps (Proton, Spotify, Slack, Notion, etc.).
-5. Configure Raycast to replace Spotlight (⌘Space).
+1. Open a new terminal so `~/.zshrc` changes (nvm, pyenv, starship, direnv) load.
+2. Configure git: `git config --global user.name '...'`, `user.email`, defaults, signing.
+3. Generate / register an SSH key with GitHub (file-based or Secure Enclave via Secretive — install Secretive separately if going that route).
+4. `gh auth login -p ssh -w`.
+5. `claude login` (or set `ANTHROPIC_API_KEY` in `~/.zshrc`).
+6. Authenticate cloud CLIs: `gcloud auth login`, `aws configure`, `vercel login`, `supabase login`.
+7. Install the manual apps listed above.
+8. Sign in to apps (Proton, Spotify, Slack, Notion, OneDrive, Maestral, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
+9. Configure Raycast (⌘Space), Rectangle (Accessibility), VS Code / Cursor sync, Obsidian vault.
+10. Create `~/.claude/settings.json` (permissions allowlist + MCP servers); set `GITHUB_TOKEN` in `~/.zshrc`.
+11. Set every macOS preference manually: Appearance, Dock, Trackpad, Keyboard, Lock Screen, Sound, Mission Control, DNS, Firewall, AirDrop, Siri / Apple Intelligence, Software Update, Language & Region, Sharing, Notifications, Touch ID (incl. for sudo via `/etc/pam.d/sudo_local`), iCloud, Time Machine, Login items, default browser, Privacy panes (Camera, Mic, Screen Recording, Full Disk Access, Accessibility).
