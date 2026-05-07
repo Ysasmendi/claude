@@ -13,18 +13,20 @@
 #   3.  Installs Homebrew
 #   4.  Installs CLI tools (formulae) + the gcloud-cli cask (CLI-only payload)
 #   5.  Installs Oh My Zsh
-#   6.  Configures Node.js via nvm (LTS)
+#   6.  Configures Node.js via nvm — pinned to Node 24 (OpenClaw recommendation)
 #   7.  Configures Python via pyenv (latest 3.x)
-#   8.  Installs global npm packages (Claude Code CLI, Vercel, language servers, MCP servers)
+#   8.  Installs global npm packages (Claude Code CLI, Vercel, pm2, language servers, MCP servers)
 #   9.  Adds starship + direnv shell hooks to ~/.zshrc
 #   10. Configures yt-dlp (mp4 output, + plugins for PO token / TLS impersonation)
 #   11. Installs fzf key bindings
+#   12. Enables Remote Login (sshd) — for headless Mac Mini access
+#   13. Configures sleep / wake (no sleep, Wake-on-LAN, auto-restart on power loss)
 #
 # What this does NOT do:
 #   - No GUI casks (Firefox, Slack, VS Code, etc.) — see new_mac_personal_setup.sh
 #   - No Mac App Store apps (Amphetamine, Keynote, etc.) — same script handles those
 #   - No git identity, SSH keys, GitHub auth, Claude Code settings.json,
-#     macOS system preferences (handle manually post-run)
+#     other macOS system preferences (handle manually post-run)
 #
 # Safe to re-run — Homebrew skips already-installed packages.
 # =============================================================================
@@ -132,6 +134,12 @@ BREW_FORMULAE=(
     tree
     htop
     btop
+    ncdu          # disk usage analyzer
+
+    # Headless / remote work
+    tmux          # persistent terminal sessions
+    mosh          # SSH that survives flaky / sleeping connections
+    tailscale     # CLI-only mesh networking (no GUI cask)
 
     # Shell quality-of-life
     starship      # cross-shell prompt
@@ -145,6 +153,7 @@ BREW_FORMULAE=(
 
     # Languages & version managers
     nvm
+    pnpm          # OpenClaw recommends pnpm alongside npm
     pyenv
     go
 
@@ -216,13 +225,15 @@ if ! grep -q 'NVM_DIR' ~/.zshrc 2>/dev/null; then
 fi
 
 if command -v nvm &>/dev/null; then
-    info "Installing Node.js LTS..."
-    nvm install --lts
-    nvm use --lts
-    nvm alias default node
+    # Pin Node 24 — OpenClaw recommends Node 24 (or Node 22.16+).
+    # Latest LTS may still be 22.x at install time, so pin explicitly.
+    info "Installing Node.js 24 (OpenClaw recommendation)..."
+    nvm install 24
+    nvm use 24
+    nvm alias default 24
     success "Node.js $(node --version) installed."
 else
-    warn "nvm not available in this shell. Open a new terminal and run: nvm install --lts"
+    warn "nvm not available in this shell. Open a new terminal and run: nvm install 24 && nvm alias default 24"
 fi
 
 # =============================================================================
@@ -261,6 +272,9 @@ info "Installing global npm packages..."
 NPM_GLOBALS=(
     "@anthropic-ai/claude-code"
     "vercel"
+
+    # Process manager — keep OpenClaw / other Node services alive across reboots
+    "pm2"
 
     # Language servers
     "pyright"
@@ -397,6 +411,42 @@ if [[ -f "$(brew --prefix fzf)/install" ]]; then
 fi
 
 # =============================================================================
+# 12. Remote Login (SSH server) — required for headless Mac Mini
+# =============================================================================
+# Enables the macOS SSH server so you can `ssh user@mac-mini.local` from another
+# machine. Idempotent: systemsetup tells us if it's already on.
+info "Configuring Remote Login (SSH)..."
+REMOTE_LOGIN_STATUS=$(sudo systemsetup -getremotelogin 2>/dev/null | awk -F': ' '{print $2}' | tr -d ' ')
+if [[ "$REMOTE_LOGIN_STATUS" == "On" ]]; then
+    success "Remote Login already enabled."
+else
+    sudo systemsetup -setremotelogin on 2>/dev/null \
+        && success "Remote Login enabled (sshd is now listening on port 22)." \
+        || warn "Could not enable Remote Login automatically. Run manually: sudo systemsetup -setremotelogin on"
+fi
+# Print the connection details so you can SSH in right after the run.
+HOSTNAME_LOCAL="$(scutil --get LocalHostName 2>/dev/null || hostname -s)"
+PRIMARY_IP="$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || echo 'unknown')"
+info "  → SSH target: ${USER}@${HOSTNAME_LOCAL}.local   (IP: ${PRIMARY_IP})"
+
+# =============================================================================
+# 13. Sleep / Wake — keep the Mac Mini awake and reachable
+# =============================================================================
+# Headless server settings:
+#   - sleep 0          → never sleep the system
+#   - displaysleep 0   → never sleep the display (irrelevant headless, harmless)
+#   - womp 1           → Wake-on-Network-Access (Wake-on-LAN equivalent)
+#   - powernap 1       → allow background tasks while idle (DNS, Time Machine)
+#   - autorestart 1    → reboot automatically after a power failure
+info "Configuring sleep / wake for headless operation..."
+sudo pmset -a sleep 0          2>/dev/null || warn "Could not set sleep=0 (needs sudo)."
+sudo pmset -a displaysleep 0   2>/dev/null || warn "Could not set displaysleep=0 (needs sudo)."
+sudo pmset -a womp 1           2>/dev/null || warn "Could not enable Wake-on-LAN (needs sudo)."
+sudo pmset -a powernap 1       2>/dev/null || warn "Could not enable Power Nap (needs sudo)."
+sudo pmset -a autorestart 1    2>/dev/null || warn "Could not enable auto-restart after power failure (needs sudo)."
+success "Sleep / wake configured for always-on operation."
+
+# =============================================================================
 # Done
 # =============================================================================
 echo ""
@@ -416,6 +466,17 @@ echo "  [ ] Authenticate gcloud:       gcloud auth login"
 echo "  [ ] Authenticate AWS:          aws configure"
 echo "  [ ] Authenticate Vercel:       vercel login"
 echo "  [ ] Authenticate Supabase:     supabase login"
+echo ""
+echo "Headless Mac Mini follow-ups:"
+echo "  [ ] tailscale up                          # log in & join your tailnet"
+echo "  [ ] Allow Full Disk Access for sshd       # System Settings → Privacy & Security → Full Disk Access"
+echo "  [ ] Test Remote Login from another box:   ssh ${USER}@$(scutil --get LocalHostName 2>/dev/null || hostname -s).local"
+echo ""
+echo "OpenClaw (https://openclaw.ai/):"
+echo "  [ ] Verify Node version:                  node --version   (should be v24.x)"
+echo "  [ ] Install OpenClaw:                     npm install -g @openclaw/openclaw   (check current docs)"
+echo "  [ ] Boot under pm2:                       pm2 start openclaw --name openclaw"
+echo "  [ ] Persist across reboots:               pm2 startup && pm2 save"
 echo ""
 
 # =============================================================================
