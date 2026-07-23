@@ -391,7 +391,10 @@ info "Installing global npm packages..."
 
 NPM_GLOBALS=(
     "@anthropic-ai/claude-code"
+
+    # Deploy CLIs
     "vercel"
+    "netlify-cli"
 
     # Language servers (Claude Code shells out to these)
     "pyright"

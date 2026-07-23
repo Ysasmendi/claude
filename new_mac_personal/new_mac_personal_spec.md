@@ -81,6 +81,7 @@ Installs Oh My Zsh unattended if not present.
 |---|---|
 | `@anthropic-ai/claude-code` | Claude Code CLI |
 | `vercel` | Vercel deployment CLI |
+| `netlify-cli` | Netlify deployment CLI |
 | `pyright` | Python language server |
 | `typescript` | TypeScript compiler |
 | `ts-node` | TS execution / REPL |
