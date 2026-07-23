@@ -26,14 +26,16 @@ Installs Homebrew if missing. Adds `/opt/homebrew/bin/brew` to PATH for Apple Si
 ### 4. CLI Tools (via `brew install`)
 | Category | Packages |
 |---|---|
-| Core | git, gh, jq, curl, wget, ripgrep, fzf, tree, htop, btop |
-| Shell QoL | starship, direnv, glow, git-delta |
+| Core | git, git-crypt, gh, jq, curl, wget, ripgrep, fzf, tree, htop, btop |
+| Shell QoL | starship, direnv, glow, git-delta, shellcheck |
 | GNU coreutils | coreutils, gnu-sed |
 | Languages & version managers | nvm, pyenv, go |
 | Python tooling | uv |
 | Cloud CLIs | supabase (via supabase/tap/supabase), awscli |
 | Mac App Store CLI | mas |
 | Media | yt-dlp, ffmpeg, atomicparsley, aria2, deno, streamlink, mkvtoolnix |
+| Document toolchain | pandoc, tectonic, poppler |
+| Graphics libs | gdk-pixbuf, pango (orphaned leaves mirrored from the current Mac — likely deps) |
 
 Google Cloud SDK installed separately as a cask.
 
@@ -41,25 +43,25 @@ Google Cloud SDK installed separately as a cask.
 | Category | Apps |
 |---|---|
 | Browsers | Firefox, Google Chrome |
-| Privacy & Security | Proton Mail, Proton Pass, ProtonVPN, Ente Auth |
+| Privacy & Security | Proton Mail, Proton Pass, ProtonVPN, Tailscale, Ente Auth |
 | Media | VLC, Spotify, Stremio, Calibre, Audacity |
 | Communication | Discord, Slack, Notion |
-| Dev Tools | VS Code, Sublime Text, Claude |
+| Meetings | Granola (AI meeting recorder) |
+| Dev Tools | Zed, Claude, Slack CLI |
 | LLM tooling (menu bar) | Codex Bar |
 | Productivity | Raycast, Obsidian, Rectangle, The Unarchiver |
 | Menu bar | Thaw |
-| Utilities | Transmission, balenaEtcher, Maestral, DaisyDisk, Blip |
+| Utilities | Transmission, balenaEtcher, LocalSend, DaisyDisk, Blip, Soulseek, Android Platform Tools |
 | Music Production | Native Access |
+| Fonts | Hack Nerd Font, Inter |
 
-Plus the VS Code Claude Code extension (`anthropic.claude-code`) via `code --install-extension`, if the `code` CLI is on PATH.
+No editor extension is scripted — Zed runs Claude Code natively (built-in terminal / agent support), so no `--install-extension` step is needed.
 
 ### 6. Mac App Store Apps (via `mas`)
 | ID | App |
 |---|---|
 | 937984704 | Amphetamine (keep-awake) |
-| 1191449274 | ToothFairy (Bluetooth audio switcher) |
-| 1510445899 | Meeter (meeting links in menu bar) |
-| 409183694 | Keynote (Apple presentation app) |
+| 361285480 | Keynote (Apple presentation app) |
 
 ### 7. Oh My Zsh
 Installs Oh My Zsh unattended if not present.
@@ -79,6 +81,7 @@ Installs Oh My Zsh unattended if not present.
 |---|---|
 | `@anthropic-ai/claude-code` | Claude Code CLI |
 | `vercel` | Vercel deployment CLI |
+| `netlify-cli` | Netlify deployment CLI |
 | `pyright` | Python language server |
 | `typescript` | TypeScript compiler |
 | `ts-node` | TS execution / REPL |
@@ -113,8 +116,6 @@ Installs fzf shell key bindings and completion for zsh.
 - **Affinity 3** — download from serif.com.
 - **Nuo-Stems 4** — download from vendor.
 - **iStat Menus 6** — cask installs latest; get v6 from vendor if needed.
-- **Insta360 Wave Controller** — download from insta360.com.
-- **Fathom** — Homebrew cask currently broken; download from fathom.video/download.
 - **Microsoft Word / Excel / OneDrive** — install manually from Microsoft 365.
 
 ## Removed From This Script (Handle Manually)
@@ -134,7 +135,7 @@ The following were previously automated and have been removed. They now belong t
 5. `claude login` (or set `ANTHROPIC_API_KEY` in `~/.zshrc`).
 6. Authenticate cloud CLIs: `gcloud auth login`, `aws configure`, `vercel login`, `supabase login`.
 7. Install the manual apps listed above.
-8. Sign in to apps (Proton, Spotify, Slack, Notion, Microsoft 365, Maestral, Native Access, Thaw, Codex Bar, ToothFairy, Meeter, Fathom).
-9. Configure Raycast (⌘Space), Rectangle (Accessibility), VS Code / Cursor sync, Obsidian vault.
+8. Sign in to apps (Proton, Spotify, Slack, Notion, Microsoft 365, Granola, Native Access, Soulseek, Thaw, Codex Bar). Granola needs mic + screen / system-audio recording permission.
+9. Configure Raycast (⌘Space), Rectangle (Accessibility), Zed (sign-in / sync), Obsidian vault.
 10. Create `~/.claude/settings.json` (permissions allowlist + MCP servers); set `GITHUB_TOKEN` in `~/.zshrc`.
 11. Set every macOS preference manually: Appearance, Dock, Trackpad, Keyboard, Lock Screen, Sound, Mission Control, DNS, Firewall, AirDrop, Siri / Apple Intelligence, Software Update, Language & Region, Sharing, Notifications, Touch ID (incl. for sudo via `/etc/pam.d/sudo_local`), iCloud, Time Machine, Login items, default browser, Privacy panes (Camera, Mic, Screen Recording, Full Disk Access, Accessibility).
