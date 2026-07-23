@@ -43,7 +43,7 @@ Google Cloud SDK installed separately as a cask.
 | Category | Apps |
 |---|---|
 | Browsers | Firefox, Google Chrome |
-| Privacy & Security | Proton Mail, Proton Pass, ProtonVPN, Ente Auth |
+| Privacy & Security | Proton Mail, Proton Pass, ProtonVPN, Tailscale, Ente Auth |
 | Media | VLC, Spotify, Stremio, Calibre, Audacity |
 | Communication | Discord, Slack, Notion |
 | Meetings | Granola (AI meeting recorder) |

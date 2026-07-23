@@ -223,6 +223,7 @@ BREW_CASKS=(
     proton-mail
     proton-pass
     protonvpn
+    tailscale-app   # Tailscale — mesh VPN (WireGuard); menu-bar GUI app (bundles the CLI)
     ente-auth
 
     # Media
