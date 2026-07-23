@@ -58,7 +58,7 @@ No editor extension is scripted — Zed runs Claude Code natively (built-in term
 | ID | App |
 |---|---|
 | 937984704 | Amphetamine (keep-awake) |
-| 409183694 | Keynote (Apple presentation app) |
+| 361285480 | Keynote (Apple presentation app) |
 
 ### 7. Oh My Zsh
 Installs Oh My Zsh unattended if not present.

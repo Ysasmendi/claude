@@ -272,7 +272,7 @@ info "Installing Mac App Store apps..."
 
 MAS_APPS=(
     "937984704:Amphetamine"      # keep-awake utility
-    "409183694:Keynote"          # Apple presentation app
+    "361285480:Keynote"          # Apple presentation app
 )
 
 if command -v mas &>/dev/null; then
