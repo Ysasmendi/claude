@@ -555,6 +555,7 @@ echo "  [ ] Log in to Claude Code:     claude login   (or set ANTHROPIC_API_KEY 
 echo "  [ ] Authenticate gcloud:       gcloud auth login"
 echo "  [ ] Authenticate AWS:          aws configure"
 echo "  [ ] Authenticate Vercel:       vercel login"
+echo "  [ ] Authenticate Netlify:      netlify login"
 echo "  [ ] Authenticate Supabase:     supabase login"
 echo ""
 echo "Apps to install manually (no Homebrew/App Store):"
