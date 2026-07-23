@@ -23,8 +23,7 @@
 #   - Affinity 3 (download from serif.com)
 #   - Nuo-Stems 4 (download from vendor)
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
-#   - Insta360 Wave Controller (download from insta360.com)
-#   - Fathom (cask currently broken — download from fathom.video/download)
+#   - Mixed In Key (cask installs v11; if you need v10 specifically, get it from the vendor)
 #   - Microsoft Word / Excel / OneDrive (install manually from Microsoft 365)
 #
 # What this NO LONGER does (removed; handle manually):
@@ -227,9 +226,11 @@ BREW_CASKS=(
     slack
     notion
 
+    # Meetings
+    granola       # AI meeting recorder / notepad
+
     # Dev Tools
-    visual-studio-code
-    sublime-text
+    zed
     claude
 
     # LLM tooling (menu bar) — third-party tap, fully qualified
@@ -247,12 +248,14 @@ BREW_CASKS=(
     # Utilities
     transmission
     balenaetcher
-    maestral
+    localsend     # open-source AirDrop alternative
     daisydisk
     blip
+    soulseek      # SoulseekQt — P2P file-sharing network (slsknet.org)
 
     # Music Production
     native-access
+    mixed-in-key  # cask tracks v11; if you need v10 specifically, install from vendor
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -264,16 +267,6 @@ for cask in "${BREW_CASKS[@]}"; do
     fi
 done
 
-# --- VS Code extensions ---
-if command -v code &>/dev/null; then
-    info "Installing VS Code Claude Code extension..."
-    code --install-extension anthropic.claude-code --force >/dev/null 2>&1 \
-        && success "anthropic.claude-code installed in VS Code." \
-        || warn "Failed to install Claude Code VS Code extension — install manually from the marketplace."
-else
-    warn "VS Code 'code' CLI not on PATH. Open VS Code → Cmd+Shift+P → 'Shell Command: Install code command in PATH', then run: code --install-extension anthropic.claude-code"
-fi
-
 # =============================================================================
 # 6. Mac App Store apps (via mas)
 # =============================================================================
@@ -281,8 +274,6 @@ info "Installing Mac App Store apps..."
 
 MAS_APPS=(
     "937984704:Amphetamine"      # keep-awake utility
-    "1191449274:ToothFairy"      # one-click Bluetooth audio switcher
-    "1510445899:Meeter"          # meeting links in menu bar
     "409183694:Keynote"          # Apple presentation app
 )
 
@@ -551,8 +542,6 @@ echo "Apps to install manually (no Homebrew/App Store):"
 echo "  [ ] Affinity 3                → https://affinity.serif.com"
 echo "  [ ] Nuo-Stems 4               → vendor website"
 echo "  [ ] iStat Menus 6             → https://bjango.com/mac/istatmenus/  (cask = latest, get v6 from vendor)"
-echo "  [ ] Insta360 Wave Controller  → https://www.insta360.com/download"
-echo "  [ ] Fathom                    → https://fathom.video/download  (Homebrew cask currently broken)"
 echo "  [ ] Microsoft Word / Excel / OneDrive → https://www.microsoft.com/microsoft-365"
 echo ""
 echo "Sign in / activate apps:"
@@ -560,18 +549,17 @@ echo "  [ ] Proton (Mail, Pass, VPN)"
 echo "  [ ] Ente Auth"
 echo "  [ ] Spotify, Slack, Notion, Discord"
 echo "  [ ] Microsoft 365 (Word, Excel, OneDrive)"
-echo "  [ ] Maestral (Dropbox)"
+echo "  [ ] Granola (sign in; grant mic + screen / system-audio recording)"
 echo "  [ ] Native Access (Native Instruments account)"
+echo "  [ ] Mixed In Key (enter license; cask installs v11 — if you own v10, install v10 from vendor)"
+echo "  [ ] Soulseek (create account / sign in)"
 echo "  [ ] Thaw (configure menu bar layout)"
 echo "  [ ] Codex Bar (sign in / configure)"
-echo "  [ ] ToothFairy (add Bluetooth devices)"
-echo "  [ ] Meeter (grant Calendar access)"
-echo "  [ ] Fathom (install from URL above, then sign in, grant mic + screen recording)"
 echo ""
 echo "App config:"
 echo "  [ ] Raycast            → set ⌘Space, import settings, enable extensions"
 echo "  [ ] Rectangle          → grant Accessibility, set shortcuts"
-echo "  [ ] VS Code / Cursor   → sign in to sync settings & extensions"
+echo "  [ ] Zed                → sign in (settings sync / collaboration)"
 echo "  [ ] Obsidian           → open vault from iCloud / sync"
 echo ""
 echo "macOS settings (now ALL manual — the defaults block was removed):"
@@ -582,9 +570,9 @@ echo "  [ ] Touch ID & passcode (incl. Touch ID for sudo via /etc/pam.d/sudo_loc
 echo "  [ ] iCloud sign-in & which apps sync"
 echo "  [ ] Apple ID / App Store sign-in (needed before mas can install)"
 echo "  [ ] Time Machine / backup destination"
-echo "  [ ] Login items (iStat Menus, Rectangle, Maestral, Amphetamine, Thaw, Codex Bar)"
+echo "  [ ] Login items (iStat Menus, Rectangle, Amphetamine, Thaw, Codex Bar, Granola)"
 echo "  [ ] Default browser:        System Settings → Desktop & Dock → Default web browser"
-echo "  [ ] Privacy: Camera / Microphone / Screen Recording for Chrome, Firefox, Slack"
+echo "  [ ] Privacy: Camera / Microphone / Screen Recording for Chrome, Firefox, Slack, Granola"
 echo "  [ ] Privacy: Full Disk Access (Claude Code, backup tools)"
 echo "  [ ] Privacy: Accessibility (Rectangle, Raycast)"
 echo ""
