@@ -23,7 +23,6 @@
 #   - Affinity 3 (download from serif.com)
 #   - Nuo-Stems 4 (download from vendor)
 #   - iStat Menus 6 (cask installs latest version; get v6 from vendor if needed)
-#   - Mixed In Key (cask installs v11; if you need v10 specifically, get it from the vendor)
 #   - Microsoft Word / Excel / OneDrive (install manually from Microsoft 365)
 #
 # What this NO LONGER does (removed; handle manually):
@@ -255,7 +254,6 @@ BREW_CASKS=(
 
     # Music Production
     native-access
-    mixed-in-key  # cask tracks v11; if you need v10 specifically, install from vendor
 )
 
 for cask in "${BREW_CASKS[@]}"; do
@@ -551,7 +549,6 @@ echo "  [ ] Spotify, Slack, Notion, Discord"
 echo "  [ ] Microsoft 365 (Word, Excel, OneDrive)"
 echo "  [ ] Granola (sign in; grant mic + screen / system-audio recording)"
 echo "  [ ] Native Access (Native Instruments account)"
-echo "  [ ] Mixed In Key (enter license; cask installs v11 — if you own v10, install v10 from vendor)"
 echo "  [ ] Soulseek (create account / sign in)"
 echo "  [ ] Thaw (configure menu bar layout)"
 echo "  [ ] Codex Bar (sign in / configure)"
