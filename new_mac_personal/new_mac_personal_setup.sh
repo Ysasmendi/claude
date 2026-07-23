@@ -130,6 +130,7 @@ info "Installing core CLI tools..."
 BREW_FORMULAE=(
     # Core tools
     git
+    git-crypt     # transparent file encryption inside a git repo
     gh
     jq
     curl
@@ -145,6 +146,7 @@ BREW_FORMULAE=(
     direnv        # per-directory env vars
     glow          # markdown renderer for the terminal
     git-delta     # syntax-highlighted git diff (configure manually if desired)
+    shellcheck    # static analysis / linter for shell scripts
 
     # GNU coreutils (so Bash-tool commands behave portably)
     coreutils
@@ -178,6 +180,16 @@ BREW_FORMULAE=(
     deno          # JS runtime — REQUIRED by yt-dlp 2025.11+ for YouTube
     streamlink    # complement to yt-dlp for live streams (Twitch, YT Live, etc.)
     mkvtoolnix    # MKV muxing / chapter editing (kept for archival use)
+
+    # Document toolchain (mirrored from the current Mac)
+    pandoc        # universal document converter (Markdown <-> PDF/DOCX/HTML/LaTeX)
+    tectonic      # self-contained LaTeX -> PDF engine (pandoc's PDF backend)
+    poppler       # PDF utilities: pdftotext, pdfinfo, pdfimages
+
+    # Graphics libs — orphaned leaves on the source Mac (likely leftover deps;
+    # `brew autoremove` candidates). Added for exact parity with the current Mac.
+    gdk-pixbuf
+    pango
 )
 
 for formula in "${BREW_FORMULAE[@]}"; do
@@ -231,6 +243,7 @@ BREW_CASKS=(
     # Dev Tools
     zed
     claude
+    slack-cli     # Slack CLI for building / managing Slack apps
 
     # LLM tooling (menu bar) — third-party tap, fully qualified
     steipete/tap/codexbar    # menu bar usage monitor for Codex and Claude
@@ -251,9 +264,14 @@ BREW_CASKS=(
     daisydisk
     blip
     soulseek      # SoulseekQt — P2P file-sharing network (slsknet.org)
+    android-platform-tools   # adb / fastboot
 
     # Music Production
     native-access
+
+    # Fonts
+    font-hack-nerd-font   # Nerd Font — powers starship / terminal glyphs
+    font-inter            # Inter UI font
 )
 
 for cask in "${BREW_CASKS[@]}"; do

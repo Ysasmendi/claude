@@ -26,14 +26,16 @@ Installs Homebrew if missing. Adds `/opt/homebrew/bin/brew` to PATH for Apple Si
 ### 4. CLI Tools (via `brew install`)
 | Category | Packages |
 |---|---|
-| Core | git, gh, jq, curl, wget, ripgrep, fzf, tree, htop, btop |
-| Shell QoL | starship, direnv, glow, git-delta |
+| Core | git, git-crypt, gh, jq, curl, wget, ripgrep, fzf, tree, htop, btop |
+| Shell QoL | starship, direnv, glow, git-delta, shellcheck |
 | GNU coreutils | coreutils, gnu-sed |
 | Languages & version managers | nvm, pyenv, go |
 | Python tooling | uv |
 | Cloud CLIs | supabase (via supabase/tap/supabase), awscli |
 | Mac App Store CLI | mas |
 | Media | yt-dlp, ffmpeg, atomicparsley, aria2, deno, streamlink, mkvtoolnix |
+| Document toolchain | pandoc, tectonic, poppler |
+| Graphics libs | gdk-pixbuf, pango (orphaned leaves mirrored from the current Mac — likely deps) |
 
 Google Cloud SDK installed separately as a cask.
 
@@ -45,12 +47,13 @@ Google Cloud SDK installed separately as a cask.
 | Media | VLC, Spotify, Stremio, Calibre, Audacity |
 | Communication | Discord, Slack, Notion |
 | Meetings | Granola (AI meeting recorder) |
-| Dev Tools | Zed, Claude |
+| Dev Tools | Zed, Claude, Slack CLI |
 | LLM tooling (menu bar) | Codex Bar |
 | Productivity | Raycast, Obsidian, Rectangle, The Unarchiver |
 | Menu bar | Thaw |
-| Utilities | Transmission, balenaEtcher, LocalSend, DaisyDisk, Blip, Soulseek |
+| Utilities | Transmission, balenaEtcher, LocalSend, DaisyDisk, Blip, Soulseek, Android Platform Tools |
 | Music Production | Native Access |
+| Fonts | Hack Nerd Font, Inter |
 
 No editor extension is scripted — Zed runs Claude Code natively (built-in terminal / agent support), so no `--install-extension` step is needed.
 
