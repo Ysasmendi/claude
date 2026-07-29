@@ -1,0 +1,21 @@
+# Nada de estado mutable de Claude entra aqui. Este repo es solo declarativo.
+# Si algo de esto aparece, es que se ha copiado por error.
+claude/projects/
+claude/sessions/
+claude/session-env/
+claude/shell-snapshots/
+claude/statsig/
+claude/backups/
+claude/todos/
+claude/downloads/
+claude/plugins/
+claude/history.jsonl
+claude/settings.local.json
+claude/.claude.json
+*.jsonl
+
+# Copias de seguridad que hace install.sh
+*.bak.*
+
+# macOS
+.DS_Store
