@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hairline</string>
+    <string name="widget_description">Hourly line-art forecast. Tap to open Windy.</string>
+
+    <string name="widget_empty">Tap to set up Hairline</string>
+    <string name="widget_no_location">No location yet — open Hairline</string>
+
+    <string name="config_title">Hairline</string>
+    <string name="config_subtitle">Hourly forecast, drawn in lines.</string>
+
+    <string name="section_location">Location</string>
+    <string name="location_auto">Follow me (device location)</string>
+    <string name="location_manual">Fixed place</string>
+    <string name="location_hint">City, e.g. Pontevedra</string>
+    <string name="location_search">Search</string>
+    <string name="location_searching">Searching…</string>
+    <string name="location_not_found">No match for that name</string>
+    <string name="location_offline">No connection</string>
+    <string name="permission_needed">Location permission is off — Hairline will fall back to the last place it knew.</string>
+    <string name="permission_grant">Grant location permission</string>
+
+    <string name="section_look">Look</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_fahrenheit">°F</string>
+    <string name="icons_colour">Colour icons</string>
+    <string name="icons_mono">White icons</string>
+    <string name="hours_label">Hours shown</string>
+    <string name="hours_auto">Auto (fit widget width)</string>
+    <string name="show_precip">Show rain probability under the temperature</string>
+
+    <string name="section_tap">Tapping the widget opens</string>
+    <string name="tap_windy">Windy</string>
+    <string name="tap_ventusky">Ventusky</string>
+    <string name="tap_browser">windy.com in the browser</string>
+    <string name="tap_none">Nothing</string>
+    <string name="tap_missing_app">Not installed — falls back to windy.com</string>
+
+    <string name="action_refresh">Refresh now</string>
+    <string name="action_save">Save</string>
+    <string name="refreshing">Refreshing…</string>
+    <string name="refresh_failed">Could not reach Open-Meteo</string>
+    <string name="refresh_no_location">No location available yet</string>
+    <string name="refreshed_at">Updated %1$s · %2$s</string>
+    <string name="no_data_yet">No forecast stored yet</string>
+    <string name="add_widget_hint">Add the Hairline widget from your launcher\'s widget picker.</string>
+
+    <string name="credit">Forecast by Open-Meteo</string>
+</resources>

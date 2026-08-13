@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Hairline" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/config_background</item>
+        <item name="android:textColor">@color/config_text</item>
+        <item name="android:colorAccent">@color/config_accent</item>
+        <item name="colorAccent">@color/config_accent</item>
+        <item name="android:statusBarColor">@color/config_background</item>
+        <item name="android:navigationBarColor">@color/config_background</item>
+    </style>
+
+    <style name="SectionHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">26dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/config_accent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Choice">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/config_text</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+</resources>
