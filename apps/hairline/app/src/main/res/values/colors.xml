@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget_text">#FFFFFFFF</color>
+    <color name="widget_precip">#FF4FC3F7</color>
+    <color name="launcher_background">#FF0B0D12</color>
+
+    <color name="config_background">#FF101318</color>
+    <color name="config_text">#FFECEFF1</color>
+    <color name="config_text_dim">#FF9AA4AF</color>
+    <color name="config_accent">#FF4FC3F7</color>
+</resources>
