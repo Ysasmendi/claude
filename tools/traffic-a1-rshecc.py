@@ -198,8 +198,17 @@ def sample():
 
 
 def log_sample(path=LOG):
+    """Anade una muestra, salvo que ya haya una de ese mismo minuto.
+
+    Dos lecturas en el mismo minuto (una manual y una programada) contaban
+    dos veces en la curva; deduplicar al escribir evita arrastrarlo.
+    """
     s = sample()
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    if os.path.exists(path):
+        for line in open(path, encoding="utf-8"):
+            if line.strip() and json.loads(line)["t"] == s["t"]:
+                return s
     with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(s, ensure_ascii=False) + "\n")
     return s
