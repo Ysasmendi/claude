@@ -133,12 +133,29 @@ def city_segments():
         if not sel:
             continue
         cargas = sorted(p[1] for p in sel)
+        med = statistics.median(cargas)
+        pct = round(100 * sum(1 for p in sel if p[2] >= 2) / len(sel))
         res[name] = {
-            "n": len(sel),
-            "mediana": statistics.median(cargas),
-            "pct_retenido": round(100 * sum(1 for p in sel if p[2] >= 2) / len(sel)),
+            "n": len(sel), "mediana": med, "pct_retenido": pct,
+            "estado": ("LIBRE" if med < 20 and pct < 8
+                       else "FLUIDO" if med < 30 else "DENSO"),
         }
     return root.findtext("fecha_hora"), res
+
+
+def _state_key(inc, segs):
+    """Lo que hace que una lectura merezca aviso.
+
+    El veredicto solo no basta: una incidencia nueva en el tramo que recorre
+    (una regulacion especial en su punto de incorporacion, por ejemplo) no
+    mueve el veredicto y pasaria desapercibida. La clave incluye por tanto
+    que hay exactamente en su tramo y como estan los dos tramos urbanos.
+    """
+    en_ruta = tuple(sorted((round(i["pk"], 1), i["causa"]) for i in inc["en_ruta"]))
+    arriba = tuple(sorted((round(i["pk"], 1), i["causa"]) for i in inc["aguas_arriba"]))
+    ret = tuple(sorted(round(i["pk"], 1) for i in inc["retenciones"]))
+    ciudad = tuple(sorted((n, s["estado"]) for n, s in segs.items()))
+    return (ret, en_ruta, arriba, ciudad)
 
 
 def render():
@@ -167,9 +184,7 @@ def render():
 
     L.append("")
     for name, s in segs.items():
-        state = ("LIBRE" if s["mediana"] < 20 and s["pct_retenido"] < 8
-                 else "FLUIDO" if s["mediana"] < 30 else "DENSO")
-        L.append(f"[Madrid] {name}: {state}  mediana {s['mediana']:.0f}  "
+        L.append(f"[Madrid] {name}: {s['estado']}  mediana {s['mediana']:.0f}  "
                  f"{s['pct_retenido']}% retenido  (n={s['n']})")
 
     # COMPLICADO exige cola declarada en la A-1. Incidencias sueltas (un coche
@@ -179,7 +194,7 @@ def render():
                  else "DESPEJADO")
     L.append("")
     L.append(f"VEREDICTO: {veredicto}")
-    return "\n".join(L), veredicto
+    return "\n".join(L), veredicto, _state_key(inc, segs), inc
 
 
 def main():
@@ -189,10 +204,16 @@ def main():
         last = None
         while True:
             try:
-                _, v = render()
-                if v != last:
-                    print(f"[{datetime.now(MADRID_TZ):%H:%M}] A-1: {v}", flush=True)
-                    last = v
+                _, v, key, inc = render()
+                if key != last:
+                    ruta = "; ".join(f"PK {i['pk']:.2f} {i['causa']}"
+                                     for i in inc["en_ruta"]) or "tramo limpio"
+                    ret = (f"  RETENCION en PK "
+                           + ", ".join(f"{i['pk']:.2f}" for i in inc["retenciones"])
+                           if inc["retenciones"] else "")
+                    print(f"[{datetime.now(MADRID_TZ):%H:%M}] A-1 {v}: {ruta}{ret}",
+                          flush=True)
+                    last = key
             except Exception as e:
                 print(f"[warn] {e}", file=sys.stderr, flush=True)
             time.sleep(every)
