@@ -168,7 +168,10 @@ def main():
         while True:
             try:
                 s = snapshot()
-                key = (s["estado_global"], s["mejor_ruta"])
+                # Solo el estado global y el de la salida del club disparan aviso.
+                # La ruta recomendada NO entra en la clave: cuando dos rutas estan
+                # empatadas su orden baila entre lecturas y generaria avisos falsos.
+                key = (s["estado_global"], verdict(s["gate"]))
                 if key != last:
                     print(f"[{s['leido']}] {s['estado_global']} | salida "
                           f"{verdict(s['gate'])} | mejor: {s['mejor_ruta']}", flush=True)
