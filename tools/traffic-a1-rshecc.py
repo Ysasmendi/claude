@@ -211,6 +211,12 @@ def report(path=LOG):
         return "Sin registro todavia."
     rows = [json.loads(l) for l in open(path, encoding="utf-8") if l.strip()]
     rows.sort(key=lambda r: r["t"])
+    vistos, unicas = set(), []
+    for r in rows:
+        if r["t"] not in vistos:
+            vistos.add(r["t"])
+            unicas.append(r)
+    rows = unicas
     if not rows:
         return "Registro vacio."
     con_cola = [r for r in rows if r["n_colas"]]
@@ -223,14 +229,20 @@ def report(path=LOG):
     L.append(f"Primera cola declarada : {con_cola[0]['t'][11:]}  "
              f"{con_cola[0]['km_cola']} km  nivel {con_cola[0]['nivel_max']}")
     L.append(f"PEOR MOMENTO           : {peor['t'][11:]}  "
-             f"{peor['km_cola']} km  nivel {peor['nivel_max']}"
-             + (f"  PK {peor['pk_max']} -> {peor['pk_min']}"
-                if peor["pk_max"] is not None else ""))
+             f"{peor['km_cola']} km  nivel {peor['nivel_max']}")
+    for c in peor["colas"]:
+        L.append(f"     PK {c['desde']} -> {c['hasta']}  {c['nivel']}  ({c['municipio']})")
     L.append(f"Ultima cola declarada  : {con_cola[-1]['t'][11:]}  "
              f"{con_cola[-1]['km_cola']} km")
     L.append("")
     L.append("Evolucion (km de cola por muestra):")
+    prev = None
     for r in rows:
+        hh, mm = int(r["t"][11:13]), int(r["t"][14:16])
+        minutos = hh * 60 + mm
+        if prev is not None and minutos - prev > 15:
+            L.append(f"  {'':5}  ... {minutos - prev} min sin muestrear ...")
+        prev = minutos
         barra = "#" * int(min(r["km_cola"], 40))
         L.append(f"  {r['t'][11:]}  {r['km_cola']:5.1f} km  {r['nivel_max']:<7} {barra}")
     return "\n".join(L)
