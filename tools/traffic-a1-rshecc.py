@@ -64,10 +64,6 @@ def a1_incidents():
         ns = _s(r, "nivelServicio").lower()
         if "MADRID" not in prov:
             continue
-        # Solo retenciones de Madrid: la red nacional declara ~100 a la vez
-        # (Cataluna, Asturias...) y contarlas todas falsea el veredicto.
-        if ns and ns not in ("fluido", "normal"):
-            out["retenciones"].append(r)
         if not via.startswith("A-1"):
             continue
         try:
@@ -81,6 +77,12 @@ def a1_incidents():
             "desde": _s(r, "fechaInicio")[11:16],
             "ns": ns,
         }
+        # Retencion declarada en la A-1 hacia Madrid, dentro del tramo que le
+        # afecta: esto si complica el viaje. Una retencion en otra via de la
+        # provincia no, y contarla era lo que disparaba falsos avisos.
+        if (ns and ns not in ("fluido", "normal")
+                and _s(r, "sentido") == HACIA_MADRID and pk <= UPSTREAM_PK):
+            out["retenciones"].append(item)
         if _s(r, "sentido") != HACIA_MADRID:
             out["otro_sentido"].append(item)
         elif pk <= CLUB_PK:
@@ -158,11 +160,10 @@ def render():
 
     ret = inc["retenciones"]
     L.append("")
-    L.append(f"[DGT] Retenciones declaradas en la provincia de Madrid: {len(ret)}"
+    L.append(f"[DGT] Retenciones declaradas en la A-1 hacia Madrid: {len(ret)}"
              + ("" if ret else "  (ninguna)"))
     for r in ret[:6]:
-        L.append(f"   {_s(r,'carretera')} PK {_s(r,'pkIni')} "
-                 f"{_s(r,'nivelServicio')} - {_s(r,'municipioIni')}")
+        L.append(f"   PK {r['pk']:>6.2f}  nivel {r['ns']}  ({r['municipio']}, desde {r['desde']})")
 
     L.append("")
     for name, s in segs.items():
@@ -171,8 +172,11 @@ def render():
         L.append(f"[Madrid] {name}: {state}  mediana {s['mediana']:.0f}  "
                  f"{s['pct_retenido']}% retenido  (n={s['n']})")
 
-    veredicto = ("DESPEJADO" if not inc["en_ruta"] and not ret
-                 else "OJO" if not ret else "COMPLICADO")
+    # COMPLICADO exige cola declarada en la A-1. Incidencias sueltas (un coche
+    # parado) son OJO: pueden sembrar cola, pero todavia no la son.
+    veredicto = ("COMPLICADO" if ret
+                 else "OJO" if inc["en_ruta"] or inc["aguas_arriba"]
+                 else "DESPEJADO")
     L.append("")
     L.append(f"VEREDICTO: {veredicto}")
     return "\n".join(L), veredicto
