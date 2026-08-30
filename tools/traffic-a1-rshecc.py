@@ -14,8 +14,10 @@ Uso:
   python3 tools/traffic-a1-rshecc.py
   python3 tools/traffic-a1-rshecc.py --watch 8
 """
+import argparse
 import base64
 import json
+import os
 import statistics
 import sys
 import time
@@ -27,6 +29,9 @@ from datetime import datetime, timezone, timedelta
 DGT = "https://etraffic.dgt.es/etrafficWEB/api/cache/getFilteredData"
 INFORMO = "https://informo.madrid.es/informo/tmadrid/pm.xml"
 MADRID_TZ = timezone(timedelta(hours=2))
+
+LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                   "..", "knowledge", "a1-retorno-2026-08-30.jsonl")
 
 CLUB_PK = 24.6          # RSHECC, Ctra. Madrid-Burgos km 24,600
 UPSTREAM_PK = 80.0      # de donde baja el retorno que acabara pasando por el club
@@ -70,8 +75,13 @@ def a1_incidents():
             pk = float(_s(r, "pkIni") or -1)
         except ValueError:
             continue
+        try:
+            pk_fin = float(_s(r, "pkFin") or pk)
+        except ValueError:
+            pk_fin = pk
         item = {
             "pk": pk,
+            "pk_fin": pk_fin,
             "municipio": _s(r, "municipioIni"),
             "causa": f'{_s(r, "causa")} / {_s(r, "subcausa")}'.strip(" /"),
             "desde": _s(r, "fechaInicio")[11:16],
@@ -158,6 +168,74 @@ def _state_key(inc, segs):
     return (ret, en_ruta, arriba, ciudad)
 
 
+def sample():
+    """Una muestra plana y apilable del estado de la A-1 hacia Madrid.
+
+    km_cola es la suma de los tramos declarados en congestion: es la medida
+    que de verdad cuenta la gravedad. Un solo tramo de 3 km y tres tramos de
+    1 km salen igual de "1 retencion" pero no se sufren igual.
+    """
+    inc = a1_incidents()
+    stamp, segs = city_segments()
+    ret = inc["retenciones"]
+    km = round(sum(abs(r["pk"] - r["pk_fin"]) for r in ret), 1)
+    orden = {"low": 1, "medium": 2, "high": 3, "highest": 4}
+    return {
+        "t": datetime.now(MADRID_TZ).strftime("%Y-%m-%dT%H:%M"),
+        "n_colas": len(ret),
+        "km_cola": km,
+        "nivel_max": max((r["ns"] for r in ret), key=lambda n: orden.get(n, 0),
+                         default=""),
+        "pk_max": max((r["pk"] for r in ret), default=None),
+        "pk_min": min((r["pk_fin"] for r in ret), default=None),
+        "colas": [{"desde": r["pk"], "hasta": r["pk_fin"], "nivel": r["ns"],
+                   "municipio": r["municipio"]} for r in ret],
+        "n_incidencias": len(inc["en_ruta"]) + len(inc["aguas_arriba"]),
+        "burgos": segs.get("Av. de Burgos (M-40 -> Pza. Castilla)", {}).get("mediana"),
+        "castilla_olavide": segs.get("Pza. Castilla -> Olavide", {}).get("mediana"),
+        "feed": stamp,
+    }
+
+
+def log_sample(path=LOG):
+    s = sample()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(s, ensure_ascii=False) + "\n")
+    return s
+
+
+def report(path=LOG):
+    """Cuando se jodio todo, segun el registro acumulado."""
+    if not os.path.exists(path):
+        return "Sin registro todavia."
+    rows = [json.loads(l) for l in open(path, encoding="utf-8") if l.strip()]
+    rows.sort(key=lambda r: r["t"])
+    if not rows:
+        return "Registro vacio."
+    con_cola = [r for r in rows if r["n_colas"]]
+    L = [f"Registro A-1 sentido Madrid: {len(rows)} muestras, "
+         f"{rows[0]['t'][11:]} -> {rows[-1]['t'][11:]}"]
+    if not con_cola:
+        L.append("Nunca se declaro cola.")
+        return "\n".join(L)
+    peor = max(con_cola, key=lambda r: (r["km_cola"], r["n_colas"]))
+    L.append(f"Primera cola declarada : {con_cola[0]['t'][11:]}  "
+             f"{con_cola[0]['km_cola']} km  nivel {con_cola[0]['nivel_max']}")
+    L.append(f"PEOR MOMENTO           : {peor['t'][11:]}  "
+             f"{peor['km_cola']} km  nivel {peor['nivel_max']}"
+             + (f"  PK {peor['pk_max']} -> {peor['pk_min']}"
+                if peor["pk_max"] is not None else ""))
+    L.append(f"Ultima cola declarada  : {con_cola[-1]['t'][11:]}  "
+             f"{con_cola[-1]['km_cola']} km")
+    L.append("")
+    L.append("Evolucion (km de cola por muestra):")
+    for r in rows:
+        barra = "#" * int(min(r["km_cola"], 40))
+        L.append(f"  {r['t'][11:]}  {r['km_cola']:5.1f} km  {r['nivel_max']:<7} {barra}")
+    return "\n".join(L)
+
+
 def render():
     inc = a1_incidents()
     stamp, segs = city_segments()
@@ -199,6 +277,14 @@ def render():
 
 def main():
     args = sys.argv[1:]
+    if "--report" in args:
+        print(report())
+        return
+    if "--log" in args:
+        s = log_sample()
+        print(f"[{s['t'][11:]}] {s['n_colas']} colas  {s['km_cola']} km  "
+              f"nivel {s['nivel_max'] or '-'}")
+        return
     if "--watch" in args:
         every = int(args[args.index("--watch") + 1]) * 60
         last = None
