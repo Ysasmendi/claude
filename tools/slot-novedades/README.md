@@ -1,8 +1,8 @@
 # Tragaperras de Novedades
 
-Máquina de casino para sortear novedades de producto de dcycle. Bobina vertical de 9,2 segundos: unos 200 pasos de bobina, la mitad del tiempo a velocidad de crucero (33 casillas/s, ilegibles) y la otra mitad frenando hasta que los títulos se pueden leer uno a uno. Fondo azul dcycle, casilla blanca, texto azul.
+Máquina de casino para sortear novedades de producto de dcycle. Bobina vertical de 6,2 segundos: unos 135 pasos de bobina, la mitad del tiempo a velocidad de crucero (33 casillas/s, ilegibles) y la otra mitad frenando hasta que los títulos se pueden leer uno a uno. Fondo azul dcycle, casilla blanca, texto azul.
 
-La curva son dos tramos —crucero lineal con el 75% de la distancia, después frenada cúbica con el 25% restante— empalmados a la misma velocidad, así que la transición no se nota. Un solo tramo de frenada de 9 segundos se arrastraría muerto la segunda mitad. La duración está en `dur` dentro de `scripts/app.tpl.html`.
+La curva son dos tramos —crucero lineal con el 75% de la distancia, después frenada cúbica con el 25% restante— empalmados a la misma velocidad, así que la transición no se nota. Un solo tramo de frenada se arrastraría muerto la segunda mitad. La duración está en `dur` dentro de `scripts/app.tpl.html`; si se cambia, hay que escalar `travel` en la misma proporción para no alterar la velocidad de crucero.
 
 388 novedades publicadas en `#product-news` entre el 8 de enero y el 31 de agosto de 2026.
 

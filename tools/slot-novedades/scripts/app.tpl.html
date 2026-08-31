@@ -664,7 +664,7 @@ function spin(){
 
   const winner = p[randInt(p.length)];
   const cellH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cell-h'));
-  const travel = 190 + randInt(26);                // casillas que pasan antes de parar
+  const travel = 128 + randInt(18);                // casillas que pasan antes de parar
   const cells = [ITEMS[randInt(ITEMS.length)], winner];
   for (let k = 0; k < travel + 1; k++) cells.push(ITEMS[randInt(ITEMS.length)]);
 
@@ -689,7 +689,7 @@ function spin(){
 
   if (reduced){ setTimeout(finish, 320); return; }
 
-  const dur = 9200;
+  const dur = 6200;
   /* Mitad del tiempo a velocidad de crucero (75% de la distancia) y mitad
      frenando el 25% restante. La cúbica arranca justo a la velocidad de
      crucero, así que no hay salto perceptible en la transición. */
