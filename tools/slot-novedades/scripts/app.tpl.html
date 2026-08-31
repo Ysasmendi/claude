@@ -70,6 +70,7 @@
     100%{background:rgba(255,255,255,.34);box-shadow:0 0 0 0 rgba(255,206,120,0)}
   }
   .machine.spinning .bulb{animation:chase .9s linear infinite}
+  .machine.brake .bulb{animation-duration:1.7s}
   @keyframes allflash{
     0%,100%{background:rgba(255,255,255,.32);box-shadow:0 0 0 0 rgba(255,206,120,0)}
     45%{background:var(--white);box-shadow:0 0 18px 6px rgba(255,255,255,.95)}
@@ -345,8 +346,8 @@ function noise(at, dur, {freq = 3000, q = 0.9, gain = 0.08} = {}){
 }
 /* Clic de bobina: golpe mecánico, no un pitido. */
 function tick(progress){
-  noise(0, 0.03, {freq: 2400 + progress * 1200, q: 1.4, gain: 0.05});
-  tone(180 + progress * 60, 0, 0.02, {type:'square', gain:0.02});
+  noise(0, 0.03 + progress * 0.02, {freq: 3400 - progress * 1200, q: 1.4, gain: 0.05});
+  tone(230 - progress * 80, 0, 0.02 + progress * 0.03, {type:'square', gain:0.02 + progress * 0.02});
 }
 /* Campanilleo de sala de juego: arpegio pentatónico que se ensancha al frenar. */
 const VEGAS = [1046.5, 1318.5, 1568, 2093, 1568, 1318.5];
@@ -473,13 +474,14 @@ function spin(){
   spinning = true;
   spinBtn.disabled = true;
   machineEl.classList.add('spinning', 'fast');
+  machineEl.classList.remove('brake');
   machineEl.classList.remove('won');
   windowEl.classList.remove('won');
   windowEl.classList.add('spin');
 
   const winner = p[randInt(p.length)];
   const cellH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cell-h'));
-  const travel = 34 + randInt(14);                 // casillas que pasan antes de frenar
+  const travel = 190 + randInt(26);                // casillas que pasan antes de parar
   const cells = [ITEMS[randInt(ITEMS.length)], winner];
   for (let k = 0; k < travel + 1; k++) cells.push(ITEMS[randInt(ITEMS.length)]);
 
@@ -493,7 +495,7 @@ function spin(){
     stripEl.style.filter = 'none';
     used.add(winner.i);
     spinning = false;
-    machineEl.classList.remove('spinning', 'fast');
+    machineEl.classList.remove('spinning', 'fast', 'brake');
     windowEl.classList.remove('spin');
     celebrate();
     status();
@@ -503,22 +505,30 @@ function spin(){
 
   if (reduced){ setTimeout(finish, 320); return; }
 
-  const dur = 4200;
+  const dur = 9200;
+  /* Mitad del tiempo a velocidad de crucero (75% de la distancia) y mitad
+     frenando el 25% restante. La cúbica arranca justo a la velocidad de
+     crucero, así que no hay salto perceptible en la transición. */
+  const CRUISE_T = 0.5, CRUISE_D = 0.75;
+  const ease = t => t < CRUISE_T
+    ? (t / CRUISE_T) * CRUISE_D
+    : CRUISE_D + (1 - CRUISE_D) * (1 - Math.pow(1 - (t - CRUISE_T) / (1 - CRUISE_T), 3));
   const t0 = performance.now();
   let prev = from;
   (function frame(now){
     const t = Math.min(1, (now - t0) / dur);
-    const e = 1 - Math.pow(1 - t, 5);             // rápido al principio, frenada larga
+    const e = ease(t);
     const ty = from + (0 - from) * e;
     const v = Math.abs(ty - prev); prev = ty;
     stripEl.style.transform = 'translateY(' + ty + 'px)';
-    stripEl.style.filter = v > 6 ? 'blur(' + Math.min(7, v * 0.16) + 'px)' : 'none';
+    stripEl.style.filter = v > 6 ? 'blur(' + Math.min(9, v * 0.16) + 'px)' : 'none';
     const crossed = Math.floor((ty - from) / cellH);
     if (crossed > passed){
       passed = crossed;
-      if (now - lastTick > 42){ lastTick = now; tick(t); }
+      if (now - lastTick > (t < CRUISE_T ? 70 : 42)){ lastTick = now; tick(t); }
     }
-    if (t > 0.42) machineEl.classList.remove('fast');
+    if (t > CRUISE_T) machineEl.classList.remove('fast');
+    if (t > 0.75) machineEl.classList.add('brake');
     const beat = 130 + t * 190;
     if (t < 0.9 && now - lastJingle > beat){ lastJingle = now; jingle(jingleStep++, t); }
     if (t < 1) requestAnimationFrame(frame);
