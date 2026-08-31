@@ -52,7 +52,7 @@
   "d": "13-01",
   "c": "DOCS",
   "t": "Documentación ISO 14064 publicada",
-  "w": "ISO 14064 Documentation up and running! Check it out in Dcycle API Docs https://docs.dcycle.io/guides/emissions/iso-14064-tutorial\nCategory 1: Direct GHG Emissions\nCategory 2: Indirect Energy Emissions\nCategory 3: Transportation Emissions\nCategory 4: Products Used Emissions\nCategory 5: Products Sold Emissions\nCategory 6: Other Sources Emissions",
+  "w": "ISO 14064 Documentation up and running! Check it out in Dcycle API Docs\nCategory 1: Direct GHG Emissions\nCategory 2: Indirect Energy Emissions\nCategory 3: Transportation Emissions\nCategory 4: Products Used Emissions\nCategory 5: Products Sold Emissions\nCategory 6: Other Sources Emissions",
   "a": "Luis Escámez"
  },
  {
@@ -84,7 +84,7 @@
   "d": "15-01",
   "c": "CLI",
   "t": "Creación masiva de organizaciones hijas (100 orgs para COPISA)",
-  "w": "Ana Romero needed a way of creating 100 children orgs for COPISA https://dcycle-workspace.slack.com/archives/C0477SF54TV/p1768383480568309 . 1.5 days later this is now a reality.\nNew command in our CLI `dc org bulk-create-children`\nHow this changed our lives:…",
+  "w": "Ana Romero needed a way of creating 100 children orgs for COPISA. 1.5 days later this is now a reality.\nNew command in our CLI dc org bulk-create-children\nHow this changed our lives:\n· Before: Ana detects client need --Ana creates a Notion signal --Signal gets lost or is not addressed timely --Ana seeks help from dev/data --Ticket is created in response team --Ticket is solved in n days --Dev/data tells Ana ticket is closed…",
   "a": "Luis Escámez"
  },
  {
@@ -92,7 +92,7 @@
   "d": "15-01",
   "c": "PROD",
   "t": "Personalización por usuario/equipo en entornos multi-org",
-  "w": "When working with large enterprise/multiorg it's quite common that people/teams have different needs in terms of personalization and ways of working.\nResponding to some needs from IPC (quite large, Asia, America, Europe...) where 1 manager wants each org's people focused on their project, we've started adding persisted filters to the projects view.…",
+  "w": "When working with large enterprise/multiorg it's quite common that people/teams have different needs in terms of personalization and ways of working.\nResponding to some needs from IPC (quite large, Asia, America, Europe.) where 1 manager wants each org's people focused on their project, we've started adding persisted filters to the projects view.…",
   "a": "Iñigo Medina"
  },
  {
@@ -108,7 +108,7 @@
   "d": "20-01",
   "c": "PROD",
   "t": "Multi-Database para vehículos",
-  "w": "Ok guys, these are huge news from el equipo so I will try to summarize it as much as I can.\nMulti-Database is now available for vehicles . But what does this mean?\n· Users can now not only view, but also choose the emission factors database and version they want to use in each year.\n· DEFRA can be chose as an available emission factors database.…",
+  "w": "Ok guys, these are huge news from el equipo so I will try to summarize it as much as I can.\nMulti-Database is now available for vehicles. But what does this mean?\n· Users can now not only view, but also choose the emission factors database and version they want to use in each year.\n· DEFRA can be chose as an available emission factors database.…",
   "a": "Boris Landívar"
  },
  {
@@ -116,7 +116,7 @@
   "d": "20-01",
   "c": "PROD",
   "t": "Ajustes de proyecto en panel lateral (fuera del modal superior)",
-  "w": "More space for what really matters: your data! Projects no longer use the top modal. You can now access the project settings from the top right in a sheet-style panel. We keep building...",
+  "w": "More space for what really matters: your data! Projects no longer use the top modal. You can now access the project settings from the top right in a sheet-style panel. We keep building.",
   "a": "Vanesa García"
  },
  {
@@ -140,7 +140,7 @@
   "d": "21-01",
   "c": "CLI",
   "t": "Actualizar total_km de employees_historic",
-  "w": "New Chiki Development in CLI: Update totalkm of employeeshistoriclist. Imagine that you loaded a list of 90 employeehistoric with total_km wrong. Now, you can update this information from CLI with a simple command.",
+  "w": "New Chiki Development in CLI: Update total_km of employees_historic_list. Imagine that you loaded a list of 90 employee_historic with total_km wrong. Now, you can update this information from CLI with a simple command.",
   "a": "Sergio Prieto García"
  },
  {
@@ -188,7 +188,7 @@
   "d": "23-01",
   "c": "PROD",
   "t": "Transparencia total del cálculo en consumos de vehículos (\"Chamber of Secrets\")",
-  "w": "Ladies and gentlemen… The Chamber of Secrets has been opened…_*\nFrom el equipo, we bring you the cherry on top\nWe’ve just launched a new feature in vehicle consumptions that completely breaks the environmental impact “black box” .\nNow users don’t just see the final number… they can see exactly how it’s been calculated.\n· Full transparency in calculations\n◦ Visibility of all conversion factors used…",
+  "w": "Ladies and gentlemen… The Chamber of Secrets has been opened…\nFrom el equipo, we bring you the cherry on top\nWe’ve just launched a new feature in vehicle consumptions that completely breaks the environmental impact “black box”.\nNow users don’t just see the final number… they can see exactly how it’s been calculated.\n· Full transparency in calculations\n◦ Visibility of all conversion factors used…",
   "a": "Boris Landívar"
  },
  {
@@ -212,7 +212,7 @@
   "d": "26-01",
   "c": "CLI",
   "t": "Comando own-workforce",
-  "w": "New command added to Dcycle CLI: `own-workforce`\nIPC Systems uploaded own workforce data by error and they want it gone.\nBefore: we had to create a support ticket, pass it to response team, wait weeks until someone had a some spare time to solve it --no autonomy, no speed, more noise.\nNow: use `own-workforce` and solve it in minutes. --fucking",
+  "w": "New command added to Dcycle CLI: own-workforce\nIPC Systems uploaded own workforce data by error and they want it gone.\nBefore: we had to create a support ticket, pass it to response team, wait weeks until someone had a some spare time to solve it --no autonomy, no speed, more noise.\nNow: use own-workforce and solve it in minutes. --fucking",
   "a": "Luis Escámez"
  },
  {
@@ -220,7 +220,7 @@
   "d": "27-01",
   "c": "CLI",
   "t": "Actualizar valores de employee_historic (total_km y demás)",
-  "w": "New CLI feature: Update variable values of a employeehistoric list*\nNow, you can update information about periods of employees that you want! Yo can update totalkm, startdate and end_date of a employees periods list from a csv file.\nFor example, now Marina Oliveros will be able to upload the end_date of a list of 124 employees only creating a simple csv with the information.…",
+  "w": "New CLI feature: Update variable values of a employee_historic list\nNow, you can update information about periods of employees that you want! Yo can update total_km, start_date and end_date of a employees periods list from a csv file.\nFor example, now Marina Oliveros will be able to upload the end_date of a list of 124 employees only creating a simple csv with the information.…",
   "a": "Sergio Prieto García"
  },
  {
@@ -228,7 +228,7 @@
   "d": "28-01",
   "c": "PROD",
   "t": "Visualizaciones exportables a Excel",
-  "w": "As announced by Iñigo's POC, many Clients requested it and we demonstrated it in the Workshop EINF... Visualisations via Excel are now available, courtesy of our beloved Mario García, who created the front and back ends! https://app.dcycle.io/dcycle-demos/cefc7985-41f5-42d1-8d49-536c1ab0977f/news/2f6b1965-e769-8037-b294-cf583ff0e540",
+  "w": "As announced by Iñigo's POC, many Clients requested it and we demonstrated it in the Workshop EINF. Visualisations via Excel are now available, courtesy of our beloved Mario García, who created the front and back ends!",
   "a": "Vanesa García"
  },
  {
@@ -236,7 +236,7 @@
   "d": "28-01",
   "c": "INIT",
   "t": "Arranca \"de borrar ficheros a borrado masivo de datos\"",
-  "w": "Wednesday 28th of January is a big day!\nProduct Team el equipo starts to build:\nFROM DELETING FILES TO BULK DELETING DATA\nTo align the product with reality: users think in data, not in *files.\nSafer fixes, clearer actions, less frustration.\nClients feedback:\n“I need to be able to select multiple records and delete them at once.” — Nealis…",
+  "w": "Wednesday 28th of January is a big day!\nProduct Team el equipo starts to build:\nFROM DELETING FILES TO BULK DELETING DATA\nTo align the product with reality: users think in data, not in files.\nSafer fixes, clearer actions, less frustration.\nClients feedback:\n“I need to be able to select multiple records and delete them at once.” — Nealis…",
   "a": "Jack"
  },
  {
@@ -348,7 +348,7 @@
   "d": "09-02",
   "c": "CLI",
   "t": "purchase purge-orphan-suppliers",
-  "w": "NEW CLI COMMAND:\nNow you can use `dc purchase purge-orphan-suppliers --org <organizationid>` to delete all the suppliers without purchases associated from an organizationid.\nBe careful because this endpoint delete every supplier without filtering if it is active or inreview or inprogress.",
+  "w": "NEW CLI COMMAND:\nNow you can use dc purchase purge-orphan-suppliers --org <organization_idto delete all the suppliers without purchases associated from an organization_id.\nBe careful because this endpoint delete every supplier without filtering if it is active or in_review or in_progress.",
   "a": "Boris Landívar"
  },
  {
@@ -356,7 +356,7 @@
   "d": "09-02",
   "c": "SKILL",
   "t": "/pre-audit: validación de consistencia entre dashboard y descargas",
-  "w": "Important improvement to our `/pre-audit` skill in Claude: validation of consistency in scope emissions between dashboard and downloads",
+  "w": "Important improvement to our /pre-audit skill in Claude: validation of consistency in scope emissions between dashboard and downloads",
   "a": "Luis Escámez"
  },
  {
@@ -388,7 +388,7 @@
   "d": "10-02",
   "c": "CLI",
   "t": "Borrar peticiones de logística filtrando por fichero",
-  "w": "New CLI command to delete logistic requests filtering by file .\nBye, bye, notebook to delete logistic requests\nHello my new dear, CLI",
+  "w": "New CLI command to delete logistic requests filtering by file.\nBye, bye, notebook to delete logistic requests\nHello my new dear, CLI",
   "a": "Sergio Prieto García"
  },
  {
@@ -396,7 +396,7 @@
   "d": "11-02",
   "c": "SKILL",
   "t": "/ecoinvent-match: matching automático de factores de emisión en LCAs",
-  "w": "BIG improvement in LCAs: automatic emission factor matching with `/ecoinvent-match`\nJust upload the excel file and Claude will work with you to find the best matches. This process was a killer bottleneck in our LCA product, now it's even fun to do!",
+  "w": "BIG improvement in LCAs: automatic emission factor matching with /ecoinvent-match\nJust upload the excel file and Claude will work with you to find the best matches. This process was a killer bottleneck in our LCA product, now it's even fun to do!",
   "a": "Luis Escámez"
  },
  {
@@ -412,7 +412,7 @@
   "d": "11-02",
   "c": "SKILL",
   "t": "/support: debug automático de tickets de HubSpot",
-  "w": "New skill `/support` in Claude.\nHow it works:\n1. Paste a link to the Hubspot ticket.\n2. Claude debugs automatically.\n3. When found the root cause, you can choose:\na. Solve the problem insitu\nb. Tell Claude to create a ticket in RT and send a Slack message in <#C09GU19NAJD|product-response-team>",
+  "w": "New skill /support in Claude.\nHow it works:\n1. Paste a link to the Hubspot ticket.\n2. Claude debugs automatically.\n3. When found the root cause, you can choose:\na. Solve the problem insitu\nb. Tell Claude to create a ticket in RT and send a Slack message in <#C09GU19NAJD|product-response-team>",
   "a": "Luis Escámez"
  },
  {
@@ -420,7 +420,7 @@
   "d": "12-02",
   "c": "PROD",
   "t": "Holdings pueden subir datos de Own Workforce de sus filiales",
-  "w": "News for clients with EINF / Sustainability reporting / Human Resources projects!\nNow Holdings can upload Own Workforce data from the holding company for the whole group in the same upload!\nLess friction in uploading data....higher Data Health\nMore info --link",
+  "w": "News for clients with EINF / Sustainability reporting / Human Resources projects!\nNow Holdings can upload Own Workforce data from the holding company for the whole group in the same upload!\nLess friction in uploading data.higher Data Health\nMore info --link",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -428,7 +428,7 @@
   "d": "12-02",
   "c": "SKILL",
   "t": "/create-pivot-metric: crear métricas de pivot table con IA",
-  "w": "As you could have observed, I've been enriching the pivot-table functionality with lots of metrics lately.\nIt helped me understand the patron I and the AI followed to create and test the features.\nHowever it looks like we always need new metrics....so why don't you try to contribute?…",
+  "w": "As you could have observed, I've been enriching the pivot-table functionality with lots of metrics lately.\nIt helped me understand the patron I and the AI followed to create and test the features.\nHowever it looks like we always need new metrics.so why don't you try to contribute?…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -444,7 +444,7 @@
   "d": "13-02",
   "c": "SKILL",
   "t": "Sentry + Claude Code vía MCP y Git Worktrees",
-  "w": "Inspired by What If…? from Marvel, two questions came to mind:\n· What if... our main error monitoring tool, Sentry, could talk to my best friend, Claude Code?\nThat’s where Connectors and MCPs enter the conversation, Claude’s tools for supercharging its powers. The result: faster debugging, broader context, and solutions guided by me — the human with the judgment to make the right call.…",
+  "w": "Inspired by What If…? from Marvel, two questions came to mind:\n· What if. our main error monitoring tool, Sentry, could talk to my best friend, Claude Code?\nThat’s where Connectors and MCPs enter the conversation, Claude’s tools for supercharging its powers. The result: faster debugging, broader context, and solutions guided by me — the human with the judgment to make the right call.…",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -476,7 +476,7 @@
   "d": "16-02",
   "c": "SKILL",
   "t": "make claude-dev / make claude-cleanup (worktrees para Claude)",
-  "w": "New Makefile Commands for a Smoother Claude DX!\nSay goodbye to juggling branches manually or losing track of your Claude sessions. I’ve added two new commands to streamline your workflow:\n`make claude-dev`\nSpin up a dedicated, isolated Git worktree for your Claude session in one step.\n· Enter a branch name.\n· Claude starts in its own worktree.\n· Keep your main workspace clean and focus on debugging or experimenting freely.…",
+  "w": "New Makefile Commands for a Smoother Claude DX!\nSay goodbye to juggling branches manually or losing track of your Claude sessions. I’ve added two new commands to streamline your workflow:\nmake claude-dev\nSpin up a dedicated, isolated Git worktree for your Claude session in one step.\n· Enter a branch name.\n· Claude starts in its own worktree.\n· Keep your main workspace clean and focus on debugging or experimenting freely.…",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -484,7 +484,7 @@
   "d": "16-02",
   "c": "SKILL",
   "t": "/ecoinvent-match cubre el proceso completo de matching en BBDD",
-  "w": "Ok so now `/ecoinvent-match` can handle the full EF matching process . Use the skill and it will:\n1. Look for all clients across the DB with unmatched resources.\n2. Work with you to find the best match.\n3. Directly save the results in the DB, no excel file needed.",
+  "w": "Ok so now /ecoinvent-match can handle the full EF matching process. Use the skill and it will:\n1. Look for all clients across the DB with unmatched resources.\n2. Work with you to find the best match.\n3. Directly save the results in the DB, no excel file needed.",
   "a": "Luis Escámez"
  },
  {
@@ -500,7 +500,7 @@
   "d": "17-02",
   "c": "CLI",
   "t": "Comandos de gestión de proveedores (dc supplier)",
-  "w": "New Supplier Management CLI Commands\nWe've just released a new set of CLI commands to manage suppliers directly from your terminal - this makes it much faster to add and manage suppliers in bulk!\nWhat's New\nYou can now create, list, and filter suppliers using the dc supplier command group.\nAvailable Commands\n1. Add a Single Supplier\n`dc supplier add \"Supplier Name\" --type TYPE`\n2. Batch Add Multiple Suppliers…",
+  "w": "New Supplier Management CLI Commands\nWe've just released a new set of CLI commands to manage suppliers directly from your terminal - this makes it much faster to add and manage suppliers in bulk!\nWhat's New\nYou can now create, list, and filter suppliers using the dc supplier command group.\nAvailable Commands\n1. Add a Single Supplier\ndc supplier add \"Supplier Name\" --type TYPE\n2. Batch Add Multiple Suppliers…",
   "a": "Cristina Marín"
  },
  {
@@ -508,7 +508,7 @@
   "d": "17-02",
   "c": "INIT",
   "t": "Nuevo proyecto GLEC (lanzamiento 27 de febrero)",
-  "w": "We have a new initiative going on...\nNew GLEC Project: Launching Friday, Feb 27th\nWhat’s the hype about?\n· Connect Once, Use Often: Centralize company data but use it across multiple projects.\n· Precision Data Control: Pick specific trips, invoices, and consumptions into your projects. Keep full traceability, zero guesswork.…",
+  "w": "We have a new initiative going on.\nNew GLEC Project: Launching Friday, Feb 27th\nWhat’s the hype about?\n· Connect Once, Use Often: Centralize company data but use it across multiple projects.\n· Precision Data Control: Pick specific trips, invoices, and consumptions into your projects. Keep full traceability, zero guesswork.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -524,7 +524,7 @@
   "d": "19-02",
   "c": "DOCS",
   "t": "Tutorial GLEC en docs.dcycle.io",
-  "w": "GLEC Documentation added to https://docs.dcycle.io/guides/emissions/glec-tutorial",
+  "w": "GLEC Documentation added to",
   "a": "Luis Escámez"
  },
  {
@@ -556,7 +556,7 @@
   "d": "20-02",
   "c": "PROD",
   "t": "Pivot table de residuos",
-  "w": "New Pivot Table for Waste management!\nUse cases:\n· 14001\n· EINF, CSRD, Ecovadis reporting\n· Waste law in spain\nFunny story behind:\nI was showing to Paolo Mazza how the skill `/create-pivot-metric` works, and in 20 min (vibe coding), it was 95% ready, so I had to finish it\nWhere?\nProjects>Visualizations>Environmental>Waste",
+  "w": "New Pivot Table for Waste management!\nUse cases:\n· 14001\n· EINF, CSRD, Ecovadis reporting\n· Waste law in spain\nFunny story behind:\nI was showing to Paolo Mazza how the skill /create-pivot-metric works, and in 20 min (vibe coding), it was 95% ready, so I had to finish it\nWhere?\nProjects>Visualizations>Environmental>Waste",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -588,7 +588,7 @@
   "d": "23-02",
   "c": "PROD",
   "t": "Métricas económicas propias en la pivot table de compras",
-  "w": "Yeah yeah yeah, another day with pivot table improvements!\nNow, you can create your own metrics about purchases stuff. You can select operation type, currency, year, company, etc., and see your economic impact in the purchases of your holding!",
+  "w": "Yeah yeah yeah, another day with pivot table improvements!\nNow, you can create your own metrics about purchases stuff. You can select operation type, currency, year, company, etc, and see your economic impact in the purchases of your holding!",
   "a": "Sergio Prieto García"
  },
  {
@@ -596,7 +596,7 @@
   "d": "23-02",
   "c": "WEB",
   "t": "Sección Energy & Mining",
-  "w": "Energy & Minig section is also available on our website !!\nFeel free to improve anything. I will be adding as much information as possible this week, so any feedback you may have will also be very helpful.",
+  "w": "Energy & Minig section is also available on our website!!\nFeel free to improve anything. I will be adding as much information as possible this week, so any feedback you may have will also be very helpful.",
   "a": "Lucas Abad"
  },
  {
@@ -612,7 +612,7 @@
   "d": "24-02",
   "c": "PROD",
   "t": "Pivot de compras: filtro por proveedor/reciclado + celda kgCO2e",
-  "w": "Your wishes are my commands\nImprovements in purchases pivot-table! Now, you can filter by supplier and recycled, aaaand... you can add kgco2e cell!!\nFrom now on, our customers can pool and compare the money they spend on their purchases along with their associated emissions",
+  "w": "Your wishes are my commands\nImprovements in purchases pivot-table! Now, you can filter by supplier and recycled, aaaand. you can add kgco2e cell!!\nFrom now on, our customers can pool and compare the money they spend on their purchases along with their associated emissions",
   "a": "Sergio Prieto García"
  },
  {
@@ -636,7 +636,7 @@
   "d": "24-02",
   "c": "WEB",
   "t": "Sección Finance",
-  "w": "The Finance section (the best one, obviously!) is finally live on the website. Feel free to check it out. I’ll be uploading more info throughout the week, so if you have any feedback or see anything to improve, it would be super helpful! https://new.dcycle.io/solutions/finance/",
+  "w": "The Finance section (the best one, obviously!) is finally live on the website. Feel free to check it out. I’ll be uploading more info throughout the week, so if you have any feedback or see anything to improve, it would be super helpful!",
   "a": "Carmen Báscones Liaño"
  },
  {
@@ -644,7 +644,7 @@
   "d": "25-02",
   "c": "SKILL",
   "t": "/answer-client: respuestas a clientes con contexto de HubSpot + BBDD",
-  "w": "New skill available `/answer-client` in the backend repo: el equipo you will love this\nWhat it does: Automates drafting professional responses to client questions by pulling context from multiple sources before composing the answer.\nHow it works:\n1. HubSpot lookup — Searches for the company, deals, and contact person to understand the client relationship (scopes, verification status, partnerships team, etc.)…",
+  "w": "New skill available /answer-client in the backend repo: el equipo you will love this\nWhat it does: Automates drafting professional responses to client questions by pulling context from multiple sources before composing the answer.\nHow it works:\n1. HubSpot lookup — Searches for the company, deals, and contact person to understand the client relationship (scopes, verification status, partnerships team, etc.)…",
   "a": "Luis Escámez"
  },
  {
@@ -652,7 +652,7 @@
   "d": "25-02",
   "c": "WEB",
   "t": "Reglas de SEO y linter de slugs en el repo",
-  "w": "SEO guidelines added to the project\nWe've added a set of SEO rules to the repository so that all content we publish: blog posts, landing pages, and collection hubs, follows a consistent SEO standard.\nWhat's new:\n· `CLAUDE.md` now includes an \"SEO Rules\" section with guidelines for URL slugs, blog post structure, landing page section order, and internal linking strategy…",
+  "w": "SEO guidelines added to the project\nWe've added a set of SEO rules to the repository so that all content we publish: blog posts, landing pages, and collection hubs, follows a consistent SEO standard.\nWhat's new:\n· CLAUDE.md now includes an \"SEO Rules\" section with guidelines for URL slugs, blog post structure, landing page section order, and internal linking strategy…",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -660,7 +660,7 @@
   "d": "25-02",
   "c": "WEB",
   "t": "221 posts de blog migrados (EN/ES/DE)",
-  "w": "221 blog posts migrados. Todos los que existen en `src/content/blog/`:\n· 130 en inglés\n· 75 en español\n· 16 en alemán\nLos 221 ya estaban en el repositorio y se despliegan automaticamente con cada build de Amplify. No se perdió ninguno. El push a `main` que hicimos dispara el build y los 221 quedan live en `new.dcycle.io`.",
+  "w": "221 blog posts migrados. Todos los que existen en src/content/blog/:\n· 130 en inglés\n· 75 en español\n· 16 en alemán\nLos 221 ya estaban en el repositorio y se despliegan automaticamente con cada build de Amplify. No se perdió ninguno. El push a main que hicimos dispara el build y los 221 quedan live en new.dcycle.io.",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -668,7 +668,7 @@
   "d": "25-02",
   "c": "WEB",
   "t": "Nueva landing de blog con filtros y buscador",
-  "w": "Cambiada la landing del blog!! Como todo, no es definitivo, pero hay un pasito más de estructura, filtros y una barra de buscador Antes vs después\nhttps://new.dcycle.io/blog/",
+  "w": "Cambiada la landing del blog!! Como todo, no es definitivo, pero hay un pasito más de estructura, filtros y una barra de buscador Antes vs después",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -676,7 +676,7 @@
   "d": "25-02",
   "c": "WEB",
   "t": "Moana: agente conversacional en la home",
-  "w": "Tengo novia y se llama Moana .\nHe hecho un cambio en la web, me decis que opinais.\nObjetivo:\na. maximar la captacion de leads, sin necesitar pasar por request a demo o descargarte algo\nb. crear un wow effect, nadie lo tiene en ESG.\nhttps://new.dcycle.io/…",
+  "w": "Tengo novia y se llama Moana.\nHe hecho un cambio en la web, me decis que opinais.\nObjetivo:\na. maximar la captacion de leads, sin necesitar pasar por request a demo o descargarte algo\nb. crear un wow effect, nadie lo tiene en ESG.\nTe metes y te aparece Moana con la cual puedes hablar instantaneamente y en vez de hacer scrolling en la web buscando casos eccc le preguntas cualquier cosa. pero cualquiera, y te habla.…",
   "a": "Davide"
  },
  {
@@ -708,7 +708,7 @@
   "d": "26-02",
   "c": "PROD",
   "t": "Decimales configurables en visualizaciones",
-  "w": "You can now `add or remove decimals` (with rounding, of course) in `visualizations`.",
+  "w": "You can now add or remove decimals (with rounding, of course) in visualizations.",
   "a": "Almudena Gómez-Plata"
  },
  {
@@ -716,7 +716,7 @@
   "d": "26-02",
   "c": "CLI",
   "t": "Carga masiva de factores de emisión personalizados",
-  "w": "Think about this story\nImagine that another BIG HOLDING COMPANY starts working with Dcycle and, for example, wants to use its infinite list of custom emission factors... +500 custom emission factors.\nOMG, the team can already start buying hand cream after making +2000 clicks in a couple of hours creating emission factors one by one...…",
+  "w": "Think about this story\nImagine that another BIG HOLDING COMPANY starts working with Dcycle and, for example, wants to use its infinite list of custom emission factors. +500 custom emission factors.\nOMG, the team can already start buying hand cream after making +2000 clicks in a couple of hours creating emission factors one by one.…",
   "a": "Sergio Prieto García"
  },
  {
@@ -724,7 +724,7 @@
   "d": "26-02",
   "c": "PROD",
   "t": "Unidades correctas en pernoctaciones (\"night\")",
-  "w": "NEW FIX: Accommodation units updated!\nSmall fix, but a notable change for clients with overnight stay data.\nPreviously, overnight stays showed generic units `(unitsshortguess_night)`... (horrible ) but not anymore.\nFrom today, when you upload overnight stays you'll see the correct units — night — in all languages available in Dcycle. No confusion, no noise, all clean.\nThanks for your help Luis Escámez",
+  "w": "NEW FIX: Accommodation units updated!\nSmall fix, but a notable change for clients with overnight stay data.\nPreviously, overnight stays showed generic units (units_short_guess_night). (horrible ) but not anymore.\nFrom today, when you upload overnight stays you'll see the correct units — night — in all languages available in Dcycle. No confusion, no noise, all clean.\nThanks for your help Luis Escámez",
   "a": "Ana Romero"
  },
  {
@@ -740,7 +740,7 @@
   "d": "26-02",
   "c": "WEB",
   "t": "Sección Consumer Goods",
-  "w": "I am delighted to announce that I have managed to create and launch the consumer goods page in a very short time and with incredible results.\nThank you for encouraging and motivating us to explore a field that was initially obscure and very complex, and which in a short time is making me want to do more and more.\nhttps://new.dcycle.io/es/solutions/consumer-goods/",
+  "w": "I am delighted to announce that I have managed to create and launch the consumer goods page in a very short time and with incredible results.\nThank you for encouraging and motivating us to explore a field that was initially obscure and very complex, and which in a short time is making me want to do more and more.",
   "a": "Michel"
  },
  {
@@ -748,7 +748,7 @@
   "d": "26-02",
   "c": "WEB",
   "t": "Sección IT & Technology Services",
-  "w": "No me dejan publicarlo en solutions todavía (por ordenes de Mktg), pero la parte de: Sustainability for IT and technology services companies, It´s live... Vive en el footer https://new.dcycle.io/solutions/information-technology-services/\nCualquier comentario es más que bienvenido",
+  "w": "No me dejan publicarlo en solutions todavía (por ordenes de Mktg), pero la parte de: Sustainability for IT and technology services companies, It´s live. Vive en el footer\nCualquier comentario es más que bienvenido",
   "a": "Paula Serrats"
  },
  {
@@ -780,7 +780,7 @@
   "d": "27-02",
   "c": "WEB",
   "t": "Landing de Acquisitions (M&A)",
-  "w": "Anyone thought CorpDev team would be left behind on building product?\nNew page live: Acquisitions (v1): we just launched our M&A landing page, to position ourselves as the consolidator in the market. It is a dedicated space for ESG software founders who are considering their options (sell now before its too late!); https://new.dcycle.io/acquisitions/.…",
+  "w": "Anyone thought CorpDev team would be left behind on building product?\nNew page live: Acquisitions (v1): we just launched our M&A landing page, to position ourselves as the consolidator in the market. It is a dedicated space for ESG software founders who are considering their options (sell now before its too late!).…",
   "a": "Álvaro San Pedro"
  },
  {
@@ -804,7 +804,7 @@
   "d": "28-02",
   "c": "SKILL",
   "t": "/sync-data: sincronizar datos de producción en local",
-  "w": "New /sync-data Skill for Claude Code\nNew Claude Code skill to sync production data to your local DB.\nType `/sync-data` in Claude Code. It supports:\n· Full sync or specific tables\n· Export to SQL file\n· Optional anonymization of sensitive data\nNo more manual CLI commands or FK/duplicate key headaches.\nRequires: SSH tunnel + `DCYCLEDBUSER` env var.\nBuilt on top of Miguel Perez Contreras's `rds sync` CLI command.…",
+  "w": "New /sync-data Skill for Claude Code\nNew Claude Code skill to sync production data to your local DB.\nType /sync-data in Claude Code. It supports:\n· Full sync or specific tables\n· Export to SQL file\n· Optional anonymization of sensitive data\nNo more manual CLI commands or FK/duplicate key headaches.\nRequires: SSH tunnel + DCYCLE_DB_USER env var.\nBuilt on top of Miguel Perez Contreras's rds sync CLI command.…",
   "a": "Luis Escámez"
  },
  {
@@ -828,7 +828,7 @@
   "d": "04-03",
   "c": "PROD",
   "t": "Emisiones históricas calculadas fuera de Dcycle en todas las categorías",
-  "w": "Include any emissions calculated outside of Dcycle into your carbon footprint\nYou can now record historical emissions across all carbon footprint categories.\nMore in news -https://app.dcycle.io/dcycle-demos/cefc7985-41f5-42d1-8d49-536c1ab0977f/news",
+  "w": "Include any emissions calculated outside of Dcycle into your carbon footprint\nYou can now record historical emissions across all carbon footprint categories.\nMore in news -",
   "a": "Luis Escámez"
  },
  {
@@ -836,7 +836,7 @@
   "d": "04-03",
   "c": "SKILL",
   "t": "/morning-emails: gestión automática del correo de clientes",
-  "w": "New Claude Code skill: `/morning-emails`\nAutomatically processes unread client emails every morning:\n· Checks HubSpot to identify client domains\n· Searches for unread emails from the last 2 days\n· Researches answers in the backend codebase, frontend and database\n· Detects meeting requests and suggests available calendar slots\n· Creates Gmail drafts ready to review and send…",
+  "w": "New Claude Code skill: /morning-emails\nAutomatically processes unread client emails every morning:\n· Checks HubSpot to identify client domains\n· Searches for unread emails from the last 2 days\n· Researches answers in the backend codebase, frontend and database\n· Detects meeting requests and suggests available calendar slots\n· Creates Gmail drafts ready to review and send…",
   "a": "Ana Mateu"
  },
  {
@@ -868,7 +868,7 @@
   "d": "05-03",
   "c": "PROD",
   "t": "Nuevo proyecto de logística GLEC publicado",
-  "w": "NEW LOGISTICS PROJECT - GLEC PUBLISHED\nNow you can say:\nWe are not a Carbon Footprint Calculator anymore\nEach framework has its own space\nLogistics clients will feel much more welcomed in Dcycle\nThis story is the continuation of https://dcycle-workspace.slack.com/archives/C064HEDNKBP/p1771346734811319\n|New GLEC project in Dcycle>, where we raised the problem and the challenge. Here we tell you how the cycle has ended.…",
+  "w": "NEW LOGISTICS PROJECT - GLEC PUBLISHED\nNow you can say:\nWe are not a Carbon Footprint Calculator anymore\nEach framework has its own space\nLogistics clients will feel much more welcomed in Dcycle\nThis story is the continuation of |New GLEC project in Dcycle>, where we raised the problem and the challenge. Here we tell you how the cycle has ended.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -884,7 +884,7 @@
   "d": "05-03",
   "c": "SKILL",
   "t": "/echo-fathom: señales de producto desde las reuniones de Fathom",
-  "w": "New skill: `/echo-fathom` — daily meeting signal extractor\nJust shipped a new Claude skill that pulls product signals from your Fathom meetings automatically.\nWhat it does:\n· Fetches today's external client meetings from Fathom (scoped to your account)\n· Reads the transcript and extracts genuine product signals: pain points, feature requests, moments of confusion, competitive mentions…",
+  "w": "New skill: /echo-fathom — daily meeting signal extractor\nJust shipped a new Claude skill that pulls product signals from your Fathom meetings automatically.\nWhat it does:\n· Fetches today's external client meetings from Fathom (scoped to your account)\n· Reads the transcript and extracts genuine product signals: pain points, feature requests, moments of confusion, competitive mentions…",
   "a": "Ana Mateu"
  },
  {
@@ -892,7 +892,7 @@
   "d": "05-03",
   "c": "SKILL",
   "t": "/sherlock: auditoría profunda de datos de emisiones",
-  "w": "New Skill: Sherlock (`/sherlock`) | Deep Analysis\nLet me introduce you to Sherlock, a Claude Code skill for automated, deep-tier auditing of emission data across parent organizations and subsidiaries.\nHow to use:\n`/sherlock <org_id<year>`\nWhat it handles:\n· Infrastructure: Auto-opens DB tunnels and resolves full parent/child hierarchies.…",
+  "w": "New Skill: Sherlock (/sherlock) | Deep Analysis\nLet me introduce you to Sherlock, a Claude Code skill for automated, deep-tier auditing of emission data across parent organizations and subsidiaries.\nHow to use:\n/sherlock <org_id<year>\nWhat it handles:\n· Infrastructure: Auto-opens DB tunnels and resolves full parent/child hierarchies.…",
   "a": "Daniel Sáenz de Tejada"
  },
  {
@@ -900,7 +900,7 @@
   "d": "05-03",
   "c": "WEB",
   "t": "Imágenes automáticas de cabecera en el blog (API de Unsplash)",
-  "w": "Ya tenemos imágenes automáticas en el blog!\nCada post del blog ahora genera su propia foto de cabecera automáticamente vía la API de Unsplash. Cero trabajo manual, se acabó buscar imágenes a mano!\nEchad un ojo https://dcycle.io/blog/ y si os animáis a escribir algo... ya sabéis!!",
+  "w": "Ya tenemos imágenes automáticas en el blog!\nCada post del blog ahora genera su propia foto de cabecera automáticamente vía la API de Unsplash. Cero trabajo manual, se acabó buscar imágenes a mano!\nEchad un ojo y si os animáis a escribir algo. ya sabéis!!",
   "a": "Alba Ortiz"
  },
  {
@@ -908,7 +908,7 @@
   "d": "06-03",
   "c": "PROD",
   "t": "Carga masiva de consumos de instalaciones (luz, agua, combustible)",
-  "w": "Bulk Upload for Facility Consumption\nYou can now upload electricity, water, and fuel consumption data for all your facilities in bulk using a single file.\nThis was a crucial blocker for our 15% international ARR goal\nMore info -https://app.dcycle.io/dcycle-demos/cefc7985-41f5-42d1-8d49-536c1ab0977f/news/31bb1965-e769-8114-b351-decd8fcd7b30",
+  "w": "Bulk Upload for Facility Consumption\nYou can now upload electricity, water, and fuel consumption data for all your facilities in bulk using a single file.\nThis was a crucial blocker for our 15% international ARR goal\nMore info -",
   "a": "Luis Escámez"
  },
  {
@@ -972,7 +972,7 @@
   "d": "09-03",
   "c": "INIT",
   "t": "Nuevo repo Go to Market",
-  "w": "New repo: Go to Market\nHey team! I've created a shared repository for our Go to Market efforts: https://github.com/Dcycle-by-WUM/go-to-market\nThe idea is to have a single place where we can upload all the tools, skills, and resources that Go to Market teams are building — and everyone else is welcome to contribute too.…",
+  "w": "New repo: Go to Market\nHey team! I've created a shared repository for our Go to Market efforts:\nThe idea is to have a single place where we can upload all the tools, skills, and resources that Go to Market teams are building — and everyone else is welcome to contribute too.…",
   "a": "Jacobo Umbert"
  },
  {
@@ -988,7 +988,7 @@
   "d": "10-03",
   "c": "SKILL",
   "t": "/prepare-qbr: QBRs de cliente automáticos",
-  "w": "Nueva skill de Claude Code: `/prepare-qbr`Hoy hemos lanzado una skill de IA para preparar QBRs de clientes de forma automática. En menos de 5 minutos genera un informe estratégico completo combinando datos de HubSpot, Notion y la base de datos de producción.¿Cómo funciona?\n· Escribe `/prepare-qbr [nombre del cliente]` en Claude Code y la skill:Busca el contrato, deal y contactos en HubSpot…",
+  "w": "_Nueva skill de Claude Code: /prepare-qbr_Hoy hemos lanzado una skill de IA para preparar QBRs de clientes de forma automática. En menos de 5 minutos genera un informe estratégico completo combinando datos de HubSpot, Notion y la base de datos de producción.¿Cómo funciona?\n· Escribe /prepare-qbr [nombre del cliente] en Claude Code y la skill:Busca el contrato, deal y contactos en HubSpot…",
   "a": "Cecilia Bayas"
  },
  {
@@ -996,7 +996,7 @@
   "d": "10-03",
   "c": "CLI",
   "t": "dc purchase upload + skill /file-transform",
-  "w": "`dc purchase upload` CLI + `/file-transform` skill\nNew: `/file-transform` skill\nInteractively converts any client Excel/CSV into Dcycle's bulk upload format. Claude reads the file, proposes column mappings, asks about currency/country/exclusions, previews the result, and writes the output CSV. Supports multi-sheet Excel with date extraction from sheet names.…",
+  "w": "Dc purchase upload CLI + /file-transform skill\nNew: /file-transform skill\nInteractively converts any client Excel/CSV into Dcycle's bulk upload format. Claude reads the file, proposes column mappings, asks about currency/country/exclusions, previews the result, and writes the output CSV. Supports multi-sheet Excel with date extraction from sheet names.…",
   "a": "Daniel Sáenz de Tejada"
  },
  {
@@ -1004,7 +1004,7 @@
   "d": "11-03",
   "c": "CLI",
   "t": "dc-walrus: la CLI instalable en cualquier Mac/Linux",
-  "w": "`dc-walrus` is live . What the hell does this even mean?\nThis means anyone (with mac/linux at least) can install Dcycle CLI and use it from their own computer.\nWe're aware this is a weird technology for most of our current clients. But this is the way most advanced software is being used right now (via API/via CLI).\nYou can do:\n`brew tap Dcycle-by-WUM/tap https://github.com/Dcycle-by-WUM/homebrew-tap`\n`brew install dc-walrus`…",
+  "w": "Dc-walrus is live. What the hell does this even mean?\nThis means anyone (with mac/linux at least) can install Dcycle CLI and use it from their own computer.\nWe're aware this is a weird technology for most of our current clients. But this is the way most advanced software is being used right now (via API/via CLI).\nYou can do:\nbrew tap Dcycle-by-WUM/tap\nbrew install dc-walrus…",
   "a": "Daniel Jiménez"
  },
  {
@@ -1020,7 +1020,7 @@
   "d": "13-03",
   "c": "PROD",
   "t": "Lecturas automáticas de facturas vía Cuenco",
-  "w": "Auto Readings added to invoices via Cuenco :\nUpload invoice file -Get Invoice classification + File Reading. No need to click -process invoice.\nFile auto processes if invoice classification is confident enough.\nThis needs a lot of UX improvements. Coming soon.",
+  "w": "Auto Readings added to invoices via Cuenco:\nUpload invoice file -Get Invoice classification + File Reading. No need to click -process invoice.\nFile auto processes if invoice classification is confident enough.\nThis needs a lot of UX improvements. Coming soon.",
   "a": "Daniel Jiménez"
  },
  {
@@ -1044,7 +1044,7 @@
   "d": "13-03",
   "c": "WEB",
   "t": "Sección de eventos en la web",
-  "w": "We need to show what makes us different, and at events, we are too.\nWe now have our own events section on the website!\nI've added AECOC and Corresponsables for now!!! I'll keep adding past events, but from now on you can all add new ones after attending, just with some context and a few photos\nhttps://dcycle.io/events",
+  "w": "We need to show what makes us different, and at events, we are too.\nWe now have our own events section on the website!\nI've added AECOC and Corresponsables for now!!! I'll keep adding past events, but from now on you can all add new ones after attending, just with some context and a few photos",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -1052,7 +1052,7 @@
   "d": "13-03",
   "c": "SKILL",
   "t": "Skills del repo go-to-market arregladas",
-  "w": "I've fixed all skills of the repo `go-to-market` . Now you can use them!",
+  "w": "I've fixed all skills of the repo go-to-market. Now you can use them!",
   "a": "Luis Escámez"
  },
  {
@@ -1060,7 +1060,7 @@
   "d": "15-03",
   "c": "INIT",
   "t": "Diagnóstico de deals perdidos por mala cualificación",
-  "w": "Time is the one thing that doesn't scale. And when you spend it in the wrong place, it doesn't come back.\nIn sales this has a name: 38% of our lost deals were opportunities that should never have made it past the first meeting. Ghosting and zero real pain. Hundreds of hours spent trying to convince people who were never going to buy.\nToday we're launching `/quali`.…",
+  "w": "Time is the one thing that doesn't scale. And when you spend it in the wrong place, it doesn't come back.\nIn sales this has a name: 38% of our lost deals were opportunities that should never have made it past the first meeting. Ghosting and zero real pain. Hundreds of hours spent trying to convince people who were never going to buy.\nToday we're launching /quali.…",
   "a": "Jacobo Umbert"
  },
  {
@@ -1068,7 +1068,7 @@
   "d": "16-03",
   "c": "SKILL",
   "t": "/new-webinar: landing completa de webinar en 4 idiomas",
-  "w": "Nueva skill disponible: `/new-webinar`\nAutomatiza la creación de una landing page completa para webinars en los 4 idiomas, con formulario de registro, preview en la lista de webinars y popup en la home.\nCómo funciona\nRecoge los datos del webinar — título, descripción SEO, fecha, speakers, duración, HubSpot form ID, ID de YouTube, imagen, tags y categoría.…",
+  "w": "Nueva skill disponible: /new-webinar\nAutomatiza la creación de una landing page completa para webinars en los 4 idiomas, con formulario de registro, preview en la lista de webinars y popup en la home.\nCómo funciona\nRecoge los datos del webinar — título, descripción SEO, fecha, speakers, duración, HubSpot form ID, ID de YouTube, imagen, tags y categoría.…",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -1084,7 +1084,7 @@
   "d": "17-03",
   "c": "PROD",
   "t": "The Wiki: un \"read.me\" por empresa dentro de Dcycle",
-  "w": "Quick one: we shipped a new fx, 'The Wiki'.\nEvery company gets a plain-text \"read.me\" file inside Dcycle. A single place to pin the stuff people keep asking about: who's the admin, what's this year's CCF, where do I find the supplier list, what did we decide about X...…",
+  "w": "Quick one: we shipped a new fx, 'The Wiki'.\nEvery company gets a plain-text \"read.me\" file inside Dcycle. A single place to pin the stuff people keep asking about: who's the admin, what's this year's CCF, where do I find the supplier list, what did we decide about X.…",
   "a": "Juanjo Mestre"
  },
  {
@@ -1116,7 +1116,7 @@
   "d": "17-03",
   "c": "SKILL",
   "t": "/dcycle-perfiles y otras dos skills de GTM",
-  "w": "3 new skills ready\nThree new workflows available from today:\n`/dcycle-perfiles` — Drop company names → get a full call-ready briefing pulled from HubSpot + web + LinkedIn + Einforma. Saves directly as a HubSpot note. No manual research.\n`/discovery-notes-dcycle` — Drop a HubSpot URL → get a structured discovery note (Context, BANT + urgency 1–5, key quote, next steps, qualification gaps).…",
+  "w": "3 new skills ready\nThree new workflows available from today:\n/dcycle-perfiles — Drop company names → get a full call-ready briefing pulled from HubSpot + web + LinkedIn + Einforma. Saves directly as a HubSpot note. No manual research.\n/discovery-notes-dcycle — Drop a HubSpot URL → get a structured discovery note (Context, BANT + urgency 1–5, key quote, next steps, qualification gaps). Saves directly to the contact/company.…",
   "a": "Paula Serrats"
  },
  {
@@ -1140,7 +1140,7 @@
   "d": "18-03",
   "c": "SKILL",
   "t": "Outbound Engine: ciclo completo de cold email",
-  "w": "Nuevo skill disponible: Outbound Engine\nYa está en el repo `go-to-market` el skill que automatiza el ciclo completo de secuencias de cold email:\n→ Envío vía Gmail API con warm-up progresivo\n→ Tracking automático en HubSpot\n→ Clasificación de respuestas (interested, OOO, opt-out, referral…)\n→ Compliance GDPR (suppression checks + List-Unsubscribe)…",
+  "w": "Nuevo skill disponible: Outbound Engine\nYa está en el repo go-to-market el skill que automatiza el ciclo completo de secuencias de cold email:\n→ Envío vía Gmail API con warm-up progresivo\n→ Tracking automático en HubSpot\n→ Clasificación de respuestas (interested, OOO, opt-out, referral…)\n→ Compliance GDPR (suppression checks + List-Unsubscribe)…",
   "a": "Graciel"
  },
  {
@@ -1156,7 +1156,7 @@
   "d": "18-03",
   "c": "SKILL",
   "t": "Directorio de skills de Claude Code en un Canvas",
-  "w": "Directorio de Skills de Claude Code — todo en un CanvasComo dijo Lu: \"Am I the only one who can't keep track with all the product news? TOO MANY!!\" — pues ya no hay excusa He recopilado todas las skills y comandos CLI que habéis ido publicando aquí en una tabla única: skill, qué hace, área, owner, repo y fecha.…",
+  "w": "_Directorio de Skills de Claude Code — todo en un Canvas_Como dijo Lu: \"Am I the only one who can't keep track with all the product news? TOO MANY!!\" — pues ya no hay excusa He recopilado todas las skills y comandos CLI que habéis ido publicando aquí en una tabla única: skill, qué hace, área, owner, repo y fecha.…",
   "a": "Alba Ortiz"
  },
  {
@@ -1172,7 +1172,7 @@
   "d": "19-03",
   "c": "PROD",
   "t": "Proyectos LCA en vivo (66 orgs con proyecto creado automáticamente)",
-  "w": "LCA Projects are live\nOne more step towards a Multi-project Dcycle\nAll 66 orgs with LCA data now have a dedicated LCA project created automatically.\nWork happens there from now on. More focus, more clarity.\nNext steps:\ncommunicate to clients via mail\nimprove LCA project\nremove LCA access from home\nDetails:\nEN: https://www.notion.so/328b1965e769810ca884dbe6c51a5f8d\nES: https://www.notion.so/328b1965e7698129b38cdfe9e010920d",
+  "w": "LCA Projects are live\nOne more step towards a Multi-project Dcycle\nAll 66 orgs with LCA data now have a dedicated LCA project created automatically.\nWork happens there from now on. More focus, more clarity.\nNext steps:\ncommunicate to clients via mail\nimprove LCA project\nremove LCA access from home\nDetails:\nEN:\nES:",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1196,7 +1196,7 @@
   "d": "19-03",
   "c": "SKILL",
   "t": "Hooks de Claude Code: ty y ruff automáticos en el backend",
-  "w": "New Claude Code hooks in `dcycle-backend-app` — after every `.py` edit, ty (type check) and ruff (lint) run automatically. No more catching these manually! PR: https://github.com/Dcycle-by-WUM/dcycle-backend-app/pull/4627",
+  "w": "New Claude Code hooks in dcycle-backend-app — after every.py edit, ty (type check) and ruff (lint) run automatically. No more catching these manually! PR:",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -1204,7 +1204,7 @@
   "d": "19-03",
   "c": "SKILL",
   "t": "/new-event: página de evento",
-  "w": "`/new-event`: Create an event page\nThis skill creates an event page to document Dcycle's presence at conferences, forums, or industry gatherings. It automatically generates all 4 locale versions (EN, ES, DE, PT).\nHow it works\n1. Asks for event context: name, date, location, venue, organizer, approximate attendees, and what the event was about.…",
+  "w": "/new-event: Create an event page\nThis skill creates an event page to document Dcycle's presence at conferences, forums, or industry gatherings. It automatically generates all 4 locale versions (EN, ES, DE, PT).\nHow it works\n1. Asks for event context: name, date, location, venue, organizer, approximate attendees, and what the event was about.…",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -1260,7 +1260,7 @@
   "d": "24-03",
   "c": "WEB",
   "t": "Demo Library en la web",
-  "w": "New section in the web: DEMO LIRBARY*_\nThe first version of the Demo Library on the website. Step 0 towards freemium product version, towards Leads generated thanks to the product.\nFrom the product team we will work in the next weeks to make the product more autonomous / self-service so a Freemium Product makes sense, but...why the product should wait to generate leads!…",
+  "w": "New section in the web: DEMO LIRBARY\nThe first version of the Demo Library on the website. Step 0 towards freemium product version, towards Leads generated thanks to the product.\nFrom the product team we will work in the next weeks to make the product more autonomous / self-service so a Freemium Product makes sense, but.why the product should wait to generate leads!…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1268,7 +1268,7 @@
   "d": "24-03",
   "c": "WEB",
   "t": "Sección Plan de Movilidad Sostenible (Ley 9/2025)",
-  "w": "New web section live: Sustainable Mobility Plan (Ley 9/2025)\nI've published a new section explaining what Spain's Sustainable Mobility Law (Ley 9/2025), accelerated this week by RDL 7/2026, requires companies to do — and how Dcycle helps them comply:\nES → https://www.dcycle.io/es/soluciones/ley-movilidad/\nEN → https://www.dcycle.io/solutions/mobility-law/\nWhy was this built:…",
+  "w": "New web section live: Sustainable Mobility Plan (Ley 9/2025)\nI've published a new section explaining what Spain's Sustainable Mobility Law (Ley 9/2025), accelerated this week by RDL 7/2026, requires companies to do — and how Dcycle helps them comply:\nES →\nEN →\nWhy was this built:…",
   "a": "Lucía Mosquera"
  },
  {
@@ -1276,8 +1276,8 @@
   "d": "24-03",
   "c": "SKILL",
   "t": "Agente de auto-respuesta a candidatos en LinkedIn",
-  "w": "Come on, Alex Alexito is starting too! https://www.linkedin.com/posts/alejandro-gonzalez-diez-9a610930ai-innovation-dcycle-[…]m=memberdesktop&rcm=ACoAADI3n70BIbZfTl3WzpomCamx4QqG7haBPlg",
-  "a": "Vanesa García"
+  "w": "New recruiting automation: LinkedIn auto-reply agent\nEvery candidate who replies to a LinkedIn outreach deserves a fast, human response. The problem: between campaigns running in parallel and candidates across time zones, replies can take hours or days. Hours where the candidate goes cold or accepts another offer. So we (I) automated it.…",
+  "a": "Álvaro Granados"
  },
  {
   "i": 160,
@@ -1348,7 +1348,7 @@
   "d": "26-03",
   "c": "SKILL",
   "t": "Rogel.IA: motor de nurturing",
-  "w": "Rogel.IA — The nurturing engine we all dreamed of\nWe've all been there. A call ends. The prospect isn't ready to buy yet. You know there's something there. And then... nothing. The account goes cold. You forget. They forget. The deal never happens.…",
+  "w": "Rogel.IA — The nurturing engine we all dreamed of\nWe've all been there. A call ends. The prospect isn't ready to buy yet. You know there's something there. And then. nothing. The account goes cold. You forget. They forget. The deal never happens.…",
   "a": "Jorge Latorre Escudero"
  },
  {
@@ -1428,7 +1428,7 @@
   "d": "07-04",
   "c": "PROD",
   "t": "Pivot table de remuneración y brecha salarial",
-  "w": "Remuneration & Wage Gap Pivot Table\nNew Social pivot category lets clients analyse annualized employee remuneration and gender wage gap (%) across their organization tree. This was the last pivot table needed to be compliant with the EINF. Few minor adjustments remain, but a milestone has been reached here .\nKey highlights:\nThree measures: Average remuneration (FTE-weighted), Gender wage gap (%), FTE headcount…",
+  "w": "Remuneration & Wage Gap Pivot Table\nNew Social pivot category lets clients analyse annualized employee remuneration and gender wage gap (%) across their organization tree. This was the last pivot table needed to be compliant with the EINF. Few minor adjustments remain, but a milestone has been reached here.\nKey highlights:\nThree measures: Average remuneration (FTE-weighted), Gender wage gap (%), FTE headcount…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1436,7 +1436,7 @@
   "d": "07-04",
   "c": "SKILL",
   "t": "/education-client-needs",
-  "w": "New Claude Code skill: `/education-client-needs`\nYou know that feeling when a client opens their 5th ticket this month asking the same question? (my day-to-day drama) We can't make clients autonomous if we don't even know what they don't know. This skill fixes that.\nWhat it does:\nRun `/education-client-needs` and it will automatically:\n· Pull all Customer Support tickets from the last 30 days…",
+  "w": "New Claude Code skill: /education-client-needs\nYou know that feeling when a client opens their 5th ticket this month asking the same question? (my day-to-day drama) We can't make clients autonomous if we don't even know what they don't know. This skill fixes that.\nWhat it does:\nRun /education-client-needs and it will automatically:\n· Pull all Customer Support tickets from the last 30 days…",
   "a": "Cristina Marín"
  },
  {
@@ -1444,7 +1444,7 @@
   "d": "07-04",
   "c": "INIT",
   "t": "Arranca Decarbonization Plans (wizard guiado por IA)",
-  "w": "Decarbonization Plans — we're building it\nWe're starting work on a super fucking cool decarbonization feature — an AI-guided wizard that helps users create a full reduction plan with targets, concrete actions, costs, and ROI.\nTeam: Luis Escámez, Daniel Jiménez, Cecilia Bayas, Lucía Mosquera\n@design — we need you to ship this! Let's chat\nFull spec → https://www.notion.so/33bb1965e76981dbb859d7523b025fa8",
+  "w": "Decarbonization Plans — we're building it\nWe're starting work on a super fucking cool decarbonization feature — an AI-guided wizard that helps users create a full reduction plan with targets, concrete actions, costs, and ROI.\nTeam: Luis Escámez, Daniel Jiménez, Cecilia Bayas, Lucía Mosquera\n@design — we need you to ship this! Let's chat\nFull spec →",
   "a": "Luis Escámez"
  },
  {
@@ -1476,7 +1476,7 @@
   "d": "08-04",
   "c": "SKILL",
   "t": "/clients-pulse y otra skill de CS",
-  "w": "New CS skills in Claude Code\nTwo new skills for the CS team:\n`/clients-pulse` — weekly portfolio health check per CS. Uses the official Data Health Score (Breadth, Depth, Freshness, Quality) across 19 data categories to classify each client with traffic lights. Posts a summary to #cs-portfolio-pulse with a thread per CS. It runs automatically every Monday so each CS can review their portfolio at the start of the week.…",
+  "w": "New CS skills in Claude Code\nTwo new skills for the CS team:\n/clients-pulse — weekly portfolio health check per CS. Uses the official Data Health Score (Breadth, Depth, Freshness, Quality) across 19 data categories to classify each client with traffic lights. Posts a summary to #cs-portfolio-pulse with a thread per CS. It runs automatically every Monday so each CS can review their portfolio at the start of the week.…",
   "a": "Cecilia Bayas"
  },
  {
@@ -1484,7 +1484,7 @@
   "d": "08-04",
   "c": "SKILL",
   "t": "/ps-lca-scope y /ps-lca-evaluate",
-  "w": "New CS Skills: PS LCA Scope & Evaluate*_\nTwo new skills to streamline Professional Services LCA/EPD project lifecycle:\n`/ps-lca-scope` — From request to partner briefing\nAnalyzes a PS request from Notion, classifies the service type (LCA Essentials, Fully Assisted, EPD Complete, ISO), estimates hours and pricing, and generates a ready-to-send briefing for partners.\n`/ps-lca-evaluate` — From proposals to client pricing…",
+  "w": "New CS Skills: PS LCA Scope & Evaluate\nTwo new skills to streamline Professional Services LCA/EPD project lifecycle:\n/ps-lca-scope — From request to partner briefing\nAnalyzes a PS request from Notion, classifies the service type (LCA Essentials, Fully Assisted, EPD Complete, ISO), estimates hours and pricing, and generates a ready-to-send briefing for partners.\n/ps-lca-evaluate — From proposals to client pricing…",
   "a": "Cecilia Bayas"
  },
  {
@@ -1508,7 +1508,7 @@
   "d": "09-04",
   "c": "SKILL",
   "t": "/news-comms: avisar a los clientes que sufrían el problema resuelto",
-  "w": "New internal tool: `/news-comms`\nEvery time we ship a feature, there are clients who suffered the exact problem it solves — but nobody tells them. Now that's automated.\nHow it works\n1. Someone posts a product update in #product-news\n2. Run `/news-comms <link-to-the-message>`…",
+  "w": "New internal tool: /news-comms\nEvery time we ship a feature, there are clients who suffered the exact problem it solves — but nobody tells them. Now that's automated.\nHow it works\n1. Someone posts a product update in #product-news\n2. Run /news-comms <link-to-the-message>…",
   "a": "Luis Escámez"
  },
  {
@@ -1564,7 +1564,7 @@
   "d": "14-04",
   "c": "PROD",
   "t": "Importe y divisa al crear y editar facturas",
-  "w": "More towards client autonomy and more valuable insights from Dcycle's data capabilities:\nNow you can record the amount and currency of each invoice directly from the creation and editing form and split amounts are correctly displayed.\nFrom feedback to reality in less than 24h\nhttps://www.notion.so/dcycle/Nueva-respuesta-341b1965e76981c4951df8c1a67658ab…",
+  "w": "More towards client autonomy and more valuable insights from Dcycle's data capabilities:\nNow you can record the amount and currency of each invoice directly from the creation and editing form and split amounts are correctly displayed.\nFrom feedback to reality in less than 24h",
   "a": "Luis Escámez"
  },
  {
@@ -1572,7 +1572,7 @@
   "d": "14-04",
   "c": "CLI",
   "t": "invoice recalculate",
-  "w": "New dc-walrus command: `invoice recalculate`\nWhen clients panic because their invoices are stuck showing emissions as \"not calculated\", we now have a fix that takes minutes instead of manually clicking and saving each one.\nYou can now recalculate emissions for invoices directly from the CLI:…",
+  "w": "New dc-walrus command: invoice recalculate\nWhen clients panic because their invoices are stuck showing emissions as \"not calculated\", we now have a fix that takes minutes instead of manually clicking and saving each one.\nYou can now recalculate emissions for invoices directly from the CLI:…",
   "a": "Cristina Marín"
  },
  {
@@ -1596,7 +1596,7 @@
   "d": "16-04",
   "c": "CLI",
   "t": "La CLI pasa a llamarse dcy (+ mejoras)",
-  "w": "DCYCLE CLI — Updates\nWe've shipped some changes to the CLI this week. Here's what's new:\nNew binary name\nWe’re saying goodbye to our dear `dc-walrus` in favor of a shorter, more memorable name: `dcy`.\n(We’ll keep you in our hearts )\nThe CLI is now `dcy` (previously `dc-walrus`). If you have the old version installed:\nIf you already have `dcy` installed, just run:\nWhat’s changed…",
+  "w": "DCYCLE CLI — Updates\nWe've shipped some changes to the CLI this week. Here's what's new:\nNew binary name\nWe’re saying goodbye to our dear dc-walrus in favor of a shorter, more memorable name: dcy.\n(We’ll keep you in our hearts )\nThe CLI is now dcy (previously dc-walrus). If you have the old version installed:\nIf you already have dcy installed, just run:\nWhat’s changed…",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -1612,7 +1612,7 @@
   "d": "20-04",
   "c": "PROD",
   "t": "Pre-Audit automatizado",
-  "w": "Pre-Audit automation is live\nAfter months of running queries one by one in QuickSight and stitching together charts manually, we are officially retiring that workflow forever.\nWe have shipped `/pre-audit` — a Claude Code skill that connects to the production read-replica, runs 54 SQL queries across the full organization tree, and generates a standalone HTML report with a Health Score, color-coded findings…",
+  "w": "Pre-Audit automation is live\nAfter months of running queries one by one in QuickSight and stitching together charts manually, we are officially retiring that workflow forever.\nWe have shipped /pre-audit — a Claude Code skill that connects to the production read-replica, runs 54 SQL queries across the full organization tree, and generates a standalone HTML report with a Health Score, color-coded findings…",
   "a": "Sergio Prieto García"
  },
  {
@@ -1628,7 +1628,7 @@
   "d": "20-04",
   "c": "CLI",
   "t": "vehicle delete-consumptions",
-  "w": "New command available in dcy (formerly dc-walrus):\nvehicle delete-consumptions — bulk-delete all vehicle consumptions for an organization within a date range.\n`dcy vehicle delete-consumptions`\nWhat it does:\n- Bulk-deletes vehicle consumptions filtered by date range\n- --include-subsidiaries recursively includes all child organizations\n- --start-date and --end-date are required to prevent accidental mass deletions…",
+  "w": "New command available in dcy (formerly dc-walrus):\nvehicle delete-consumptions — bulk-delete all vehicle consumptions for an organization within a date range.\ndcy vehicle delete-consumptions\nWhat it does:\n- Bulk-deletes vehicle consumptions filtered by date range\n- --include-subsidiaries recursively includes all child organizations\n- --start-date and --end-date are required to prevent accidental mass deletions…",
   "a": "Ana Romero"
  },
  {
@@ -1644,7 +1644,7 @@
   "d": "21-04",
   "c": "AGENT",
   "t": "Endpoint GET /v1/waste-efs",
-  "w": "The `GET /v1/waste-efs` endpoint is now available. The client can use it to look up the `wasteefsid` they need for their LER/RD code combinations.\nFull documentation here: https://code.dcycle.io/api-reference/wastes/emission-factors\nQuick example — find the `wasteefsid` for LER code `200101` + RD code `R3`:\nThe response returns the `id` field, which is the `wasteefsid` to use in `POST /v1/wastes`:…",
+  "w": "The GET /v1/waste-efs endpoint is now available. The client can use it to look up the waste_efs_id they need for their LER/RD code combinations.\nFull documentation here:\nQuick example — find the waste_efs_id for LER code 200101 + RD code R3:\nThe response returns the id field, which is the waste_efs_id to use in POST /v1/wastes:…",
   "a": "Miguel Contreras"
  },
  {
@@ -1652,7 +1652,7 @@
   "d": "21-04",
   "c": "SKILL",
   "t": "/emissions-expert",
-  "w": "Skill created at `/emissions-expert`\nWhat it does:\nStep 1 — asks for the methodology: GHG Protocol, ISO 14064, GLEC, LCA, or General\nStep 2 — asks for the specific category within that methodology\nStep 3 — it goes to backend repository calculation logic in that category\nStep 4 — responds with the full template:\nWhat it covers:\n· Calculation formula\n· Required variables and inputs…",
+  "w": "Skill created at /emissions-expert\nWhat it does:\nStep 1 — asks for the methodology: GHG Protocol, ISO 14064, GLEC, LCA, or General\nStep 2 — asks for the specific category within that methodology\nStep 3 — it goes to backend repository calculation logic in that category\nStep 4 — responds with the full template:\nWhat it covers:\n· Calculation formula\n· Required variables and inputs…",
   "a": "Daniel Sáenz de Tejada"
  },
  {
@@ -1676,7 +1676,7 @@
   "d": "22-04",
   "c": "AGENT",
   "t": "Nueva herramienta MCP get_greenhouse_gas_emissions",
-  "w": "Making more useful our MCP, so I just shipped a new tool: getgreenhousegasemissions*_\nIt lets Claude (and other LLMs) query our validated GHG emission data directly. A few highlights:\n· Queries all the kpi related to emissions— only fully valid, enabled records\n· Supports all 25 emission categories, or omit category to span all scopes at once…",
+  "w": "Making more useful our MCP, so I just shipped a new tool: _get_greenhouse_gas_emissions_\nIt lets Claude (and other LLMs) query our validated GHG emission data directly. A few highlights:\n· Queries all the kpi related to emissions— only fully valid, enabled records\n· Supports all 25 emission categories, or omit category to span all scopes at once…",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -1708,7 +1708,7 @@
   "d": "27-04",
   "c": "CLI",
   "t": "Borrado masivo de productos vendidos",
-  "w": "New `dcy` command: bulk-delete sold products\nThis morning a client uploaded 2834 sold products by mistake (she was just testing lol) . The UI deletes one at a time. Do the math. Plus: she needs them to be urgently deleted by the end of the day (encima sabes)\nSo `dcy sold-product delete-bulk` was born — feed it a file of IDs, walk away, come back to a clean DB.…",
+  "w": "New dcy command: bulk-delete sold products\nThis morning a client uploaded 2834 sold products by mistake (she was just testing lol). The UI deletes one at a time. Do the math. Plus: she needs them to be urgently deleted by the end of the day (encima sabes)\nSo dcy sold-product delete-bulk was born — feed it a file of IDs, walk away, come back to a clean DB.…",
   "a": "Cristina Marín"
  },
  {
@@ -1732,7 +1732,7 @@
   "d": "29-04",
   "c": "CLI",
   "t": "custom-ef delete-bulk",
-  "w": "New `dcy` command: `custom-ef delete-bulk`\nA client recently uploaded 195 custom emission factor groups with mistakes. The UI currently has no filters or bulk delete — so here's a temporary workaround until that's addressed by el equipo\nWhere `<ids-file>` is a text file with one group UUID per line.\nFlags:\n· `--yes`/`-y`— skip the confirmation prompt\n· `--org`— override the organization ID…",
+  "w": "New dcy command: custom-ef delete-bulk\nA client recently uploaded 195 custom emission factor groups with mistakes. The UI currently has no filters or bulk delete — so here's a temporary workaround until that's addressed by el equipo\nWhere <ids-fileis a text file with one group UUID per line.\nFlags:\n· --yes/-y— skip the confirmation prompt\n· --org— override the organization ID\n· --format json— structured output for scripting…",
   "a": "Cristina Marín"
  },
  {
@@ -1756,7 +1756,7 @@
   "d": "04-05",
   "c": "DOCS",
   "t": "Guías de requisitos de datos del GHG Protocol",
-  "w": "New skill: `/expert-ghg-protocol` in dcycle-cs-skills repo\nEverytime there is a doubt on how the GHG Protocol requires any piece of information or how any calculation should be done:\nAuditor calls client and client calls CS\nCS answer\nCS calls a databro and databro answers\nMost of the times CS or databros need to check the GHG Protocol methodology documents to confirm the answer.…",
+  "w": "New skill: /expert-ghg-protocol in dcycle-cs-skills repo\nEverytime there is a doubt on how the GHG Protocol requires any piece of information or how any calculation should be done:\nAuditor calls client and client calls CS\nCS answer\nCS calls a databro and databro answers\nMost of the times CS or databros need to check the GHG Protocol methodology documents to confirm the answer.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1764,7 +1764,7 @@
   "d": "04-05",
   "c": "SKILL",
   "t": "/expert-ghg-protocol",
-  "w": "New skill: `/expert-ghg-protocol` in dcycle-cs-skills repo\nEverytime there is a doubt on how the GHG Protocol requires any piece of information or how any calculation should be done:\nAuditor calls client and client calls CS\nCS answer\nCS calls a databro and databro answers\nMost of the times CS or databros need to check the GHG Protocol methodology documents to confirm the answer.…",
+  "w": "New skill: /expert-ghg-protocol in dcycle-cs-skills repo\nEverytime there is a doubt on how the GHG Protocol requires any piece of information or how any calculation should be done:\nAuditor calls client and client calls CS\nCS answer\nCS calls a databro and databro answers\nMost of the times CS or databros need to check the GHG Protocol methodology documents to confirm the answer.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1780,7 +1780,7 @@
   "d": "05-05",
   "c": "CLI",
   "t": "invoice recalculate --unit-id",
-  "w": "New dcy command: `invoice recalculate --unit-id`\nA client had 110 invoices \"under review\" in 7 different facilities without a unit, which silently blocks recalculation — the PUT goes through but the calc does nothing. There was no bulk way to fix this from the UI, so here's a CLI workaround.\n`dcy invoice recalculate --org <orgid--facility <facilityid--unit-id <unit_id>`…",
+  "w": "New dcy command: invoice recalculate --unit-id\nA client had 110 invoices \"under review\" in 7 different facilities without a unit, which silently blocks recalculation — the PUT goes through but the calc does nothing. There was no bulk way to fix this from the UI, so here's a CLI workaround.\ndcy invoice recalculate --org <org_id--facility <facility_id--unit-id <unit_id>…",
   "a": "Cristina Marín"
  },
  {
@@ -1828,7 +1828,7 @@
   "d": "08-05",
   "c": "INIT",
   "t": "Anuncio de Custom KPIs",
-  "w": "Heads up! New feature incoming: custom KPIs\nA reminder that this feature is coming and it will open so many possibilities: custom KPIs, supplier homologation... maybe even PIAs!\nThis feature allows clients to collect data from inside AND outside the company. For example, Hanna Sola needs to track how many pigs each farm is producing per year. She creates this KPI assign it to Manolo, he has that information.…",
+  "w": "Heads up! New feature incoming: custom KPIs\nA reminder that this feature is coming and it will open so many possibilities: custom KPIs, supplier homologation. maybe even PIAs!\nThis feature allows clients to collect data from inside AND outside the company. For example, Hanna Sola needs to track how many pigs each farm is producing per year. She creates this KPI assign it to Manolo, he has that information.…",
   "a": "Luis Escámez"
  },
  {
@@ -1844,7 +1844,7 @@
   "d": "11-05",
   "c": "INIT",
   "t": "Land arranca la máquina de recomendaciones y recordatorios",
-  "w": "Land is back! We will spend the next ~10 days (until 22nd May)~ 5 days (until 18th May) on building the first piece of Dcycle Recommendations and Reminders Machine\nToday, most of out customers like Susana from Aldelis (Aves Nobles y Derivados) depend heavily on their Customer Success to complete a Carbon Footprint project. She only uses mails and meetings to get a clear idea on what to do next...…",
+  "w": "Land is back! We will spend the next ~10 days (until 22nd May)~ 5 days (until 18th May) on building the first piece of Dcycle Recommendations and Reminders Machine\nToday, most of out customers like Susana from Aldelis (Aves Nobles y Derivados) depend heavily on their Customer Success to complete a Carbon Footprint project. She only uses mails and meetings to get a clear idea on what to do next.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -1892,7 +1892,7 @@
   "d": "18-05",
   "c": "PROD",
   "t": "Máquina de recomendaciones y recordatorios en proyectos GHG",
-  "w": "Recommendations & Reminders Machine is LIVE\nStarting today, GHG Protocol projects come with built-in recommendations:\n· Dcycle tells clients what data is missing and how to upload it!! Right inside the project home\n· First reminder emails go out May 25th\nThe \"I don't know what to do next\" panic from Susana finally answered by the product…",
+  "w": "Recommendations & Reminders Machine is LIVE\nStarting today, GHG Protocol projects come with built-in recommendations:\n· Dcycle tells clients what data is missing and how to upload it!! Right inside the project home\n· First reminder emails go out May 25th\nThe \"I don't know what to do next\" panic from Susana finally answered by the product\nFull story → <",
   "a": "Jadde Suarez"
  },
  {
@@ -1964,7 +1964,7 @@
   "d": "22-05",
   "c": "DOCS",
   "t": "Help Center en help.dcycle.io",
-  "w": "Alright team, finally: we now have a help center: help.dcycle.io\nFor a while our client resources have been scattered across Notion, decks, emails and Loom. From now on they have a single home.\nThe idea is simple: make it the place clients go when they have a question, before reaching out to us = increasing autonomy . For that to work, the content needs to be complete and updated— and that's where the whole team comes in.…",
+  "w": "Alright team, finally: we now have a help center: help.dcycle.io\nFor a while our client resources have been scattered across Notion, decks, emails and Loom. From now on they have a single home.\nThe idea is simple: make it the place clients go when they have a question, before reaching out to us = increasing autonomy. For that to work, the content needs to be complete and updated— and that's where the whole team comes in.…",
   "a": "Cristina Marín"
  },
  {
@@ -2020,7 +2020,7 @@
   "d": "27-05",
   "c": "AGENT",
   "t": "Caso de uso MCP con Solarig (Operational Intelligence)",
-  "w": "Hey folks , short anecdote from a really interesting Solarig MCP use case Sergio Prieto García and I were working on today, around Operational Intelligence and real user challenges:\nWe’re helping Blanca build the prompt that will generate the KPIs she needs to report to Management. As a first step, we shared a base prompt in Notion so she can iterate on it and give us feedback on:…",
+  "w": "Hey folks, short anecdote from a really interesting Solarig MCP use case Sergio Prieto García and I were working on today, around Operational Intelligence and real user challenges:\nWe’re helping Blanca build the prompt that will generate the KPIs she needs to report to Management. As a first step, we shared a base prompt in Notion so she can iterate on it and give us feedback on:…",
   "a": "Miguel Perez Contreras"
  },
  {
@@ -2028,7 +2028,7 @@
   "d": "27-05",
   "c": "SKILL",
   "t": "/bulldog: preparación de follow-ups comerciales",
-  "w": "Meet Bulldog.\nRun `/bulldog [Company Name]` before any follow-up with a prospect and it does this in under 2 minutes:\n· Pulls the deal from HubSpot (stage, MEDPICC gaps, last contact)\n· Reads every email thread with that prospect\n· Loads all Salescaling call transcripts\n· Checks recent product updates in <#C064HEDNKBP|product-news>\n· Researches the company externally (ESG news, regulatory triggers, competitor moves)…",
+  "w": "Meet Bulldog.\nRun /bulldog [Company Name] before any follow-up with a prospect and it does this in under 2 minutes:\n· Pulls the deal from HubSpot (stage, MEDPICC gaps, last contact)\n· Reads every email thread with that prospect\n· Loads all Salescaling call transcripts\n· Checks recent product updates in <#C064HEDNKBP|product-news>\n· Researches the company externally (ESG news, regulatory triggers, competitor moves)…",
   "a": "Carlos Valverde"
  },
  {
@@ -2076,7 +2076,7 @@
   "d": "04-06",
   "c": "PROD",
   "t": "Hito: 16.000 consumos de vehículos procesados sin errores",
-  "w": "Meanwhile...\nmaking history again\nMilestone unlocked: 16K vehicle consumptions processed — zero errors, zero inconsistencies, zero drama. The platform didn't even flinch. This is what maturity looks like. Might 200k records and it will perform strong as well",
+  "w": "Making history again\nMilestone unlocked: 16K vehicle consumptions processed — zero errors, zero inconsistencies, zero drama. The platform didn't even flinch. This is what maturity looks like. Might 200k records and it will perform strong as well",
   "a": "Iñigo Medina"
  },
  {
@@ -2124,7 +2124,7 @@
   "d": "09-06",
   "c": "PROD",
   "t": "Custom KPIs rediseñados + encuestas para recoger cualquier dato",
-  "w": "Custom KPIs just got a complete REDESIGN and NEW FEATURES\nSend surveyS to recolect ANY TYPE OF DATA!\nWhat started as a client must-have by Luis Escámez is now a . I have rebuilt the entire experience with a brand-new UI and a lot of powerful additions.\nWhat can you do now?\n· Create surveys with any answer type\n◦ Number\n◦ Percentage %\n◦ Text\n◦ Date\n◦ Yes / No…",
+  "w": "Custom KPIs just got a complete REDESIGN and NEW FEATURES\nSend surveyS to recolect ANY TYPE OF DATA!\nWhat started as a client must-have by Luis Escámez is now a. I have rebuilt the entire experience with a brand-new UI and a lot of powerful additions.\nWhat can you do now?\n· Create surveys with any answer type\n◦ Number\n◦ Percentage %\n◦ Text\n◦ Date\n◦ Yes / No…",
   "a": "Jack"
  },
  {
@@ -2140,7 +2140,7 @@
   "d": "09-06",
   "c": "CLI",
   "t": "Carga de compras multi-filial en un solo paso",
-  "w": "New in the `dcy` CLI — purchase uploads\nUntil now, uploading purchases for a group with multiple subsidiaries via the CLI was simply not possible in a single step. For a client like Gransolar — 60 organisations in one file — the only option was to manually split the CSV into 60 separate files and run 60 individual commands. In practice, nobody did it this way.\nThat changes now.\nMulti-org upload…",
+  "w": "New in the dcy CLI — purchase uploads\nUntil now, uploading purchases for a group with multiple subsidiaries via the CLI was simply not possible in a single step. For a client like Gransolar — 60 organisations in one file — the only option was to manually split the CSV into 60 separate files and run 60 individual commands. In practice, nobody did it this way.\nThat changes now.\nMulti-org upload…",
   "a": "Marina Oliveros"
  },
  {
@@ -2164,7 +2164,7 @@
   "d": "10-06",
   "c": "DOCS",
   "t": "Guía: poner a cero las emisiones de electricidad con una GdO",
-  "w": "New guide live on Dcycle Learn\nSet electricity emissions to zero with a Guarantee of Origin — a step-by-step walkthrough showing customers how to apply a GdO so their market-based Scope 2 drops to zero. It tackles one of our most-repeated support questions (\"we have a guarantee of origin… how do we get the CO₂ to 0?\").\nEN → https://help.dcycle.io/product-guides/apply-guarantee-of-origin/…",
+  "w": "New guide live on Dcycle Learn\nSet electricity emissions to zero with a Guarantee of Origin — a step-by-step walkthrough showing customers how to apply a GdO so their market-based Scope 2 drops to zero. It tackles one of our most-repeated support questions (\"we have a guarantee of origin… how do we get the CO₂ to 0?\").\nEN →\nES →…",
   "a": "Luis Escámez"
  },
  {
@@ -2188,7 +2188,7 @@
   "d": "11-06",
   "c": "PROD",
   "t": "Report Builder más rápido y con visualizaciones que siguen siendo visuales",
-  "w": "Just had a meeting with Aludec (EINF + Decarbonization demo) — one of those sessions that reminds you why this work matters.\nEuge literally said \"¡está buenísimo!\" for both projects! But the real moment: she's been frustrated for months that we only had DEFRA as emission factor source. When I showed her the new multidatabase (EPA, IEA, full catalog) she went silent. First time I've seen her speechless .…",
+  "w": "Just had a meeting with Aludec (EINF + Decarbonization demo) — one of those sessions that reminds you why this work matters.\nEuge literally said \"¡está buenísimo!\" for both projects! But the real moment: she's been frustrated for months that we only had DEFRA as emission factor source. When I showed her the new multidatabase (EPA, IEA, full catalog) she went silent. First time I've seen her speechless.…",
   "a": "Lucía Mosquera"
  },
  {
@@ -2212,7 +2212,7 @@
   "d": "11-06",
   "c": "DOCS",
   "t": "Guías: comparar dos años y corregir el CNAE/SIC de un proveedor",
-  "w": "New guide on Dcycle Learn\nFix a supplier's category (CNAE/SIC) for spend-based purchases — how to correct a supplier that was auto-detected into the wrong activity (the classic \"energy retailer flagged as Food & beverages\"), or map one that had no code, so the spend-based emission factor recalculates.\nEN → https://help.dcycle.io/product-guides/fix-purchase-category/…",
+  "w": "New guide on Dcycle Learn\nFix a supplier's category (CNAE/SIC) for spend-based purchases — how to correct a supplier that was auto-detected into the wrong activity (the classic \"energy retailer flagged as Food & beverages\"), or map one that had no code, so the spend-based emission factor recalculates.\nEN →\nES →…",
   "a": "Luis Escámez"
  },
  {
@@ -2220,7 +2220,7 @@
   "d": "12-06",
   "c": "DOCS",
   "t": "Guía de Custom KPIs en Dcycle Learn",
-  "w": "New guide on Dcycle Learn\nCreate custom KPIs and collect values from your organization — how to define your own indicators (water use, waste, certifications, anything), group them into a KPI group, run collection campaigns with deadlines and automatic reminders, and gather values from data owners through magic-link surveys — no Dcycle account needed on their side.\nEN → https://help.dcycle.io/product-guides/create-custom-kpis/…",
+  "w": "New guide on Dcycle Learn\nCreate custom KPIs and collect values from your organization — how to define your own indicators (water use, waste, certifications, anything), group them into a KPI group, run collection campaigns with deadlines and automatic reminders, and gather values from data owners through magic-link surveys — no Dcycle account needed on their side.\nEN →\nES →…",
   "a": "Luis Escámez"
  },
  {
@@ -2300,7 +2300,7 @@
   "d": "23-06",
   "c": "SKILL",
   "t": "/mobility-scoping (PMST, Ley 9/2025)",
-  "w": "New skill (CS-repo): `/mobility-scoping`\nWorkplace Sustainable Mobility Plans (PMST) are now mandatory under Ley 9/2025 for companies with 200+ workers or 100+ per shift at any single work center. Deadline: December 5, 2026.\nWhat it does…",
+  "w": "New skill (CS-repo): /mobility-scoping\nWorkplace Sustainable Mobility Plans (PMST) are now mandatory under Ley 9/2025 for companies with 200+ workers or 100+ per shift at any single work center. Deadline: December 5, 2026.\nWhat it does\nGive it a client name, email thread, or situation description and it tells you whether the obligation applies, what data is missing to confirm it, and what service tier they’ll need (Básico…",
   "a": "Cecilia Bayas"
  },
  {
@@ -2396,7 +2396,7 @@
   "d": "30-06",
   "c": "PROD",
   "t": "MultiDB en viajes de negocio + detalle del cálculo",
-  "w": "MultiDB for Business Travel el equipo\nWe just enabled multidatabase support for Biz trips across the app\n· Check emission factors used by each of your travel\n· Now you can impute `number of passengers` alongside `number of trips`\n· Check how the distance was calculated of your travel\n· You can now use DEFRA and Ecoinvent",
+  "w": "MultiDB for Business Travel el equipo\nWe just enabled multidatabase support for Biz trips across the app\n· Check emission factors used by each of your travel\n· Now you can impute number of passengers alongside number of trips\n· Check how the distance was calculated of your travel\n· You can now use DEFRA and Ecoinvent",
   "a": "Diego Acuña"
  },
  {
@@ -2468,7 +2468,7 @@
   "d": "03-07",
   "c": "PROD",
   "t": "Nueva categoría en emisiones históricas: cambio de uso de suelo (FLAG)",
-  "w": "New category in Historical Emissions: Land Use Change (a.k.a. FLAG for GHG viz!!)\nThe Land Use Change category is now available in the Historical Emissions module — also known as FLAG (Forests, Land & Agriculture) in the GHG Protocol world, yes, that’s actually what it’s called.\nWhat’s included?\n· New `landusechange` category correctly classified as Scope 1 per ISO 14064 Category 1 (direct GHG emissions — LULUCF)…",
+  "w": "New category in Historical Emissions: Land Use Change (a.k.a. FLAG for GHG viz!!)\nThe Land Use Change category is now available in the Historical Emissions module — also known as FLAG (Forests, Land & Agriculture) in the GHG Protocol world, yes, that’s actually what it’s called.\nWhat’s included?\n· New land_use_change category correctly classified as Scope 1 per ISO 14064 Category 1 (direct GHG emissions — LULUCF)…",
   "a": "Marina Oliveros"
  },
  {
@@ -2484,7 +2484,7 @@
   "d": "06-07",
   "c": "PROD",
   "t": "Emisiones de transporte de residuos separadas (excluibles en SBTi)",
-  "w": "You can now see waste management and transport emissions separately, and exclude transport from your SBTi reports. Saving Felix Solís one PR at the time.\nTo see this, wastes need to be recalculated. This can be done with the new `dcy admin recalculate-waste-transport` . Update `dcy` to use it!\ncc: <#C0BELHFGBD3|recoveryfélixsolís_avantis>",
+  "w": "You can now see waste management and transport emissions separately, and exclude transport from your SBTi reports. Saving Felix Solís one PR at the time.\nTo see this, wastes need to be recalculated. This can be done with the new dcy admin recalculate-waste-transport. Update dcy to use it!\ncc: <#C0BELHFGBD3|recovery_félix_solís_avantis>",
   "a": "Luis Escámez"
  },
  {
@@ -2500,7 +2500,7 @@
   "d": "07-07",
   "c": "CLI",
   "t": "Release 0.0.115 de dcy con nuevos comandos (doctor)",
-  "w": "We're constantly improving our CLI `dcy` . Current release is 0.0.115, check if you're using an old version.\nWe've added a bunch of new commands. `doctor` is quite useful to check your current config.",
+  "w": "We're constantly improving our CLI dcy. Current release is 0.0.115, check if you're using an old version.\nWe've added a bunch of new commands. doctor is quite useful to check your current config.",
   "a": "Iñigo Medina"
  },
  {
@@ -2508,7 +2508,7 @@
   "d": "07-07",
   "c": "SKILL",
   "t": "/seed-categories",
-  "w": "New Skill: `/seed-categories` at dcycle-backend-app repository\nTired of having to recreate data in your local database when Claude decides to delete your DB because a colleague missed a merge heads of alembic?\nSolution is here!!\nIt populates your local Dcycle backend with N records (default 10) per data category for a given year, making sure it calculates correctly everything as intended.…",
+  "w": "New Skill: /seed-categories at dcycle-backend-app repository\nTired of having to recreate data in your local database when Claude decides to delete your DB because a colleague missed a merge heads of alembic?\nSolution is here!!\nIt populates your local Dcycle backend with N records (default 10) per data category for a given year, making sure it calculates correctly everything as intended.…",
   "a": "Diego Acuña"
  },
  {
@@ -2540,7 +2540,7 @@
   "d": "08-07",
   "c": "PROD",
   "t": "Carga multi-org del Excel en 14 categorías nuevas",
-  "w": "Multi-org data upload in the Excel Data Importer available in 14 new categories\nYou can now upload data for a whole holding and its subsidiaries in a single file, with category-specific, org-aware validations .\nThis means: dependent fields like facilities, employees and vehicle plates must belong to the row's organization; duplicate / overlap / contract checks are scoped per org.…",
+  "w": "Multi-org data upload in the Excel Data Importer available in 14 new categories\nYou can now upload data for a whole holding and its subsidiaries in a single file, with category-specific, org-aware validations.\nThis means: dependent fields like facilities, employees and vehicle plates must belong to the row's organization; duplicate / overlap / contract checks are scoped per org.…",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -2580,7 +2580,7 @@
   "d": "13-07",
   "c": "PROD",
   "t": "Subida guiada de facturas dentro de las categorías",
-  "w": "The guided upload experience is now available for invoices inside categories\nThe same guided ingestion flow you already knew from My Files — the one that shows you exactly where each upload stands at every moment (upload → classification → reading...) — is now available for invoice uploads inside each category of a facility (electricity, water, waste, recharges, fuels…).…",
+  "w": "The guided upload experience is now available for invoices inside categories\nThe same guided ingestion flow you already knew from My Files — the one that shows you exactly where each upload stands at every moment (upload → classification → reading.) — is now available for invoice uploads inside each category of a facility (electricity, water, waste, recharges, fuels…).…",
   "a": "Miguel Contreras"
  },
  {
@@ -2612,7 +2612,7 @@
   "d": "14-07",
   "c": "CLI",
   "t": "Dos comandos nuevos de códigos de proveedor en dcy purchase",
-  "w": "Two new `dcy purchase` commands — you can now mess with purchases supplier codes straight from the CLI\nSee or export your suppliers with their current code & framework — `dcy purchase suppliers`\n· Wanna search by name? → `dcy purchase suppliers --search ikea`\n· Need a CSV? (lands in `~/Downloads`, or wherever you point it) → `dcy purchase suppliers --output suppliers.csv`\n· Prefer JSON? → `dcy purchase suppliers -o json`…",
+  "w": "Two new dcy purchase commands — you can now mess with purchases supplier codes straight from the CLI\nSee or export your suppliers with their current code & framework — dcy purchase suppliers\n· Wanna search by name? → dcy purchase suppliers --search ikea\n· Need a CSV? (lands in ~/Downloads, or wherever you point it) → dcy purchase suppliers --output suppliers.csv\n· Prefer JSON? → dcy purchase suppliers -o json…",
   "a": "Diego Ramírez"
  },
  {
@@ -2628,7 +2628,7 @@
   "d": "14-07",
   "c": "WEB",
   "t": "Loop automático que publica las novedades en la web",
-  "w": "The new automated loop for uploading product news to the website is now live!!! https://dcycle-workspace.slack.com/archives/C09RK0Q325P/p1784042069678669 It's a great step forward, but it means we need to be more careful with the visual content we share through this channel (screenshots and videos), since it gets published directly.\nTo ensure quality and consistency, the following rules are now mandatory:…",
+  "w": "The new automated loop for uploading product news to the website is now live!!! It's a great step forward, but it means we need to be more careful with the visual content we share through this channel (screenshots and videos), since it gets published directly.\nTo ensure quality and consistency, the following rules are now mandatory:\n1. Videos: must be recorded and sent using the Screen Recording app, with no padding.…",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -2636,7 +2636,7 @@
   "d": "15-07",
   "c": "PROD",
   "t": "Descargas separadas por categoría en Scope 1 y 2",
-  "w": "Yes finally we now have separate downloads for the categories of Scope 1 & 2\nNot needing to download all and link it to emissions -small step towards not being only ESG\nExploit the data you want to exploit:\n· Categories: heat , electricity , recharge , vehicles\n· Including monetary imports in the download\n· Download them between 2 dates, not only a full year",
+  "w": "Yes finally we now have separate downloads for the categories of Scope 1 & 2\nNot needing to download all and link it to emissions -small step towards not being only ESG\nExploit the data you want to exploit:\n· Categories: heat, electricity, recharge, vehicles\n· Including monetary imports in the download\n· Download them between 2 dates, not only a full year",
   "a": "Diego Acuña"
  },
  {
@@ -2716,7 +2716,7 @@
   "d": "23-07",
   "c": "SKILL",
   "t": "i18n Translation Guard en cada PR",
-  "w": "No more Spanish leaking into English/German demos\nWe now have an i18n Translation Guard on every PR. `i18n:check` only compared keys — it went green even when a key existed in every language but the value was still Spanish. That's exactly the text that kept surfacing in en/de demos.…",
+  "w": "No more Spanish leaking into English/German demos\nWe now have an i18n Translation Guard on every PR. i18n:check only compared keys — it went green even when a key existed in every language but the value was still Spanish. That's exactly the text that kept surfacing in en/de demos.…",
   "a": "Carlos Valverde"
  },
  {
@@ -2724,7 +2724,7 @@
   "d": "24-07",
   "c": "WEB",
   "t": "9 novedades de producto publicadas en dcycle.io/novedades",
-  "w": "Heyyy team! we've published 9 product updates on the website this week dcycle.io/novedades\n· Organize your LCAs into folders → group your LCAs by product line, client, season... whatever works best for you\n· Split invoices in bulk → multi-category invoices can now be split into line items in bulk instead of one by one…",
+  "w": "Heyyy team! we've published 9 product updates on the website this week dcycle.io/novedades\n· Organize your LCAs into folders → group your LCAs by product line, client, season. whatever works best for you\n· Split invoices in bulk → multi-category invoices can now be split into line items in bulk instead of one by one…",
   "a": "Cristina Alcalá-Zamora"
  },
  {
@@ -2764,7 +2764,7 @@
   "d": "31-07",
   "c": "PROD",
   "t": "Elastic Data en producción: cualquier dato vive en Dcycle",
-  "w": "TODAY, FRIDAY 31st OF JULY, IS A HISTORIIIIIIIIIIIIIIIIIIIIIIIIIC DAY FOR DCYCLE! **\nToday MEMORY is launching one of the biggest platform evolutions we’ve ever built. A major step towards making Dcycle the true System of Record for our customers. Dcycle is no longer just an ESG software. It’s becoming a platform where any customer data can live, be managed, and be turned into insights. el equipo…",
+  "w": "TODAY, FRIDAY 31st OF JULY, IS A HISTORIIIIIIIIIIIIIIIIIIIIIIIIIC DAY FOR DCYCLE!\nToday MEMORY is launching one of the biggest platform evolutions we’ve ever built. A major step towards making Dcycle the true System of Record for our customers. Dcycle is no longer just an ESG software. It’s becoming a platform where any customer data can live, be managed, and be turned into insights. el equipo…",
   "a": "Jack"
  },
  {
@@ -2780,7 +2780,7 @@
   "d": "31-07",
   "c": "PROD",
   "t": "Analizar, visualizar y compartir cualquier dato sin salir de Dcycle",
-  "w": "But wait... there’s more. Storing data is great. Using it is where the magic happens.\n------------------------------------------------------------------------------------------------------------\nTurn your data into insights, without leaving Dcycle\nYour data doesn’t just live in Dcycle anymore. Now you can analyze, visualize, and share it with ease.\nWhat can you do?\n· Download your data as Excel or CSV in one click.…",
+  "w": "But wait. there’s more. Storing data is great. Using it is where the magic happens.\n------------------------------------------------------------------------------------------------------------\nTurn your data into insights, without leaving Dcycle\nYour data doesn’t just live in Dcycle anymore. Now you can analyze, visualize, and share it with ease.\nWhat can you do?\n· Download your data as Excel or CSV in one click.…",
   "a": "Jack"
  },
  {
@@ -2812,7 +2812,7 @@
   "d": "04-08",
   "c": "CLI",
   "t": "Comandos PPWR en dcy",
-  "w": "New PPWR commands in `dcy` CLI\nManage your PPWR packaging units and SKUs directly from the Dcycle CLI, ideal for bulk updates and automation.",
+  "w": "New PPWR commands in dcy CLI\nManage your PPWR packaging units and SKUs directly from the Dcycle CLI, ideal for bulk updates and automation.",
   "a": "Luis Escámez"
  },
  {
@@ -2852,7 +2852,7 @@
   "d": "10-08",
   "c": "PROD",
   "t": "Deshacer una subida entera en un clic (borrado por fichero multi-org)",
-  "w": "MONDAY-FUNDAY :) Undo a whole upload in one click el equipo\nDelete associated data by file across many organizations\nUploaded the wrong file? Imported outdated data? Now you can remove everything that file created across all organizations in one click.\nWhat’s new?\n· Delete associated data across every organization where the file was imported.\n· Start from My Files or the Processing page.…",
+  "w": "MONDAY-FUNDAY:) Undo a whole upload in one click el equipo\nDelete associated data by file across many organizations\nUploaded the wrong file? Imported outdated data? Now you can remove everything that file created across all organizations in one click.\nWhat’s new?\n· Delete associated data across every organization where the file was imported.\n· Start from My Files or the Processing page.…",
   "a": "Jack"
  },
  {
@@ -2908,7 +2908,7 @@
   "d": "14-08",
   "c": "CLI",
   "t": "Métricas de intensidad desde CLI y MCP",
-  "w": "Intensity metrics from the CLI and MCP\nYou can now read and load intensity metrics (emissions per unit of production) without touching the UI: `dcy intensity` in the CLI, plus 11 new tools in the Dcycle MCP so you can just ask Claude for them.\ncode.dcycle.io/cli/intensity",
+  "w": "Intensity metrics from the CLI and MCP\nYou can now read and load intensity metrics (emissions per unit of production) without touching the UI: dcy intensity in the CLI, plus 11 new tools in the Dcycle MCP so you can just ask Claude for them.\ncode.dcycle.io/cli/intensity",
   "a": "Luis Escámez"
  },
  {
@@ -2932,7 +2932,7 @@
   "d": "18-08",
   "c": "PROD",
   "t": "Comentarios en facturas",
-  "w": "Comments in Invoices are live\nOur client Griñó asked for a way to add notes/context in invoices...so you can now leave comments directly in an invoice — with two key capabilities:\n· @mention teammates in a comment\n· Attach files (evidence, supporting docs, etc.)\nStarting with invoices as a pilot, extendable later!…",
+  "w": "Comments in Invoices are live\nOur client Griñó asked for a way to add notes/context in invoices.so you can now leave comments directly in an invoice — with two key capabilities:\n· @mention teammates in a comment\n· Attach files (evidence, supporting docs, etc.)\nStarting with invoices as a pilot, extendable later!…",
   "a": "Cristina Marín"
  },
  {
@@ -2988,7 +2988,7 @@
   "d": "24-08",
   "c": "PROD",
   "t": "La app recomienda proyectos según datos, sector y frameworks",
-  "w": "Another push from the app to create new deals.\nNow the app also recommends projects based on the data introduced, sector and frameworks already purchased..",
+  "w": "Another push from the app to create new deals.\nNow the app also recommends projects based on the data introduced, sector and frameworks already purchased.",
   "a": "Ricardo Méndez Escobar"
  },
  {
@@ -2996,7 +2996,7 @@
   "d": "25-08",
   "c": "PROD",
   "t": "Vista de grupo en tablas de datos (crear, editar y borrar de toda la familia)",
-  "w": "Group view for data tables\nFrom the parent organization, users can now see, create, edit, and delete data for their whole corporate family in a single data table, with an `Organization` column and organization filter. Stop account switching.\nLive now for Vehicles and Business Travels, available to all clients. More categories rolling out soon.\nNext steps:\nCommunicate to clients managing corporate groups…",
+  "w": "Group view for data tables\nFrom the parent organization, users can now see, create, edit, and delete data for their whole corporate family in a single data table, with an Organization column and organization filter. Stop account switching.\nLive now for Vehicles and Business Travels, available to all clients. More categories rolling out soon.\nNext steps:\nCommunicate to clients managing corporate groups…",
   "a": "Ricardo Méndez Escobar"
  },
  {

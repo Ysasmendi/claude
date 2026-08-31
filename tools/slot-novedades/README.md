@@ -13,7 +13,7 @@ Abre `index.html` en el navegador. No necesita servidor ni instalar nada.
 - **Girar** (o barra espaciadora) lanza la tirada.
 - **Chips de categoría** dejan fuera lo que no interese: Producto (233), Skills (43), Web (29), CLI (25), Leia/API (22), Iniciativas (21), Docs (15).
 - **Sin repetir** descarta las que ya han salido; *Reiniciar salidas* vuelve a meterlas.
-- **Toca la casilla premiada** y la máquina imprime un ticket con qué es esa funcionalidad y para qué sirve, sacado del mensaje original de `#product-news` (con fecha y quién lo contó). Segundo toque, o *Cerrar*, y se guarda.
+- **Toca la casilla premiada** y la máquina imprime un ticket *encima de la bobina* con qué es esa funcionalidad y para qué sirve, sacado del mensaje original de `#product-news` (con fecha y quién lo contó). Se cierra tocando el ticket, con *Cerrar* o con `Esc`; una tirada nueva también lo esconde.
 - **Sonido**: mientras gira, clic mecánico de bobina en cada casilla y campanilleo pentatónico que se abre al frenar. Al parar, caja registradora: cajón, "cha" metálico, "ching" de campana y once monedas cayendo. Todo sintetizado con Web Audio, no hay ficheros de audio.
 
 ## Las Vegas
@@ -48,9 +48,15 @@ Después de tocar la plantilla o de añadir novedades al markdown:
 python3 tools/slot-novedades/scripts/build.py
 ```
 
+## Pensado para proyectar
+
+Nada de scroll: la página entra completa en 1280×720 y en 1920×1080, y por debajo de 780px de alto se compacta (casilla de 112px, sin pie). El ticket se superpone a la ventana de la bobina en lugar de empujar el layout, así que no hay que mover la página para leerlo.
+
+El texto se autoajusta: baja de 17px a 13px hasta caber. Por debajo de 13px no se lee desde el fondo de una sala, así que a partir de ahí recorta por palabra con búsqueda binaria y deja el "…" a la vista, en vez de encoger o esconder texto. Comprobadas las 388 definiciones en cuatro tamaños de pantalla: ninguna se sale ni necesita scroll. A 1080p solo 6 se recortan; a 720p, 26.
+
 ## Las definiciones
 
-Las 388 definiciones salen del mensaje original de `#product-news`, no de un resumen inventado: se citan tal cual se publicaron (en el idioma en que se escribieron, casi siempre inglés), limpiando emojis, menciones, formato de Slack y arranques de hype, y cortando por frase alrededor de los 430 caracteres.
+Las 388 definiciones salen del mensaje original de `#product-news`, no de un resumen inventado: se citan tal cual se publicaron (en el idioma en que se escribieron, casi siempre inglés), limpiando emojis, menciones, enlaces, backticks, formato de Slack y arranques de hype, y cortando por frase alrededor de los 430 caracteres. Los identificadores tipo `employee_historic` se conservan: las negritas por asterisco y las itálicas por guion bajo se tratan por separado para no comerse los guiones bajos de dentro de una palabra.
 
 El emparejamiento novedad → mensaje se hizo por fecha más solapamiento de tokens, con un diccionario español-inglés para que un título en español encuentre su mensaje en inglés. Las 24 filas que el automático dejó sin pareja fiable están fijadas a mano por un fragmento del texto, y dos fechas mal apuntadas en la lista (`/sdr-copilot` y Decarb capítulo 2) se corrigieron en el markdown. Muestra de 22 al azar revisada una a una: 22 correctas.
 

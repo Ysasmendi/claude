@@ -24,14 +24,13 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:28px 20px 40px;
-    gap:26px;
+    padding:22px 20px 26px;
+    gap:18px;
   }
   .brand{display:flex;align-items:baseline;gap:10px}
   .brand b{font-size:19px;font-weight:700;letter-spacing:-0.04em}
   .brand span{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;opacity:.65}
-  h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;text-align:center;text-wrap:balance;line-height:1.05}
-  .sub{font-size:14px;font-weight:500;opacity:.7;text-align:center;max-width:52ch;line-height:1.5}
+  h1{font-size:clamp(24px,3.6vw,34px);font-weight:800;text-align:center;text-wrap:balance;line-height:1.05}
   .head{display:flex;flex-direction:column;align-items:center;gap:10px}
 
   @keyframes rumble{
@@ -181,9 +180,14 @@
     100%{opacity:1;transform:translateY(0) scaleY(1)}
   }
   .ticket{
-    width:min(660px,100%);
+    position:absolute;
+    top:18px;left:18px;right:18px;                /* justo encima de la ventana de la bobina */
+    height:calc(var(--cell-h) * 3);
+    z-index:5;
+    display:flex;flex-direction:column;
     transform-origin:top center;
     animation:print .42s cubic-bezier(.2,.9,.2,1);
+    cursor:pointer;
   }
   .ticket[hidden]{display:none}
   .ticket .perf{
@@ -192,30 +196,34 @@
     background-size:16px 12px;background-repeat:repeat-x;
   }
   .ticket .tbody{
+    flex:1;min-height:0;
     background:var(--white);border-radius:0 0 14px 14px;
-    padding:20px 26px 22px;
-    box-shadow:0 24px 50px -18px rgba(6,16,90,.5);
+    padding:16px 26px 14px;
+    box-shadow:0 26px 60px -14px rgba(6,16,90,.65);
+    display:flex;flex-direction:column;
   }
+  .ticket .what{flex:1;min-height:0;overflow-y:auto}
+  .ticket .tfoot{margin-top:auto}
   .ticket .eyebrow{
     font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
     color:var(--blue);opacity:.5;
     padding-bottom:10px;border-bottom:1px dashed rgba(41,71,254,.28);
   }
   .ticket h2{
-    font-size:clamp(19px,2.6vw,24px);font-weight:800;color:var(--blue);
-    line-height:1.18;text-wrap:balance;margin-top:14px;
+    font-size:clamp(18px,2.4vw,23px);font-weight:800;color:var(--blue);
+    line-height:1.16;text-wrap:balance;margin-top:10px;
   }
   .ticket .tmeta{
-    display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;
     font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
   }
   .ticket .tmeta .tag{background:#F0F3FF;color:var(--blue);border-radius:20px;padding:3px 9px}
   .ticket .what{
-    margin-top:14px;font-size:15px;line-height:1.58;color:#415162;
+    margin-top:12px;font-size:17px;line-height:1.5;color:#415162;
     white-space:pre-line;letter-spacing:-0.02em;
   }
   .ticket .tfoot{
-    margin-top:16px;padding-top:12px;border-top:1px dashed rgba(41,71,254,.28);
+    margin-top:12px;padding-top:10px;border-top:1px dashed rgba(41,71,254,.28);
     display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
     font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
   }
@@ -225,12 +233,12 @@
   }
   @media (prefers-reduced-motion:reduce){.ticket{animation:none}}
 
-  .controls{display:flex;flex-direction:column;align-items:center;gap:16px;width:min(660px,100%)}
+  .controls{display:flex;flex-direction:column;align-items:center;gap:13px;width:min(660px,100%)}
   button.spin{
     font-family:inherit;letter-spacing:0.1em;text-transform:uppercase;
-    font-size:15px;font-weight:800;
+    font-size:15px;font-weight:800;padding:14px 48px;
     background:var(--white);color:var(--blue);
-    border:none;border-radius:999px;padding:16px 52px;cursor:pointer;
+    border:none;border-radius:999px;cursor:pointer;
     box-shadow:0 10px 24px -8px rgba(6,14,80,.6);
     transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease;
   }
@@ -244,7 +252,7 @@
     font-family:inherit;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
     background:transparent;color:rgba(255,255,255,.72);
     border:1px solid rgba(255,255,255,.4);
-    border-radius:999px;padding:7px 14px;cursor:pointer;
+    border-radius:999px;padding:6px 12px;cursor:pointer;
     display:flex;align-items:center;gap:7px;
     transition:background .2s ease,color .2s ease,border-color .2s ease;
   }
@@ -252,7 +260,7 @@
   .chip[aria-pressed="true"]{background:var(--white);color:var(--blue);border-color:var(--white)}
   .chip em{font-style:normal;font-variant-numeric:tabular-nums;opacity:.6;font-weight:700}
 
-  .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;font-size:13px;font-weight:500}
+  .row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;font-size:13px;font-weight:500}
   .row label{display:flex;align-items:center;gap:8px;cursor:pointer;opacity:.85}
   .row input{width:16px;height:16px;accent-color:#fff;cursor:pointer}
   .row button.link{
@@ -260,10 +268,20 @@
     color:var(--white);opacity:.7;text-decoration:underline;cursor:pointer;padding:0;
   }
   .row button.link:hover{opacity:1}
-  .status{font-size:13px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums;text-align:center}
+  .status{font-size:13px;font-weight:500;opacity:.65;font-variant-numeric:tabular-nums}
   .status b{font-weight:700;opacity:1}
-  footer{font-size:12px;font-weight:500;opacity:.55;text-align:center;max-width:60ch;line-height:1.6}
+  footer{font-size:11px;font-weight:500;opacity:.5;text-align:center;max-width:80ch;line-height:1.5}
   footer code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:rgba(255,255,255,.14);padding:2px 5px;border-radius:4px}
+  @media (max-height:780px){
+    :root{--cell-h:112px}
+    body{padding:14px 20px 18px;gap:12px}
+    h1{font-size:26px}
+    footer{display:none}
+    .machine{padding:14px}
+    .ticket{top:14px;left:14px;right:14px}
+    .lever{top:20px;height:150px}
+    .machine.spinning .lever .knob{top:120px}
+  }
   @media (prefers-reduced-motion:reduce){
     .lever .knob,button.spin{transition:none}
     .machine.fast{animation:none}
@@ -275,7 +293,6 @@
 <div class="head">
   <div class="brand"><b>dcycle</b><span>product news 2026</span></div>
   <h1>Tragaperras de Novedades</h1>
-  <p class="sub">388 novedades publicadas en #product-news entre el 8 de enero y el 31 de agosto de 2026. Dale, y cuando pare toca la casilla para ver qué es esa funcionalidad.</p>
 </div>
 
 <div class="machine" id="machine">
@@ -290,18 +307,17 @@
   </div>
   <div class="marquee" id="marquee" aria-hidden="true"></div>
   <div class="lever" aria-hidden="true"><div class="track"></div><div class="knob"></div></div>
+  <section class="ticket" id="ticket" hidden tabindex="-1" aria-live="polite">
+    <div class="perf"></div>
+    <div class="tbody">
+      <p class="eyebrow" id="t-eyebrow"></p>
+      <h2 id="t-title"></h2>
+      <p class="tmeta"><span class="tag" id="t-cat"></span><span id="t-author"></span></p>
+      <p class="what" id="t-what"></p>
+      <p class="tfoot"><span>Tal y como se anunció en #product-news</span><button type="button" id="t-close">Cerrar</button></p>
+    </div>
+  </section>
 </div>
-
-<section class="ticket" id="ticket" hidden aria-live="polite">
-  <div class="perf"></div>
-  <div class="tbody">
-    <p class="eyebrow" id="t-eyebrow"></p>
-    <h2 id="t-title"></h2>
-    <p class="tmeta"><span class="tag" id="t-cat"></span><span id="t-author"></span></p>
-    <p class="what" id="t-what"></p>
-    <p class="tfoot"><span>Tal y como se anunció en #product-news</span><button type="button" id="t-close">Cerrar</button></p>
-  </div>
-</section>
 
 <div class="controls">
   <button class="spin" id="spin">Girar</button>
@@ -310,12 +326,12 @@
     <label><input type="checkbox" id="norepeat" checked> Sin repetir</label>
     <label><input type="checkbox" id="sound" checked> Sonido</label>
     <button class="link" id="reset">Reiniciar salidas</button>
+    <span class="status" id="status"></span>
   </div>
-  <p class="status" id="status"></p>
 </div>
 
 <footer>
-  Aleatoriedad real: cada tirada usa <code>crypto.getRandomValues</code> (el generador criptográfico del navegador) con muestreo por rechazo, así que no hay sesgo ni secuencia predecible. <code>Math.random</code> no se usa. Marquesina, campanilleo y caja registradora se sintetizan en el navegador con Web Audio: no hay ficheros que cargar.
+  Cada tirada usa <code>crypto.getRandomValues</code> con muestreo por rechazo: aleatoriedad criptográfica, sin sesgo ni secuencia predecible.
 </footer>
 
 <script>
@@ -565,13 +581,42 @@ function showTicket(item){
   document.getElementById('t-title').textContent = item.t;
   document.getElementById('t-cat').textContent = CATS[item.c];
   document.getElementById('t-author').textContent = item.a ? 'lo contó ' + item.a : '';
-  document.getElementById('t-what').textContent = item.w || 'Sin definición en el canal.';
+  const whatEl = document.getElementById('t-what');
+  whatEl.dataset.full = item.w || 'Sin definición en el canal.';
   ticketEl.hidden = false;
   ticketEl.style.animation = 'none';
   void ticketEl.offsetWidth;
   ticketEl.style.animation = '';
+  fitTicket();
   printer();
-  ticketEl.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest'});
+  ticketEl.focus({preventScroll: true});
+}
+
+/* Se proyecta: el texto baja hasta 13px para caber. Por debajo de eso no se lee
+   desde el fondo de la sala, así que en lugar de seguir encogiendo se recorta
+   por palabra (búsqueda binaria) hasta que entra. Nunca hay scroll ni recorte
+   invisible: si sobra texto, se ve el "…". */
+function fitTicket(){
+  const what = document.getElementById('t-what');
+  const full = what.dataset.full || '';
+  const fits = () => what.scrollHeight <= what.clientHeight + 1;
+  for (const px of [17, 16, 15, 14, 13]){
+    what.style.fontSize = px + 'px';
+    what.style.lineHeight = px >= 14 ? '1.5' : '1.42';
+    what.textContent = full;
+    if (fits()) return;
+  }
+  const put = n => {
+    const cut = full.lastIndexOf(' ', n);
+    what.textContent = full.slice(0, cut > 40 ? cut : n).trimEnd().replace(/[·,;:]$/, '') + '…';
+  };
+  let lo = 60, hi = full.length, best = 60;
+  while (lo <= hi){
+    const mid = (lo + hi) >> 1;
+    put(mid);
+    if (fits()){ best = mid; lo = mid + 1; } else hi = mid - 1;
+  }
+  put(best);
 }
 function armCard(item){
   const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
@@ -597,6 +642,8 @@ function armCard(item){
   });
 }
 document.getElementById('t-close').addEventListener('click', hideTicket);
+ticketEl.addEventListener('click', hideTicket);
+document.addEventListener('keydown', e => { if (e.code === 'Escape' && !ticketEl.hidden) hideTicket(); });
 
 function status(){
   const p = pool();
