@@ -13,6 +13,7 @@ Abre `index.html` en el navegador. No necesita servidor ni instalar nada.
 - **Girar** (o barra espaciadora) lanza la tirada.
 - **Chips de categoría** dejan fuera lo que no interese: Producto (233), Skills (43), Web (29), CLI (25), Leia/API (22), Iniciativas (21), Docs (15).
 - **Sin repetir** descarta las que ya han salido; *Reiniciar salidas* vuelve a meterlas.
+- **Toca la casilla premiada** y la máquina imprime un ticket con qué es esa funcionalidad y para qué sirve, sacado del mensaje original de `#product-news` (con fecha y quién lo contó). Segundo toque, o *Cerrar*, y se guarda.
 - **Sonido**: mientras gira, clic mecánico de bobina en cada casilla y campanilleo pentatónico que se abre al frenar. Al parar, caja registradora: cajón, "cha" metálico, "ching" de campana y once monedas cayendo. Todo sintetizado con Web Audio, no hay ficheros de audio.
 
 ## Las Vegas
@@ -46,3 +47,13 @@ Después de tocar la plantilla o de añadir novedades al markdown:
 ```bash
 python3 tools/slot-novedades/scripts/build.py
 ```
+
+## Las definiciones
+
+Las 388 definiciones salen del mensaje original de `#product-news`, no de un resumen inventado: se citan tal cual se publicaron (en el idioma en que se escribieron, casi siempre inglés), limpiando emojis, menciones, formato de Slack y arranques de hype, y cortando por frase alrededor de los 430 caracteres.
+
+El emparejamiento novedad → mensaje se hizo por fecha más solapamiento de tokens, con un diccionario español-inglés para que un título en español encuentre su mensaje en inglés. Las 24 filas que el automático dejó sin pareja fiable están fijadas a mano por un fragmento del texto, y dos fechas mal apuntadas en la lista (`/sdr-copilot` y Decarb capítulo 2) se corrigieron en el markdown. Muestra de 22 al azar revisada una a una: 22 correctas.
+
+`data/definiciones-2026.json` es el resultado y va versionado en el repo, con la clave `DD-MM|título tal cual está en el markdown`. El pipeline que lo generó necesita el histórico de Slack en crudo, que no se guarda aquí; si hay que rehacerlo, se vuelve a leer el canal.
+
+Ojo antes de compartir la ruleta fuera de la empresa: los textos son mensajes internos literales y algunos nombran clientes (Calcinor, Félix Solís, Tolsa, Sesé…) o detalles de negociación.

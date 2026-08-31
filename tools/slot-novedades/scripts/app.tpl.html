@@ -166,6 +166,65 @@
   .machine.spinning .lever .knob{top:146px}
   @media(min-width:820px){.lever{display:block}}
 
+  .card.win{cursor:pointer}
+  .card .hint{
+    position:absolute;left:14px;top:12px;
+    font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--blue);opacity:0;transition:opacity .3s ease .5s;
+  }
+  .card.win .hint{opacity:.42}
+  .card.win:hover .hint,.card.win:focus-visible .hint{opacity:.85}
+  .card{position:relative}
+
+  @keyframes print{
+    0%{opacity:0;transform:translateY(-14px) scaleY(.55)}
+    100%{opacity:1;transform:translateY(0) scaleY(1)}
+  }
+  .ticket{
+    width:min(660px,100%);
+    transform-origin:top center;
+    animation:print .42s cubic-bezier(.2,.9,.2,1);
+  }
+  .ticket[hidden]{display:none}
+  .ticket .perf{
+    height:12px;
+    background-image:radial-gradient(circle at 6px 0, transparent 5.4px, var(--white) 5.8px);
+    background-size:16px 12px;background-repeat:repeat-x;
+  }
+  .ticket .tbody{
+    background:var(--white);border-radius:0 0 14px 14px;
+    padding:20px 26px 22px;
+    box-shadow:0 24px 50px -18px rgba(6,16,90,.5);
+  }
+  .ticket .eyebrow{
+    font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--blue);opacity:.5;
+    padding-bottom:10px;border-bottom:1px dashed rgba(41,71,254,.28);
+  }
+  .ticket h2{
+    font-size:clamp(19px,2.6vw,24px);font-weight:800;color:var(--blue);
+    line-height:1.18;text-wrap:balance;margin-top:14px;
+  }
+  .ticket .tmeta{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
+  }
+  .ticket .tmeta .tag{background:#F0F3FF;color:var(--blue);border-radius:20px;padding:3px 9px}
+  .ticket .what{
+    margin-top:14px;font-size:15px;line-height:1.58;color:#415162;
+    white-space:pre-line;letter-spacing:-0.02em;
+  }
+  .ticket .tfoot{
+    margin-top:16px;padding-top:12px;border-top:1px dashed rgba(41,71,254,.28);
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
+  }
+  .ticket .tfoot button{
+    font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    background:none;border:none;color:var(--blue);cursor:pointer;padding:0;text-decoration:underline;
+  }
+  @media (prefers-reduced-motion:reduce){.ticket{animation:none}}
+
   .controls{display:flex;flex-direction:column;align-items:center;gap:16px;width:min(660px,100%)}
   button.spin{
     font-family:inherit;letter-spacing:0.1em;text-transform:uppercase;
@@ -216,7 +275,7 @@
 <div class="head">
   <div class="brand"><b>dcycle</b><span>product news 2026</span></div>
   <h1>Tragaperras de Novedades</h1>
-  <p class="sub">388 novedades publicadas en #product-news entre el 8 de enero y el 31 de agosto de 2026. Dale y que decida la máquina.</p>
+  <p class="sub">388 novedades publicadas en #product-news entre el 8 de enero y el 31 de agosto de 2026. Dale, y cuando pare toca la casilla para ver qué es esa funcionalidad.</p>
 </div>
 
 <div class="machine" id="machine">
@@ -232,6 +291,17 @@
   <div class="marquee" id="marquee" aria-hidden="true"></div>
   <div class="lever" aria-hidden="true"><div class="track"></div><div class="knob"></div></div>
 </div>
+
+<section class="ticket" id="ticket" hidden aria-live="polite">
+  <div class="perf"></div>
+  <div class="tbody">
+    <p class="eyebrow" id="t-eyebrow"></p>
+    <h2 id="t-title"></h2>
+    <p class="tmeta"><span class="tag" id="t-cat"></span><span id="t-author"></span></p>
+    <p class="what" id="t-what"></p>
+    <p class="tfoot"><span>Tal y como se anunció en #product-news</span><button type="button" id="t-close">Cerrar</button></p>
+  </div>
+</section>
 
 <div class="controls">
   <button class="spin" id="spin">Girar</button>
@@ -372,6 +442,23 @@ function chaChing(){
   }
 }
 
+/* Impresora de tickets: servo bajando y tres golpes de cabezal. */
+function printer(){
+  const a = ac(); if (!a) return;
+  try {
+    const t = a.currentTime;
+    const osc = a.createOscillator(), amp = a.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(320, t);
+    osc.frequency.exponentialRampToValueAtTime(150, t + 0.3);
+    amp.gain.setValueAtTime(0.03, t);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+    osc.connect(amp).connect(a.destination);
+    osc.start(t); osc.stop(t + 0.34);
+  } catch (e) { /* sin audio */ }
+  [0, 0.09, 0.18].forEach(at => noise(at, 0.035, {freq: 2000, q: 2, gain: 0.03}));
+}
+
 /* Lluvia de monedas girando sobre la casilla premiada. */
 function coinShower(){
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -463,6 +550,54 @@ function idle(){
   ], 0);
   spinBtn.disabled = p.length === 0;
 }
+const ticketEl = document.getElementById('ticket');
+const MES_LARGO = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function hideTicket(){
+  ticketEl.hidden = true;
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (card) card.setAttribute('aria-expanded', 'false');
+}
+function showTicket(item){
+  const [dd, mm] = item.d.split('-');
+  document.getElementById('t-eyebrow').textContent =
+    'Novedad ' + (item.i + 1) + ' de ' + ITEMS.length + ' · ' + Number(dd) + ' de ' + MES_LARGO[Number(mm) - 1] + ' de 2026';
+  document.getElementById('t-title').textContent = item.t;
+  document.getElementById('t-cat').textContent = CATS[item.c];
+  document.getElementById('t-author').textContent = item.a ? 'lo contó ' + item.a : '';
+  document.getElementById('t-what').textContent = item.w || 'Sin definición en el canal.';
+  ticketEl.hidden = false;
+  ticketEl.style.animation = 'none';
+  void ticketEl.offsetWidth;
+  ticketEl.style.animation = '';
+  printer();
+  ticketEl.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest'});
+}
+function armCard(item){
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (!card) return;
+  const hint = document.createElement('span');
+  hint.className = 'hint';
+  hint.textContent = 'toca para saber qué es';
+  card.prepend(hint);
+  card.classList.add('win');
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-expanded', 'false');
+  card.setAttribute('aria-label', 'Ver qué es: ' + item.t);
+  const toggle = () => {
+    const open = !ticketEl.hidden;
+    if (open) { hideTicket(); return; }
+    showTicket(item);
+    card.setAttribute('aria-expanded', 'true');
+  };
+  card.addEventListener('click', toggle);
+  card.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+  });
+}
+document.getElementById('t-close').addEventListener('click', hideTicket);
+
 function status(){
   const p = pool();
   statusEl.innerHTML = 'En juego <b>' + p.length + '</b> · ya han salido <b>' + used.size + '</b> de <b>' + ITEMS.length + '</b>';
@@ -473,6 +608,7 @@ function spin(){
   if (spinning || !p.length) return;
   spinning = true;
   spinBtn.disabled = true;
+  hideTicket();
   machineEl.classList.add('spinning', 'fast');
   machineEl.classList.remove('brake');
   machineEl.classList.remove('won');
@@ -498,6 +634,7 @@ function spin(){
     machineEl.classList.remove('spinning', 'fast', 'brake');
     windowEl.classList.remove('spin');
     celebrate();
+    armCard(winner);
     status();
     spinBtn.disabled = pool().length === 0;
     spinBtn.focus({preventScroll:true});
@@ -555,8 +692,8 @@ Object.entries(CATS).forEach(([key,label]) => {
 
 spinBtn.addEventListener('click', spin);
 soundEl.addEventListener('change', () => { if (soundEl.checked) jingle(0, 0.5); });
-noRepeatEl.addEventListener('change', () => { idle(); status(); });
-document.getElementById('reset').addEventListener('click', () => { used.clear(); idle(); status(); });
+noRepeatEl.addEventListener('change', () => { hideTicket(); idle(); status(); });
+document.getElementById('reset').addEventListener('click', () => { hideTicket(); used.clear(); idle(); status(); });
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' && e.target === document.body){ e.preventDefault(); spin(); }
 });

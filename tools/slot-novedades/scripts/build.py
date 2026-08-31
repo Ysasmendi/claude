@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[3]
 APP = Path(__file__).resolve().parent
 SOURCE = ROOT / "knowledge" / "product-news-2026.md"
 ROW = re.compile(r"^\|\s*(\d{2}-\d{2})\s*\|\s*([A-Z]+)\s*\|\s*(.+?)\s*\|\s*$")
+DEFS = Path(__file__).resolve().parent.parent / "data" / "definiciones-2026.json"
 
 
 def parse():
@@ -21,8 +22,10 @@ def parse():
     for line in SOURCE.read_text(encoding="utf-8").splitlines():
         m = ROW.match(line)
         if m:
-            title = m.group(3).replace("`", "").replace("**", "")
-            items.append({"i": len(items), "d": m.group(1), "c": m.group(2), "t": title})
+            raw = m.group(3)
+            title = raw.replace("`", "").replace("**", "")
+            # `k` es el título tal cual está en el markdown: la clave de las definiciones
+            items.append({"i": len(items), "d": m.group(1), "c": m.group(2), "t": title, "k": raw})
     return items
 
 
@@ -30,6 +33,19 @@ def main():
     items = parse()
     if not items:
         raise SystemExit(f"no se encontró ninguna novedad en {SOURCE}")
+
+    # definiciones sacadas del mensaje original de #product-news
+    defs = json.loads(DEFS.read_text(encoding="utf-8")) if DEFS.exists() else {}
+    sin_def = 0
+    for it in items:
+        d = defs.get(f"{it['d']}|{it.pop('k')}")
+        if d:
+            it["w"], it["a"] = d["w"], d["a"]
+        else:
+            it["w"], it["a"] = "", ""
+            sin_def += 1
+    if sin_def:
+        print(f"aviso: {sin_def} novedades sin definición")
 
     (APP.parent / "data").mkdir(parents=True, exist_ok=True)
     (APP.parent / "data" / "novedades-2026.json").write_text(
@@ -50,7 +66,8 @@ def main():
         + "\n</body>\n</html>\n",
         encoding="utf-8",
     )
-    print(f"{len(items)} novedades → index.html, artifact.html, data/novedades-2026.json")
+    print(f"{len(items)} novedades ({sum(1 for i in items if i['w'])} con definición) "
+          f"→ index.html, artifact.html, data/novedades-2026.json")
 
 
 if __name__ == "__main__":

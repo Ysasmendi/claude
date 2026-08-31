@@ -171,7 +171,7 @@ Categorías: `PROD` producto · `CLI` línea de comandos · `SKILL` skills inter
 | 19-03 | INIT | Nueva fase: consolidación de UI y capa agéntica |
 | 20-03 | PROD | Métricas de intensidad en pivot tables (por facturación, plantilla, producción) |
 | 20-03 | PROD | Pivot table de despidos/bajas |
-| 20-03 | SKILL | `/sdr-copilot`: lista de prospección semanal |
+| 23-03 | SKILL | `/sdr-copilot`: lista de prospección semanal |
 | 23-03 | PROD | Tarjetas de factores de emisión unificadas en Data > Customize |
 | 23-03 | SKILL | SDR Onboarding Tracker (app interna) |
 | 24-03 | WEB | Demo Library en la web |
@@ -329,7 +329,7 @@ Categorías: `PROD` producto · `CLI` línea de comandos · `SKILL` skills inter
 | 29-06 | PROD | Privacidad por fichero: filiales pueden ocultar ficheros a la matriz |
 | 29-06 | AGENT | Datos de LCA disponibles vía API y MCP |
 | 29-06 | PROD | Nuevo importador de Excel para todas las categorías |
-| 29-06 | PROD | Decarbonization capítulo 2: ejecutar y seguir los planes |
+| 30-06 | PROD | Decarbonization capítulo 2: ejecutar y seguir los planes |
 | 30-06 | PROD | Nueva categoría: estancias en hotel |
 | 30-06 | PROD | MultiDB en viajes de negocio + detalle del cálculo |
 | 30-06 | AGENT | Leia avisa de posibles duplicados al subir documentos |
