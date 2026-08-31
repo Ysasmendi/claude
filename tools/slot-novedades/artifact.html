@@ -1,0 +1,413 @@
+<title>Tragaperras de Novedades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --blue:#2947FE;
+    --blue-deep:#16249B;
+    --blue-hover:#1F37CC;
+    --white:#FFFFFF;
+    --cell-h:128px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--white);color:var(--blue)}
+  body{
+    font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+    letter-spacing:-0.03em;
+    color:var(--white);
+    background:var(--blue);
+    background-image:radial-gradient(120% 90% at 50% 0%, #3A56FF 0%, #2947FE 45%, var(--blue-deep) 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:28px 20px 40px;
+    gap:26px;
+  }
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand b{font-size:19px;font-weight:700;letter-spacing:-0.04em}
+  .brand span{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;opacity:.65}
+  h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;text-align:center;text-wrap:balance;line-height:1.05}
+  .sub{font-size:14px;font-weight:500;opacity:.7;text-align:center;max-width:52ch;line-height:1.5}
+  .head{display:flex;flex-direction:column;align-items:center;gap:10px}
+
+  .machine{
+    position:relative;
+    width:min(660px,100%);
+    border:1px solid rgba(255,255,255,.34);
+    background:rgba(255,255,255,.07);
+    border-radius:22px;
+    padding:18px;
+    box-shadow:0 30px 70px -20px rgba(6,16,90,.55), inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .window{
+    position:relative;
+    height:calc(var(--cell-h) * 3);
+    border-radius:15px;
+    overflow:hidden;
+    background:rgba(9,20,110,.42);
+    box-shadow:inset 0 2px 14px rgba(6,14,80,.5);
+  }
+  .strip{position:absolute;left:0;right:0;top:0;will-change:transform}
+  .cell{
+    height:var(--cell-h);
+    padding:14px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-align:center;
+  }
+  .card{
+    width:100%;height:100%;
+    background:var(--white);
+    color:var(--blue);
+    border-radius:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+    padding:12px 20px;
+  }
+  .card p{font-size:clamp(15px,2.1vw,20px);font-weight:700;line-height:1.22;text-wrap:balance}
+  .card .meta{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
+  .card .tag{background:#F0F3FF;border-radius:20px;padding:3px 9px}
+  .card .date{opacity:.55}
+  .card{transition:box-shadow .2s ease}
+  @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.055)}62%{transform:scale(.985)}100%{transform:scale(1)}}
+  @keyframes ring{from{box-shadow:0 0 0 0 rgba(255,255,255,.85)}to{box-shadow:0 0 0 24px rgba(255,255,255,0)}}
+  .card.win{animation:pop .6s cubic-bezier(.2,.9,.2,1), ring .8s ease-out}
+  @keyframes blink{0%,100%{opacity:0}10%{opacity:.55}22%{opacity:0}42%{opacity:.42}54%{opacity:0}74%{opacity:.3}86%{opacity:0}}
+  .flash{position:absolute;inset:0;pointer-events:none;background:var(--white);opacity:0}
+  .window.won .flash{animation:blink 1s ease-out}
+  #sparks{position:absolute;inset:0;pointer-events:none}
+  .fade{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,
+      rgba(20,35,150,.95) 0%, rgba(24,40,170,.45) 24%, rgba(41,71,254,0) 34%,
+      rgba(41,71,254,0) 66%, rgba(24,40,170,.45) 76%, rgba(20,35,150,.95) 100%);
+  }
+  .guides{position:absolute;inset:0;pointer-events:none}
+  .guides i{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.28)}
+  .guides i:first-child{top:calc(var(--cell-h) - 1px)}
+  .guides i:last-child{top:calc(var(--cell-h) * 2)}
+  .guides b{
+    position:absolute;top:calc(var(--cell-h) * 1.5);transform:translateY(-50%);
+    font-size:16px;line-height:1;opacity:.9;
+  }
+  .guides b.l{left:6px}
+  .guides b.r{right:6px}
+
+  .lever{
+    position:absolute;top:26px;right:-36px;width:26px;height:176px;display:none;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:999px;
+  }
+  .lever .track{position:absolute;left:11px;top:14px;bottom:14px;width:4px;border-radius:4px;background:rgba(255,255,255,.3)}
+  .lever .knob{
+    position:absolute;left:1px;top:6px;width:24px;height:24px;border-radius:50%;
+    background:var(--white);box-shadow:0 4px 12px rgba(6,14,80,.5);
+    transition:top .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .machine.spinning .lever .knob{top:146px}
+  @media(min-width:820px){.lever{display:block}}
+
+  .controls{display:flex;flex-direction:column;align-items:center;gap:16px;width:min(660px,100%)}
+  button.spin{
+    font-family:inherit;letter-spacing:0.1em;text-transform:uppercase;
+    font-size:15px;font-weight:800;
+    background:var(--white);color:var(--blue);
+    border:none;border-radius:999px;padding:16px 52px;cursor:pointer;
+    box-shadow:0 10px 24px -8px rgba(6,14,80,.6);
+    transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease;
+  }
+  button.spin:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(6,14,80,.7)}
+  button.spin:active:not(:disabled){transform:translateY(2px);box-shadow:0 6px 14px -8px rgba(6,14,80,.6)}
+  button.spin:disabled{opacity:.45;cursor:default}
+  :is(button,input,label,a):focus-visible{outline:2px solid var(--white);outline-offset:3px;border-radius:8px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .chip{
+    font-family:inherit;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+    background:transparent;color:rgba(255,255,255,.72);
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:999px;padding:7px 14px;cursor:pointer;
+    display:flex;align-items:center;gap:7px;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+  }
+  .chip:hover{border-color:var(--white);color:var(--white)}
+  .chip[aria-pressed="true"]{background:var(--white);color:var(--blue);border-color:var(--white)}
+  .chip em{font-style:normal;font-variant-numeric:tabular-nums;opacity:.6;font-weight:700}
+
+  .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;font-size:13px;font-weight:500}
+  .row label{display:flex;align-items:center;gap:8px;cursor:pointer;opacity:.85}
+  .row input{width:16px;height:16px;accent-color:#fff;cursor:pointer}
+  .row button.link{
+    font-family:inherit;font-size:13px;font-weight:600;background:none;border:none;
+    color:var(--white);opacity:.7;text-decoration:underline;cursor:pointer;padding:0;
+  }
+  .row button.link:hover{opacity:1}
+  .status{font-size:13px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums;text-align:center}
+  .status b{font-weight:700;opacity:1}
+  footer{font-size:12px;font-weight:500;opacity:.55;text-align:center;max-width:60ch;line-height:1.6}
+  footer code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:rgba(255,255,255,.14);padding:2px 5px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){
+    .lever .knob,button.spin{transition:none}
+  }
+</style>
+<div class="head">
+  <div class="brand"><b>dcycle</b><span>product news 2026</span></div>
+  <h1>Tragaperras de Novedades</h1>
+  <p class="sub">388 novedades publicadas en #product-news entre el 8 de enero y el 31 de agosto de 2026. Dale y que decida la máquina.</p>
+</div>
+
+<div class="machine" id="machine">
+  <div class="window">
+    <div class="strip" id="strip"></div>
+    <canvas id="sparks"></canvas>
+    <div class="flash"></div>
+    <div class="fade"></div>
+    <div class="guides"><i></i><b class="l">▸</b><b class="r">◂</b><i></i></div>
+  </div>
+  <div class="lever" aria-hidden="true"><div class="track"></div><div class="knob"></div></div>
+</div>
+
+<div class="controls">
+  <button class="spin" id="spin">Girar</button>
+  <div class="chips" id="chips"></div>
+  <div class="row">
+    <label><input type="checkbox" id="norepeat" checked> Sin repetir</label>
+    <label><input type="checkbox" id="sound" checked> Sonido</label>
+    <button class="link" id="reset">Reiniciar salidas</button>
+  </div>
+  <p class="status" id="status"></p>
+</div>
+
+<footer>
+  Aleatoriedad real: cada tirada usa <code>crypto.getRandomValues</code> (el generador criptográfico del navegador) con muestreo por rechazo, así que no hay sesgo ni secuencia predecible. <code>Math.random</code> no se usa. Los sonidos se sintetizan en el navegador con Web Audio, no hay ficheros que cargar.
+</footer>
+
+<script>
+const ITEMS = [{"i":0,"d":"08-01","c":"PROD","t":"Cuenco Folders: subir carpetas con cualquier estructura"},{"i":1,"d":"09-01","c":"PROD","t":"Método de consolidación elegible en tablas de huella de carbono"},{"i":2,"d":"09-01","c":"PROD","t":"Refactor completo del flujo de Invoices"},{"i":3,"d":"12-01","c":"PROD","t":"Nueva página de News dentro de la app (adiós al iframe de Notion)"},{"i":4,"d":"12-01","c":"PROD","t":"Sección \"Data to report\" en proyectos EINF-GRI"},{"i":5,"d":"12-01","c":"PROD","t":"Visualizaciones creadas por defecto al crear un proyecto"},{"i":6,"d":"13-01","c":"DOCS","t":"Documentación ISO 14064 publicada"},{"i":7,"d":"13-01","c":"PROD","t":"Fin de las visualizaciones de energía automáticas en proyectos EINF"},{"i":8,"d":"14-01","c":"PROD","t":"Primera pivot table social: horas de formación"},{"i":9,"d":"14-01","c":"PROD","t":"Mejoras de UX/UI en Invoices"},{"i":10,"d":"15-01","c":"CLI","t":"Creación masiva de organizaciones hijas (100 orgs para COPISA)"},{"i":11,"d":"15-01","c":"PROD","t":"Personalización por usuario/equipo en entornos multi-org"},{"i":12,"d":"19-01","c":"SKILL","t":"Comando /start en frontend y backend"},{"i":13,"d":"20-01","c":"PROD","t":"Multi-Database para vehículos"},{"i":14,"d":"20-01","c":"PROD","t":"Ajustes de proyecto en panel lateral (fuera del modal superior)"},{"i":15,"d":"21-01","c":"PROD","t":"Edición de facturas divididas con importes claros"},{"i":16,"d":"21-01","c":"PROD","t":"Visualizaciones dentro del informe personalizable (EINF-GRI)"},{"i":17,"d":"21-01","c":"CLI","t":"Actualizar total_km de employees_historic"},{"i":18,"d":"22-01","c":"CLI","t":"Importación masiva de periodos históricos de empleados"},{"i":19,"d":"22-01","c":"PROD","t":"White-label: partners con su propia marca en informes y descargas"},{"i":20,"d":"22-01","c":"PROD","t":"Carga masiva de datos de logística (miles de envíos)"},{"i":21,"d":"23-01","c":"PROD","t":"Nuevo sidebar colapsable"},{"i":22,"d":"23-01","c":"PROD","t":"Assistant 3.0"},{"i":23,"d":"23-01","c":"PROD","t":"Transparencia total del cálculo en consumos de vehículos (\"Chamber of Secrets\")"},{"i":24,"d":"26-01","c":"PROD","t":"Migración de ficheros y datos procesados de Dynamo a la base de datos"},{"i":25,"d":"26-01","c":"PROD","t":"Rediseño de la interfaz de encuestas de movilidad"},{"i":26,"d":"26-01","c":"CLI","t":"Comando own-workforce"},{"i":27,"d":"27-01","c":"CLI","t":"Actualizar valores de employee_historic (total_km y demás)"},{"i":28,"d":"28-01","c":"PROD","t":"Visualizaciones exportables a Excel"},{"i":29,"d":"28-01","c":"INIT","t":"Arranca \"de borrar ficheros a borrado masivo de datos\""},{"i":30,"d":"28-01","c":"INIT","t":"Prioridades de producto Q1 & Q2 2026"},{"i":31,"d":"28-01","c":"INIT","t":"Modelo de stickiness / Data Health Metrics"},{"i":32,"d":"30-01","c":"DOCS","t":"Documentación de CLI y MCP para automatización e IA"},{"i":33,"d":"02-02","c":"CLI","t":"rds sync: sincronizar la BBDD de producción en local"},{"i":34,"d":"03-02","c":"PROD","t":"Campos condicionales personalizados en pivot tables"},{"i":35,"d":"03-02","c":"PROD","t":"Flujo supplier-specific totalmente automatizado"},{"i":36,"d":"03-02","c":"PROD","t":"Subida de commuting de empleados por CSV"},{"i":37,"d":"03-02","c":"INIT","t":"Primer test real en producción con Correos Express (~500K paquetes)"},{"i":38,"d":"04-02","c":"PROD","t":"Company Diagram refactorizado y arreglado"},{"i":39,"d":"05-02","c":"PROD","t":"Carga masiva de commuting con Nuvo"},{"i":40,"d":"06-02","c":"PROD","t":"Columnas personalizadas en tablas (empezando por compras)"},{"i":41,"d":"06-02","c":"PROD","t":"Login OAuth con Google"},{"i":42,"d":"09-02","c":"PROD","t":"Nuevos roles y control avanzado de permisos"},{"i":43,"d":"09-02","c":"CLI","t":"purchase purge-orphan-suppliers"},{"i":44,"d":"09-02","c":"SKILL","t":"/pre-audit: validación de consistencia entre dashboard y descargas"},{"i":45,"d":"10-02","c":"PROD","t":"Nuevos campos en pivot tables GHG e ISO 14064 (facility, país)"},{"i":46,"d":"10-02","c":"PROD","t":"Cálculo automático de distancias en commuting masivo"},{"i":47,"d":"10-02","c":"AGENT","t":"Disicler: acceso directo a datos de cliente desde Slack"},{"i":48,"d":"10-02","c":"CLI","t":"Borrar peticiones de logística filtrando por fichero"},{"i":49,"d":"11-02","c":"SKILL","t":"/ecoinvent-match: matching automático de factores de emisión en LCAs"},{"i":50,"d":"11-02","c":"PROD","t":"Reparto de facturas entre cualquier organización del diagrama"},{"i":51,"d":"11-02","c":"SKILL","t":"/support: debug automático de tickets de HubSpot"},{"i":52,"d":"12-02","c":"PROD","t":"Holdings pueden subir datos de Own Workforce de sus filiales"},{"i":53,"d":"12-02","c":"SKILL","t":"/create-pivot-metric: crear métricas de pivot table con IA"},{"i":54,"d":"13-02","c":"PROD","t":"Mejoras en el portal de soporte (conversaciones in-app)"},{"i":55,"d":"13-02","c":"SKILL","t":"Sentry + Claude Code vía MCP y Git Worktrees"},{"i":56,"d":"16-02","c":"PROD","t":"Descarga en Excel de la tabla de KPIs tal cual se ve"},{"i":57,"d":"16-02","c":"PROD","t":"Selección y borrado masivo de datos (no de ficheros)"},{"i":58,"d":"16-02","c":"PROD","t":"Integración DATADIS arreglada y rediseñada"},{"i":59,"d":"16-02","c":"SKILL","t":"make claude-dev / make claude-cleanup (worktrees para Claude)"},{"i":60,"d":"16-02","c":"SKILL","t":"/ecoinvent-match cubre el proceso completo de matching en BBDD"},{"i":61,"d":"17-02","c":"PROD","t":"Pivot table de consumo de agua (m³ y litros)"},{"i":62,"d":"17-02","c":"CLI","t":"Comandos de gestión de proveedores (dc supplier)"},{"i":63,"d":"17-02","c":"INIT","t":"Nuevo proyecto GLEC (lanzamiento 27 de febrero)"},{"i":64,"d":"18-02","c":"WEB","t":"Nueva web dcycle.io (new.dcycle.io) abierta a toda la empresa"},{"i":65,"d":"19-02","c":"DOCS","t":"Tutorial GLEC en docs.dcycle.io"},{"i":66,"d":"19-02","c":"PROD","t":"Desplegable de combustibles mejorado en lecturas de factura"},{"i":67,"d":"19-02","c":"WEB","t":"Hub de webinars y workshops"},{"i":68,"d":"19-02","c":"PROD","t":"Data Activity Detail: histórico de quién cambió qué y cuándo"},{"i":69,"d":"20-02","c":"PROD","t":"Pivot table de residuos"},{"i":70,"d":"20-02","c":"PROD","t":"Pivot table de accidentes y absentismo"},{"i":71,"d":"20-02","c":"CLI","t":"Creación masiva de empleados inexistentes"},{"i":72,"d":"20-02","c":"WEB","t":"Nuevo hero con conversación de agente en vivo"},{"i":73,"d":"23-02","c":"PROD","t":"Métricas económicas propias en la pivot table de compras"},{"i":74,"d":"23-02","c":"WEB","t":"Sección Energy & Mining"},{"i":75,"d":"24-02","c":"PROD","t":"Agrupación por año fiscal en pivot tables"},{"i":76,"d":"24-02","c":"PROD","t":"Pivot de compras: filtro por proveedor/reciclado + celda kgCO2e"},{"i":77,"d":"24-02","c":"PROD","t":"Scope 3 Categoría 11: uso de productos vendidos"},{"i":78,"d":"24-02","c":"WEB","t":"Sección Expert Guidance"},{"i":79,"d":"24-02","c":"WEB","t":"Sección Finance"},{"i":80,"d":"25-02","c":"SKILL","t":"/answer-client: respuestas a clientes con contexto de HubSpot + BBDD"},{"i":81,"d":"25-02","c":"WEB","t":"Reglas de SEO y linter de slugs en el repo"},{"i":82,"d":"25-02","c":"WEB","t":"221 posts de blog migrados (EN/ES/DE)"},{"i":83,"d":"25-02","c":"WEB","t":"Nueva landing de blog con filtros y buscador"},{"i":84,"d":"25-02","c":"WEB","t":"Moana: agente conversacional en la home"},{"i":85,"d":"25-02","c":"WEB","t":"Sección de Decarbonization (ES/EN)"},{"i":86,"d":"25-02","c":"WEB","t":"Auto-blog: vigilancia regulatoria y publicación automática en 3 idiomas"},{"i":87,"d":"26-02","c":"PROD","t":"LCA Impact Dashboard interactivo (EN 15804)"},{"i":88,"d":"26-02","c":"PROD","t":"Decimales configurables en visualizaciones"},{"i":89,"d":"26-02","c":"CLI","t":"Carga masiva de factores de emisión personalizados"},{"i":90,"d":"26-02","c":"PROD","t":"Unidades correctas en pernoctaciones (\"night\")"},{"i":91,"d":"26-02","c":"WEB","t":"ESG Regulation Checker interactivo"},{"i":92,"d":"26-02","c":"WEB","t":"Sección Consumer Goods"},{"i":93,"d":"26-02","c":"WEB","t":"Sección IT & Technology Services"},{"i":94,"d":"26-02","c":"AGENT","t":"Primer prototipo del Dcycle MCP Server"},{"i":95,"d":"27-02","c":"PROD","t":"Factores personalizados creados en la matriz y heredados por filiales"},{"i":96,"d":"27-02","c":"PROD","t":"Aviso de límites al descargar el Excel de Scope 1 y 2"},{"i":97,"d":"27-02","c":"WEB","t":"Landing de Acquisitions (M&A)"},{"i":98,"d":"27-02","c":"WEB","t":"Sección Retail"},{"i":99,"d":"27-02","c":"WEB","t":"Página How We Work"},{"i":100,"d":"28-02","c":"SKILL","t":"/sync-data: sincronizar datos de producción en local"},{"i":101,"d":"03-03","c":"PROD","t":"Informe de logística: desglose de flota y ahorro por electrificación"},{"i":102,"d":"03-03","c":"PROD","t":"Nuevo método de cálculo de KPIs de plantilla (headcount)"},{"i":103,"d":"04-03","c":"PROD","t":"Emisiones históricas calculadas fuera de Dcycle en todas las categorías"},{"i":104,"d":"04-03","c":"SKILL","t":"/morning-emails: gestión automática del correo de clientes"},{"i":105,"d":"04-03","c":"SKILL","t":"Informes de auditoría retributiva (RD 902/2020)"},{"i":106,"d":"04-03","c":"WEB","t":"Bloque de contenido recomendado por industria en HubSpot"},{"i":107,"d":"04-03","c":"WEB","t":"Emails de nurturing y demo reconstruidos con Claude Code"},{"i":108,"d":"05-03","c":"PROD","t":"Nuevo proyecto de logística GLEC publicado"},{"i":109,"d":"05-03","c":"AGENT","t":"Projects CRUD API en el Developer Center"},{"i":110,"d":"05-03","c":"SKILL","t":"/echo-fathom: señales de producto desde las reuniones de Fathom"},{"i":111,"d":"05-03","c":"SKILL","t":"/sherlock: auditoría profunda de datos de emisiones"},{"i":112,"d":"05-03","c":"WEB","t":"Imágenes automáticas de cabecera en el blog (API de Unsplash)"},{"i":113,"d":"06-03","c":"PROD","t":"Carga masiva de consumos de instalaciones (luz, agua, combustible)"},{"i":114,"d":"06-03","c":"PROD","t":"Compras multidivisa con tipos de cambio del BCE"},{"i":115,"d":"06-03","c":"PROD","t":"Métricas de intensidad en pivot tables de logística"},{"i":116,"d":"09-03","c":"PROD","t":"Informes GHG editables"},{"i":117,"d":"09-03","c":"PROD","t":"Menciones dentro de Dcycle"},{"i":118,"d":"09-03","c":"AGENT","t":"Organization Tree API en el Developer Center"},{"i":119,"d":"09-03","c":"SKILL","t":"/news: digest de novedades de #product-news"},{"i":120,"d":"09-03","c":"SKILL","t":"/morning-emails con pipeline de tickets de HubSpot"},{"i":121,"d":"09-03","c":"INIT","t":"Nuevo repo Go to Market"},{"i":122,"d":"10-03","c":"PROD","t":"Nuevos gráficos dinámicos en visualizaciones"},{"i":123,"d":"10-03","c":"SKILL","t":"/prepare-qbr: QBRs de cliente automáticos"},{"i":124,"d":"10-03","c":"CLI","t":"dc purchase upload + skill /file-transform"},{"i":125,"d":"11-03","c":"CLI","t":"dc-walrus: la CLI instalable en cualquier Mac/Linux"},{"i":126,"d":"12-03","c":"SKILL","t":"Recopilación automática de evidencias de deducciones I+D 2025"},{"i":127,"d":"13-03","c":"PROD","t":"Lecturas automáticas de facturas vía Cuenco"},{"i":128,"d":"13-03","c":"PROD","t":"Selección rápida de fechas al crear proyectos"},{"i":129,"d":"13-03","c":"PROD","t":"Carga masiva de factores de emisión personalizados en compras"},{"i":130,"d":"13-03","c":"WEB","t":"Sección de eventos en la web"},{"i":131,"d":"13-03","c":"SKILL","t":"Skills del repo go-to-market arregladas"},{"i":132,"d":"15-03","c":"INIT","t":"Diagnóstico de deals perdidos por mala cualificación"},{"i":133,"d":"16-03","c":"SKILL","t":"/new-webinar: landing completa de webinar en 4 idiomas"},{"i":134,"d":"17-03","c":"PROD","t":"ISOs reales en Dcycle: riesgos, no conformidades y acciones correctivas"},{"i":135,"d":"17-03","c":"PROD","t":"The Wiki: un \"read.me\" por empresa dentro de Dcycle"},{"i":136,"d":"17-03","c":"PROD","t":"Datos personalizados en proyectos EINF"},{"i":137,"d":"17-03","c":"PROD","t":"Frameworks activables por organización desde el admin"},{"i":138,"d":"17-03","c":"PROD","t":"Mejoras de rendimiento en la descarga de Scope 1 y 2"},{"i":139,"d":"17-03","c":"SKILL","t":"/dcycle-perfiles y otras dos skills de GTM"},{"i":140,"d":"18-03","c":"PROD","t":"Mover varias facturas entre instalaciones a la vez"},{"i":141,"d":"18-03","c":"PROD","t":"OCR de facturas de gases refrigerantes"},{"i":142,"d":"18-03","c":"SKILL","t":"Outbound Engine: ciclo completo de cold email"},{"i":143,"d":"18-03","c":"SKILL","t":"/esg-quote-extractor"},{"i":144,"d":"18-03","c":"SKILL","t":"Directorio de skills de Claude Code en un Canvas"},{"i":145,"d":"18-03","c":"WEB","t":"Posicionamiento por tamaño de empresa"},{"i":146,"d":"19-03","c":"PROD","t":"Proyectos LCA en vivo (66 orgs con proyecto creado automáticamente)"},{"i":147,"d":"19-03","c":"PROD","t":"Galones para consumos de vehículos"},{"i":148,"d":"19-03","c":"PROD","t":"Refresco visual de la encuesta de movilidad"},{"i":149,"d":"19-03","c":"SKILL","t":"Hooks de Claude Code: ty y ruff automáticos en el backend"},{"i":150,"d":"19-03","c":"SKILL","t":"/new-event: página de evento"},{"i":151,"d":"19-03","c":"INIT","t":"Nueva fase: consolidación de UI y capa agéntica"},{"i":152,"d":"20-03","c":"PROD","t":"Métricas de intensidad en pivot tables (por facturación, plantilla, producción)"},{"i":153,"d":"20-03","c":"PROD","t":"Pivot table de despidos/bajas"},{"i":154,"d":"20-03","c":"SKILL","t":"/sdr-copilot: lista de prospección semanal"},{"i":155,"d":"23-03","c":"PROD","t":"Tarjetas de factores de emisión unificadas en Data > Customize"},{"i":156,"d":"23-03","c":"SKILL","t":"SDR Onboarding Tracker (app interna)"},{"i":157,"d":"24-03","c":"WEB","t":"Demo Library en la web"},{"i":158,"d":"24-03","c":"WEB","t":"Sección Plan de Movilidad Sostenible (Ley 9/2025)"},{"i":159,"d":"24-03","c":"SKILL","t":"Agente de auto-respuesta a candidatos en LinkedIn"},{"i":160,"d":"25-03","c":"PROD","t":"Nueva interfaz de descargas en LCA"},{"i":161,"d":"25-03","c":"PROD","t":"Varios responsables por acción en los planes de acción de ISOs"},{"i":162,"d":"25-03","c":"PROD","t":"Objetivos e indicadores compartidos entre proyectos de ISOs"},{"i":163,"d":"25-03","c":"INIT","t":"Iniciativa para abrir la \"caja negra\" del cálculo"},{"i":164,"d":"26-03","c":"PROD","t":"Descripciones y evidencias en emisiones históricas"},{"i":165,"d":"26-03","c":"PROD","t":"Carga masiva de doble materialidad (scores e IROs)"},{"i":166,"d":"26-03","c":"PROD","t":"Tipos de no conformidad personalizables en ISOs"},{"i":167,"d":"26-03","c":"PROD","t":"Memory: emisiones 95% más consistentes entre Excel, dashboards e informes"},{"i":168,"d":"26-03","c":"SKILL","t":"Rogel.IA: motor de nurturing"},{"i":169,"d":"26-03","c":"SKILL","t":"/task-mailer"},{"i":170,"d":"27-03","c":"INIT","t":"Amplify vuelve: arranque de ciclo hacia software agéntico"},{"i":171,"d":"01-04","c":"PROD","t":"Borrado masivo por filtros (50 o 50.000 registros)"},{"i":172,"d":"01-04","c":"AGENT","t":"Dcycle MCP en producción: pregunta tus emisiones a Claude"},{"i":173,"d":"06-04","c":"PROD","t":"Fecha límite en encuestas de movilidad"},{"i":174,"d":"06-04","c":"PROD","t":"Datos económicos en facturas de consumo (importe y divisa)"},{"i":175,"d":"06-04","c":"PROD","t":"Dcycle disponible en francés"},{"i":176,"d":"07-04","c":"AGENT","t":"Primer copilot de IA embebido en las vistas de datos (Compras)"},{"i":177,"d":"07-04","c":"PROD","t":"Descargas asíncronas de pivot tables"},{"i":178,"d":"07-04","c":"PROD","t":"Pivot table de remuneración y brecha salarial"},{"i":179,"d":"07-04","c":"SKILL","t":"/education-client-needs"},{"i":180,"d":"07-04","c":"INIT","t":"Arranca Decarbonization Plans (wizard guiado por IA)"},{"i":181,"d":"07-04","c":"INIT","t":"Story: sentar las bases para escalar"},{"i":182,"d":"08-04","c":"PROD","t":"Plantillas de visualización de Own Workforce (14 tablas automáticas)"},{"i":183,"d":"08-04","c":"PROD","t":"Depuración de aguas en el Excel de Scope 1 y 2"},{"i":184,"d":"08-04","c":"SKILL","t":"/clients-pulse y otra skill de CS"},{"i":185,"d":"08-04","c":"SKILL","t":"/ps-lca-scope y /ps-lca-evaluate"},{"i":186,"d":"09-04","c":"PROD","t":"Data co-pilot de compras también informa de proveedores"},{"i":187,"d":"09-04","c":"PROD","t":"Borrado masivo de facturas"},{"i":188,"d":"09-04","c":"SKILL","t":"/news-comms: avisar a los clientes que sufrían el problema resuelto"},{"i":189,"d":"10-04","c":"PROD","t":"Consumo de combustible en pivot tables (fijo y móvil)"},{"i":190,"d":"10-04","c":"PROD","t":"Región seleccionable en materiales de LCA"},{"i":191,"d":"13-04","c":"PROD","t":"Emails de invitación separados: nuevo usuario vs. usuario existente"},{"i":192,"d":"13-04","c":"PROD","t":"Columna \"nombre del vehículo\" en todos los informes"},{"i":193,"d":"13-04","c":"PROD","t":"Redirección a la URL original después del login"},{"i":194,"d":"13-04","c":"PROD","t":"Fix de puntos de suministro de Datadis"},{"i":195,"d":"14-04","c":"PROD","t":"Importe y divisa al crear y editar facturas"},{"i":196,"d":"14-04","c":"CLI","t":"invoice recalculate"},{"i":197,"d":"15-04","c":"PROD","t":"Notificaciones in-app al invitar a una organización"},{"i":198,"d":"15-04","c":"PROD","t":"Ordenación personalizada en widgets de pivot table y gráficos"},{"i":199,"d":"16-04","c":"CLI","t":"La CLI pasa a llamarse dcy (+ mejoras)"},{"i":200,"d":"17-04","c":"DOCS","t":"Base de ISO 14001/50001 lista para ventas, CS y SD"},{"i":201,"d":"20-04","c":"PROD","t":"Pre-Audit automatizado"},{"i":202,"d":"20-04","c":"AGENT","t":"Soporte asistido por IA en producción"},{"i":203,"d":"20-04","c":"CLI","t":"vehicle delete-consumptions"},{"i":204,"d":"21-04","c":"PROD","t":"Dcycle deja de ser GHG: GHG pasa a ser un proyecto"},{"i":205,"d":"21-04","c":"AGENT","t":"Endpoint GET /v1/waste-efs"},{"i":206,"d":"21-04","c":"SKILL","t":"/emissions-expert"},{"i":207,"d":"22-04","c":"PROD","t":"Coste de consumos de vehículos por empresa, divisa y matrícula"},{"i":208,"d":"22-04","c":"PROD","t":"Scope 3 de vehículos disponible de nuevo"},{"i":209,"d":"22-04","c":"AGENT","t":"Nueva herramienta MCP get_greenhouse_gas_emissions"},{"i":210,"d":"22-04","c":"INIT","t":"Build your own reports, empezando por GHG"},{"i":211,"d":"22-04","c":"INIT","t":"Nuevo modelo de servicio"},{"i":212,"d":"24-04","c":"AGENT","t":"Sneak peek: Leia para Decarb (primer plan de reducción)"},{"i":213,"d":"27-04","c":"CLI","t":"Borrado masivo de productos vendidos"},{"i":214,"d":"28-04","c":"PROD","t":"Informe GHG: elegir organizaciones a consolidar y aplicar el enfoque GHG"},{"i":215,"d":"28-04","c":"PROD","t":"Pre-Audit convertido en un botón"},{"i":216,"d":"29-04","c":"CLI","t":"custom-ef delete-bulk"},{"i":217,"d":"30-04","c":"WEB","t":"Landing del cuestionario CDP"},{"i":218,"d":"30-04","c":"INIT","t":"Arranca la iniciativa de Custom KPIs"},{"i":219,"d":"04-05","c":"DOCS","t":"Guías de requisitos de datos del GHG Protocol"},{"i":220,"d":"04-05","c":"SKILL","t":"/expert-ghg-protocol"},{"i":221,"d":"05-05","c":"PROD","t":"SFDR (PAIs) convertido en proyecto"},{"i":222,"d":"05-05","c":"CLI","t":"invoice recalculate --unit-id"},{"i":223,"d":"06-05","c":"PROD","t":"MultiDB disponible en Scope 1 y 2"},{"i":224,"d":"06-05","c":"PROD","t":"Emisiones location-based en todas las facturas de electricidad"},{"i":225,"d":"06-05","c":"PROD","t":"Documentar supuestos en LCA"},{"i":226,"d":"06-05","c":"PROD","t":"Número medio de contratos: cumplimiento total de la Ley 11/2018"},{"i":227,"d":"07-05","c":"PROD","t":"Descargas multi-organización"},{"i":228,"d":"08-05","c":"INIT","t":"Anuncio de Custom KPIs"},{"i":229,"d":"11-05","c":"AGENT","t":"Leia: primera capa agéntica real de Dcycle"},{"i":230,"d":"11-05","c":"INIT","t":"Land arranca la máquina de recomendaciones y recordatorios"},{"i":231,"d":"12-05","c":"PROD","t":"Custom KPIs en producción"},{"i":232,"d":"12-05","c":"PROD","t":"Invofox fuera de Facilities"},{"i":233,"d":"13-05","c":"PROD","t":"MITECO 5.0 en vivo"},{"i":234,"d":"14-05","c":"PROD","t":"Borrado de proveedores de compras"},{"i":235,"d":"14-05","c":"PROD","t":"Selección del tipo de factura antes de la carga masiva"},{"i":236,"d":"18-05","c":"PROD","t":"Máquina de recomendaciones y recordatorios en proyectos GHG"},{"i":237,"d":"19-05","c":"PROD","t":"Reports reconstruidos: nueva experiencia de reporting"},{"i":238,"d":"19-05","c":"PROD","t":"Report Builder: crear informes GHG y cualquier otro desde el proyecto"},{"i":239,"d":"19-05","c":"PROD","t":"Colaboración en tiempo real en informes"},{"i":240,"d":"19-05","c":"AGENT","t":"Primer GHG AI Expert (entrenado con el GHG Protocol)"},{"i":241,"d":"19-05","c":"PROD","t":"Análisis de incertidumbre en vivo en el informe GHG"},{"i":242,"d":"19-05","c":"PROD","t":"Proyectos ISO 14064 en el idioma del verificador"},{"i":243,"d":"19-05","c":"PROD","t":"Columnas personalizadas en compras (POC)"},{"i":244,"d":"21-05","c":"PROD","t":"Filtros automáticos por fechas del proyecto en instalaciones"},{"i":245,"d":"22-05","c":"DOCS","t":"Help Center en help.dcycle.io"},{"i":246,"d":"25-05","c":"INIT","t":"Live Deal Scoring"},{"i":247,"d":"26-05","c":"CLI","t":"Login por navegador y MFA en dcy"},{"i":248,"d":"26-05","c":"PROD","t":"Facturas de autoconsumo (placas solares)"},{"i":249,"d":"27-05","c":"PROD","t":"Catálogo de bases de datos de factores de emisión"},{"i":250,"d":"27-05","c":"PROD","t":"Facturas de agua actualizadas (nueva base de datos y más precisión)"},{"i":251,"d":"27-05","c":"PROD","t":"Selector de organización limitado al holding propio (seguridad)"},{"i":252,"d":"27-05","c":"AGENT","t":"Caso de uso MCP con Solarig (Operational Intelligence)"},{"i":253,"d":"27-05","c":"SKILL","t":"/bulldog: preparación de follow-ups comerciales"},{"i":254,"d":"28-05","c":"PROD","t":"Más transparencia de cálculo (\"abrir la caja negra\")"},{"i":255,"d":"30-05","c":"PROD","t":"Migración de arquitectura Lambda → ECS completada"},{"i":256,"d":"01-06","c":"SKILL","t":"Skill de preparación de Demo Stops con PMs"},{"i":257,"d":"04-06","c":"AGENT","t":"Leia configura visualizaciones con lenguaje natural"},{"i":258,"d":"04-06","c":"PROD","t":"Vistas organizadas en pestañas y reordenables"},{"i":259,"d":"04-06","c":"PROD","t":"Hito: 16.000 consumos de vehículos procesados sin errores"},{"i":260,"d":"05-06","c":"AGENT","t":"Leia llega a Dcycle: capa agéntica en la plataforma"},{"i":261,"d":"08-06","c":"PROD","t":"Compartir visualizaciones con organizaciones hijas (solo lectura)"},{"i":262,"d":"08-06","c":"PROD","t":"Explicación de por qué se aplica cada factor de emisión por defecto"},{"i":263,"d":"08-06","c":"DOCS","t":"Guías GLEC en el Help Center"},{"i":264,"d":"08-06","c":"INIT","t":"Iniciativa: meter datos en Dcycle nunca fue tan fácil"},{"i":265,"d":"09-06","c":"PROD","t":"Custom KPIs rediseñados + encuestas para recoger cualquier dato"},{"i":266,"d":"09-06","c":"PROD","t":"Importe y divisa vía Nuvo en carga masiva"},{"i":267,"d":"09-06","c":"CLI","t":"Carga de compras multi-filial en un solo paso"},{"i":268,"d":"09-06","c":"PROD","t":"Experimentos de OCR contra un gold dataset"},{"i":269,"d":"10-06","c":"PROD","t":"Vídeos en las novedades de la app"},{"i":270,"d":"10-06","c":"DOCS","t":"Guía: poner a cero las emisiones de electricidad con una GdO"},{"i":271,"d":"11-06","c":"PROD","t":"Estimación de emisiones de empleados que no responden la encuesta"},{"i":272,"d":"11-06","c":"PROD","t":"Autocreación de empleados al subir el CSV de commuting"},{"i":273,"d":"11-06","c":"PROD","t":"Report Builder más rápido y con visualizaciones que siguen siendo visuales"},{"i":274,"d":"11-06","c":"PROD","t":"Subida de calidad de la UI de visualizaciones"},{"i":275,"d":"11-06","c":"PROD","t":"Previews enriquecidos al compartir URLs de la app"},{"i":276,"d":"11-06","c":"DOCS","t":"Guías: comparar dos años y corregir el CNAE/SIC de un proveedor"},{"i":277,"d":"12-06","c":"DOCS","t":"Guía de Custom KPIs en Dcycle Learn"},{"i":278,"d":"15-06","c":"PROD","t":"MultiDB en envíos y entregas"},{"i":279,"d":"15-06","c":"PROD","t":"Elegir qué organizaciones entran en el informe GHG (Report Builder)"},{"i":280,"d":"16-06","c":"PROD","t":"Trazabilidad de cómo se calculan los km en envíos y entregas"},{"i":281,"d":"16-06","c":"WEB","t":"Leia en la web"},{"i":282,"d":"16-06","c":"DOCS","t":"Guía completa del registro MITECO (3 artículos)"},{"i":283,"d":"17-06","c":"PROD","t":"Nueva vista de subida de datos desde El Cuenco"},{"i":284,"d":"17-06","c":"PROD","t":"Unificar CUPS duplicados y arreglar muchas facturas de golpe"},{"i":285,"d":"23-06","c":"PROD","t":"Jerarquías por tipo de suministro en la pivot de huella"},{"i":286,"d":"23-06","c":"PROD","t":"Base de datos HuellaChile"},{"i":287,"d":"23-06","c":"SKILL","t":"/mobility-scoping (PMST, Ley 9/2025)"},{"i":288,"d":"24-06","c":"PROD","t":"Carga masiva de recargas de gases refrigerantes"},{"i":289,"d":"24-06","c":"INIT","t":"Elastic Data: traer cualquier dato a Dcycle"},{"i":290,"d":"25-06","c":"INIT","t":"Supplier Risk Assessment"},{"i":291,"d":"29-06","c":"PROD","t":"Informes para el módulo de LCA"},{"i":292,"d":"29-06","c":"PROD","t":"Una LCA, múltiples resultados"},{"i":293,"d":"29-06","c":"PROD","t":"Base de datos de factores de comercializadoras eléctricas"},{"i":294,"d":"29-06","c":"PROD","t":"Privacidad por fichero: filiales pueden ocultar ficheros a la matriz"},{"i":295,"d":"29-06","c":"AGENT","t":"Datos de LCA disponibles vía API y MCP"},{"i":296,"d":"29-06","c":"PROD","t":"Nuevo importador de Excel para todas las categorías"},{"i":297,"d":"29-06","c":"PROD","t":"Decarbonization capítulo 2: ejecutar y seguir los planes"},{"i":298,"d":"30-06","c":"PROD","t":"Nueva categoría: estancias en hotel"},{"i":299,"d":"30-06","c":"PROD","t":"MultiDB en viajes de negocio + detalle del cálculo"},{"i":300,"d":"30-06","c":"AGENT","t":"Leia avisa de posibles duplicados al subir documentos"},{"i":301,"d":"01-07","c":"PROD","t":"Listado y borrado masivo de consumos de vehículos"},{"i":302,"d":"01-07","c":"PROD","t":"Pivot table de commuting (km, personas y CO2 por transporte)"},{"i":303,"d":"01-07","c":"PROD","t":"PPWR: control de PFAS y sustancias"},{"i":304,"d":"02-07","c":"PROD","t":"PPWR: carga masiva de unidades de packaging"},{"i":305,"d":"02-07","c":"PROD","t":"Borrado masivo de visualizaciones"},{"i":306,"d":"03-07","c":"PROD","t":"Bloquear informes cuando están terminados"},{"i":307,"d":"03-07","c":"PROD","t":"Depuración de aguas en pivot tables"},{"i":308,"d":"03-07","c":"PROD","t":"Nueva categoría en emisiones históricas: cambio de uso de suelo (FLAG)"},{"i":309,"d":"06-07","c":"PROD","t":"Nueva visualización de mapas para envíos y entregas (con heatmap)"},{"i":310,"d":"06-07","c":"PROD","t":"Emisiones de transporte de residuos separadas (excluibles en SBTi)"},{"i":311,"d":"06-07","c":"DOCS","t":"Release notes automáticas en Platform Docs"},{"i":312,"d":"07-07","c":"CLI","t":"Release 0.0.115 de dcy con nuevos comandos (doctor)"},{"i":313,"d":"07-07","c":"SKILL","t":"/seed-categories"},{"i":314,"d":"07-07","c":"PROD","t":"Carga multi-org del Excel en 5 categorías más"},{"i":315,"d":"08-07","c":"PROD","t":"esg-x integrado en Dcycle: reporting asistido por IA y doble materialidad"},{"i":316,"d":"08-07","c":"PROD","t":"OCR también lee políticas y certificados"},{"i":317,"d":"08-07","c":"PROD","t":"Carga multi-org del Excel en 14 categorías nuevas"},{"i":318,"d":"08-07","c":"PROD","t":"PPWR: mercados objetivo, trazabilidad y documentos compartibles"},{"i":319,"d":"09-07","c":"PROD","t":"Detección inteligente de facturas duplicadas"},{"i":320,"d":"09-07","c":"SKILL","t":"Repo compartido de loops y skills de la empresa"},{"i":321,"d":"13-07","c":"PROD","t":"El Cuenco entiende cualquier Excel parecido a las plantillas"},{"i":322,"d":"13-07","c":"PROD","t":"Subida guiada de facturas dentro de las categorías"},{"i":323,"d":"14-07","c":"PROD","t":"Enviar facturas por email a una dirección única por instalación"},{"i":324,"d":"14-07","c":"PROD","t":"Superficie (m²) en instalaciones"},{"i":325,"d":"14-07","c":"PROD","t":"MultiDB en empleados"},{"i":326,"d":"14-07","c":"CLI","t":"Dos comandos nuevos de códigos de proveedor en dcy purchase"},{"i":327,"d":"14-07","c":"PROD","t":"Migración de estilos de esg-x (tipografía, colores, tamaños)"},{"i":328,"d":"14-07","c":"WEB","t":"Loop automático que publica las novedades en la web"},{"i":329,"d":"15-07","c":"PROD","t":"Descargas separadas por categoría en Scope 1 y 2"},{"i":330,"d":"15-07","c":"PROD","t":"Control de los datos de todo el grupo desde el holding (productos vendidos)"},{"i":331,"d":"16-07","c":"PROD","t":"PPWR habla de SKUs, no de \"unidades de envase\""},{"i":332,"d":"17-07","c":"PROD","t":"LCAs agrupadas en carpetas"},{"i":333,"d":"20-07","c":"DOCS","t":"Verifications Hub en el Help Center"},{"i":334,"d":"21-07","c":"PROD","t":"PPWR: checks de formato (huecos, plásticos de un solo uso, reutilización)"},{"i":335,"d":"22-07","c":"PROD","t":"Descarga de todos los factores de emisión usados en un rango de fechas"},{"i":336,"d":"23-07","c":"AGENT","t":"Leia evalúa tareas para todos los clientes"},{"i":337,"d":"23-07","c":"AGENT","t":"Importación automática desde fichas técnicas de packaging"},{"i":338,"d":"23-07","c":"DOCS","t":"Sección de Integraciones en el Help Center"},{"i":339,"d":"23-07","c":"SKILL","t":"i18n Translation Guard en cada PR"},{"i":340,"d":"24-07","c":"WEB","t":"9 novedades de producto publicadas en dcycle.io/novedades"},{"i":341,"d":"27-07","c":"PROD","t":"Freemium de GHG Scope 1&2"},{"i":342,"d":"27-07","c":"PROD","t":"MultiDB en compras"},{"i":343,"d":"29-07","c":"PROD","t":"PPWR: generador de códigos QR en la declaración de conformidad"},{"i":344,"d":"30-07","c":"PROD","t":"Edición masiva de vehículos"},{"i":345,"d":"31-07","c":"PROD","t":"Elastic Data en producción: cualquier dato vive en Dcycle"},{"i":346,"d":"31-07","c":"AGENT","t":"Leia importa casi cualquier fichero (Excel, CSV, PDF)"},{"i":347,"d":"31-07","c":"PROD","t":"Analizar, visualizar y compartir cualquier dato sin salir de Dcycle"},{"i":348,"d":"03-08","c":"PROD","t":"FLAG: emisiones de agricultura, ganadería y uso de suelo"},{"i":349,"d":"03-08","c":"DOCS","t":"Guía GHG Protocol — FLAG"},{"i":350,"d":"04-08","c":"PROD","t":"PPWR: proveedores vinculados a unidades de packaging"},{"i":351,"d":"04-08","c":"CLI","t":"Comandos PPWR en dcy"},{"i":352,"d":"06-08","c":"PROD","t":"Portal de proveedores renovado"},{"i":353,"d":"06-08","c":"AGENT","t":"Disicler revisa PRs desde Slack"},{"i":354,"d":"07-08","c":"PROD","t":"Encuestas de movilidad personalizables"},{"i":355,"d":"07-08","c":"PROD","t":"Report Builder hasta 5× más rápido"},{"i":356,"d":"10-08","c":"PROD","t":"Deshacer una subida entera en un clic (borrado por fichero multi-org)"},{"i":357,"d":"10-08","c":"PROD","t":"Tareas con varios asignados y modos de completado"},{"i":358,"d":"10-08","c":"PROD","t":"Toggle \"consolidar por estructura organizativa\" en tablas dinámicas"},{"i":359,"d":"10-08","c":"PROD","t":"Combustible por tipo de vehículo con kg CO₂e"},{"i":360,"d":"11-08","c":"PROD","t":"Comercializadoras de electricidad y calor personalizadas"},{"i":361,"d":"12-08","c":"AGENT","t":"Dictar a Leia por voz en cualquier chat"},{"i":362,"d":"14-08","c":"PROD","t":"Arranca vehículos multicombustible"},{"i":363,"d":"14-08","c":"CLI","t":"Métricas de intensidad desde CLI y MCP"},{"i":364,"d":"17-08","c":"PROD","t":"Paleta de comandos global (⌘K)"},{"i":365,"d":"18-08","c":"PROD","t":"ESRS 2026 simplificados en el módulo de reporting"},{"i":366,"d":"18-08","c":"PROD","t":"Comentarios en facturas"},{"i":367,"d":"18-08","c":"PROD","t":"Botones de ayuda en el módulo PPWR"},{"i":368,"d":"19-08","c":"PROD","t":"% de participación editable en organizaciones hijas"},{"i":369,"d":"20-08","c":"PROD","t":"Plan gratuito de Dcycle"},{"i":370,"d":"20-08","c":"PROD","t":"Carga masiva de códigos CNAE/SIC de proveedores"},{"i":371,"d":"21-08","c":"PROD","t":"Gran actualización de factores de emisión personalizados"},{"i":372,"d":"24-08","c":"PROD","t":"Declaración de conformidad PPWR compartible con terceros"},{"i":373,"d":"24-08","c":"PROD","t":"La app recomienda proyectos según datos, sector y frameworks"},{"i":374,"d":"25-08","c":"PROD","t":"Vista de grupo en tablas de datos (crear, editar y borrar de toda la familia)"},{"i":375,"d":"26-08","c":"PROD","t":"Roles con permisos por categoría"},{"i":376,"d":"26-08","c":"PROD","t":"Decimales configurables en Report Builder"},{"i":377,"d":"26-08","c":"PROD","t":"Métricas personalizadas en visualizaciones"},{"i":378,"d":"26-08","c":"PROD","t":"Pre-Audit Report V2"},{"i":379,"d":"26-08","c":"PROD","t":"Trazabilidad GRI en EINF"},{"i":380,"d":"26-08","c":"PROD","t":"Multi-org completo en 6 categorías más"},{"i":381,"d":"27-08","c":"PROD","t":"Vehículos con varios combustibles"},{"i":382,"d":"27-08","c":"PROD","t":"Cualquier métrica mostrada como porcentaje"},{"i":383,"d":"27-08","c":"PROD","t":"Notificaciones de tareas, recordatorios y digest diario"},{"i":384,"d":"27-08","c":"PROD","t":"Exportación de encuestas pendientes a nivel grupo"},{"i":385,"d":"27-08","c":"PROD","t":"GHG PRO incluye las justificaciones del pre-audit"},{"i":386,"d":"28-08","c":"PROD","t":"Métricas de % renovable vs. no renovable en energía"},{"i":387,"d":"31-08","c":"PROD","t":"Códigos CNAE/SIC de proveedores en el Excel de compras"}];
+const CATS = {
+  PROD:'Producto', SKILL:'Skills', WEB:'Web', CLI:'CLI',
+  AGENT:'Leia / API', INIT:'Iniciativas', DOCS:'Docs'
+};
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+const stripEl = document.getElementById('strip');
+const machineEl = document.getElementById('machine');
+const spinBtn = document.getElementById('spin');
+const chipsEl = document.getElementById('chips');
+const statusEl = document.getElementById('status');
+const noRepeatEl = document.getElementById('norepeat');
+const soundEl = document.getElementById('sound');
+const windowEl = document.querySelector('.window');
+const sparksEl = document.getElementById('sparks');
+
+const active = new Set(Object.keys(CATS));
+const used = new Set();
+let spinning = false;
+
+/* Entero uniforme en [0,n) con el CSPRNG del navegador. El rechazo descarta
+   los valores del último bloque incompleto, que es lo que introduciría sesgo. */
+function randInt(n){
+  if(n <= 0) return 0;
+  const limit = Math.floor(0x100000000 / n) * n;
+  const buf = new Uint32Array(1);
+  let v;
+  do { crypto.getRandomValues(buf); v = buf[0]; } while (v >= limit);
+  return v % n;
+}
+
+/* Sonido sintetizado: clics de bobina mientras gira, ding-ding-ding al parar. */
+let audio = null;
+function ac(){
+  if (!soundEl.checked) return null;
+  if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+  if (audio.state === 'suspended') audio.resume();
+  return audio;
+}
+function tone(freq, at, dur, {type = 'sine', gain = 0.06} = {}){
+  const a = ac(); if (!a) return;
+  const t = a.currentTime + at;
+  const osc = a.createOscillator(), amp = a.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, t);
+  amp.gain.setValueAtTime(0, t);
+  amp.gain.linearRampToValueAtTime(gain, t + 0.006);
+  amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  osc.connect(amp).connect(a.destination);
+  osc.start(t); osc.stop(t + dur + 0.02);
+}
+function tick(progress){
+  tone(560 + progress * 420, 0, 0.045, {type:'square', gain:0.035});
+}
+function jackpot(){
+  [880, 1108.7, 1318.5].forEach((f, i) => {
+    tone(f, i * 0.16, 0.42, {type:'triangle', gain:0.1});
+    tone(f * 2, i * 0.16, 0.22, {type:'sine', gain:0.045});
+  });
+  tone(1760, 0.5, 0.8, {type:'sine', gain:0.05});
+}
+
+/* Chispas blancas saliendo de la casilla premiada. */
+function sparks(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = sparksEl.clientWidth, h = sparksEl.clientHeight;
+  sparksEl.width = w * dpr; sparksEl.height = h * dpr;
+  const g = sparksEl.getContext('2d');
+  g.scale(dpr, dpr);
+  const parts = Array.from({length: 22}, (_, k) => {
+    const ang = (k / 22) * Math.PI * 2 + Math.random() * 0.2;
+    const sp = 2.6 + Math.random() * 3.4;
+    return {x: w / 2, y: h / 2, vx: Math.cos(ang) * sp * 1.7, vy: Math.sin(ang) * sp, r: 1.5 + Math.random() * 2.5};
+  });
+  const t0 = performance.now();
+  (function frame(now){
+    const t = (now - t0) / 700;
+    g.clearRect(0, 0, w, h);
+    if (t >= 1) return;
+    g.fillStyle = 'rgba(255,255,255,' + (1 - t) + ')';
+    parts.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vx *= 0.965; p.vy *= 0.965;
+      g.beginPath(); g.arc(p.x, p.y, p.r * (1 - t * 0.6), 0, Math.PI * 2); g.fill();
+    });
+    requestAnimationFrame(frame);
+  })(t0);
+}
+function celebrate(){
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (card){ card.classList.remove('win'); void card.offsetWidth; card.classList.add('win'); }
+  windowEl.classList.remove('won'); void windowEl.offsetWidth; windowEl.classList.add('won');
+  sparks();
+  jackpot();
+}
+
+function pool(){
+  return ITEMS.filter(it => active.has(it.c) && !(noRepeatEl.checked && used.has(it.i)));
+}
+function fmtDate(d){
+  const [dd,mm] = d.split('-');
+  return Number(dd) + ' ' + MESES[Number(mm)-1];
+}
+function cell(item){
+  const el = document.createElement('div');
+  el.className = 'cell';
+  const card = document.createElement('div');
+  card.className = 'card';
+  const p = document.createElement('p');
+  p.textContent = item.t;
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = CATS[item.c];
+  const date = document.createElement('span');
+  date.className = 'date';
+  date.textContent = fmtDate(item.d);
+  meta.append(tag, date);
+  card.append(p, meta);
+  el.append(card);
+  return el;
+}
+function render(cells, ty){
+  stripEl.replaceChildren(...cells.map(cell));
+  stripEl.style.transform = 'translateY(' + ty + 'px)';
+}
+function idle(){
+  const p = pool();
+  const picks = [];
+  while (picks.length < 3 && p.length){
+    const c = p[randInt(p.length)];
+    if (p.length < 3 || !picks.includes(c)) picks.push(c);
+  }
+  render(picks.length ? picks : [
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'},
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'},
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'}
+  ], 0);
+  spinBtn.disabled = p.length === 0;
+}
+function status(){
+  const p = pool();
+  statusEl.innerHTML = 'En juego <b>' + p.length + '</b> · ya han salido <b>' + used.size + '</b> de <b>' + ITEMS.length + '</b>';
+}
+
+function spin(){
+  const p = pool();
+  if (spinning || !p.length) return;
+  spinning = true;
+  spinBtn.disabled = true;
+  machineEl.classList.add('spinning');
+
+  const winner = p[randInt(p.length)];
+  const cellH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cell-h'));
+  const travel = 34 + randInt(14);                 // casillas que pasan antes de frenar
+  const cells = [ITEMS[randInt(ITEMS.length)], winner];
+  for (let k = 0; k < travel + 1; k++) cells.push(ITEMS[randInt(ITEMS.length)]);
+
+  const from = -travel * cellH;
+  let passed = 0, lastTick = 0;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  render(cells, from);
+
+  const finish = () => {
+    stripEl.style.transform = 'translateY(0px)';
+    stripEl.style.filter = 'none';
+    used.add(winner.i);
+    spinning = false;
+    celebrate();
+    machineEl.classList.remove('spinning');
+    status();
+    spinBtn.disabled = pool().length === 0;
+    spinBtn.focus({preventScroll:true});
+  };
+
+  if (reduced){ setTimeout(finish, 320); return; }
+
+  const dur = 4200;
+  const t0 = performance.now();
+  let prev = from;
+  (function frame(now){
+    const t = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - t, 5);             // rápido al principio, frenada larga
+    const ty = from + (0 - from) * e;
+    const v = Math.abs(ty - prev); prev = ty;
+    stripEl.style.transform = 'translateY(' + ty + 'px)';
+    stripEl.style.filter = v > 6 ? 'blur(' + Math.min(7, v * 0.16) + 'px)' : 'none';
+    const crossed = Math.floor((ty - from) / cellH);
+    if (crossed > passed){
+      passed = crossed;
+      if (now - lastTick > 42){ lastTick = now; tick(t); }
+    }
+    if (t < 1) requestAnimationFrame(frame);
+    else finish();
+  })(t0);
+}
+
+Object.entries(CATS).forEach(([key,label]) => {
+  const b = document.createElement('button');
+  b.className = 'chip';
+  b.type = 'button';
+  b.setAttribute('aria-pressed','true');
+  const count = ITEMS.filter(i => i.c === key).length;
+  b.innerHTML = label + ' <em>' + count + '</em>';
+  b.addEventListener('click', () => {
+    if (spinning) return;
+    if (active.has(key)) active.delete(key); else active.add(key);
+    if (!active.size) active.add(key);
+    b.setAttribute('aria-pressed', String(active.has(key)));
+    idle(); status();
+  });
+  chipsEl.append(b);
+});
+
+spinBtn.addEventListener('click', spin);
+soundEl.addEventListener('change', () => { if (soundEl.checked) tone(880, 0, 0.12, {gain:0.05}); });
+noRepeatEl.addEventListener('change', () => { idle(); status(); });
+document.getElementById('reset').addEventListener('click', () => { used.clear(); idle(); status(); });
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && e.target === document.body){ e.preventDefault(); spin(); }
+});
+
+idle(); status();
+</script>
