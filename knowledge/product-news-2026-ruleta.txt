@@ -1,0 +1,388 @@
+Cuenco Folders: subir carpetas con cualquier estructura
+Método de consolidación elegible en tablas de huella de carbono
+Refactor completo del flujo de Invoices
+Nueva página de News dentro de la app (adiós al iframe de Notion)
+Sección "Data to report" en proyectos EINF-GRI
+Visualizaciones creadas por defecto al crear un proyecto
+Documentación ISO 14064 publicada
+Fin de las visualizaciones de energía automáticas en proyectos EINF
+Primera pivot table social: horas de formación
+Mejoras de UX/UI en Invoices
+Creación masiva de organizaciones hijas (100 orgs para COPISA)
+Personalización por usuario/equipo en entornos multi-org
+Comando `/start` en frontend y backend
+Multi-Database para vehículos
+Ajustes de proyecto en panel lateral (fuera del modal superior)
+Edición de facturas divididas con importes claros
+Visualizaciones dentro del informe personalizable (EINF-GRI)
+Actualizar `total_km` de employees_historic
+Importación masiva de periodos históricos de empleados
+White-label: partners con su propia marca en informes y descargas
+Carga masiva de datos de logística (miles de envíos)
+Nuevo sidebar colapsable
+Assistant 3.0
+Transparencia total del cálculo en consumos de vehículos ("Chamber of Secrets")
+Migración de ficheros y datos procesados de Dynamo a la base de datos
+Rediseño de la interfaz de encuestas de movilidad
+Comando `own-workforce`
+Actualizar valores de employee_historic (total_km y demás)
+Visualizaciones exportables a Excel
+Arranca "de borrar ficheros a borrado masivo de datos"
+Prioridades de producto Q1 & Q2 2026
+Modelo de stickiness / Data Health Metrics
+Documentación de CLI y MCP para automatización e IA
+`rds sync`: sincronizar la BBDD de producción en local
+Campos condicionales personalizados en pivot tables
+Flujo supplier-specific totalmente automatizado
+Subida de commuting de empleados por CSV
+Primer test real en producción con Correos Express (~500K paquetes)
+Company Diagram refactorizado y arreglado
+Carga masiva de commuting con Nuvo
+Columnas personalizadas en tablas (empezando por compras)
+Login OAuth con Google
+Nuevos roles y control avanzado de permisos
+`purchase purge-orphan-suppliers`
+`/pre-audit`: validación de consistencia entre dashboard y descargas
+Nuevos campos en pivot tables GHG e ISO 14064 (facility, país)
+Cálculo automático de distancias en commuting masivo
+Disicler: acceso directo a datos de cliente desde Slack
+Borrar peticiones de logística filtrando por fichero
+`/ecoinvent-match`: matching automático de factores de emisión en LCAs
+Reparto de facturas entre cualquier organización del diagrama
+`/support`: debug automático de tickets de HubSpot
+Holdings pueden subir datos de Own Workforce de sus filiales
+`/create-pivot-metric`: crear métricas de pivot table con IA
+Mejoras en el portal de soporte (conversaciones in-app)
+Sentry + Claude Code vía MCP y Git Worktrees
+Descarga en Excel de la tabla de KPIs tal cual se ve
+Selección y borrado masivo de datos (no de ficheros)
+Integración DATADIS arreglada y rediseñada
+`make claude-dev` / `make claude-cleanup` (worktrees para Claude)
+`/ecoinvent-match` cubre el proceso completo de matching en BBDD
+Pivot table de consumo de agua (m³ y litros)
+Comandos de gestión de proveedores (`dc supplier`)
+Nuevo proyecto GLEC (lanzamiento 27 de febrero)
+Nueva web dcycle.io (new.dcycle.io) abierta a toda la empresa
+Tutorial GLEC en docs.dcycle.io
+Desplegable de combustibles mejorado en lecturas de factura
+Hub de webinars y workshops
+Data Activity Detail: histórico de quién cambió qué y cuándo
+Pivot table de residuos
+Pivot table de accidentes y absentismo
+Creación masiva de empleados inexistentes
+Nuevo hero con conversación de agente en vivo
+Métricas económicas propias en la pivot table de compras
+Sección Energy & Mining
+Agrupación por año fiscal en pivot tables
+Pivot de compras: filtro por proveedor/reciclado + celda kgCO2e
+Scope 3 Categoría 11: uso de productos vendidos
+Sección Expert Guidance
+Sección Finance
+`/answer-client`: respuestas a clientes con contexto de HubSpot + BBDD
+Reglas de SEO y linter de slugs en el repo
+221 posts de blog migrados (EN/ES/DE)
+Nueva landing de blog con filtros y buscador
+Moana: agente conversacional en la home
+Sección de Decarbonization (ES/EN)
+Auto-blog: vigilancia regulatoria y publicación automática en 3 idiomas
+LCA Impact Dashboard interactivo (EN 15804)
+Decimales configurables en visualizaciones
+Carga masiva de factores de emisión personalizados
+Unidades correctas en pernoctaciones ("night")
+ESG Regulation Checker interactivo
+Sección Consumer Goods
+Sección IT & Technology Services
+Primer prototipo del Dcycle MCP Server
+Factores personalizados creados en la matriz y heredados por filiales
+Aviso de límites al descargar el Excel de Scope 1 y 2
+Landing de Acquisitions (M&A)
+Sección Retail
+Página How We Work
+`/sync-data`: sincronizar datos de producción en local
+Informe de logística: desglose de flota y ahorro por electrificación
+Nuevo método de cálculo de KPIs de plantilla (headcount)
+Emisiones históricas calculadas fuera de Dcycle en todas las categorías
+`/morning-emails`: gestión automática del correo de clientes
+Informes de auditoría retributiva (RD 902/2020)
+Bloque de contenido recomendado por industria en HubSpot
+Emails de nurturing y demo reconstruidos con Claude Code
+Nuevo proyecto de logística GLEC publicado
+Projects CRUD API en el Developer Center
+`/echo-fathom`: señales de producto desde las reuniones de Fathom
+`/sherlock`: auditoría profunda de datos de emisiones
+Imágenes automáticas de cabecera en el blog (API de Unsplash)
+Carga masiva de consumos de instalaciones (luz, agua, combustible)
+Compras multidivisa con tipos de cambio del BCE
+Métricas de intensidad en pivot tables de logística
+Informes GHG editables
+Menciones dentro de Dcycle
+Organization Tree API en el Developer Center
+`/news`: digest de novedades de #product-news
+`/morning-emails` con pipeline de tickets de HubSpot
+Nuevo repo Go to Market
+Nuevos gráficos dinámicos en visualizaciones
+`/prepare-qbr`: QBRs de cliente automáticos
+`dc purchase upload` + skill `/file-transform`
+`dc-walrus`: la CLI instalable en cualquier Mac/Linux
+Recopilación automática de evidencias de deducciones I+D 2025
+Lecturas automáticas de facturas vía Cuenco
+Selección rápida de fechas al crear proyectos
+Carga masiva de factores de emisión personalizados en compras
+Sección de eventos en la web
+Skills del repo `go-to-market` arregladas
+Diagnóstico de deals perdidos por mala cualificación
+`/new-webinar`: landing completa de webinar en 4 idiomas
+ISOs reales en Dcycle: riesgos, no conformidades y acciones correctivas
+The Wiki: un "read.me" por empresa dentro de Dcycle
+Datos personalizados en proyectos EINF
+Frameworks activables por organización desde el admin
+Mejoras de rendimiento en la descarga de Scope 1 y 2
+`/dcycle-perfiles` y otras dos skills de GTM
+Mover varias facturas entre instalaciones a la vez
+OCR de facturas de gases refrigerantes
+Outbound Engine: ciclo completo de cold email
+`/esg-quote-extractor`
+Directorio de skills de Claude Code en un Canvas
+Posicionamiento por tamaño de empresa
+Proyectos LCA en vivo (66 orgs con proyecto creado automáticamente)
+Galones para consumos de vehículos
+Refresco visual de la encuesta de movilidad
+Hooks de Claude Code: `ty` y `ruff` automáticos en el backend
+`/new-event`: página de evento
+Nueva fase: consolidación de UI y capa agéntica
+Métricas de intensidad en pivot tables (por facturación, plantilla, producción)
+Pivot table de despidos/bajas
+`/sdr-copilot`: lista de prospección semanal
+Tarjetas de factores de emisión unificadas en Data > Customize
+SDR Onboarding Tracker (app interna)
+Demo Library en la web
+Sección Plan de Movilidad Sostenible (Ley 9/2025)
+Agente de auto-respuesta a candidatos en LinkedIn
+Nueva interfaz de descargas en LCA
+Varios responsables por acción en los planes de acción de ISOs
+Objetivos e indicadores compartidos entre proyectos de ISOs
+Iniciativa para abrir la "caja negra" del cálculo
+Descripciones y evidencias en emisiones históricas
+Carga masiva de doble materialidad (scores e IROs)
+Tipos de no conformidad personalizables en ISOs
+Memory: emisiones 95% más consistentes entre Excel, dashboards e informes
+Rogel.IA: motor de nurturing
+`/task-mailer`
+Amplify vuelve: arranque de ciclo hacia software agéntico
+Borrado masivo por filtros (50 o 50.000 registros)
+Dcycle MCP en producción: pregunta tus emisiones a Claude
+Fecha límite en encuestas de movilidad
+Datos económicos en facturas de consumo (importe y divisa)
+Dcycle disponible en francés
+Primer copilot de IA embebido en las vistas de datos (Compras)
+Descargas asíncronas de pivot tables
+Pivot table de remuneración y brecha salarial
+`/education-client-needs`
+Arranca Decarbonization Plans (wizard guiado por IA)
+Story: sentar las bases para escalar
+Plantillas de visualización de Own Workforce (14 tablas automáticas)
+Depuración de aguas en el Excel de Scope 1 y 2
+`/clients-pulse` y otra skill de CS
+`/ps-lca-scope` y `/ps-lca-evaluate`
+Data co-pilot de compras también informa de proveedores
+Borrado masivo de facturas
+`/news-comms`: avisar a los clientes que sufrían el problema resuelto
+Consumo de combustible en pivot tables (fijo y móvil)
+Región seleccionable en materiales de LCA
+Emails de invitación separados: nuevo usuario vs. usuario existente
+Columna "nombre del vehículo" en todos los informes
+Redirección a la URL original después del login
+Fix de puntos de suministro de Datadis
+Importe y divisa al crear y editar facturas
+`invoice recalculate`
+Notificaciones in-app al invitar a una organización
+Ordenación personalizada en widgets de pivot table y gráficos
+La CLI pasa a llamarse `dcy` (+ mejoras)
+Base de ISO 14001/50001 lista para ventas, CS y SD
+Pre-Audit automatizado
+Soporte asistido por IA en producción
+`vehicle delete-consumptions`
+Dcycle deja de ser GHG: GHG pasa a ser un proyecto
+Endpoint `GET /v1/waste-efs`
+`/emissions-expert`
+Coste de consumos de vehículos por empresa, divisa y matrícula
+Scope 3 de vehículos disponible de nuevo
+Nueva herramienta MCP `get_greenhouse_gas_emissions`
+Build your own reports, empezando por GHG
+Nuevo modelo de servicio
+Sneak peek: Leia para Decarb (primer plan de reducción)
+Borrado masivo de productos vendidos
+Informe GHG: elegir organizaciones a consolidar y aplicar el enfoque GHG
+Pre-Audit convertido en un botón
+`custom-ef delete-bulk`
+Landing del cuestionario CDP
+Arranca la iniciativa de Custom KPIs
+Guías de requisitos de datos del GHG Protocol
+`/expert-ghg-protocol`
+SFDR (PAIs) convertido en proyecto
+`invoice recalculate --unit-id`
+MultiDB disponible en Scope 1 y 2
+Emisiones location-based en todas las facturas de electricidad
+Documentar supuestos en LCA
+Número medio de contratos: cumplimiento total de la Ley 11/2018
+Descargas multi-organización
+Anuncio de Custom KPIs
+Leia: primera capa agéntica real de Dcycle
+Land arranca la máquina de recomendaciones y recordatorios
+Custom KPIs en producción
+Invofox fuera de Facilities
+MITECO 5.0 en vivo
+Borrado de proveedores de compras
+Selección del tipo de factura antes de la carga masiva
+Máquina de recomendaciones y recordatorios en proyectos GHG
+Reports reconstruidos: nueva experiencia de reporting
+Report Builder: crear informes GHG y cualquier otro desde el proyecto
+Colaboración en tiempo real en informes
+Primer GHG AI Expert (entrenado con el GHG Protocol)
+Análisis de incertidumbre en vivo en el informe GHG
+Proyectos ISO 14064 en el idioma del verificador
+Columnas personalizadas en compras (POC)
+Filtros automáticos por fechas del proyecto en instalaciones
+Help Center en help.dcycle.io
+Live Deal Scoring
+Login por navegador y MFA en `dcy`
+Facturas de autoconsumo (placas solares)
+Catálogo de bases de datos de factores de emisión
+Facturas de agua actualizadas (nueva base de datos y más precisión)
+Selector de organización limitado al holding propio (seguridad)
+Caso de uso MCP con Solarig (Operational Intelligence)
+`/bulldog`: preparación de follow-ups comerciales
+Más transparencia de cálculo ("abrir la caja negra")
+Migración de arquitectura Lambda → ECS completada
+Skill de preparación de Demo Stops con PMs
+Leia configura visualizaciones con lenguaje natural
+Vistas organizadas en pestañas y reordenables
+Hito: 16.000 consumos de vehículos procesados sin errores
+Leia llega a Dcycle: capa agéntica en la plataforma
+Compartir visualizaciones con organizaciones hijas (solo lectura)
+Explicación de por qué se aplica cada factor de emisión por defecto
+Guías GLEC en el Help Center
+Iniciativa: meter datos en Dcycle nunca fue tan fácil
+Custom KPIs rediseñados + encuestas para recoger cualquier dato
+Importe y divisa vía Nuvo en carga masiva
+Carga de compras multi-filial en un solo paso
+Experimentos de OCR contra un gold dataset
+Vídeos en las novedades de la app
+Guía: poner a cero las emisiones de electricidad con una GdO
+Estimación de emisiones de empleados que no responden la encuesta
+Autocreación de empleados al subir el CSV de commuting
+Report Builder más rápido y con visualizaciones que siguen siendo visuales
+Subida de calidad de la UI de visualizaciones
+Previews enriquecidos al compartir URLs de la app
+Guías: comparar dos años y corregir el CNAE/SIC de un proveedor
+Guía de Custom KPIs en Dcycle Learn
+MultiDB en envíos y entregas
+Elegir qué organizaciones entran en el informe GHG (Report Builder)
+Trazabilidad de cómo se calculan los km en envíos y entregas
+Leia en la web
+Guía completa del registro MITECO (3 artículos)
+Nueva vista de subida de datos desde El Cuenco
+Unificar CUPS duplicados y arreglar muchas facturas de golpe
+Jerarquías por tipo de suministro en la pivot de huella
+Base de datos HuellaChile
+`/mobility-scoping` (PMST, Ley 9/2025)
+Carga masiva de recargas de gases refrigerantes
+Elastic Data: traer cualquier dato a Dcycle
+Supplier Risk Assessment
+Informes para el módulo de LCA
+Una LCA, múltiples resultados
+Base de datos de factores de comercializadoras eléctricas
+Privacidad por fichero: filiales pueden ocultar ficheros a la matriz
+Datos de LCA disponibles vía API y MCP
+Nuevo importador de Excel para todas las categorías
+Decarbonization capítulo 2: ejecutar y seguir los planes
+Nueva categoría: estancias en hotel
+MultiDB en viajes de negocio + detalle del cálculo
+Leia avisa de posibles duplicados al subir documentos
+Listado y borrado masivo de consumos de vehículos
+Pivot table de commuting (km, personas y CO2 por transporte)
+PPWR: control de PFAS y sustancias
+PPWR: carga masiva de unidades de packaging
+Borrado masivo de visualizaciones
+Bloquear informes cuando están terminados
+Depuración de aguas en pivot tables
+Nueva categoría en emisiones históricas: cambio de uso de suelo (FLAG)
+Nueva visualización de mapas para envíos y entregas (con heatmap)
+Emisiones de transporte de residuos separadas (excluibles en SBTi)
+Release notes automáticas en Platform Docs
+Release 0.0.115 de `dcy` con nuevos comandos (`doctor`)
+`/seed-categories`
+Carga multi-org del Excel en 5 categorías más
+esg-x integrado en Dcycle: reporting asistido por IA y doble materialidad
+OCR también lee políticas y certificados
+Carga multi-org del Excel en 14 categorías nuevas
+PPWR: mercados objetivo, trazabilidad y documentos compartibles
+Detección inteligente de facturas duplicadas
+Repo compartido de loops y skills de la empresa
+El Cuenco entiende cualquier Excel parecido a las plantillas
+Subida guiada de facturas dentro de las categorías
+Enviar facturas por email a una dirección única por instalación
+Superficie (m²) en instalaciones
+MultiDB en empleados
+Dos comandos nuevos de códigos de proveedor en `dcy purchase`
+Migración de estilos de esg-x (tipografía, colores, tamaños)
+Loop automático que publica las novedades en la web
+Descargas separadas por categoría en Scope 1 y 2
+Control de los datos de todo el grupo desde el holding (productos vendidos)
+PPWR habla de SKUs, no de "unidades de envase"
+LCAs agrupadas en carpetas
+Verifications Hub en el Help Center
+PPWR: checks de formato (huecos, plásticos de un solo uso, reutilización)
+Descarga de todos los factores de emisión usados en un rango de fechas
+Leia evalúa tareas para todos los clientes
+Importación automática desde fichas técnicas de packaging
+Sección de Integraciones en el Help Center
+i18n Translation Guard en cada PR
+9 novedades de producto publicadas en dcycle.io/novedades
+Freemium de GHG Scope 1&2
+MultiDB en compras
+PPWR: generador de códigos QR en la declaración de conformidad
+Edición masiva de vehículos
+Elastic Data en producción: cualquier dato vive en Dcycle
+Leia importa casi cualquier fichero (Excel, CSV, PDF)
+Analizar, visualizar y compartir cualquier dato sin salir de Dcycle
+FLAG: emisiones de agricultura, ganadería y uso de suelo
+Guía GHG Protocol — FLAG
+PPWR: proveedores vinculados a unidades de packaging
+Comandos PPWR en `dcy`
+Portal de proveedores renovado
+Disicler revisa PRs desde Slack
+Encuestas de movilidad personalizables
+Report Builder hasta 5× más rápido
+Deshacer una subida entera en un clic (borrado por fichero multi-org)
+Tareas con varios asignados y modos de completado
+Toggle "consolidar por estructura organizativa" en tablas dinámicas
+Combustible por tipo de vehículo con kg CO₂e
+Comercializadoras de electricidad y calor personalizadas
+Dictar a Leia por voz en cualquier chat
+Arranca vehículos multicombustible
+Métricas de intensidad desde CLI y MCP
+Paleta de comandos global (⌘K)
+ESRS 2026 simplificados en el módulo de reporting
+Comentarios en facturas
+Botones de ayuda en el módulo PPWR
+% de participación editable en organizaciones hijas
+Plan gratuito de Dcycle
+Carga masiva de códigos CNAE/SIC de proveedores
+Gran actualización de factores de emisión personalizados
+Declaración de conformidad PPWR compartible con terceros
+La app recomienda proyectos según datos, sector y frameworks
+Vista de grupo en tablas de datos (crear, editar y borrar de toda la familia)
+Roles con permisos por categoría
+Decimales configurables en Report Builder
+Métricas personalizadas en visualizaciones
+Pre-Audit Report V2
+Trazabilidad GRI en EINF
+Multi-org completo en 6 categorías más
+Vehículos con varios combustibles
+Cualquier métrica mostrada como porcentaje
+Notificaciones de tareas, recordatorios y digest diario
+Exportación de encuestas pendientes a nivel grupo
+GHG PRO incluye las justificaciones del pre-audit
+Métricas de % renovable vs. no renovable en energía
+Códigos CNAE/SIC de proveedores en el Excel de compras
