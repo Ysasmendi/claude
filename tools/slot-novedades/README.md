@@ -11,7 +11,13 @@ Abre `index.html` en el navegador. No necesita servidor ni instalar nada.
 - **Girar** (o barra espaciadora) lanza la tirada.
 - **Chips de categoría** dejan fuera lo que no interese: Producto (233), Skills (43), Web (29), CLI (25), Leia/API (22), Iniciativas (21), Docs (15).
 - **Sin repetir** descarta las que ya han salido; *Reiniciar salidas* vuelve a meterlas.
-- **Sonido**: clics de bobina mientras gira y ding-ding-ding al parar, sintetizados con Web Audio (no hay ficheros de audio).
+- **Sonido**: mientras gira, clic mecánico de bobina en cada casilla y campanilleo pentatónico que se abre al frenar. Al parar, caja registradora: cajón, "cha" metálico, "ching" de campana y once monedas cayendo. Todo sintetizado con Web Audio, no hay ficheros de audio.
+
+## Las Vegas
+
+Mientras gira: marquesina de 44 bombillas con la luz corriendo alrededor de la máquina, vibración durante la fase rápida, barrido de luz sobre la bobina y desenfoque de movimiento proporcional a la velocidad.
+
+Al parar: las bombillas destellan en blanco cuatro veces, la casilla premiada da un bote con anillo expansivo, la ventana parpadea, caen 30 monedas girando sobre la casilla y se estampa un `¡CHA-CHING!` en su esquina.
 
 ## Aleatoriedad
 
