@@ -42,7 +42,27 @@
       "mcp__scheduled-tasks__*",
       "mcp__mcp-registry__*",
       "WebFetch",
-      "WebSearch"
+      "WebSearch",
+      "Bash",
+      "Agent",
+      "Artifact",
+      "ArtifactData",
+      "Skill",
+      "mcp__Vanta__*",
+      "mcp__github__*",
+      "mcp__Gmail__*",
+      "mcp__Slack__*",
+      "mcp__Google_Drive__*",
+      "mcp__Google_Calendar__*",
+      "mcp__Google_Sheets__*",
+      "mcp__Notion__*",
+      "mcp__claude-code-remote__*",
+      "mcp__Claude_Docs__*",
+      "mcp__Fathom__*",
+      "mcp__Fireflies__*",
+      "mcp__Granola__*",
+      "mcp__HubSpot__*",
+      "mcp__Teamtailor__*""
     ]
   },
   "enabledPlugins": {
