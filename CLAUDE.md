@@ -22,6 +22,7 @@ This repo is the durable knowledge layer. Every Claude surface reads from it.
   - `memory.md` — Persistent memory across sessions. Updated via the `remember` skill.
 - `templates/` — Reusable document structures.
 - `tools/` — Scripts and utilities.
+- `lucias-world/` — "Lucía's World · Safarrancho OS", a kids' toy operating system demo in a single HTML file (open `index.html`). Easter eggs listed in its README.
 - `.claude/skills/` — Claude Code skills.
 - `.claude/scheduled-tasks/` — Automated tasks.
 

@@ -21,6 +21,7 @@ Every Claude surface reads from this repo:
 - `knowledge/` — Research, references, domain knowledge
 - `templates/` — Reusable document structures
 - `tools/` — Scripts and utilities
+- `lucias-world/` — Lucía's World · Safarrancho OS, kids' toy OS demo (single HTML file)
 
 ## Sync Workflow
 
