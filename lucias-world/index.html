@@ -1,0 +1,2050 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Lucía's World · Safarrancho OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rojo:#E63027; --amarillo:#FFD21F; --azul:#1F5FD6; --verde:#25A84A;
+  --naranja:#FF8A1F; --morado:#8B3FD9; --rosa:#FF5FA2;
+  --tinta:#1B1B2F; --papel:#FFFBEF;
+  --borde:4px solid var(--tinta);
+  --sombra:6px 6px 0 var(--tinta);
+  --barra:84px;
+  font-family:'Fredoka','Arial Rounded MT Bold','Trebuchet MS',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--azul);color:var(--tinta);
+  user-select:none;-webkit-user-select:none;touch-action:manipulation}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input{font-family:inherit}
+
+/* ---------- Botones ---------- */
+.btn{font-size:22px;font-weight:700;padding:12px 20px;border:var(--borde);border-radius:18px;
+  background:var(--amarillo);box-shadow:4px 4px 0 var(--tinta);transition:transform .08s,box-shadow .08s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.1}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--tinta)}
+.btn.rojo{background:var(--rojo);color:#fff}
+.btn.azul{background:var(--azul);color:#fff}
+.btn.verde{background:var(--verde);color:#fff}
+.btn.blanco{background:#fff}
+.btn.mini{font-size:18px;padding:8px 14px;border-radius:14px}
+.btn.sel{outline:4px dashed var(--tinta);outline-offset:3px}
+.btn:disabled{opacity:.45}
+
+/* ---------- Arranque ---------- */
+#arranque{position:fixed;inset:0;z-index:200;background:var(--amarillo);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;padding:20px;text-align:center;transition:opacity .5s}
+#arranque.fuera{opacity:0;pointer-events:none}
+.logo-grande{font-size:clamp(46px,10vw,104px);font-weight:700;line-height:1;letter-spacing:1px}
+.logo-grande span{display:inline-block;-webkit-text-stroke:3px var(--tinta);paint-order:stroke fill;
+  text-shadow:5px 5px 0 var(--tinta);animation:letra 1.4s ease-in-out infinite}
+@keyframes letra{50%{transform:translateY(-10px) rotate(-4deg)}}
+.chapa-os{background:var(--rojo);color:#fff;border:var(--borde);border-radius:999px;padding:8px 22px;
+  font-size:clamp(20px,4vw,30px);font-weight:700;box-shadow:var(--sombra);transform:rotate(-3deg)}
+.carga{width:min(460px,86vw);height:38px;border:var(--borde);border-radius:999px;background:#fff;overflow:hidden;box-shadow:var(--sombra)}
+.carga i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,var(--rojo) 0 22px,var(--azul) 22px 44px);transition:width .25s}
+#msgCarga{font-size:22px;font-weight:600;min-height:30px}
+#btnEmpezar{font-size:34px;padding:18px 40px;display:none;animation:latido 1s ease-in-out infinite}
+@keyframes latido{50%{transform:scale(1.07)}}
+
+/* ---------- Escritorio ---------- */
+#escritorio{position:fixed;inset:0 0 var(--barra) 0;overflow:hidden;transition:background .6s}
+#decor{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fondo-cielo{background:linear-gradient(#3E92FF,#9CD2FF)}
+.fondo-noche{background:linear-gradient(#0D1B4C,#1F3C9C)}
+.fondo-lego{background:var(--tinta)}
+.sol{position:absolute;right:6%;top:30px;width:120px;height:120px;border-radius:50%;background:var(--amarillo);
+  border:var(--borde);box-shadow:0 0 0 16px rgba(255,210,31,.35),0 0 0 32px rgba(255,210,31,.18);animation:solLatido 3s ease-in-out infinite}
+@keyframes solLatido{50%{transform:scale(1.08)}}
+.nube{position:absolute;left:0;background:#fff;border:var(--borde);border-radius:999px;animation:nube linear infinite}
+@keyframes nube{from{transform:translateX(-40vw)}to{transform:translateX(140vw)}}
+.colina{position:absolute;border-radius:50%;background:var(--verde);border:var(--borde)}
+.arcoiris{position:absolute;left:-160px;bottom:-330px;width:720px;height:720px;border-radius:50%;
+  background:radial-gradient(circle,transparent 50%,var(--azul) 50% 58%,var(--verde) 58% 66%,var(--amarillo) 66% 74%,var(--rojo) 74% 82%,transparent 82%)}
+.luna{position:absolute;right:8%;top:40px;width:110px;height:110px;border-radius:50%;background:#FFF4B8;border:var(--borde);
+  box-shadow:inset -22px -10px 0 #F2DB6B}
+.estrellita{position:absolute;color:#FFF4B8;animation:titila 2s ease-in-out infinite}
+@keyframes titila{50%{opacity:.2;transform:scale(.6)}}
+.cohete{position:absolute;left:10%;bottom:60px;font-size:70px;animation:flota 4s ease-in-out infinite}
+@keyframes flota{50%{transform:translateY(-24px) rotate(6deg)}}
+.lego{position:absolute;inset:0;display:grid;grid-template-columns:2fr 1fr 3fr 1fr 2fr;grid-template-rows:1fr 2fr 1fr 1.5fr;gap:12px;padding:0}
+.lego div{border-radius:0}
+
+#logo{position:relative;z-index:2;text-align:center;padding-top:18px;cursor:pointer}
+#logo .logo-grande{font-size:clamp(34px,6vw,58px)}
+#logo .chapa-os{display:inline-block;font-size:18px;padding:4px 14px;margin-top:6px;box-shadow:4px 4px 0 var(--tinta)}
+
+#iconos{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));
+  gap:26px 18px;padding:26px 28px 40px;max-width:1120px;margin:0 auto;max-height:calc(100% - 130px);overflow:auto}
+.icono{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px}
+.icono .cara{width:112px;height:112px;border:var(--borde);border-radius:30px;display:grid;place-items:center;
+  font-size:62px;box-shadow:var(--sombra);transition:transform .15s}
+.icono:hover .cara{transform:rotate(-6deg) scale(1.06)}
+.icono:active .cara{transform:scale(.9)}
+.icono .nombre{background:#fff;border:3px solid var(--tinta);border-radius:12px;padding:3px 12px;font-weight:700;font-size:19px}
+
+/* ---------- Barra de tareas ---------- */
+#barra{position:fixed;left:0;right:0;bottom:0;height:var(--barra);background:var(--rojo);border-top:var(--borde);
+  display:flex;align-items:center;gap:12px;padding:0 14px;z-index:60}
+#btnInicio{font-size:24px;padding:10px 18px}
+#tarea{flex:1;display:flex;min-width:0}
+#tarea .chip{background:#fff;border:3px solid var(--tinta);border-radius:14px;padding:8px 14px;font-weight:700;font-size:19px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:3px 3px 0 var(--tinta)}
+#reloj{background:#fff;border:3px solid var(--tinta);border-radius:14px;padding:8px 14px;font-weight:700;font-size:22px;box-shadow:3px 3px 0 var(--tinta)}
+#btnMudo{font-size:26px;padding:6px 12px}
+@media (max-width:600px){#btnInicio .txt,#tarea .chip{display:none}#reloj{font-size:18px;padding:8px 10px}}
+#menu{position:fixed;left:14px;bottom:calc(var(--barra) + 10px);z-index:70;background:var(--papel);border:var(--borde);border-radius:24px;
+  box-shadow:10px 10px 0 var(--tinta);padding:14px;display:none;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - var(--barra) - 30px);overflow:auto}
+#menu.abierto{display:block;animation:abrir .22s cubic-bezier(.2,1.4,.4,1)}
+#menu h3{margin:2px 6px 10px;font-size:22px}
+#menu button{width:100%;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:700;background:none;border:0;padding:8px 10px;border-radius:14px;text-align:left}
+#menu button:hover{background:var(--amarillo)}
+#menu button .em{font-size:30px;width:40px;text-align:center}
+#menu hr{border:0;border-top:3px dashed var(--tinta);margin:10px 4px}
+
+/* ---------- Ventanas ---------- */
+.ventana{position:fixed;left:max(14px,calc(50% - 640px));right:max(14px,calc(50% - 640px));top:14px;bottom:calc(var(--barra) + 14px);
+  background:var(--papel);border:var(--borde);border-radius:26px;box-shadow:10px 10px 0 var(--tinta);display:flex;flex-direction:column;
+  z-index:40;overflow:hidden;animation:abrir .3s cubic-bezier(.2,1.4,.4,1)}
+.ventana.cerrando{animation:cerrar .2s ease-in forwards}
+@keyframes abrir{from{transform:scale(.5);opacity:0}}
+@keyframes cerrar{to{transform:scale(.5);opacity:0}}
+.ventana .titulo{flex:none;height:66px;display:flex;align-items:center;gap:12px;padding:0 10px 0 18px;border-bottom:var(--borde);font-size:27px;font-weight:700}
+.ventana .titulo .em{font-size:36px}
+.ventana .titulo .txt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ventana .cerrar{width:52px;height:52px;border-radius:16px;background:var(--rojo);color:#fff;border:var(--borde);font-size:28px;font-weight:700;
+  box-shadow:3px 3px 0 var(--tinta);display:grid;place-items:center;padding:0}
+.ventana .cerrar:active{transform:translate(3px,3px);box-shadow:none}
+.ventana .cuerpo{flex:1;min-height:0;overflow:auto;position:relative}
+
+/* ---------- Efectos globales ---------- */
+.cae{position:fixed;top:-80px;z-index:150;pointer-events:none;animation:caer linear forwards}
+@keyframes caer{to{transform:translateY(calc(100vh + 160px)) rotate(var(--giro,360deg))}}
+.flotante{position:absolute;z-index:30;font-weight:700;font-size:34px;pointer-events:none;-webkit-text-stroke:2px var(--tinta);paint-order:stroke fill;
+  color:var(--amarillo);animation:flotante 1s ease-out forwards}
+@keyframes flotante{to{transform:translateY(-70px) scale(1.3);opacity:0}}
+.aviso{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:160;background:#fff;border:var(--borde);border-radius:24px;
+  box-shadow:var(--sombra);padding:18px 28px;font-size:30px;font-weight:700;text-align:center;pointer-events:none;animation:aviso 2.6s ease forwards}
+@keyframes aviso{0%{transform:translate(-50%,-50%) scale(.3)}12%{transform:translate(-50%,-50%) scale(1.08)}18%,82%{transform:translate(-50%,-50%) scale(1)}100%{transform:translate(-50%,-50%) scale(.8);opacity:0}}
+#dino{position:fixed;bottom:calc(var(--barra) - 10px);left:-200px;z-index:55;font-size:130px;pointer-events:none;animation:dino 7s linear forwards}
+#dino span{display:inline-block;transform:scaleX(-1)}
+@keyframes dino{to{left:calc(100vw + 50px)}}
+#dino b{position:absolute;top:-30px;left:90px;font-size:32px;background:#fff;border:var(--borde);border-radius:16px;padding:2px 12px}
+body.disco #escritorio{animation:disco 1.2s linear infinite}
+@keyframes disco{to{filter:hue-rotate(360deg)}}
+#bolaDisco{position:fixed;top:-10px;left:50%;font-size:90px;z-index:5;transform-origin:50% 0;animation:balanceo 1.5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes balanceo{from{transform:translateX(-50%) rotate(-12deg)}to{transform:translateX(-50%) rotate(12deg)}}
+.sorpresa{position:fixed;z-index:58;display:flex;flex-direction:column;align-items:center;pointer-events:none;transform:translateX(-50%)}
+.sorpresa .cabeza{font-size:70px;line-height:1;animation:cabezona .3s ease-in-out .5s 6 alternate}
+.sorpresa .muelle{width:34px;height:0;border-left:4px solid var(--tinta);border-right:4px solid var(--tinta);
+  background:repeating-linear-gradient(165deg,#C9CED9 0 5px,var(--tinta) 5px 8px,transparent 8px 13px);animation:muelle 2.4s cubic-bezier(.3,1.6,.5,1) forwards}
+.sorpresa .caja{width:80px;height:46px;background:var(--rojo);border:var(--borde);border-radius:10px;box-shadow:4px 4px 0 var(--tinta);
+  background-image:repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,210,31,.8) 10px 18px)}
+@keyframes muelle{0%{height:0}12%{height:150px}22%{height:100px}32%{height:130px}42%{height:112px}80%{height:120px}100%{height:0}}
+@keyframes cabezona{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+#apagado{position:fixed;inset:0;z-index:190;background:#06081A;color:#FFF4B8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;cursor:pointer;animation:fundido .8s}
+@keyframes fundido{from{opacity:0}}
+#apagado .gran{font-size:120px;animation:flota 4s ease-in-out infinite}
+#apagado p{font-size:30px;margin:0;font-weight:600}
+#apagado small{font-size:20px;opacity:.7}
+
+/* ---------- Navegador ---------- */
+.nav{display:flex;flex-direction:column;height:100%}
+.nav-barra{flex:none;display:flex;gap:8px;align-items:center;padding:10px;background:#DCE7FF;border-bottom:var(--borde);flex-wrap:wrap}
+.nav-barra .btn{padding:6px 12px;font-size:22px;border-radius:12px;box-shadow:3px 3px 0 var(--tinta)}
+.nav-url{flex:1;min-width:180px;font-size:20px;font-weight:600;border:3px solid var(--tinta);border-radius:999px;padding:9px 18px;background:#fff;outline:none}
+.nav-pagina{flex:1;min-height:0;position:relative;overflow:auto;background:#fff}
+.web{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:30px;text-align:center}
+.web h1{font-size:clamp(32px,6vw,56px);margin:0}
+.web p{font-size:24px;margin:0;max-width:640px}
+.tiles{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+.tile{width:230px;border:var(--borde);border-radius:24px;box-shadow:var(--sombra);padding:22px 12px;font-size:24px;font-weight:700;background:var(--amarillo);display:flex;flex-direction:column;align-items:center;gap:8px}
+.tile .em{font-size:70px}
+.tile small{font-size:16px;font-weight:600;opacity:.75}
+.tile:active{transform:translate(4px,4px);box-shadow:none}
+.piscina{display:flex;flex-direction:column;height:100%}
+.web-cab{flex:none;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-bottom:var(--borde);background:var(--rojo);color:#fff}
+.web-cab h2{margin:0 auto 0 0;font-size:28px;-webkit-text-stroke:2px var(--tinta);paint-order:stroke fill;text-shadow:3px 3px 0 var(--tinta)}
+.web-cab .btn{color:var(--tinta)}
+.web-cab .btn.azul,.web-cab .btn.verde{color:#fff}
+.piscina-caja{flex:1;min-height:0;position:relative;overflow:hidden;background:
+  linear-gradient(rgba(255,255,255,.65),rgba(255,255,255,.65)),repeating-linear-gradient(90deg,var(--azul) 0 40px,var(--amarillo) 40px 80px)}
+.piscina-caja canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.piscina-caja.tiembla{animation:tiembla .08s linear 10}
+@keyframes tiembla{25%{transform:translate(-6px,3px)}75%{transform:translate(6px,-3px)}}
+.contador{font-size:18px;font-weight:700;background:#fff;color:var(--tinta);border:3px solid var(--tinta);border-radius:12px;padding:4px 10px}
+.web-secreta{background:repeating-conic-gradient(from 0deg,var(--rosa) 0 15deg,var(--amarillo) 15deg 30deg)}
+.web-secreta .caja-secreta{background:#fff;border:var(--borde);border-radius:30px;box-shadow:var(--sombra);padding:30px}
+.corona{font-size:120px;animation:letra 1.2s ease-in-out infinite}
+
+/* ---------- Calculadora ---------- */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,420px);gap:20px;padding:20px;height:100%}
+@media (max-width:760px){.calc{grid-template-columns:1fr;height:auto}}
+.pantalla{background:#DFF5D6;border:var(--borde);border-radius:24px;box-shadow:inset 0 0 0 6px #fff;padding:20px;display:flex;flex-direction:column;gap:16px;min-height:220px}
+.pantalla .cuenta{font-size:clamp(46px,8vw,86px);font-weight:700;text-align:right;line-height:1;word-break:break-all}
+.pantalla .cuenta .op{color:var(--rojo)}
+.pantalla .cuenta .res{color:var(--azul)}
+.pantalla .dibujo{flex:1;font-size:clamp(24px,3.4vw,36px);line-height:1.35;display:flex;flex-wrap:wrap;align-content:flex-start;gap:4px 10px;align-items:center}
+.pantalla .dibujo .grupo{display:inline-flex;flex-wrap:wrap;gap:2px;background:#fff;border:3px solid var(--tinta);border-radius:14px;padding:4px 8px}
+.pantalla .dibujo .signo{font-weight:700;font-size:1.3em}
+.pantalla .dibujo .comida{opacity:.3;position:relative}
+.pantalla .dibujo .frase{width:100%;font-size:22px;font-weight:600}
+.teclas{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.teclas .btn{font-size:clamp(30px,4.6vw,44px);padding:14px 0;border-radius:20px}
+
+/* ---------- Cuentos ---------- */
+.estante{padding:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+.libro{border:var(--borde);border-radius:10px 24px 24px 10px;box-shadow:var(--sombra);padding:22px 16px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  font-size:24px;font-weight:700;text-align:center;border-left-width:14px;color:#fff;-webkit-text-stroke:1px var(--tinta)}
+.libro .em{font-size:84px;-webkit-text-stroke:0}
+.libro:active{transform:translate(4px,4px);box-shadow:none}
+.pagina{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;padding:20px}
+.pagina .escena{font-size:clamp(70px,14vw,140px);line-height:1.1;text-align:center;animation:flota 4s ease-in-out infinite;letter-spacing:6px}
+.pagina .texto{font-size:clamp(22px,3.2vw,32px);font-weight:600;text-align:center;max-width:860px;background:#fff;border:var(--borde);border-radius:22px;padding:16px 22px;box-shadow:var(--sombra)}
+.pagina .mandos{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+.puntos{display:flex;gap:8px}
+.puntos i{width:16px;height:16px;border-radius:50%;border:3px solid var(--tinta);background:#fff}
+.puntos i.on{background:var(--rojo)}
+
+/* ---------- Música ---------- */
+.musica{display:flex;flex-direction:column;height:100%}
+.pestanas{flex:none;display:flex;gap:10px;padding:14px;border-bottom:var(--borde);background:#E9FBE5;flex-wrap:wrap}
+.musica .zona{flex:1;min-height:0;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.estrella8{width:120px;height:120px;image-rendering:pixelated;transition:transform .08s}
+.estrella8.bote{transform:scale(1.25) rotate(-8deg)}
+.letra{font-size:clamp(24px,3.6vw,38px);font-weight:700;text-align:center;line-height:1.5}
+.letra .linea{opacity:.35;transition:opacity .2s}
+.letra .linea.activa{opacity:1}
+.letra .sil{padding:0 1px;border-radius:8px;transition:background .1s,color .1s}
+.letra .sil.ya{color:var(--azul)}
+.letra .sil.ahora{background:var(--amarillo);color:var(--tinta);box-shadow:0 0 0 3px var(--tinta)}
+.xilo{display:flex;gap:10px;align-items:center;justify-content:center;width:100%;max-width:900px;flex:1;min-height:240px}
+.xilo button{flex:1;border:var(--borde);border-radius:18px;box-shadow:5px 5px 0 var(--tinta);font-size:22px;font-weight:700;color:#fff;
+  -webkit-text-stroke:1px var(--tinta);display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:12px 0}
+.xilo button::before,.xilo button::after{content:'';width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--tinta)}
+.xilo button.toca{transform:translateY(6px);box-shadow:0 0 0 var(--tinta)}
+
+/* ---------- Guiñoles ---------- */
+.teatro{height:100%;display:flex;flex-direction:column;background:#3B1D0E}
+.cartelera{flex:1;overflow:auto;padding:24px;background:repeating-linear-gradient(90deg,#B3121F 0 40px,#8E0E19 40px 80px)}
+.cartelera h2{color:#fff;text-align:center;font-size:clamp(30px,5vw,46px);margin:0 0 20px;-webkit-text-stroke:2px var(--tinta);paint-order:stroke fill;text-shadow:4px 4px 0 var(--tinta)}
+.carteles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;max-width:1100px;margin:0 auto}
+.cartel{background:var(--papel);border:var(--borde);border-radius:20px;box-shadow:var(--sombra);padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:25px;font-weight:700;text-align:center}
+.cartel .em{font-size:66px;letter-spacing:4px}
+.cartel small{font-size:16px;font-weight:600;opacity:.7}
+.cartel:active{transform:translate(4px,4px);box-shadow:none}
+.escenario{flex:1;min-height:260px;position:relative;overflow:hidden;border-bottom:var(--borde)}
+.fondo-esc{position:absolute;inset:0;transition:background .8s}
+.fondo-esc .deco{position:absolute;transform:translate(-50%,-50%);transition:opacity .6s}
+.esc-campo{background:linear-gradient(#7CC6FF 0 60%,#3DBB55 60%)}
+.esc-bosque{background:linear-gradient(#2E7D4F 0 60%,#1E5B33 60%)}
+.esc-dulce{background:linear-gradient(#FFB3D9 0 60%,#C98A4B 60%)}
+.esc-osos{background:linear-gradient(#FFD9A0 0 60%,#B9783C 60%)}
+.esc-ogro{background:linear-gradient(#6B6F8A 0 60%,#3E3F52 60%)}
+.esc-noche{background:linear-gradient(#162457 0 60%,#1E4A2E 60%)}
+.fila{position:absolute;left:0;right:0;bottom:62px;display:flex;justify-content:space-evenly;align-items:flex-end;padding:0 3%}
+.titere{position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .3s}
+.titere .muneco{font-size:calc(clamp(54px,10vw,112px) * var(--s,1));line-height:1;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.35))}
+.titere .chapita{background:#fff;border:3px solid var(--tinta);border-radius:10px;padding:1px 8px;font-size:15px;font-weight:700;white-space:nowrap;margin-top:2px}
+.titere .palo{width:12px;height:70px;background:#8B5A2B;border:3px solid var(--tinta);border-radius:6px}
+.titere.prop .palo{display:none}
+.titere.prop .chapita{display:none}
+.titere.entra{animation:subir .5s cubic-bezier(.2,1.5,.4,1)}
+.titere.sale{animation:bajar .4s ease-in forwards}
+@keyframes subir{from{transform:translateY(140%)}}
+@keyframes bajar{to{transform:translateY(160%)}}
+.titere.habla .muneco{animation:hablar .32s ease-in-out infinite alternate}
+@keyframes hablar{from{transform:rotate(-7deg) translateY(0)}to{transform:rotate(7deg) translateY(-12px)}}
+.titere.fx-saltar{animation:saltar .45s ease-in-out 3}
+@keyframes saltar{50%{transform:translateY(-60px)}}
+.titere.fx-temblar{animation:temblar .09s linear 12}
+@keyframes temblar{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.titere.fx-volar{animation:volar 1.3s ease-in forwards}
+@keyframes volar{to{transform:translate(70vw,-70vh) rotate(900deg) scale(.4)}}
+.titere.fx-huir{animation:huir 1.2s ease-in forwards}
+@keyframes huir{20%{transform:translateY(-40px)}100%{transform:translate(-90vw,-20px)}}
+.titere.fx-dormir .muneco{transform:rotate(-80deg)}
+.titere.fx-dormir::after{content:'💤';position:absolute;top:-20px;right:-20px;font-size:40px;animation:flota 2s ease-in-out infinite}
+.titere.toque{animation:saltar .4s ease-in-out}
+.tabla{position:absolute;left:0;right:0;bottom:0;height:82px;background:repeating-linear-gradient(90deg,#C77B3A 0 70px,#B36A2E 70px 140px);border-top:var(--borde);
+  display:flex;align-items:center;justify-content:center;z-index:3}
+.tabla span{background:var(--amarillo);border:var(--borde);border-radius:14px;padding:4px 18px;font-size:clamp(18px,3vw,26px);font-weight:700;box-shadow:4px 4px 0 var(--tinta);max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.telon{position:absolute;top:0;bottom:0;width:51%;z-index:6;background:repeating-linear-gradient(90deg,#C8102E 0 30px,#9A0C23 30px 60px);border:var(--borde);transition:transform 1.4s cubic-bezier(.6,0,.3,1)}
+.telon.izq{left:0;transform-origin:left}
+.telon.der{right:0}
+.escenario.abierto .telon.izq{transform:translateX(-92%)}
+.escenario.abierto .telon.der{transform:translateX(92%)}
+.festón{position:absolute;top:0;left:0;right:0;height:38px;z-index:7;background:radial-gradient(circle at 50% 0,#C8102E 0 26px,transparent 27px) 0 0/60px 38px repeat-x;border-top:6px solid #FFD21F}
+.bocadillo{position:absolute;top:44px;z-index:5;max-width:min(420px,80%);background:#fff;border:var(--borde);border-radius:22px;padding:10px 16px;font-size:clamp(17px,2.4vw,23px);font-weight:600;box-shadow:5px 5px 0 var(--tinta);display:none}
+.bocadillo b{display:block;font-size:.8em;color:var(--rojo)}
+.bocadillo::after{content:'';position:absolute;bottom:-18px;left:var(--cola,50%);width:24px;height:24px;background:#fff;border-right:var(--borde);border-bottom:var(--borde);transform:translateX(-50%) rotate(45deg)}
+.letrero-fin{position:absolute;inset:0;z-index:8;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.letrero-fin.ver{display:flex}
+.letrero-fin h3{margin:0;font-size:clamp(60px,12vw,120px);color:var(--amarillo);-webkit-text-stroke:4px var(--tinta);paint-order:stroke fill;text-shadow:6px 6px 0 var(--tinta);animation:latido 1s ease-in-out infinite}
+.letrero-fin div{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.narracion{flex:none;background:var(--papel);padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.narracion .txt{font-size:clamp(18px,2.6vw,24px);font-weight:600;min-height:2.6em;text-align:center}
+.narracion .mandos{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- Pintar ---------- */
+.pintar{display:flex;flex-direction:column;height:100%}
+.herramientas{flex:none;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px;border-bottom:var(--borde);background:#FFF3C4}
+.color{width:46px;height:46px;border-radius:50%;border:var(--borde);box-shadow:3px 3px 0 var(--tinta);padding:0}
+.color.sel{outline:4px dashed var(--tinta);outline-offset:3px}
+.separa{width:4px;align-self:stretch;background:var(--tinta);border-radius:2px;margin:0 2px}
+.lienzo{flex:1;min-height:0;position:relative;margin:14px;border:var(--borde);border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--sombra)}
+.lienzo canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.sellos{display:flex;gap:6px;flex-wrap:wrap}
+.sellos button{font-size:28px;width:50px;height:50px;border:3px solid var(--tinta);border-radius:12px;background:#fff;padding:0}
+.sellos button.sel{background:var(--amarillo)}
+
+/* ---------- Memoria ---------- */
+.memoria{padding:18px;display:flex;flex-direction:column;align-items:center;gap:16px;min-height:100%}
+.memoria .info{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;font-size:22px;font-weight:700}
+.tablero{display:grid;gap:14px;width:100%;max-width:820px}
+.carta{aspect-ratio:1;perspective:700px;background:none;border:0;padding:0}
+.carta .int{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.carta.vuelta .int,.carta.ok .int{transform:rotateY(180deg)}
+.carta .cara-a,.carta .cara-b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:var(--borde);border-radius:18px;display:grid;place-items:center;box-shadow:4px 4px 0 var(--tinta)}
+.carta .cara-a{background:repeating-linear-gradient(45deg,var(--azul) 0 14px,#2D6CE0 14px 28px);color:var(--amarillo);font-size:clamp(28px,5vw,48px);font-weight:700;-webkit-text-stroke:2px var(--tinta)}
+.carta .cara-b{background:#fff;transform:rotateY(180deg);font-size:clamp(34px,7vw,64px)}
+.carta.ok .cara-b{background:#D9F7CF}
+
+/* ---------- Animales ---------- */
+.granja{padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.animal{border:var(--borde);border-radius:24px;box-shadow:var(--sombra);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:21px;font-weight:700;position:relative}
+.animal .em{font-size:70px}
+.animal.baila .em{animation:baila .25s linear 4}
+@keyframes baila{25%{transform:rotate(-14deg) scale(1.1)}75%{transform:rotate(14deg) scale(1.1)}}
+.animal .ono{position:absolute;top:-16px;right:-8px;background:#fff;border:3px solid var(--tinta);border-radius:14px;padding:2px 10px;font-size:20px;animation:flotante 1.2s ease-out forwards}
+
+/* ---------- Papelera ---------- */
+.papelera{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;text-align:center}
+.papelera .calcetin{font-size:130px;background:none;border:0;padding:0}
+.papelera .calcetin.baila{animation:baila .25s linear 6}
+.papelera p{font-size:26px;font-weight:600;margin:0;max-width:600px}
+</style>
+</head>
+<body>
+
+<div id="arranque">
+  <div class="logo-grande" id="logoArranque"></div>
+  <div class="chapa-os">Safarrancho OS</div>
+  <div class="carga"><i id="barraCarga"></i></div>
+  <div id="msgCarga">Encendiendo...</div>
+  <button class="btn rojo" id="btnEmpezar">¡A jugar! 🚀</button>
+</div>
+
+<div id="escritorio" class="fondo-cielo">
+  <div id="decor"></div>
+  <div id="logo" title="Lucía's World">
+    <div class="logo-grande" id="logoEscritorio"></div>
+    <div class="chapa-os">Safarrancho OS</div>
+  </div>
+  <div id="iconos"></div>
+</div>
+
+<div id="menu"></div>
+
+<div id="barra">
+  <button class="btn" id="btnInicio">🌈 <span class="txt">Safarrancho</span></button>
+  <div id="tarea"></div>
+  <button class="btn blanco" id="btnMudo" title="Sonido">🔊</button>
+  <div id="reloj">--:--</div>
+</div>
+
+<script>
+'use strict';
+/* =========================================================
+   Utilidades
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+function el(tag, props = {}, ...hijos) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (k === 'class') e.className = v;
+    else if (k === 'style' && typeof v === 'object') Object.assign(e.style, v);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (k === 'html') e.innerHTML = v;
+    else e.setAttribute(k, v);
+  }
+  for (const h of hijos.flat()) {
+    if (h == null || h === false) continue;
+    e.append(h.nodeType ? h : document.createTextNode(String(h)));
+  }
+  return e;
+}
+const azar = (a, b) => a + Math.random() * (b - a);
+const elegir = arr => arr[Math.floor(Math.random() * arr.length)];
+const limitar = (v, a, b) => Math.max(a, Math.min(b, v));
+const espera = ms => new Promise(r => setTimeout(r, ms));
+const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+function barajar(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function oscurecer(hex, f) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = s => Math.round(((n >> s) & 255) * f);
+  return `rgb(${c(16)},${c(8)},${c(0)})`;
+}
+// Posición del dedo/ratón dentro de un lienzo. Se mide con el tamaño real (clientWidth),
+// no con el aparente, porque las ventanas se abren con una animación de zoom.
+function posEnLienzo(e, cv, W, H) {
+  const r = cv.getBoundingClientRect();
+  return { x: (e.clientX - r.left) * (W / (r.width || 1)), y: (e.clientY - r.top) * (H / (r.height || 1)) };
+}
+const guardar = (k, v) => { try { localStorage.setItem('safarrancho.' + k, v); } catch (e) {} };
+const leer = k => { try { return localStorage.getItem('safarrancho.' + k); } catch (e) { return null; } };
+
+const PRIMARIOS = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', 'var(--verde)'];
+function letrasDeColores(contenedor, texto) {
+  const cols = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', 'var(--verde)', 'var(--naranja)', 'var(--rosa)'];
+  let i = 0;
+  for (const ch of texto) {
+    const s = el('span', { style: { color: ch === ' ' ? 'transparent' : cols[i % cols.length], animationDelay: (i * 0.08) + 's' } }, ch === ' ' ? ' ' : ch);
+    contenedor.append(s);
+    if (ch !== ' ') i++;
+  }
+}
+
+/* =========================================================
+   Sonido (todo sintetizado, estilo 8 bits)
+   ========================================================= */
+const Sonido = {
+  ctx: null, master: null, mudo: false, ondas: {}, bufRuido: null,
+  init() {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this.ctx = new AC();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = this.mudo ? 0 : 0.6;
+      this.master.connect(this.ctx.destination);
+    }
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+  },
+  get t() { return this.ctx ? this.ctx.currentTime : 0; },
+  ok() { return this.ctx && !this.mudo; },
+  pulso(duty) {
+    if (!this.ondas[duty]) {
+      const n = 40, re = new Float32Array(n), im = new Float32Array(n);
+      for (let i = 1; i < n; i++) re[i] = 2 / (i * Math.PI) * Math.sin(i * Math.PI * duty);
+      this.ondas[duty] = this.ctx.createPeriodicWave(re, im);
+    }
+    return this.ondas[duty];
+  },
+  nota(freq, t, dur, { onda = 'square', vol = 0.15, destino = this.master, caida = false } = {}) {
+    if (!this.ctx) return null;
+    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    if (typeof onda === 'number') o.setPeriodicWave(this.pulso(onda)); else o.type = onda;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.008);
+    if (caida) g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    else { g.gain.setValueAtTime(vol, t + dur * 0.8); g.gain.linearRampToValueAtTime(0, t + dur * 0.98); }
+    o.connect(g); g.connect(destino);
+    o.start(t); o.stop(t + dur + 0.03);
+    return o;
+  },
+  barrido(f1, f2, dur, { onda = 'square', vol = 0.15, cuando = 0 } = {}) {
+    if (!this.ok()) return;
+    const t = this.t + cuando;
+    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    if (typeof onda === 'number') o.setPeriodicWave(this.pulso(onda)); else o.type = onda;
+    o.frequency.setValueAtTime(f1, t);
+    o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(this.master);
+    o.start(t); o.stop(t + dur + 0.02);
+  },
+  ruido(t, dur, { vol = 0.2, destino = this.master, filtro = 5000 } = {}) {
+    if (!this.ctx) return;
+    if (!this.bufRuido) {
+      const b = this.ctx.createBuffer(1, this.ctx.sampleRate, this.ctx.sampleRate);
+      const d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      this.bufRuido = b;
+    }
+    const s = this.ctx.createBufferSource(), f = this.ctx.createBiquadFilter(), g = this.ctx.createGain();
+    s.buffer = this.bufRuido;
+    f.type = 'highpass'; f.frequency.value = filtro;
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    s.connect(f); f.connect(g); g.connect(destino);
+    s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.02);
+  },
+  clic() { if (this.ok()) this.nota(1046, this.t, 0.07, { onda: 0.25, vol: 0.08, caida: true }); },
+  pop() { this.barrido(300, 1100, 0.13, { onda: 'triangle', vol: 0.3 }); },
+  boing() { this.barrido(160, 620, 0.28, { onda: 'triangle', vol: 0.3 }); },
+  // «Boing» de muelle: un tono que sube mientras vibra cada vez menos
+  muelle() {
+    if (!this.ok()) return;
+    const t = this.t, o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    const lfo = this.ctx.createOscillator(), prof = this.ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(130, t);
+    o.frequency.exponentialRampToValueAtTime(420, t + 0.5);
+    lfo.frequency.value = 16;
+    prof.gain.setValueAtTime(90, t);
+    prof.gain.exponentialRampToValueAtTime(2, t + 0.6);
+    lfo.connect(prof); prof.connect(o.frequency);
+    g.gain.setValueAtTime(0.35, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+    o.connect(g); g.connect(this.master);
+    o.start(t); lfo.start(t); o.stop(t + 0.7); lfo.stop(t + 0.7);
+  },
+  caramelos() {
+    if (!this.ok()) return;
+    [84, 88, 91, 96, 91, 96].forEach((m, i) => this.nota(mtof(m), this.t + i * 0.07, 0.12, { onda: 0.125, vol: 0.07, caida: true }));
+  },
+  cuac() {
+    this.barrido(900, 450, 0.13, { onda: 'sawtooth', vol: 0.12 });
+    this.barrido(850, 420, 0.16, { onda: 'sawtooth', vol: 0.12, cuando: 0.17 });
+  },
+  exito() {
+    if (!this.ok()) return;
+    [72, 76, 79, 84].forEach((m, i) => this.nota(mtof(m), this.t + i * 0.09, 0.2, { onda: 0.25, vol: 0.12 }));
+  },
+  fallo() {
+    if (!this.ok()) return;
+    this.nota(330, this.t, 0.14, { onda: 0.5, vol: 0.1 });
+    this.nota(247, this.t + 0.15, 0.25, { onda: 0.5, vol: 0.1 });
+  },
+  fanfarria() {
+    if (!this.ok()) return;
+    const t = this.t;
+    [[67, 0, .12], [67, .13, .12], [67, .26, .12], [72, .39, .5], [76, .9, .15], [79, 1.06, .7]].forEach(([m, d, l]) => {
+      this.nota(mtof(m), t + d, l, { onda: 0.25, vol: 0.12 });
+      this.nota(mtof(m - 12), t + d, l, { onda: 'triangle', vol: 0.18 });
+    });
+  },
+  arranque() {
+    if (!this.ok()) return;
+    const t = this.t + 0.05;
+    [60, 64, 67, 72, 76, 79, 84].forEach((m, i) => this.nota(mtof(m), t + i * 0.08, 0.16, { onda: 0.25, vol: 0.1 }));
+    [48, 55, 60].forEach((m, i) => this.nota(mtof(m), t + i * 0.18, 0.3, { onda: 'triangle', vol: 0.2 }));
+    this.nota(mtof(84), t + 0.6, 0.6, { onda: 0.125, vol: 0.1, caida: true });
+  },
+  redoble(dur = 1.4) {
+    if (!this.ok()) return;
+    const n = Math.floor(dur / 0.045);
+    for (let i = 0; i < n; i++) this.ruido(this.t + i * 0.045, 0.04, { vol: 0.05 + 0.2 * i / n, filtro: 1500 });
+    this.ruido(this.t + dur, 0.5, { vol: 0.35, filtro: 3000 });
+  },
+  aplausos(dur = 2.5) {
+    if (!this.ok()) return;
+    for (let i = 0; i < 90; i++) this.ruido(this.t + Math.random() * dur, 0.05, { vol: azar(0.05, 0.18), filtro: 1200 });
+  },
+  rugido() {
+    this.barrido(140, 55, 0.9, { onda: 'sawtooth', vol: 0.18 });
+    if (this.ok()) this.ruido(this.t, 0.7, { vol: 0.15, filtro: 300 });
+  },
+  nana() {
+    if (!this.ok()) return;
+    [79, 76, 72, 67, 64, 60].forEach((m, i) => this.nota(mtof(m), this.t + i * 0.28, 0.5, { onda: 'triangle', vol: 0.2, caida: true }));
+  },
+  setMudo(m) {
+    this.mudo = m;
+    if (this.master) this.master.gain.value = m ? 0 : 0.6;
+    if (m) Voz.callar();
+  }
+};
+
+/* =========================================================
+   Voz (lectura en voz alta con el navegador)
+   ========================================================= */
+const Voz = {
+  voz: null, hay: 'speechSynthesis' in window,
+  init() {
+    if (!this.hay) return;
+    const elegirVoz = () => {
+      const vs = speechSynthesis.getVoices();
+      this.voz = vs.find(v => v.lang === 'es-ES') || vs.find(v => /^es/i.test(v.lang)) || null;
+    };
+    elegirVoz();
+    speechSynthesis.onvoiceschanged = elegirVoz;
+  },
+  decir(texto, { pitch = 1, rate = 1 } = {}) {
+    const lectura = 900 + texto.length * 55;
+    return new Promise(res => {
+      if (!this.hay || Sonido.mudo) { setTimeout(res, lectura); return; }
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'es-ES';
+      if (this.voz) u.voice = this.voz;
+      u.pitch = limitar(pitch, 0, 2);
+      u.rate = rate;
+      const t0 = Date.now();
+      let hecho = false;
+      // Si no hay voz instalada, el navegador "termina" al instante: dejamos tiempo para leer.
+      const fin = () => {
+        if (hecho) return; hecho = true;
+        const minimo = this.voz ? 0 : lectura;
+        setTimeout(res, Math.max(0, minimo - (Date.now() - t0)));
+      };
+      u.onend = fin; u.onerror = fin;
+      setTimeout(fin, 3000 + texto.length * 120);
+      speechSynthesis.speak(u);
+    });
+  },
+  callar() { if (this.hay) speechSynthesis.cancel(); }
+};
+
+/* =========================================================
+   Efectos globales: lluvias, avisos, dinosaurio, disco...
+   ========================================================= */
+function lluvia(emojis, n = 40) {
+  for (let i = 0; i < n; i++) {
+    const s = el('div', { class: 'cae', style: {
+      left: azar(0, 96) + 'vw', fontSize: azar(28, 64) + 'px',
+      animationDuration: azar(2.2, 4.5) + 's', animationDelay: azar(0, 1.6) + 's'
+    } }, elegir(emojis));
+    s.style.setProperty('--giro', azar(-540, 540) + 'deg');
+    document.body.append(s);
+    setTimeout(() => s.remove(), 7000);
+  }
+}
+function aviso(texto) {
+  const a = el('div', { class: 'aviso' }, texto);
+  document.body.append(a);
+  setTimeout(() => a.remove(), 2700);
+}
+function textoFlotante(cont, x, y, texto) {
+  const f = el('div', { class: 'flotante', style: { left: (x - 40) + 'px', top: (y - 30) + 'px' } }, texto);
+  cont.append(f);
+  setTimeout(() => f.remove(), 1000);
+}
+function dinosaurio() {
+  if ($('#dino')) return;
+  const d = el('div', { id: 'dino' }, el('span', {}, '🦖'), el('b', {}, '¡ROAAR!'));
+  document.body.append(d);
+  Sonido.rugido();
+  setTimeout(() => d.remove(), 7100);
+}
+function modoDisco() {
+  const on = document.body.classList.toggle('disco');
+  if (on) {
+    document.body.append(el('div', { id: 'bolaDisco' }, '🪩'));
+    Sonido.fanfarria();
+    aviso('🕺 ¡MODO DISCO! 💃');
+    lluvia(['🎶', '✨', '🎵', '💃', '🕺'], 30);
+  } else {
+    $('#bolaDisco')?.remove();
+  }
+}
+// Muñeco con muelle que sale de la caja (icono) en vez de abrir la app
+function munecoSorpresa(cara) {
+  const r = cara.getBoundingClientRect();
+  const s = el('div', { class: 'sorpresa', style: { left: (r.left + r.width / 2) + 'px', bottom: (innerHeight - r.bottom + r.height / 2) + 'px' } },
+    el('div', { class: 'cabeza' }, elegir(['🤡', '🐸', '🐵', '🦄', '👻'])), el('div', { class: 'muelle' }), el('div', { class: 'caja' }));
+  document.body.append(s);
+  Sonido.muelle();
+  setTimeout(() => Sonido.boing(), 350);
+  setTimeout(() => s.remove(), 2500);
+}
+function lluviaCaramelos() {
+  if ($('#apagado') || $('#arranque')) return;
+  lluvia(['🍬', '🍭', '🍫', '🍩', '🧁', '🍪'], 45);
+  Sonido.caramelos();
+}
+function programarCaramelos() { setTimeout(() => { lluviaCaramelos(); programarCaramelos(); }, azar(90, 240) * 1000); }
+function saludoLucia() {
+  lluvia(['👑', '💖', '⭐', '🌈', '🦄'], 50);
+  aviso('👑 ¡Hola, Lucía! 👑');
+  Sonido.fanfarria();
+  Voz.decir('¡Hola, Lucía! ¡Bienvenida a tu mundo!', { pitch: 1.4 });
+}
+
+/* =========================================================
+   Gestor de ventanas
+   ========================================================= */
+const Apps = {};
+let actual = null;
+
+function abrirApp(id) {
+  cerrarMenu();
+  if (actual && actual.id === id) return;
+  cerrarApp(true);
+  const app = Apps[id];
+  Sonido.pop();
+  const cuerpo = el('div', { class: 'cuerpo' });
+  const v = el('div', { class: 'ventana' },
+    el('div', { class: 'titulo', style: { background: app.color, color: app.texto || '#fff' } },
+      el('span', { class: 'em' }, app.emoji),
+      el('span', { class: 'txt' }, app.nombre),
+      el('button', { class: 'cerrar', title: 'Cerrar', onclick: () => cerrarApp() }, '✕')),
+    cuerpo);
+  document.body.append(v);
+  const inst = app.crear(cuerpo, v) || {};
+  actual = { id, v, inst };
+  $('#tarea').replaceChildren(el('span', { class: 'chip' }, app.emoji + ' ' + app.nombre));
+}
+function cerrarApp(silencio) {
+  if (!actual) return;
+  const { v, inst } = actual;
+  try { inst.cerrar && inst.cerrar(); } catch (e) { console.error(e); }
+  Voz.callar();
+  if (!silencio) Sonido.barrido(700, 200, 0.15, { onda: 'triangle', vol: 0.25 });
+  v.classList.add('cerrando');
+  setTimeout(() => v.remove(), 200);
+  actual = null;
+  $('#tarea').replaceChildren();
+}
+
+/* =========================================================
+   APP: Navegador (con la piscina de bolas)
+   ========================================================= */
+Apps.navegador = {
+  nombre: 'Navegador', emoji: '🌐', color: 'var(--azul)',
+  crear(c) {
+    const url = el('input', { class: 'nav-url', value: '', spellcheck: 'false', autocomplete: 'off', 'aria-label': 'Dirección' });
+    const pagina = el('div', { class: 'nav-pagina' });
+    const atras = el('button', { class: 'btn blanco', title: 'Atrás', onclick: () => mover(-1) }, '⬅️');
+    const adelante = el('button', { class: 'btn blanco', title: 'Adelante', onclick: () => mover(1) }, '➡️');
+    c.append(el('div', { class: 'nav' },
+      el('div', { class: 'nav-barra' },
+        atras, adelante,
+        el('button', { class: 'btn blanco', title: 'Recargar', onclick: () => ir(historial[pos], false) }, '🔄'),
+        el('button', { class: 'btn', title: 'Inicio', onclick: () => ir('safarrancho://inicio') }, '🏠'),
+        url,
+        el('button', { class: 'btn verde', onclick: () => ir(url.value) }, '¡Ir!')),
+      pagina));
+    url.addEventListener('keydown', e => { if (e.key === 'Enter') { ir(url.value); url.blur(); } });
+
+    const historial = []; let pos = -1; let limpiar = null;
+
+    function normalizar(u) {
+      u = (u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      if (!u || u === 'inicio' || u === 'safarrancho://inicio') return 'safarrancho://inicio';
+      if (/luc[ií]a|safarrancho/.test(u)) return 'www.lucia.es';
+      if (/piscina|bolas/.test(u)) return 'www.piscinadebolas.es';
+      if (/burbuja/.test(u)) return 'www.burbujas.es';
+      if (!u.includes('.')) u = 'www.' + u.replace(/\s+/g, '') + '.es';
+      return u;
+    }
+    function ir(destino, nueva = true) {
+      const u = normalizar(destino);
+      if (limpiar) { limpiar(); limpiar = null; }
+      if (nueva) { historial.splice(pos + 1); historial.push(u); pos = historial.length - 1; }
+      url.value = u.startsWith('safarrancho') ? u : '🔒 ' + u;
+      atras.disabled = pos <= 0; adelante.disabled = pos >= historial.length - 1;
+      pagina.replaceChildren();
+      Sonido.clic();
+      const fn = SITIOS[u] || paginaPerdida;
+      limpiar = fn(pagina, ir, u) || null;
+    }
+    function mover(d) {
+      const n = pos + d;
+      if (n < 0 || n >= historial.length) return;
+      pos = n; ir(historial[pos], false);
+    }
+    url.addEventListener('focus', () => { url.value = url.value.replace('🔒 ', ''); url.select(); });
+    ir('safarrancho://inicio');
+    return { cerrar() { if (limpiar) limpiar(); } };
+  }
+};
+
+const SITIOS = {
+  'safarrancho://inicio'(p, ir) {
+    p.append(el('div', { class: 'web' },
+      el('h1', {}, '🔍 ¿A dónde vamos hoy?'),
+      el('div', { class: 'tiles' },
+        el('button', { class: 'tile', style: { background: 'var(--rojo)', color: '#fff' }, onclick: () => ir('www.piscinadebolas.es') },
+          el('span', { class: 'em' }, '🎪'), 'Piscina de bolas', el('small', {}, 'www.piscinadebolas.es')),
+        el('button', { class: 'tile', style: { background: 'var(--azul)', color: '#fff' }, onclick: () => ir('www.burbujas.es') },
+          el('span', { class: 'em' }, '🫧'), 'Explota burbujas', el('small', {}, 'www.burbujas.es'))),
+      el('p', { style: { fontSize: '18px', opacity: .6 } }, 'Pista: hay una web secreta... ¿sabes cómo se llama? 🤫')));
+  },
+  'www.piscinadebolas.es': paginaPiscina,
+  'www.burbujas.es': paginaBurbujas,
+  'www.lucia.es'(p) {
+    p.append(el('div', { class: 'web web-secreta' },
+      el('div', { class: 'caja-secreta' },
+        el('div', { class: 'corona' }, '👑'),
+        el('h1', {}, 'La web secreta de Lucía'),
+        el('p', {}, '¡Has encontrado la página secreta! Aquí manda Lucía, la reina de Safarrancho.'))));
+    lluvia(['👑', '💖', '✨', '🦄'], 40);
+    Sonido.fanfarria();
+    Voz.decir('¡Has encontrado la web secreta de Lucía!', { pitch: 1.4 });
+  }
+};
+
+function paginaPerdida(p, ir, u) {
+  p.append(el('div', { class: 'web' },
+    el('div', { style: { fontSize: '120px' } }, '🐶🍪'),
+    el('h1', {}, '¡Ups!'),
+    el('p', {}, `La página «${u}» se ha ido a merendar y todavía no ha vuelto.`),
+    el('button', { class: 'btn rojo', onclick: () => ir('safarrancho://inicio') }, '🏠 Volver al inicio')));
+  Sonido.fallo();
+}
+
+/* ---- Piscina de bolas con físicas de verdad ----
+   Cada bola tiene masa (según su tamaño), gravedad, rebote y rozamiento.
+   Los choques se calculan por impulsos y usamos una rejilla para que vaya rápido. */
+function paginaPiscina(p) {
+  const COL = ['#E63027', '#FFD21F', '#1F5FD6', '#25A84A', '#FF8A1F', '#FF5FA2', '#8B3FD9', '#FFFFFF'];
+  const SPR = COL.map(c => {
+    const s = document.createElement('canvas'); s.width = s.height = 96;
+    const x = s.getContext('2d');
+    const g = x.createRadialGradient(34, 30, 4, 48, 48, 46);
+    g.addColorStop(0, '#fff'); g.addColorStop(0.28, c); g.addColorStop(1, oscurecer(c === '#FFFFFF' ? '#D8D8E8' : c, 0.6));
+    x.fillStyle = g; x.beginPath(); x.arc(48, 48, 45, 0, Math.PI * 2); x.fill();
+    x.lineWidth = 3; x.strokeStyle = 'rgba(27,27,47,.55)'; x.stroke();
+    return s;
+  });
+
+  const contador = el('span', { class: 'contador' }, '0 bolas');
+  const btnLuna = el('button', { class: 'btn mini', onclick: () => {
+    luna = !luna; btnLuna.textContent = luna ? '🌍 Gravedad Tierra' : '🌙 Gravedad Luna';
+    Sonido.barrido(luna ? 300 : 900, luna ? 900 : 300, 0.3, { onda: 'triangle', vol: 0.25 });
+  } }, '🌙 Gravedad Luna');
+  const caja = el('div', { class: 'piscina-caja' });
+  const cv = el('canvas');
+  caja.append(cv);
+  p.append(el('div', { class: 'piscina' },
+    el('div', { class: 'web-cab' },
+      el('h2', {}, '🎪 Piscina de bolas'),
+      contador,
+      el('button', { class: 'btn mini', onclick: () => { llenar(30); Sonido.pop(); } }, '➕ 30 bolas'),
+      el('button', { class: 'btn mini azul', onclick: terremoto }, '🌋 ¡Terremoto!'),
+      btnLuna,
+      el('button', { class: 'btn mini verde', onclick: vaciar }, '🧹 Vaciar')),
+    caja));
+
+  const ctx = cv.getContext('2d');
+  let W = 0, H = 0, dpr = 1, esc = 1, celda = 50, cols = 1, filas = 1, rejilla = [];
+  let luna = false;
+  const bolas = [];
+  const puntero = { x: 0, y: 0, vx: 0, vy: 0, t: 0 };
+  let agarrada = null;
+
+  function crear(x, y, vx = 0, vy = 0, pato = false) {
+    const r = (pato ? 26 : azar(15, 23)) * esc;
+    const b = { x, y, vx, vy, r, im: 1 / (r * r), c: Math.floor(Math.random() * COL.length), pato, cx: 0, cy: 0 };
+    bolas.push(b);
+    return b;
+  }
+  function llenar(n) {
+    n = Math.min(n, 520 - bolas.length);
+    for (let i = 0; i < n; i++) crear(azar(30, W - 30), -azar(30, 80 + i * 7) * esc, azar(-60, 60), azar(0, 200));
+  }
+  function vaciar() {
+    for (let i = bolas.length - 1; i >= 0; i--) if (!bolas[i].pato) bolas.splice(i, 1);
+    agarrada = null;
+    Sonido.barrido(900, 120, 0.4, { onda: 'triangle', vol: 0.25 });
+  }
+  function terremoto() {
+    for (const b of bolas) { b.vy -= azar(500, 1400) * esc; b.vx += azar(-700, 700) * esc; }
+    caja.classList.remove('tiembla'); void caja.offsetWidth; caja.classList.add('tiembla');
+    Sonido.rugido();
+  }
+
+  function construirRejilla() {
+    cols = Math.ceil(W / celda) + 1; filas = Math.ceil(H / celda) + 1;
+    const n = cols * filas;
+    if (rejilla.length !== n) rejilla = Array.from({ length: n }, () => []);
+    else for (const a of rejilla) a.length = 0;
+    for (let i = 0; i < bolas.length; i++) {
+      const b = bolas[i];
+      b.cx = limitar(Math.floor(b.x / celda), 0, cols - 1);
+      b.cy = limitar(Math.floor(b.y / celda), 0, filas - 1);
+      rejilla[b.cx + b.cy * cols].push(i);
+    }
+  }
+  function choque(a, b) {
+    let dx = b.x - a.x, dy = b.y - a.y;
+    const rs = a.r + b.r;
+    let d2 = dx * dx + dy * dy;
+    if (d2 >= rs * rs) return;
+    if (d2 < 1e-6) { dx = azar(-0.5, 0.5); dy = -1; d2 = dx * dx + 1; }
+    const d = Math.sqrt(d2), nx = dx / d, ny = dy / d, pen = rs - d;
+    // El pato flota: si tiene una bola encima, sube apartando las bolas como si pesara muchísimo
+    if (a.pato && ny < -0.3) a.tocaArriba = true;
+    if (b.pato && ny > 0.3) b.tocaArriba = true;
+    const fija = o => o === agarrada || (o.pato && o.subiendo);
+    const ia = fija(a) ? 0 : a.im, ib = fija(b) ? 0 : b.im, suma = ia + ib;
+    if (!suma) return;
+    // 1) separar las bolas que se solapan (según su masa)
+    const k = pen * 0.8 / suma;
+    a.x -= nx * k * ia; a.y -= ny * k * ia;
+    b.x += nx * k * ib; b.y += ny * k * ib;
+    // 2) impulso: rebote + rozamiento
+    const rvx = b.vx - a.vx, rvy = b.vy - a.vy, vn = rvx * nx + rvy * ny;
+    if (vn >= 0) return;
+    const e = vn < -180 ? 0.6 : 0;
+    const j = -(1 + e) * vn / suma;
+    a.vx -= j * nx * ia; a.vy -= j * ny * ia;
+    b.vx += j * nx * ib; b.vy += j * ny * ib;
+    const tx = -ny, ty = nx, vt = rvx * tx + rvy * ty, lim = j * 0.4;
+    const jt = limitar(-vt / suma * 0.2, -lim, lim);
+    a.vx -= jt * tx * ia; a.vy -= jt * ty * ia;
+    b.vx += jt * tx * ib; b.vy += jt * ty * ib;
+  }
+  function paredes(b) {
+    const e = 0.55;
+    if (b.x < b.r) { b.x = b.r; if (b.vx < 0) b.vx = -b.vx * (b.vx < -150 ? e : 0); }
+    else if (b.x > W - b.r) { b.x = W - b.r; if (b.vx > 0) b.vx = -b.vx * (b.vx > 150 ? e : 0); }
+    if (b.y > H - b.r) { b.y = H - b.r; if (b.vy > 0) b.vy = -b.vy * (b.vy > 150 ? e : 0); b.vx *= 0.995; }
+    else if (b.y < -H * 2) { b.y = -H * 2; if (b.vy < 0) b.vy = 0; }
+  }
+  function paso(dt) {
+    const N = 8, h = dt / N, g = (luna ? 300 : 2200) * esc, VMAX = 3500;
+    for (let s = 0; s < N; s++) {
+      for (const b of bolas) {
+        if (b === agarrada) {
+          const nx = b.x + (puntero.x - b.x) * 0.35, ny = b.y + (puntero.y - b.y) * 0.35;
+          b.vx = limitar((nx - b.x) / h, -1500, 1500); b.vy = limitar((ny - b.y) / h, -1500, 1500);
+          b.x = nx; b.y = ny;
+          continue;
+        }
+        if (b.pato) { b.subiendo = b.tocaArriba; b.tocaArriba = false; }
+        if (b.subiendo) { b.vx *= 0.9; b.vy = -170 * esc; }
+        else b.vy += g * h;
+        b.vx *= 0.9997; b.vy *= 0.9997;
+        const v2 = b.vx * b.vx + b.vy * b.vy;
+        if (v2 > VMAX * VMAX) { const f = VMAX / Math.sqrt(v2); b.vx *= f; b.vy *= f; }
+        b.x += b.vx * h; b.y += b.vy * h;
+      }
+      construirRejilla();
+      for (let i = 0; i < bolas.length; i++) {
+        const a = bolas[i];
+        for (let oy = -1; oy <= 1; oy++) {
+          const cy = a.cy + oy; if (cy < 0 || cy >= filas) continue;
+          for (let ox = -1; ox <= 1; ox++) {
+            const cx = a.cx + ox; if (cx < 0 || cx >= cols) continue;
+            for (const j of rejilla[cx + cy * cols]) if (j > i) choque(a, bolas[j]);
+          }
+        }
+      }
+      for (const b of bolas) paredes(b);
+    }
+  }
+  function pintar() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    for (const b of bolas) {
+      if (b.y < -b.r) continue;
+      if (b.pato) {
+        ctx.font = `${b.r * 2}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('🦆', b.x, b.y + b.r * 0.1);
+      } else ctx.drawImage(SPR[b.c], b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+    }
+    contador.textContent = (bolas.length - 1) + ' bolas';
+  }
+
+  function posicion(e) { return posEnLienzo(e, cv, W, H); }
+  cv.addEventListener('pointerdown', e => {
+    Sonido.init();
+    const q = posicion(e);
+    Object.assign(puntero, q, { vx: 0, vy: 0, t: performance.now() });
+    try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+    let mejor = null, md = Infinity;
+    for (const b of bolas) {
+      const d = Math.hypot(b.x - q.x, b.y - q.y);
+      if (d < b.r * 1.2 && d < md) { md = d; mejor = b; }
+    }
+    if (mejor) {
+      agarrada = mejor;
+      if (mejor.pato) { Sonido.cuac(); textoFlotante(caja, q.x, q.y - 30, '¡CUAC!'); }
+      else Sonido.clic();
+    } else {
+      // ¡Chapuzón! empuja las bolas cercanas
+      const radio = 170 * esc;
+      for (const b of bolas) {
+        const dx = b.x - q.x, dy = b.y - q.y, d = Math.hypot(dx, dy) || 1;
+        if (d < radio) { const f = (1 - d / radio) * 1500 * esc; b.vx += dx / d * f; b.vy += dy / d * f - 250 * esc; }
+      }
+      Sonido.pop();
+      textoFlotante(caja, q.x, q.y, '¡PLOF!');
+    }
+  });
+  cv.addEventListener('pointermove', e => {
+    const q = posicion(e), ahora = performance.now();
+    const dt = Math.max(0.008, (ahora - puntero.t) / 1000);
+    puntero.vx = puntero.vx * 0.4 + ((q.x - puntero.x) / dt) * 0.6;
+    puntero.vy = puntero.vy * 0.4 + ((q.y - puntero.y) / dt) * 0.6;
+    Object.assign(puntero, q, { t: ahora });
+  });
+  const soltar = () => {
+    if (!agarrada) return;
+    agarrada.vx = limitar(puntero.vx, -2800, 2800);
+    agarrada.vy = limitar(puntero.vy, -2800, 2800);
+    agarrada = null;
+  };
+  cv.addEventListener('pointerup', soltar);
+  cv.addEventListener('pointercancel', soltar);
+
+  const ro = new ResizeObserver(() => {
+    if (!caja.clientWidth || !caja.clientHeight) return;
+    const primera = W === 0;
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = caja.clientWidth; H = caja.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    if (primera) {
+      esc = limitar(Math.min(W, H) / 520, 0.7, 1.35);
+      celda = 2 * 26 * esc + 1;
+      crear(W / 2, -60, 0, 0, true); // el pato escondido
+      llenar(Math.min(320, Math.round(W * H * 0.5 / (Math.PI * (19 * esc) ** 2))));
+    }
+  });
+  ro.observe(caja);
+
+  let raf = 0, ultimo = performance.now();
+  function bucle(t) {
+    const dt = Math.min(1 / 30, (t - ultimo) / 1000); ultimo = t;
+    if (W > 0 && dt > 0) { paso(dt); pintar(); }
+    raf = requestAnimationFrame(bucle);
+  }
+  raf = requestAnimationFrame(bucle);
+  return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+}
+
+/* ---- Burbujas ---- */
+function paginaBurbujas(p) {
+  const contador = el('span', { class: 'contador' }, '0 explotadas');
+  const caja = el('div', { class: 'piscina-caja', style: { background: 'linear-gradient(#7FD3FF,#1F5FD6)' } });
+  const cv = el('canvas'); caja.append(cv);
+  p.append(el('div', { class: 'piscina' }, el('div', { class: 'web-cab', style: { background: 'var(--azul)' } }, el('h2', {}, '🫧 Explota burbujas'), contador), caja));
+  const ctx = cv.getContext('2d');
+  let W = 0, H = 0, dpr = 1, total = 0;
+  const burbujas = [], trozos = [];
+  const nueva = () => burbujas.push({ x: azar(30, W - 30), y: H + 60, r: azar(22, 52), vy: azar(50, 120), fase: azar(0, 6), h: azar(0, 360) });
+  cv.addEventListener('pointerdown', e => {
+    Sonido.init();
+    const { x, y } = posEnLienzo(e, cv, W, H);
+    for (let i = burbujas.length - 1; i >= 0; i--) {
+      const b = burbujas[i];
+      if (Math.hypot(b.x - x, b.y - y) < b.r + 8) {
+        burbujas.splice(i, 1); total++;
+        contador.textContent = total + ' explotadas';
+        for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2; trozos.push({ x: b.x, y: b.y, vx: Math.cos(a) * 180, vy: Math.sin(a) * 180, v: 1, h: b.h }); }
+        Sonido.barrido(azar(500, 900), 1600, 0.08, { onda: 'triangle', vol: 0.3 });
+        if (total % 25 === 0) { lluvia(['🫧', '⭐', '🎉'], 25); Sonido.exito(); aviso(`¡${total} burbujas! 🎉`); }
+        break;
+      }
+    }
+  });
+  const ro = new ResizeObserver(() => {
+    if (!caja.clientWidth) return;
+    dpr = Math.min(2, window.devicePixelRatio || 1); W = caja.clientWidth; H = caja.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+  });
+  ro.observe(caja);
+  let raf = 0, ultimo = performance.now(), cuenta = 0;
+  function bucle(t) {
+    const dt = Math.min(0.05, (t - ultimo) / 1000); ultimo = t;
+    if (W) {
+      cuenta += dt; if (cuenta > 0.45 && burbujas.length < 30) { cuenta = 0; nueva(); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      for (let i = burbujas.length - 1; i >= 0; i--) {
+        const b = burbujas[i]; b.y -= b.vy * dt; b.fase += dt * 2;
+        const x = b.x + Math.sin(b.fase) * 14;
+        if (b.y < -80) { burbujas.splice(i, 1); continue; }
+        const g = ctx.createRadialGradient(x - b.r * .4, b.y - b.r * .4, 2, x, b.y, b.r);
+        g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.4, `hsla(${b.h},90%,80%,.25)`); g.addColorStop(1, `hsla(${b.h + 60},90%,60%,.55)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.stroke();
+      }
+      for (let i = trozos.length - 1; i >= 0; i--) {
+        const q = trozos[i]; q.x += q.vx * dt; q.y += q.vy * dt; q.v -= dt * 2;
+        if (q.v <= 0) { trozos.splice(i, 1); continue; }
+        ctx.fillStyle = `hsla(${q.h},90%,85%,${q.v})`; ctx.beginPath(); ctx.arc(q.x, q.y, 5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    raf = requestAnimationFrame(bucle);
+  }
+  raf = requestAnimationFrame(bucle);
+  return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+}
+
+/* =========================================================
+   APP: Calculadora de sumas y restas
+   ========================================================= */
+Apps.calculadora = {
+  nombre: 'Calculadora', emoji: '🧮', color: 'var(--amarillo)', texto: 'var(--tinta)',
+  crear(c) {
+    let a = '', op = null, b = '', res = null, igualRepetido = 0;
+    const cuenta = el('div', { class: 'cuenta' });
+    const dibujo = el('div', { class: 'dibujo' });
+    const teclas = el('div', { class: 'teclas' });
+    c.append(el('div', { class: 'calc' }, el('div', { class: 'pantalla' }, cuenta, dibujo), teclas));
+
+    const colores = ['', 'rojo', 'azul', 'verde'];
+    const tecla = (txt, fn, clase = '', estilo = {}) => teclas.append(el('button', { class: 'btn ' + clase, style: estilo, onclick: () => { Sonido.clic(); fn(); } }, txt));
+    [7, 8, 9].forEach((n, i) => tecla(n, () => digito(n), colores[i % 4]));
+    tecla('+', () => operar('+'), 'rojo');
+    [4, 5, 6].forEach((n, i) => tecla(n, () => digito(n), colores[(i + 1) % 4]));
+    tecla('−', () => operar('-'), 'azul');
+    [1, 2, 3].forEach((n, i) => tecla(n, () => digito(n), colores[(i + 2) % 4]));
+    tecla('=', igual, 'verde', { gridRow: 'span 2' });
+    tecla(0, () => digito(0), 'blanco', { gridColumn: 'span 2' });
+    tecla('C', borrar, 'blanco');
+
+    function digito(n) {
+      if (res !== null) { a = ''; op = null; b = ''; res = null; }
+      igualRepetido = 0;
+      if (op) { if (b.length < 3) b = (b === '0' ? '' : b) + n; }
+      else if (a.length < 3) a = (a === '0' ? '' : a) + n;
+      pintar();
+    }
+    function operar(o) {
+      igualRepetido = 0;
+      if (res !== null) { a = String(res); b = ''; res = null; }
+      if (a === '') a = '0';
+      op = o; pintar();
+    }
+    function borrar() { a = ''; op = null; b = ''; res = null; igualRepetido = 0; pintar(); }
+    function igual() {
+      if (res !== null) {
+        if (++igualRepetido === 4) { aviso('😤 ¡Que ya te lo he dicho! Son ' + res); Voz.decir('¡Que ya te lo he dicho! ¡Son ' + res + '!', { pitch: 0.8 }); igualRepetido = 0; }
+        return;
+      }
+      if (!op || b === '') { Sonido.fallo(); return; }
+      const x = +a, y = +b;
+      res = op === '+' ? x + y : x - y;
+      pintar();
+      const frase = `${x} ${op === '+' ? 'más' : 'menos'} ${y} son ${res}`;
+      if (res === 100) { lluvia(['💯', '🎉', '⭐'], 45); aviso('💯 ¡CIEN! 💯'); Sonido.fanfarria(); }
+      else if (x === 0 && y === 0) { aviso('Nada ' + (op === '+' ? 'más' : 'menos') + ' nada... ¡NADA! 🫥'); }
+      else Sonido.exito();
+      Voz.decir(frase, { rate: 0.95 });
+    }
+    function fila(n, emoji, comidas = 0) {
+      const g = el('span', { class: 'grupo' });
+      for (let i = 0; i < n; i++) g.append(el('span', { class: i >= n - comidas ? 'comida' : '' }, emoji));
+      return g;
+    }
+    function pintar() {
+      const sim = op === '+' ? '+' : '−';
+      cuenta.replaceChildren(
+        a || '0',
+        op ? el('span', { class: 'op' }, ' ' + sim + ' ') : '',
+        op ? b : '',
+        res !== null ? el('span', { class: 'res' }, ' = ' + res) : '');
+      dibujo.replaceChildren();
+      const x = +(a || 0), y = +(b || 0);
+      if (!op) { if (x > 0 && x <= 20) dibujo.append(fila(x, '🍎')); return; }
+      if (x > 20 || y > 20) {
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, '¡Son números muy grandes para dibujarlos! 🐘'));
+        return;
+      }
+      if (op === '+') {
+        if (x) dibujo.append(fila(x, '🍎'));
+        dibujo.append(el('span', { class: 'signo' }, '+'));
+        if (y) dibujo.append(fila(y, '🍌'));
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, `Juntamos ${x} ${x === 1 ? 'manzana' : 'manzanas'} y ${y} ${y === 1 ? 'plátano' : 'plátanos'}: ¡${res} frutas! 😋`));
+      } else {
+        if (res === null) { if (x) dibujo.append(fila(x, '🍪')); dibujo.append(el('span', { class: 'signo' }, '−'), y ? fila(y, '😋') : ''); }
+        else if (res >= 0) {
+          dibujo.append(fila(x, '🍪', y));
+          dibujo.append(el('span', { class: 'frase' }, `Tenías ${x} galletas, te comes ${y}... ¡quedan ${res}! 🍪`));
+        } else {
+          dibujo.append(fila(x, '🍪', x));
+          dibujo.append(el('span', { class: 'frase' }, `¡Solo había ${x} galletas! Te faltan ${-res}. Eso es un número negativo: como deber ${-res} ${res === -1 ? 'galleta' : 'galletas'}. 🙈`));
+        }
+      }
+    }
+    pintar();
+  }
+};
+
+/* =========================================================
+   APP: Cuentacuentos
+   ========================================================= */
+const CUENTOS = [
+  { titulo: 'El dragón con hipo', em: '🐉', color: 'var(--rojo)', paginas: [
+    ['🐉🏰', 'Había una vez un dragón llamado Fermín que vivía en un castillo muy, muy grande.'],
+    ['🐉💥', 'Un día, Fermín se despertó con hipo. ¡HIP! Y cada vez que hacía hip, en vez de fuego le salía una burbuja de colores.'],
+    ['🐉🫧🫧', 'Probó a beber agua del revés, a contar hasta cien y a aguantar la respiración. Pero nada: ¡HIP! ¡Más burbujas!'],
+    ['👧🐉', 'Entonces llegó una niña muy lista y le dijo: «Fermín, ¿sabes que hoy es tu cumpleaños?». «¿De verdad?», preguntó el dragón, sorprendidísimo.'],
+    ['🎂🐉🔥', '¡Del susto se le quitó el hipo! Y con su fuego encendió todas las velas de la tarta. Fue la fiesta más divertida del castillo. Fin.']
+  ] },
+  { titulo: 'La luna que no quería dormir', em: '🌙', color: 'var(--azul)', paginas: [
+    ['🌙⭐✨', 'Cada mañana, cuando salía el sol, la Luna tenía que irse a dormir. Y a la Luna eso no le gustaba nada.'],
+    ['🌙😤☀️', '«¡Yo también quiero ver el día!», protestaba. «Quiero ver los parques, los columpios y a los niños jugando».'],
+    ['☀️🤝🌙', 'El Sol, que era muy bueno, le dijo: «Quédate un ratito conmigo por la mañana. Desde aquí arriba se ve todo».'],
+    ['🌙🎠👦', 'Y así fue. Si miras al cielo algunas mañanas, verás a la Luna, blanquita y contenta, mirando los columpios.'],
+    ['🌙😴💤', 'Y cuando se cansa, se va a dormir tan feliz, igual que tú. Buenas noches, Luna. Fin.']
+  ] },
+  { titulo: 'La jirafa que quería ser bajita', em: '🦒', color: 'var(--amarillo)', paginas: [
+    ['🦒🌳', 'Gertrudis era una jirafa altísima. Tan alta, que su cabeza siempre estaba entre las nubes.'],
+    ['🦒☁️😢', 'Pero estaba triste: cuando sus amigos jugaban al escondite, ella nunca podía esconderse. ¡Se le veía desde lejísimos!'],
+    ['🐒❓🐘', 'Un día, el pequeño mono se perdió en la selva. Todos lo buscaron, pero nadie lo encontraba.'],
+    ['🦒👀🐒', 'Gertrudis estiró su largo cuello, miró por encima de los árboles y gritó: «¡Allí está, junto al río!».'],
+    ['🦒❤️🐒🐘', 'Desde ese día, Gertrudis está orgullosa de ser alta. Y en el escondite... ¡ahora es ella la que busca! Fin.']
+  ] },
+  { titulo: 'El calcetín que siempre se perdía', em: '🧦', color: 'var(--verde)', paginas: [
+    ['🧦❓', 'En casa de Lucía había un calcetín que siempre, siempre se perdía.'],
+    ['🧦🛏️🐱', 'Un día apareció debajo de la cama. Otro día, dentro de la nevera. ¡Y una vez, en la cabeza del gato!'],
+    ['👧🧦', '«¿Por qué te escapas tanto?», le preguntó Lucía. «Porque he perdido a mi pareja y la estoy buscando», contestó el calcetín.'],
+    ['🔍🗑️💻', 'Lucía y el calcetín buscaron juntos por toda la casa... y la encontraron escondida en la papelera del ordenador.'],
+    ['🧦🧦💕', 'Desde entonces, los dos calcetines van siempre juntos. Y si alguna vez pierdes uno... ¡mira en la papelera! Fin.']
+  ] }
+];
+
+Apps.cuentos = {
+  nombre: 'Cuentacuentos', emoji: '📖', color: 'var(--rojo)',
+  crear(c) {
+    let leerSolo = true;
+    function estante() {
+      Voz.callar();
+      c.replaceChildren(el('div', { class: 'estante' }, CUENTOS.map(cu =>
+        el('button', { class: 'libro', style: { background: cu.color, color: cu.color.includes('amarillo') ? 'var(--tinta)' : '#fff' }, onclick: () => abrir(cu) },
+          el('span', { class: 'em' }, cu.em), cu.titulo))));
+    }
+    function abrir(cu) {
+      let n = 0;
+      const escena = el('div', { class: 'escena' });
+      const texto = el('div', { class: 'texto' });
+      const puntos = el('div', { class: 'puntos' });
+      const ant = el('button', { class: 'btn azul', onclick: () => ir(n - 1) }, '⬅️');
+      const sig = el('button', { class: 'btn azul', onclick: () => ir(n + 1) }, '➡️');
+      const solo = el('button', { class: 'btn mini blanco', onclick: () => { leerSolo = !leerSolo; solo.textContent = leerSolo ? '📢 Leer solo: sí' : '🤐 Leer solo: no'; } }, leerSolo ? '📢 Leer solo: sí' : '🤐 Leer solo: no');
+      c.replaceChildren(el('div', { class: 'pagina' },
+        el('div', { style: { alignSelf: 'stretch', display: 'flex', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' } },
+          el('button', { class: 'btn mini', onclick: estante }, '📚 Otros cuentos'), solo),
+        escena, texto,
+        el('div', { class: 'mandos' }, ant, el('button', { class: 'btn rojo', onclick: leer }, '🔊 Leer'), sig),
+        puntos));
+      function leer() { Voz.decir(cu.paginas[n][1], { rate: 0.92, pitch: 1.1 }); }
+      function ir(i) {
+        if (i < 0) return;
+        if (i >= cu.paginas.length) { lluvia(['⭐', '📖', '💖'], 25); Sonido.fanfarria(); estante(); return; }
+        n = i;
+        Sonido.barrido(400, 800, 0.12, { onda: 'triangle', vol: 0.2 });
+        escena.textContent = cu.paginas[n][0];
+        escena.style.animation = 'none'; void escena.offsetWidth; escena.style.animation = '';
+        texto.textContent = cu.paginas[n][1];
+        ant.disabled = n === 0;
+        sig.textContent = n === cu.paginas.length - 1 ? '🏁 Fin' : '➡️';
+        puntos.replaceChildren(...cu.paginas.map((_, k) => el('i', { class: k === n ? 'on' : '' })));
+        if (leerSolo) leer(); else Voz.callar();
+      }
+      ir(0);
+    }
+    estante();
+  }
+};
+
+/* =========================================================
+   APP: Música — Estrellita en 8 bits + xilófono
+   ========================================================= */
+const ESTRELLITA = {
+  // Cada línea: 7 notas (la última dura 2 tiempos), sus sílabas y 4 acordes (uno cada 2 tiempos)
+  lineas: [
+    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], ac: ['C', 'C', 'F', 'C'] },
+    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], ac: ['F', 'C', 'G', 'C'] },
+    { n: [67, 67, 65, 65, 64, 64, 62], s: ['En', 'el', 'cie-', 'lo', 'o en', 'el', 'mar,'], ac: ['C', 'F', 'C', 'G'] },
+    { n: [67, 67, 65, 65, 64, 64, 62], s: ['un', 'dia-', 'man-', 'te', 'de', 'ver-', 'dad.'], ac: ['C', 'F', 'C', 'G'] },
+    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], ac: ['C', 'C', 'F', 'C'] },
+    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], ac: ['F', 'C', 'G', 'C'] }
+  ],
+  acordes: { C: [48, 60, 64, 67], F: [53, 65, 69, 72], G: [55, 62, 67, 71] }
+};
+// Estrella en pixel-art (8 bits de verdad)
+const PIXEL_ESTRELLA = [
+  '.......YY.......',
+  '......YYYY......',
+  '......YYYY......',
+  '.....YYYYYY.....',
+  'YYYYYYYYYYYYYYYY',
+  '.YYYYYYYYYYYYYY.',
+  '..YYYKYYYYKYYY..',
+  '...YYKYYYYKYY...',
+  '...YYYYYYYYYY...',
+  '...YYYRRRRYYY...',
+  '..YYYYYRRYYYYY..',
+  '..YYYYYYYYYYYY..',
+  '.YYYYY....YYYYY.',
+  '.YYYY......YYYY.',
+  'YYY..........YYY',
+  'Y..............Y'
+];
+function dibujarPixelArt(cv, mapa, colores) {
+  cv.width = mapa[0].length; cv.height = mapa.length;
+  const x = cv.getContext('2d');
+  mapa.forEach((fila, y) => [...fila].forEach((ch, i) => { if (colores[ch]) { x.fillStyle = colores[ch]; x.fillRect(i, y, 1, 1); } }));
+}
+
+Apps.musica = {
+  nombre: 'Música', emoji: '🎵', color: 'var(--verde)',
+  crear(c) {
+    const zona = el('div', { class: 'zona' });
+    const tabEst = el('button', { class: 'btn sel', onclick: () => vista('estrellita') }, '⭐ Estrellita 8 bits');
+    const tabXil = el('button', { class: 'btn azul', onclick: () => vista('xilofono') }, '🎹 Xilófono');
+    c.append(el('div', { class: 'musica' }, el('div', { class: 'pestanas' }, tabEst, tabXil), zona));
+
+    let cancion = null; // { gain, raf }
+    let tempo = 100, bateria = true, ultimasNotas = [], teclaXilo = null;
+
+    function parar() {
+      if (!cancion) return;
+      cancelAnimationFrame(cancion.raf);
+      const g = cancion.gain;
+      g.gain.setTargetAtTime(0, Sonido.t, 0.02);
+      setTimeout(() => g.disconnect(), 200);
+      cancion = null;
+    }
+    function soltarTeclado() {
+      if (teclaXilo) { document.removeEventListener('keydown', teclaXilo); teclaXilo = null; }
+    }
+
+    function vista(cual) {
+      parar();
+      soltarTeclado();
+      tabEst.className = 'btn ' + (cual === 'estrellita' ? 'sel' : 'azul');
+      tabXil.className = 'btn ' + (cual === 'xilofono' ? 'sel' : 'azul');
+      zona.replaceChildren();
+      if (cual === 'estrellita') vistaEstrellita(); else vistaXilofono();
+    }
+
+    function vistaEstrellita() {
+      const estrella = el('canvas', { class: 'estrella8' });
+      dibujarPixelArt(estrella, PIXEL_ESTRELLA, { Y: '#FFD21F', K: '#1B1B2F', R: '#E63027' });
+      const letra = el('div', { class: 'letra' });
+      const sils = [];
+      ESTRELLITA.lineas.forEach((l, li) => {
+        const linea = el('div', { class: 'linea' });
+        l.s.forEach((s, si) => {
+          const sp = el('span', { class: 'sil' }, s);
+          linea.append(sp);
+          if (!s.endsWith('-')) linea.append(' ');
+          sils.push({ sp, li, si, linea });
+        });
+        letra.append(linea);
+      });
+      const tocar = el('button', { class: 'btn rojo', style: { fontSize: '28px' } }, '▶️ ¡Tocar!');
+      const vel = [['🐢', 70], ['🚶', 100], ['🐇', 140]].map(([em, bpm]) =>
+        el('button', { class: 'btn mini ' + (bpm === tempo ? 'sel' : 'blanco'), onclick: e => { tempo = bpm; vel.forEach(v => v.className = 'btn mini blanco'); e.currentTarget.className = 'btn mini sel'; } }, em));
+      const bat = el('button', { class: 'btn mini blanco', onclick: () => { bateria = !bateria; bat.textContent = bateria ? '🥁 Batería: sí' : '🥁 Batería: no'; } }, bateria ? '🥁 Batería: sí' : '🥁 Batería: no');
+      tocar.onclick = () => {
+        Sonido.init();
+        if (cancion) { parar(); limpiar(); tocar.textContent = '▶️ ¡Tocar!'; return; }
+        tocar.textContent = '⏹️ Parar';
+        empezar();
+      };
+      zona.append(estrella, el('div', { style: { display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' } }, tocar, ...vel, bat), letra);
+
+      function limpiar() {
+        sils.forEach(s => s.sp.className = 'sil');
+        letra.querySelectorAll('.linea').forEach(l => l.classList.remove('activa'));
+      }
+      function empezar() {
+        if (!Sonido.ctx) { tocar.textContent = '▶️ ¡Tocar!'; return; }
+        const ctx = Sonido.ctx, gain = ctx.createGain();
+        gain.gain.value = 1; gain.connect(Sonido.master);
+        const b = 60 / tempo, t0 = ctx.currentTime + 0.15, eventos = [];
+        let t = t0, k = 0;
+        ESTRELLITA.lineas.forEach(l => {
+          const tl = t;
+          l.n.forEach((m, i) => {
+            const d = i === 6 ? 2 * b : b;
+            Sonido.nota(mtof(m + 12), t, d * 0.92, { onda: 0.25, vol: 0.11, destino: gain });
+            eventos.push({ t, k: k++ });
+            t += d;
+          });
+          // Acompañamiento: bajo (triángulo) + arpegio (pulso fino) + batería (ruido)
+          l.ac.forEach((a, ai) => {
+            const [raiz, ...notas] = ESTRELLITA.acordes[a], ta = tl + ai * 2 * b;
+            for (let q = 0; q < 4; q++) Sonido.nota(mtof(raiz + (q % 2 ? 12 : 0)), ta + q * b / 2, b / 2 * 0.9, { onda: 'triangle', vol: 0.2, destino: gain });
+            for (let q = 0; q < 8; q++) Sonido.nota(mtof(notas[q % 3] + 12), ta + q * b / 4, b / 4 * 0.8, { onda: 0.125, vol: 0.035, destino: gain });
+            if (bateria) for (let q = 0; q < 2; q++) {
+              const tb = ta + q * b;
+              Sonido.nota(150, tb, 0.12, { onda: 'sine', vol: 0.35, destino: gain, caida: true });
+              Sonido.ruido(tb + b / 2, 0.05, { vol: 0.08, destino: gain, filtro: 7000 });
+            }
+          });
+        });
+        const fin = t + 0.1;
+        let ultimo = -1;
+        const bucle = () => {
+          const ahora = ctx.currentTime;
+          let actualK = -1;
+          for (const e of eventos) if (e.t <= ahora) actualK = e.k;
+          if (actualK !== ultimo) {
+            ultimo = actualK;
+            sils.forEach((s, i) => s.sp.className = 'sil' + (i < actualK ? ' ya' : i === actualK ? ' ahora' : ''));
+            if (actualK >= 0) {
+              const lin = sils[actualK].linea;
+              letra.querySelectorAll('.linea').forEach(l => l.classList.toggle('activa', l === lin));
+              estrella.classList.add('bote'); setTimeout(() => estrella.classList.remove('bote'), 110);
+            }
+          }
+          if (ahora > fin) { parar(); limpiar(); tocar.textContent = '▶️ ¡Tocar!'; lluvia(['⭐', '🌟', '✨'], 30); return; }
+          if (cancion) cancion.raf = requestAnimationFrame(bucle);
+        };
+        cancion = { gain, raf: requestAnimationFrame(bucle) };
+      }
+    }
+
+    function vistaXilofono() {
+      const NOTAS = [['Do', 60, 'var(--rojo)'], ['Re', 62, 'var(--naranja)'], ['Mi', 64, 'var(--amarillo)'], ['Fa', 65, 'var(--verde)'],
+        ['Sol', 67, '#19B3B3'], ['La', 69, 'var(--azul)'], ['Si', 71, 'var(--morado)'], ['Do', 72, 'var(--rosa)']];
+      const TECLAS = 'asdfghjk';
+      const xilo = el('div', { class: 'xilo' });
+      const botones = NOTAS.map(([nombre, m, col], i) => {
+        const bt = el('button', { style: { background: col, height: (100 - i * 6) + '%' } }, el('span', {}, nombre));
+        bt.addEventListener('pointerdown', () => golpe(i));
+        xilo.append(bt);
+        return bt;
+      });
+      function golpe(i) {
+        Sonido.init();
+        const m = NOTAS[i][1];
+        if (Sonido.ok()) {
+          Sonido.nota(mtof(m + 12), Sonido.t, 0.6, { onda: 'triangle', vol: 0.35, caida: true });
+          Sonido.nota(mtof(m + 24), Sonido.t, 0.15, { onda: 0.25, vol: 0.05, caida: true });
+        }
+        botones[i].classList.add('toca'); setTimeout(() => botones[i].classList.remove('toca'), 120);
+        ultimasNotas.push(m); ultimasNotas = ultimasNotas.slice(-7);
+        // Easter egg: tocar el principio de Estrellita (Do Do Sol Sol La La Sol)
+        if (ultimasNotas.join() === '60,60,67,67,69,69,67') {
+          ultimasNotas = [];
+          setTimeout(() => { lluvia(['⭐', '🌟', '✨', '💫'], 50); aviso('⭐ ¡Has tocado Estrellita! ⭐'); Voz.decir('¡Has tocado Estrellita! ¡Eres una artista!', { pitch: 1.3 }); }, 500);
+        }
+      }
+      const tecla = e => { const i = TECLAS.indexOf(e.key); if (i >= 0 && !e.repeat) golpe(i); };
+      document.addEventListener('keydown', tecla);
+      teclaXilo = tecla;
+      zona.append(el('p', { style: { margin: 0, fontSize: '20px', fontWeight: 600, textAlign: 'center' } }, '¡Toca las barras! 🎶 (Pista secreta: Do, Do, Sol, Sol, La, La, Sol...)'), xilo);
+    }
+    vista('estrellita');
+    return { cerrar() { parar(); soltarTeclado(); } };
+  }
+};
+
+/* =========================================================
+   APP: Guiñoles — teatro de marionetas
+   Cada paso del guion: [escenario, reparto, quién habla ('' = narrador), texto, efecto]
+   Efectos: saltar, temblar, volar, huir, dormir  →  'efecto:personaje' (o 'efecto:todos')
+   ========================================================= */
+const ESCENAS = {
+  campo: { clase: 'esc-campo', deco: [['☀️', 88, 14, 70], ['☁️', 20, 15, 60], ['☁️', 60, 22, 46], ['🌳', 8, 52, 90], ['🌻', 94, 58, 50], ['🌷', 30, 64, 34]] },
+  bosque: { clase: 'esc-bosque', deco: [['🌲', 8, 40, 120], ['🌲', 26, 32, 140], ['🌲', 76, 34, 140], ['🌲', 93, 42, 110], ['🍄', 50, 64, 40], ['🦉', 26, 14, 40]] },
+  dulce: { clase: 'esc-dulce', deco: [['🍭', 10, 40, 90], ['🍬', 30, 18, 50], ['🍫', 70, 16, 50], ['🧁', 90, 42, 80], ['🍩', 50, 12, 46]] },
+  osos: { clase: 'esc-osos', deco: [['🪟', 22, 26, 80], ['🖼️', 72, 24, 60], ['🪴', 92, 50, 70], ['🕰️', 48, 18, 50]] },
+  ogro: { clase: 'esc-ogro', deco: [['🦴', 14, 30, 60], ['🕸️', 90, 14, 70], ['🕯️', 64, 30, 46], ['🪨', 6, 58, 60]] },
+  noche: { clase: 'esc-noche', deco: [['🌙', 84, 16, 70], ['⭐', 20, 12, 30], ['⭐', 50, 22, 24], ['🌲', 10, 44, 110], ['🌲', 92, 46, 100]] }
+};
+
+const OBRAS = [
+  { id: 'cerditos', titulo: 'Los tres cerditos', em: '🐷🐷🐷', sub: '¡y el lobo feroz!',
+    pj: {
+      c1: { e: '🐷', n: 'Cerdito pequeño', p: 1.9, r: 1.15, s: 0.8 },
+      c2: { e: '🐷', n: 'Cerdito mediano', p: 1.6, r: 1.1, s: 0.95 },
+      c3: { e: '🐷', n: 'Cerdito mayor', p: 1.3, r: 1, s: 1.1 },
+      lobo: { e: '🐺', n: 'Lobo feroz', p: 0.4, r: 0.9, s: 1.2 },
+      paja: { e: '🛖', n: 'Casa de paja', prop: 1 },
+      madera: { e: '🏚️', n: 'Casa de madera', prop: 1 },
+      ladrillo: { e: '🏠', n: 'Casa de ladrillo', prop: 1, s: 1.3 }
+    },
+    guion: [
+      ['campo', 'c1 c2 c3', '', 'Había una vez tres cerditos que decidieron construir, cada uno, su propia casa.'],
+      ['campo', 'c1 paja', 'c1', '¡Yo la haré de paja! Así termino prontísimo y me voy a jugar.'],
+      ['campo', 'c2 madera', 'c2', '¡Yo la haré de madera! Es rápido y bastante fuerte.'],
+      ['campo', 'c3 ladrillo', 'c3', 'Yo la haré de ladrillo. Tardaré más, pero será muy resistente.'],
+      ['bosque', 'lobo', 'lobo', '¡Je, je, je! Soy el lobo feroz y tengo muchísima hambre. ¡Huelo a cerdito!'],
+      ['campo', 'c1 paja lobo', 'lobo', 'Cerdito, cerdito, ¡déjame entrar!'],
+      ['campo', 'c1 paja lobo', 'c1', '¡No, no y no! ¡Ni por los pelos de mi barbilla!', 'temblar:c1'],
+      ['campo', 'c1 paja lobo', 'lobo', 'Pues soplaré, y soplaré... ¡y tu casa derribaré! ¡FUUUUU!', 'volar:paja'],
+      ['campo', 'c1 c2 madera lobo', '', '¡La casa de paja salió volando! El cerdito pequeño corrió a casa de su hermano.'],
+      ['campo', 'c1 c2 madera lobo', 'lobo', 'Soplaré, y soplaré... ¡y vuestra casa derribaré! ¡FUUUUU!', 'volar:madera'],
+      ['campo', 'c1 c2 c3 ladrillo', '', '¡La casa de madera también salió volando! Los dos cerditos corrieron a casa de su hermano mayor.'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', 'Soplaré, y soplaré... ¡FUUUUUUUUU!', 'temblar:lobo'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo sopló y sopló hasta ponerse morado... ¡pero la casa de ladrillo no se movió ni un poquito!'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', '¡Grrr! ¡Pues entraré por la chimenea!'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'c3', '¡Rápido, hermanos! ¡Poned la olla de agua caliente en la chimenea!', 'saltar:c3'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo bajó por la chimenea... ¡y se quemó la cola! Salió corriendo y nunca más volvió.', 'huir:lobo'],
+      ['campo', 'c1 c2 c3 ladrillo', 'todos', '¡Bieeen! ¡Viva la casa de ladrillo!', 'saltar:todos'],
+      ['campo', 'c1 c2 c3 ladrillo', '', 'Y desde entonces, los tres cerditos vivieron juntos y felices. Fin.']
+    ] },
+  { id: 'ricitos', titulo: 'Ricitos de Oro', em: '👱‍♀️🐻🧸', sub: 'y los tres osos',
+    pj: {
+      ricitos: { e: '👱‍♀️', n: 'Ricitos de Oro', p: 1.5, r: 1.05, s: 0.95 },
+      papa: { e: '🐻', n: 'Papá Oso', p: 0.5, r: 0.9, s: 1.25 },
+      mama: { e: '🐻', n: 'Mamá Osa', p: 1.1, r: 1, s: 1 },
+      bebe: { e: '🧸', n: 'Osito', p: 1.9, r: 1.15, s: 0.75 },
+      sopa: { e: '🥣', n: 'Sopa', prop: 1, s: 0.7 },
+      silla: { e: '🪑', n: 'Silla', prop: 1, s: 0.8 },
+      cama: { e: '🛏️', n: 'Cama', prop: 1 }
+    },
+    guion: [
+      ['bosque', 'papa mama bebe', '', 'En una casita del bosque vivían tres osos: Papá Oso, Mamá Osa y el pequeño Osito.'],
+      ['osos', 'papa mama sopa bebe', 'mama', '¡La sopa está muy caliente! Vamos a dar un paseo mientras se enfría.'],
+      ['bosque', 'ricitos', '', 'Mientras tanto, una niña de pelo dorado llamada Ricitos de Oro paseaba por el bosque.'],
+      ['bosque', 'ricitos', 'ricitos', '¡Oh, una casita! La puerta está abierta... voy a echar un vistazo.'],
+      ['osos', 'ricitos sopa', 'ricitos', 'Esta sopa quema... esta está fría... ¡y esta está perfecta! Ñam, ñam.', 'saltar:ricitos'],
+      ['osos', 'ricitos silla', 'ricitos', 'Esta silla es muy dura... esta, muy blanda... ¡y esta es perfecta! ¡Ay! ¡Crac! ¡La he roto!', 'temblar:silla'],
+      ['osos', 'ricitos cama', 'ricitos', '¡Qué sueño tengo! Esta camita es perfecta... zzz...', 'dormir:ricitos'],
+      ['osos', 'papa mama sopa bebe', 'papa', '¡Alguien ha probado mi sopa!'],
+      ['osos', 'papa mama sopa bebe', 'mama', '¡Alguien ha probado la mía!'],
+      ['osos', 'papa mama sopa bebe', 'bebe', '¡Y alguien se ha comido toda mi sopa!', 'temblar:bebe'],
+      ['osos', 'papa mama silla bebe', 'bebe', '¡Y alguien ha roto mi sillita!'],
+      ['osos', 'papa mama bebe cama ricitos', 'bebe', '¡Mirad! ¡Hay una niña durmiendo en mi cama!', 'dormir:ricitos'],
+      ['osos', 'papa mama bebe cama ricitos', 'ricitos', '¡Aaah! ¡Tres osos!', 'saltar:ricitos'],
+      ['osos', 'papa mama bebe ricitos', 'ricitos', 'Perdón, perdón... no debí entrar sin permiso. ¿Puedo arreglar la sillita?'],
+      ['osos', 'papa mama bebe ricitos', 'papa', 'Claro que sí. Y la próxima vez, llama a la puerta.'],
+      ['osos', 'papa mama bebe ricitos', '', 'Ricitos de Oro arregló la sillita, preparó más sopa y se hicieron muy amigos. Fin.', 'saltar:todos']
+    ] },
+  { id: 'hansel', titulo: 'Hansel y Gretel', em: '👦👧🍭', sub: 'y la casita de chocolate',
+    pj: {
+      hansel: { e: '👦', n: 'Hansel', p: 1.3, r: 1.05 },
+      gretel: { e: '👧', n: 'Gretel', p: 1.6, r: 1.05 },
+      bruja: { e: '🧙‍♀️', n: 'Bruja', p: 1.9, r: 0.85, s: 1.15 },
+      pajaros: { e: '🐦', n: 'Pajaritos', p: 2, r: 1.3, s: 0.7 },
+      migas: { e: '🍞', n: 'Migas', prop: 1, s: 0.6 },
+      casita: { e: '🏠', n: 'Casita de chocolate', prop: 1, s: 1.3 },
+      jaula: { e: '🔒', n: 'Jaula', prop: 1, s: 0.7 },
+      tesoro: { e: '💎', n: 'Tesoro', prop: 1, s: 0.8 },
+      papa: { e: '👨', n: 'Papá', p: 0.8, r: 0.95 }
+    },
+    guion: [
+      ['bosque', 'hansel gretel', '', 'Hansel y Gretel eran dos hermanos que fueron al bosque a buscar leña.'],
+      ['bosque', 'hansel migas gretel', 'hansel', 'Iré dejando migas de pan por el camino. ¡Así sabremos volver a casa!'],
+      ['bosque', 'hansel gretel pajaros', '', 'Pero los pajaritos del bosque se comieron todas las migas.'],
+      ['bosque', 'hansel gretel pajaros', 'pajaros', '¡Pío, pío! ¡Qué migas tan ricas! ¡Gracias!', 'saltar:pajaros'],
+      ['bosque', 'hansel gretel', 'gretel', '¡Oh, no! ¡Nos hemos perdido!', 'temblar:gretel'],
+      ['dulce', 'hansel casita gretel', 'hansel', '¡Mira, Gretel! ¡Una casa hecha de chocolate, galletas y caramelos!', 'saltar:hansel'],
+      ['dulce', 'hansel casita gretel', 'gretel', '¡Ñam! ¡Esta ventana es de azúcar!'],
+      ['dulce', 'hansel gretel casita bruja', 'bruja', '¡Ji, ji, ji! ¿Quién se está comiendo mi casita?'],
+      ['dulce', 'hansel gretel casita bruja', 'bruja', 'Pasad, pasad, niños... dentro tengo muchos más dulces.'],
+      ['dulce', 'jaula hansel gretel bruja', '', 'Pero era una bruja muy malvada, ¡y encerró a Hansel en una jaula!', 'temblar:hansel'],
+      ['dulce', 'jaula hansel gretel bruja', 'bruja', 'Gretel, ¡enciende el horno! Tengo planes muy malvados... ¡ji, ji, ji!'],
+      ['dulce', 'jaula hansel gretel bruja', 'gretel', 'No sé cómo se hace... ¿me enseñas tú, bruja?'],
+      ['dulce', 'jaula hansel gretel bruja', '', 'La bruja se asomó al horno y Gretel, que era muy lista, ¡la empujó dentro y cerró la puerta! ¡PUM!', 'huir:bruja'],
+      ['dulce', 'hansel gretel', 'gretel', '¡Hansel, ya eres libre!', 'saltar:todos'],
+      ['dulce', 'hansel tesoro gretel', 'hansel', '¡Mira cuántos tesoros tenía la bruja! Nos los llevamos a casa.'],
+      ['campo', 'hansel papa gretel', '', 'Siguieron el río y por fin llegaron a casa, donde su papá les esperaba con un abrazo enorme. Fin.', 'saltar:todos']
+    ] },
+  { id: 'pulgarcito', titulo: 'Pulgarcito', em: '🧒👢👹', sub: 'pequeño pero muy listo',
+    pj: {
+      pulgar: { e: '🧒', n: 'Pulgarcito', p: 2, r: 1.2, s: 0.6 },
+      hermanos: { e: '👦👦👦', n: 'Hermanos', p: 1.4, r: 1.05, s: 0.75 },
+      pajaros: { e: '🐦', n: 'Pajaritos', p: 2, r: 1.3, s: 0.7 },
+      piedras: { e: '🪨', n: 'Piedrecitas', prop: 1, s: 0.6 },
+      ogro: { e: '👹', n: 'Ogro', p: 0.2, r: 0.8, s: 1.4 },
+      botas: { e: '👢', n: 'Botas de siete leguas', prop: 1, s: 0.8 },
+      padres: { e: '👨👩', n: 'Papá y mamá', p: 1, r: 1, s: 0.9 }
+    },
+    guion: [
+      ['campo', 'hermanos pulgar', '', 'Pulgarcito era el más pequeño de siete hermanos. ¡Tan pequeño como un dedo pulgar! Pero era el más listo de todos.'],
+      ['campo', 'hermanos pulgar', 'pulgar', '¡Hola! Soy pequeñito... ¡pero tengo ideas muy grandes!', 'saltar:pulgar'],
+      ['bosque', 'hermanos piedras pulgar', '', 'Un día, los hermanos se perdieron en el bosque. Pero Pulgarcito había ido tirando piedrecitas blancas por el camino.'],
+      ['bosque', 'hermanos piedras pulgar', 'pulgar', '¡Seguidme! Las piedrecitas nos llevarán a casa.', 'saltar:pulgar'],
+      ['bosque', 'hermanos pulgar pajaros', '', 'Otro día volvieron a perderse. Esta vez Pulgarcito tiró migas de pan... ¡pero los pájaros se las comieron!'],
+      ['bosque', 'hermanos pulgar pajaros', 'pajaros', '¡Pío, pío! ¡Qué buenas!', 'saltar:pajaros'],
+      ['ogro', 'hermanos pulgar ogro', '', 'Caminando y caminando, llegaron a la casa de un ogro gigante y gruñón.'],
+      ['ogro', 'hermanos pulgar ogro', 'ogro', '¡GRRR! ¿Quién anda ahí? ¡Aquí huele a niño!', 'temblar:todos'],
+      ['ogro', 'hermanos pulgar ogro', 'pulgar', '¡Hermanos, escondeos debajo de la cama! Yo tengo un plan.'],
+      ['ogro', 'pulgar ogro', 'ogro', 'Uaaaah... qué sueño... me voy a echar la siesta... ¡ZZZ!', 'dormir:ogro'],
+      ['ogro', 'pulgar botas ogro', '', 'Mientras el ogro roncaba, Pulgarcito le quitó sus botas mágicas de siete leguas, ¡que daban pasos gigantes!', 'dormir:ogro'],
+      ['ogro', 'pulgar botas', 'pulgar', '¡Con estas botas, cada paso es tan largo como siete caminos!', 'saltar:pulgar'],
+      ['campo', 'hermanos pulgar botas', '', 'Pulgarcito se puso las botas y, de un par de saltos, llevó a todos sus hermanos a casa.', 'saltar:todos'],
+      ['campo', 'padres hermanos pulgar', 'padres', '¡Hijos! ¡Qué alegría! ¡Estáis todos aquí!', 'saltar:todos'],
+      ['campo', 'padres hermanos pulgar botas', '', 'Y con sus botas tan rápidas, Pulgarcito se hizo cartero del rey y su familia ya nunca pasó hambre. Fin.']
+    ] }
+];
+
+Apps.guinoles = {
+  nombre: 'Guiñoles', emoji: '🎭', color: 'var(--morado)',
+  crear(c) {
+    let token = 0, auto = true, timers = [];
+    const limpiarTimers = () => { timers.forEach(clearTimeout); timers = []; };
+    function cartelera() {
+      token++; limpiarTimers(); Voz.callar();
+      c.replaceChildren(el('div', { class: 'teatro' }, el('div', { class: 'cartelera' },
+        el('h2', {}, '🎭 Teatro de guiñoles'),
+        el('div', { class: 'carteles' }, OBRAS.map(o =>
+          el('button', { class: 'cartel', onclick: () => funcion(o) }, el('span', { class: 'em' }, o.em), o.titulo, el('small', {}, o.sub)))))));
+    }
+    function funcion(obra) {
+      const mi = ++token; limpiarTimers();
+      let idx = -1;
+      const fondo = el('div', { class: 'fondo-esc' });
+      const fila = el('div', { class: 'fila' });
+      const bocadillo = el('div', { class: 'bocadillo' });
+      const fin = el('div', { class: 'letrero-fin' }, el('h3', {}, '¡FIN!'),
+        el('div', {}, el('button', { class: 'btn rojo', onclick: () => funcion(obra) }, '🔁 Otra vez'), el('button', { class: 'btn', onclick: cartelera }, '🎭 Otra historia')));
+      const escenario = el('div', { class: 'escenario' }, fondo, bocadillo, fila,
+        el('div', { class: 'tabla' }, el('span', {}, obra.titulo)),
+        el('div', { class: 'telon izq' }), el('div', { class: 'telon der' }), el('div', { class: 'festón' }), fin);
+      const txt = el('div', { class: 'txt' }, '🥁 ¡Que empiece la función!');
+      const btnAuto = el('button', { class: 'btn mini verde', onclick: () => {
+        auto = !auto; pintarAuto();
+        if (auto && idx >= 0) recitar(idx, token);
+      } });
+      const pintarAuto = () => { btnAuto.textContent = auto ? '⏸️ Pausa' : '▶️ Seguir solo'; };
+      pintarAuto();
+      c.replaceChildren(el('div', { class: 'teatro' }, escenario, el('div', { class: 'narracion' }, txt,
+        el('div', { class: 'mandos' },
+          el('button', { class: 'btn mini', onclick: cartelera }, '🎭 Historias'),
+          el('button', { class: 'btn mini azul', onclick: () => ir(idx - 1) }, '⏮️'),
+          btnAuto,
+          el('button', { class: 'btn mini azul', onclick: () => ir(idx + 1) }, '⏭️')))));
+
+      const vivos = new Map();
+      let escenaActual = null;
+      function crearTitere(id) {
+        const pj = obra.pj[id];
+        const t = el('div', { class: 'titere' + (pj.prop ? ' prop' : ''), style: { '--s': pj.s || 1 } },
+          el('div', { class: 'muneco' }, pj.e), el('div', { class: 'chapita' }, pj.n), el('div', { class: 'palo' }));
+        t.style.setProperty('--s', pj.s || 1);
+        t.addEventListener('click', () => {
+          if (t.classList.contains('habla')) return;
+          t.classList.remove('toque'); void t.offsetWidth; t.classList.add('toque');
+          Sonido.boing();
+        });
+        return t;
+      }
+      function ponerEscena(nombre) {
+        if (escenaActual === nombre) return;
+        escenaActual = nombre;
+        const esc = ESCENAS[nombre];
+        fondo.className = 'fondo-esc ' + esc.clase;
+        fondo.replaceChildren(...esc.deco.map(([e, x, y, tam]) => el('div', { class: 'deco', style: { left: x + '%', top: y + '%', fontSize: tam + 'px' } }, e)));
+      }
+      function pintarPaso(i) {
+        const [esc, reparto, quien, texto, fx] = obra.guion[i];
+        ponerEscena(esc);
+        const ids = reparto.split(' ');
+        for (const [id, nodo] of vivos) if (!ids.includes(id)) {
+          vivos.delete(id);
+          nodo.className = nodo.className.replace(/\b(habla|entra|fx-\w+|toque)\b/g, '');
+          nodo.classList.add('sale');
+          setTimeout(() => nodo.remove(), 400);
+        }
+        ids.forEach((id, k) => {
+          let nodo = vivos.get(id);
+          if (!nodo) { nodo = crearTitere(id); vivos.set(id, nodo); nodo.classList.add('entra'); fila.append(nodo); }
+          nodo.classList.remove('habla', 'fx-saltar', 'fx-temblar', 'fx-dormir');
+          nodo.style.order = k;
+        });
+        // quién habla
+        if (quien) {
+          const hablan = quien === 'todos' ? ids.filter(id => !obra.pj[id].prop) : [quien];
+          hablan.forEach(id => vivos.get(id)?.classList.add('habla'));
+          const nombre = quien === 'todos' ? '¡Todos!' : obra.pj[quien].n;
+          bocadillo.replaceChildren(el('b', {}, nombre), texto);
+          bocadillo.style.display = 'block';
+          requestAnimationFrame(() => colocarBocadillo(hablan.map(id => vivos.get(id)).filter(Boolean)));
+          txt.replaceChildren('🗣️ ', el('b', {}, nombre), ': ', texto);
+        } else {
+          bocadillo.style.display = 'none';
+          txt.replaceChildren('📜 ', texto);
+        }
+        // efectos especiales
+        if (fx) {
+          const [tipo, quienFx] = fx.split(':');
+          const objetivo = quienFx === 'todos' ? [...vivos.values()].filter(n => !n.classList.contains('prop')) : [vivos.get(quienFx)].filter(Boolean);
+          objetivo.forEach(n => { n.classList.remove('fx-' + tipo); void n.offsetWidth; n.classList.add('fx-' + tipo); });
+          if (tipo === 'volar') { Sonido.ruido(Sonido.t, 1, { vol: 0.25, filtro: 800 }); }
+          if (tipo === 'huir') Sonido.barrido(800, 150, 0.8, { onda: 'square', vol: 0.12 });
+          if (tipo === 'saltar') Sonido.boing();
+          if (tipo === 'temblar') Sonido.barrido(120, 90, 0.5, { onda: 'sawtooth', vol: 0.1 });
+          if (tipo === 'volar' || tipo === 'huir') objetivo.forEach(n => { for (const [id, v] of vivos) if (v === n) vivos.delete(id); setTimeout(() => n.remove(), 1300); });
+        }
+      }
+      function colocarBocadillo(nodos) {
+        if (!nodos.length) return;
+        const anchoEsc = escenario.clientWidth;
+        const centros = nodos.map(n => fila.offsetLeft + n.offsetLeft + n.offsetWidth / 2);
+        const cx = centros.reduce((a, b) => a + b, 0) / centros.length;
+        const w = bocadillo.offsetWidth;
+        const left = limitar(cx - w / 2, 10, anchoEsc - w - 10);
+        bocadillo.style.left = left + 'px';
+        bocadillo.style.setProperty('--cola', limitar(cx - left, 24, w - 24) + 'px');
+      }
+      async function recitar(i, mio) {
+        const [, , quien, texto] = obra.guion[i];
+        const pj = quien && quien !== 'todos' ? obra.pj[quien] : null;
+        const voz = !quien ? { pitch: 1, rate: 0.95 } : quien === 'todos' ? { pitch: 1.5, rate: 1.05 } : { pitch: pj.p, rate: pj.r };
+        await Voz.decir(texto, voz);
+        if (mio !== token || i !== idx) return;
+        vivos.forEach(n => n.classList.remove('habla'));
+        if (!auto) return;
+        await espera(650);
+        if (mio !== token || i !== idx || !auto) return;
+        ir(i + 1);
+      }
+      function ir(i) {
+        if (i < 0) return;
+        if (i >= obra.guion.length) { terminar(); return; }
+        token++; const mio = token;
+        idx = i;
+        Voz.callar();
+        Sonido.clic();
+        fin.classList.remove('ver');
+        escenario.classList.add('abierto');
+        pintarPaso(i);
+        recitar(i, mio);
+      }
+      function terminar() {
+        token++;
+        bocadillo.style.display = 'none';
+        vivos.forEach(n => n.classList.remove('habla'));
+        escenario.classList.remove('abierto');
+        txt.replaceChildren('👏 ¡Bravo! ¡Bravo! 👏');
+        Sonido.aplausos();
+        timers.push(setTimeout(() => fin.classList.add('ver'), 1300));
+      }
+      // ¡Que suba el telón!
+      ponerEscena(obra.guion[0][0]);
+      Sonido.redoble(1.2);
+      timers.push(setTimeout(() => { if (mi === token) ir(0); }, 1300));
+    }
+    cartelera();
+    return { cerrar() { token++; limpiarTimers(); } };
+  }
+};
+
+/* =========================================================
+   APP: Pintar
+   ========================================================= */
+Apps.pintar = {
+  nombre: 'Pintar', emoji: '🎨', color: 'var(--naranja)',
+  crear(c) {
+    const COLORES = ['#E63027', '#FFD21F', '#1F5FD6', '#25A84A', '#FF8A1F', '#8B3FD9', '#FF5FA2', '#7A4A1E', '#1B1B2F', '#FFFFFF'];
+    const SELLOS = ['⭐', '❤️', '🌸', '🐶', '🦄', '🚀', '🌈', '🍓', '🦋', '👑'];
+    let color = COLORES[0], grosor = 16, modo = 'pincel', sello = SELLOS[0], hue = 0;
+    const cv = el('canvas');
+    const lienzo = el('div', { class: 'lienzo' }, cv);
+    const herr = el('div', { class: 'herramientas' });
+    c.append(el('div', { class: 'pintar' }, herr, lienzo));
+
+    const btnColores = COLORES.map(col => el('button', { class: 'color', style: { background: col }, title: col, onclick: () => { color = col; if (modo !== 'pincel') ponerModo('pincel'); marcar(); Sonido.clic(); } }));
+    const btnGrosor = [[6, '•'], [16, '●'], [36, '⬤']].map(([g, s]) => el('button', { class: 'btn mini blanco', onclick: () => { grosor = g; marcar(); Sonido.clic(); } }, s));
+    const btnPincel = el('button', { class: 'btn mini', onclick: () => ponerModo('pincel') }, '🖌️');
+    const btnArco = el('button', { class: 'btn mini', onclick: () => ponerModo('arcoiris') }, '🌈');
+    // Los sellos están siempre a la vista: si aparecieran y desaparecieran, el lienzo cambiaría de tamaño
+    const cajaSellos = el('div', { class: 'sellos' }, SELLOS.map(s => el('button', { onclick: () => { sello = s; ponerModo('sello'); } }, s)));
+    herr.append(...btnColores, el('span', { class: 'separa' }), ...btnGrosor, el('span', { class: 'separa' }), btnPincel, btnArco,
+      el('span', { class: 'separa' }), cajaSellos,
+      el('span', { class: 'separa' }),
+      el('button', { class: 'btn mini rojo', onclick: borrarTodo }, '🗑️ Borrar'),
+      el('button', { class: 'btn mini verde', onclick: guardarImg }, '💾 Guardar'));
+
+    function ponerModo(m) { modo = m; marcar(); Sonido.clic(); }
+    function marcar() {
+      btnColores.forEach((b, i) => b.classList.toggle('sel', COLORES[i] === color && modo === 'pincel'));
+      btnGrosor.forEach((b, i) => b.classList.toggle('sel', [6, 16, 36][i] === grosor));
+      btnPincel.classList.toggle('sel', modo === 'pincel');
+      btnArco.classList.toggle('sel', modo === 'arcoiris');
+      [...cajaSellos.children].forEach(b => b.classList.toggle('sel', modo === 'sello' && b.textContent === sello));
+    }
+    marcar();
+
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1;
+    const ro = new ResizeObserver(() => {
+      if (!lienzo.clientWidth) return;
+      const copia = document.createElement('canvas');
+      copia.width = cv.width; copia.height = cv.height;
+      if (cv.width) copia.getContext('2d').drawImage(cv, 0, 0);
+      dpr = Math.min(2, window.devicePixelRatio || 1); W = lienzo.clientWidth; H = lienzo.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+      if (copia.width) ctx.drawImage(copia, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    });
+    ro.observe(lienzo);
+
+    let pintando = false, ultimo = null;
+    const pos = e => posEnLienzo(e, cv, W, H);
+    cv.addEventListener('pointerdown', e => {
+      Sonido.init();
+      try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+      const q = pos(e);
+      if (modo === 'sello') {
+        const tam = grosor * 3 + 30;
+        ctx.font = `${tam}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(sello, q.x, q.y);
+        Sonido.pop();
+        return;
+      }
+      pintando = true; ultimo = q;
+      trazo(q, q);
+    });
+    cv.addEventListener('pointermove', e => {
+      if (!pintando) return;
+      const q = pos(e);
+      trazo(ultimo, q); ultimo = q;
+    });
+    const parar = () => { pintando = false; };
+    cv.addEventListener('pointerup', parar);
+    cv.addEventListener('pointercancel', parar);
+    function trazo(a, b) {
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = grosor;
+      if (modo === 'arcoiris') { hue = (hue + 4) % 360; ctx.strokeStyle = `hsl(${hue},95%,55%)`; }
+      else ctx.strokeStyle = color;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x + 0.01, b.y); ctx.stroke();
+    }
+    function borrarTodo() {
+      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.restore();
+      Sonido.barrido(900, 120, 0.4, { onda: 'triangle', vol: 0.25 });
+    }
+    function guardarImg() {
+      const a = el('a', { download: 'dibujo-de-lucia.png', href: cv.toDataURL('image/png') });
+      document.body.append(a); a.click(); a.remove();
+      Sonido.exito(); aviso('💾 ¡Dibujo guardado!');
+    }
+    return { cerrar() { ro.disconnect(); } };
+  }
+};
+
+/* =========================================================
+   APP: Memoria (parejas)
+   ========================================================= */
+Apps.memoria = {
+  nombre: 'Memoria', emoji: '🧠', color: 'var(--rosa)',
+  crear(c) {
+    const BICHOS = ['🐶', '🐱', '🐸', '🦁', '🐵', '🐼', '🐷', '🐰', '🦊', '🐯', '🐨', '🐙'];
+    let parejas = 6;
+    const intentosEl = el('span', {}, 'Intentos: 0');
+    const tablero = el('div', { class: 'tablero' });
+    const bFacil = el('button', { class: 'btn mini', onclick: () => { parejas = 6; nueva(); } }, '😊 Fácil');
+    const bDificil = el('button', { class: 'btn mini', onclick: () => { parejas = 10; nueva(); } }, '🤓 Difícil');
+    c.append(el('div', { class: 'memoria' },
+      el('div', { class: 'info' }, bFacil, bDificil, el('button', { class: 'btn mini verde', onclick: () => nueva() }, '🔀 Otra partida'), intentosEl),
+      tablero));
+    let abiertas = [], intentos = 0, hechas = 0, bloqueo = false;
+    function nueva() {
+      bFacil.classList.toggle('sel', parejas === 6); bDificil.classList.toggle('sel', parejas === 10);
+      const cartas = barajar(barajar([...BICHOS]).slice(0, parejas).flatMap(b => [b, b]));
+      abiertas = []; intentos = 0; hechas = 0; bloqueo = false;
+      intentosEl.textContent = 'Intentos: 0';
+      const colsN = parejas === 6 ? 4 : 5;
+      tablero.style.gridTemplateColumns = `repeat(${colsN},1fr)`;
+      tablero.style.maxWidth = parejas === 6 ? '640px' : '820px';
+      tablero.replaceChildren(...cartas.map(em => {
+        const carta = el('button', { class: 'carta' }, el('div', { class: 'int' }, el('div', { class: 'cara-a' }, '?'), el('div', { class: 'cara-b' }, em)));
+        carta.dataset.em = em;
+        carta.addEventListener('click', () => girar(carta));
+        return carta;
+      }));
+    }
+    function girar(carta) {
+      if (bloqueo || carta.classList.contains('vuelta') || carta.classList.contains('ok')) return;
+      carta.classList.add('vuelta'); Sonido.clic();
+      abiertas.push(carta);
+      if (abiertas.length < 2) return;
+      intentos++; intentosEl.textContent = 'Intentos: ' + intentos;
+      const [a, b] = abiertas; abiertas = [];
+      if (a.dataset.em === b.dataset.em) {
+        setTimeout(() => { a.classList.add('ok'); b.classList.add('ok'); Sonido.exito(); }, 350);
+        if (++hechas === parejas) setTimeout(() => {
+          lluvia(['🎉', '🎊', '⭐', '🏆'], 45); Sonido.fanfarria(); aviso('🏆 ¡Lo has conseguido!');
+          Voz.decir(`¡Bravo! ¡Lo has conseguido en ${intentos} intentos!`, { pitch: 1.3 });
+        }, 800);
+      } else {
+        bloqueo = true;
+        setTimeout(() => { a.classList.remove('vuelta'); b.classList.remove('vuelta'); bloqueo = false; Sonido.fallo(); }, 950);
+      }
+    }
+    nueva();
+  }
+};
+
+/* =========================================================
+   APP: Animales
+   ========================================================= */
+Apps.animales = {
+  nombre: 'Animales', emoji: '🐮', color: 'var(--amarillo)', texto: 'var(--tinta)',
+  crear(c) {
+    const ANIMALES = [
+      ['🐮', 'La vaca', 'muuuuu'], ['🐶', 'El perro', 'guau, guau'], ['🐱', 'El gato', 'miau'], ['🦆', 'El pato', 'cuac, cuac'],
+      ['🐑', 'La oveja', 'beeeee'], ['🐷', 'El cerdo', 'oinc, oinc'], ['🐓', 'El gallo', 'quiquiriquí'], ['🦁', 'El león', 'groaaar'],
+      ['🐴', 'El caballo', 'iiiiiih'], ['🐸', 'La rana', 'croac, croac'], ['🦉', 'El búho', 'uh, uuuh'], ['🐝', 'La abeja', 'bzzzzz']
+    ];
+    const cols = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', 'var(--verde)'];
+    c.append(el('div', { class: 'granja' }, ANIMALES.map(([e, n, s], i) => {
+      const b = el('button', { class: 'animal', style: { background: cols[i % 4], color: i % 4 === 1 ? 'var(--tinta)' : '#fff' } }, el('span', { class: 'em' }, e), n.replace(/^(La|El) /, ''));
+      b.addEventListener('click', () => {
+        b.classList.remove('baila'); void b.offsetWidth; b.classList.add('baila');
+        const ono = el('span', { class: 'ono' }, '¡' + s.split(',')[0].toUpperCase() + '!');
+        b.append(ono); setTimeout(() => ono.remove(), 1200);
+        if (e === '🦆') Sonido.cuac(); else Sonido.boing();
+        Voz.decir(`${n} hace ${s}`, { pitch: 1.2 });
+      });
+      return b;
+    })));
+  }
+};
+
+/* =========================================================
+   APP: Papelera (con sorpresa)
+   ========================================================= */
+Apps.papelera = {
+  nombre: 'Papelera', emoji: '🗑️', color: '#9AA3B5',
+  crear(c) {
+    const calcetin = el('button', { class: 'calcetin', title: '¿Qué es esto?' }, '🧦');
+    const texto = el('p', {}, 'La papelera está casi vacía... solo hay un calcetín perdido. ¿Será la pareja del calcetín del cuento? 🤔');
+    calcetin.addEventListener('click', () => {
+      calcetin.classList.remove('baila'); void calcetin.offsetWidth; calcetin.classList.add('baila');
+      calcetin.textContent = '🧦🧦';
+      texto.textContent = '¡Sí! ¡Los dos calcetines vuelven a estar juntos! 💕';
+      lluvia(['🧦', '💕', '✨'], 30);
+      Sonido.fanfarria();
+      Voz.decir('¡Gracias por encontrarme! ¡Por fin estoy con mi pareja!', { pitch: 1.7, rate: 1.1 });
+    });
+    c.append(el('div', { class: 'papelera' }, calcetin, texto));
+  }
+};
+
+/* =========================================================
+   Escritorio, menú, reloj, fondos, easter eggs
+   ========================================================= */
+const ORDEN = ['navegador', 'calculadora', 'cuentos', 'musica', 'guinoles', 'pintar', 'memoria', 'animales', 'papelera'];
+
+function montarEscritorio() {
+  const iconos = $('#iconos');
+  iconos.replaceChildren(...ORDEN.map(id => {
+    const a = Apps[id];
+    const cara = el('span', { class: 'cara', style: { background: a.color } }, a.emoji);
+    // Easter egg: a veces, en vez de abrirse la app, ¡sale un muñeco con muelle!
+    return el('button', { class: 'icono', onclick: () => {
+      if (!$('.sorpresa') && Math.random() < 1 / 7) munecoSorpresa(cara); else abrirApp(id);
+    } }, cara, el('span', { class: 'nombre' }, a.nombre));
+  }));
+  const menu = $('#menu');
+  menu.replaceChildren(
+    el('h3', {}, '🌈 Safarrancho OS'),
+    ...ORDEN.map(id => el('button', { onclick: () => abrirApp(id) }, el('span', { class: 'em' }, Apps[id].emoji), Apps[id].nombre)),
+    el('hr'),
+    el('button', { onclick: () => { cerrarMenu(); cambiarFondo(); } }, el('span', { class: 'em' }, '🖼️'), 'Cambiar fondo'),
+    el('button', { onclick: apagar }, el('span', { class: 'em' }, '🌙'), 'Apagar'));
+  letrasDeColores($('#logoEscritorio'), "Lucía's World");
+}
+function cerrarMenu() { $('#menu').classList.remove('abierto'); }
+$('#btnInicio').addEventListener('click', e => { e.stopPropagation(); Sonido.clic(); $('#menu').classList.toggle('abierto'); });
+document.addEventListener('click', e => { if (!e.target.closest('#menu') && !e.target.closest('#btnInicio')) cerrarMenu(); });
+
+const FONDOS = ['cielo', 'noche', 'lego'];
+let fondoActual = FONDOS.includes(leer('fondo')) ? leer('fondo') : 'cielo';
+function ponerFondo(nombre) {
+  fondoActual = nombre; guardar('fondo', nombre);
+  const esc = $('#escritorio'), d = $('#decor');
+  esc.className = 'fondo-' + nombre;
+  d.replaceChildren();
+  if (nombre === 'cielo') {
+    d.append(el('div', { class: 'arcoiris' }),
+      el('div', { class: 'colina', style: { width: '70vw', height: '50vh', left: '-10vw', bottom: '-30vh' } }),
+      el('div', { class: 'colina', style: { width: '80vw', height: '56vh', right: '-20vw', bottom: '-36vh', background: '#3CC160' } }),
+      el('div', { class: 'sol' }));
+    for (let i = 0; i < 4; i++) d.append(el('div', { class: 'nube', style: {
+      top: azar(14, 46) + '%', width: azar(130, 220) + 'px', height: azar(50, 70) + 'px',
+      animationDuration: azar(40, 80) + 's', animationDelay: -azar(0, 60) + 's' } }));
+  } else if (nombre === 'noche') {
+    for (let i = 0; i < 70; i++) d.append(el('div', { class: 'estrellita', style: {
+      left: azar(0, 100) + '%', top: azar(0, 100) + '%', fontSize: azar(8, 22) + 'px', animationDelay: -azar(0, 2) + 's' } }, '★'));
+    d.append(el('div', { class: 'luna' }), el('div', { class: 'cohete' }, '🚀'));
+  } else {
+    const opciones = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', '#fff', '#fff', '#fff'];
+    d.append(el('div', { class: 'lego' }, Array.from({ length: 20 }, () => el('div', { style: { background: elegir(opciones) } }))));
+  }
+}
+function cambiarFondo() {
+  ponerFondo(FONDOS[(FONDOS.indexOf(fondoActual) + 1) % FONDOS.length]);
+  Sonido.pop();
+}
+
+function reloj() {
+  const d = new Date(), h = d.getHours();
+  $('#reloj').textContent = (h >= 7 && h < 20 ? '☀️ ' : '🌙 ') + String(h).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+setInterval(reloj, 10000); reloj();
+
+// Sonido on/off
+function pintarMudo() { $('#btnMudo').textContent = Sonido.mudo ? '🔇' : '🔊'; }
+Sonido.mudo = leer('mudo') === '1';
+pintarMudo();
+$('#btnMudo').addEventListener('click', () => { Sonido.init(); Sonido.setMudo(!Sonido.mudo); guardar('mudo', Sonido.mudo ? '1' : '0'); pintarMudo(); Sonido.clic(); });
+
+// Easter egg: pinchar en el escritorio, fuera de las cajas → ¡BOING!
+$('#escritorio').addEventListener('pointerdown', e => {
+  if (e.target.closest('.icono, #logo')) return;
+  Sonido.init();
+  Sonido.muelle();
+  textoFlotante($('#escritorio'), e.clientX, e.clientY, '¡BOING!');
+});
+// Easter egg: 3 toques en el reloj → ¡dinosaurio!
+let toquesReloj = 0, tReloj = 0;
+$('#reloj').addEventListener('click', () => {
+  const ahora = Date.now();
+  toquesReloj = ahora - tReloj < 700 ? toquesReloj + 1 : 1; tReloj = ahora;
+  if (toquesReloj >= 3) { toquesReloj = 0; dinosaurio(); }
+});
+// Easter egg: 5 toques en el logo → lluvia de estrellas
+let toquesLogo = 0, tLogo = 0;
+$('#logo').addEventListener('click', () => {
+  const ahora = Date.now();
+  toquesLogo = ahora - tLogo < 800 ? toquesLogo + 1 : 1; tLogo = ahora;
+  Sonido.clic();
+  if (toquesLogo >= 5) { toquesLogo = 0; lluvia(['⭐', '🌟', '✨', '💫'], 50); Sonido.fanfarria(); aviso('🌟 ¡Lluvia de estrellas! 🌟'); }
+});
+// Easter eggs de teclado: código Konami y escribir «lucia»
+const KONAMI = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+let teclas = [], letras = '';
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea')) return;
+  if (e.key === 'Escape') { cerrarApp(); cerrarMenu(); return; }
+  teclas.push(e.key.toLowerCase()); teclas = teclas.slice(-10);
+  if (teclas.join() === KONAMI.join()) { teclas = []; modoDisco(); }
+  if (e.key.length === 1) {
+    letras = (letras + e.key.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')).slice(-5);
+    if (letras === 'lucia') { letras = ''; saludoLucia(); }
+  }
+});
+// Desbloquear el audio en el primer toque (necesario en iPad/iPhone)
+document.addEventListener('pointerdown', () => { if (Sonido.ctx && Sonido.ctx.state === 'suspended') Sonido.ctx.resume(); });
+
+/* ---------- Apagar y encender ---------- */
+function apagar() {
+  cerrarMenu(); cerrarApp(true);
+  document.body.classList.remove('disco'); $('#bolaDisco')?.remove();
+  Sonido.nana();
+  Voz.decir('Buenas noches, Lucía', { pitch: 1.2, rate: 0.85 });
+  const ap = el('div', { id: 'apagado' }, el('div', { class: 'gran' }, '🌙'), el('p', {}, 'Buenas noches, Lucía'), el('small', {}, 'Toca para despertar ☀️'));
+  ap.addEventListener('click', () => { ap.remove(); Sonido.arranque(); aviso('☀️ ¡Buenos días!'); });
+  document.body.append(ap);
+}
+
+/* ---------- Arranque ---------- */
+(function arrancar() {
+  letrasDeColores($('#logoArranque'), "Lucía's World");
+  montarEscritorio();
+  ponerFondo(fondoActual);
+  Voz.init();
+  const mensajes = ['Inflando globos...', 'Despertando a los dinosaurios...', 'Pintando el arcoíris...', 'Llenando la piscina de bolas...', 'Afinando la estrellita...', 'Buscando calcetines perdidos...', '¡Listo!'];
+  let i = 0;
+  const barra = $('#barraCarga'), msg = $('#msgCarga');
+  const tick = setInterval(() => {
+    msg.textContent = mensajes[i];
+    barra.style.width = ((i + 1) / mensajes.length * 100) + '%';
+    if (++i >= mensajes.length) { clearInterval(tick); $('#btnEmpezar').style.display = 'inline-flex'; }
+  }, 380);
+  $('#btnEmpezar').addEventListener('click', () => {
+    Sonido.init();
+    Sonido.arranque();
+    $('#arranque').classList.add('fuera');
+    setTimeout(() => $('#arranque').remove(), 600);
+    Voz.decir('¡Bienvenida al mundo de Lucía!', { pitch: 1.3 });
+    programarCaramelos();
+  });
+})();
+</script>
+</body>
+</html>
