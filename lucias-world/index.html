@@ -199,14 +199,19 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .teclas .btn{font-size:clamp(30px,4.6vw,44px);padding:14px 0;border-radius:20px}
 
 /* ---------- Cuentos ---------- */
-.estante{padding:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
-.libro{border:var(--borde);border-radius:10px 24px 24px 10px;box-shadow:var(--sombra);padding:22px 16px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-  font-size:24px;font-weight:700;text-align:center;border-left-width:14px;color:#fff;-webkit-text-stroke:1px var(--tinta)}
-.libro .em{font-size:84px;-webkit-text-stroke:0}
+.estante-zona{min-height:100%;display:flex;flex-direction:column;gap:18px;padding:22px}
+.estante-titulo{margin:0;text-align:center;font-size:clamp(24px,3.8vw,36px);text-wrap:balance}
+.estante{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;flex:1}
+@media (max-width:900px){.estante{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.libro{border:var(--borde);border-radius:10px 24px 24px 10px;box-shadow:var(--sombra);padding:18px 12px;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  font-size:clamp(17px,2.1vw,22px);font-weight:700;text-align:center;border-left-width:14px;color:#fff;-webkit-text-stroke:1px var(--tinta);text-wrap:balance;line-height:1.15}
+.libro .em{font-size:clamp(54px,7vw,80px);-webkit-text-stroke:0}
 .libro:active{transform:translate(4px,4px);box-shadow:none}
 .pagina{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;padding:20px}
+.pagina-cab{align-self:stretch;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pagina-titulo{flex:1;min-width:0;text-align:center;font-size:20px}
 .pagina .escena{font-size:clamp(70px,14vw,140px);line-height:1.1;text-align:center;animation:flota 4s ease-in-out infinite;letter-spacing:6px}
-.pagina .texto{font-size:clamp(22px,3.2vw,32px);font-weight:600;text-align:center;max-width:860px;background:#fff;border:var(--borde);border-radius:22px;padding:16px 22px;box-shadow:var(--sombra)}
+.pagina .texto{font-size:clamp(20px,3vw,30px);font-weight:600;text-align:center;max-width:860px;background:#fff;border:var(--borde);border-radius:22px;padding:16px 22px;box-shadow:var(--sombra)}
 .pagina .mandos{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
 .puntos{display:flex;gap:8px}
 .puntos i{width:16px;height:16px;border-radius:50%;border:3px solid var(--tinta);background:#fff}
@@ -232,14 +237,17 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 
 /* ---------- Guiñoles ---------- */
 .teatro{height:100%;display:flex;flex-direction:column;background:#3B1D0E}
-.cartelera{flex:1;overflow:auto;padding:24px;background:repeating-linear-gradient(90deg,#B3121F 0 40px,#8E0E19 40px 80px)}
-.cartelera h2{color:#fff;text-align:center;font-size:clamp(30px,5vw,46px);margin:0 0 20px;-webkit-text-stroke:2px var(--tinta);paint-order:stroke fill;text-shadow:4px 4px 0 var(--tinta)}
-.carteles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px;max-width:1100px;margin:0 auto}
-.cartel{background:var(--papel);border:var(--borde);border-radius:20px;box-shadow:var(--sombra);padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:25px;font-weight:700;text-align:center}
-.cartel .em{font-size:66px;letter-spacing:4px}
-.cartel small{font-size:16px;font-weight:600;opacity:.7}
+.cartelera{flex:1;overflow:auto;padding:22px;background:repeating-linear-gradient(90deg,#B3121F 0 40px,#8E0E19 40px 80px)}
+.cartelera h2{color:#fff;text-align:center;font-size:clamp(28px,4.6vw,44px);margin:0;-webkit-text-stroke:2px var(--tinta);paint-order:stroke fill;text-shadow:4px 4px 0 var(--tinta);text-wrap:balance}
+.cartelera-sub{color:var(--amarillo);text-align:center;font-size:20px;font-weight:700;margin:6px 0 18px;text-shadow:2px 2px 0 var(--tinta)}
+.carteles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;max-width:1160px;margin:0 auto}
+@media (max-width:900px){.carteles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cartel{background:var(--papel);border:var(--borde);border-radius:20px;box-shadow:var(--sombra);padding:12px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:clamp(18px,2.2vw,23px);font-weight:700;text-align:center;line-height:1.15}
+.cartel .caras{display:flex;justify-content:center;align-items:flex-end;height:96px;overflow:hidden}
+.cartel .caras .muppet{width:72px;margin:0 -10px;filter:none}
+.cartel small{font-size:15px;font-weight:600;opacity:.7}
 .cartel:active{transform:translate(4px,4px);box-shadow:none}
-.escenario{flex:1;min-height:260px;position:relative;overflow:hidden;border-bottom:var(--borde)}
+.escenario{flex:1;min-height:280px;position:relative;overflow:hidden;border-bottom:var(--borde)}
 .fondo-esc{position:absolute;inset:0;transition:background .8s}
 .fondo-esc .deco{position:absolute;transform:translate(-50%,-50%);transition:opacity .6s}
 .esc-campo{background:linear-gradient(#7CC6FF 0 60%,#3DBB55 60%)}
@@ -248,19 +256,26 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .esc-osos{background:linear-gradient(#FFD9A0 0 60%,#B9783C 60%)}
 .esc-ogro{background:linear-gradient(#6B6F8A 0 60%,#3E3F52 60%)}
 .esc-noche{background:linear-gradient(#162457 0 60%,#1E4A2E 60%)}
-.fila{position:absolute;left:0;right:0;bottom:62px;display:flex;justify-content:space-evenly;align-items:flex-end;padding:0 3%}
+.esc-abuela{background:linear-gradient(repeating-linear-gradient(90deg,#FFD6E0 0 26px,#FFC2D1 26px 52px) 0 0/100% 60% no-repeat,#9C6B3E)}
+.esc-estanque{background:linear-gradient(#8FD3FF 0 55%,#3E8EDE 55% 100%)}
+/* Las marionetas asoman por detrás de la tabla del teatro: el cuerpo queda escondido */
+.fila{position:absolute;left:15%;right:5%;bottom:58px;display:flex;justify-content:space-evenly;align-items:flex-end;z-index:2}
 .titere{position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .3s}
-.titere .muneco{font-size:calc(clamp(54px,10vw,112px) * var(--s,1));line-height:1;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.35))}
-.titere .chapita{background:#fff;border:3px solid var(--tinta);border-radius:10px;padding:1px 8px;font-size:15px;font-weight:700;white-space:nowrap;margin-top:2px}
-.titere .palo{width:12px;height:70px;background:#8B5A2B;border:3px solid var(--tinta);border-radius:6px}
-.titere.prop .palo{display:none}
-.titere.prop .chapita{display:none}
+.titere .muneco{line-height:1;transform-origin:50% 90%}
+.titere.prop{margin-bottom:28px}
+.titere.prop .muneco{font-size:calc(clamp(48px,8vw,96px) * var(--s,1));filter:drop-shadow(4px 4px 0 rgba(0,0,0,.35))}
+.muppet{display:block;width:calc(clamp(70px,12.5vw,150px) * var(--s,1));height:auto;overflow:visible;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.28))}
+.muppet .boca{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(.22)}
+.titere.habla .muppet .boca{animation:bocazas .19s ease-in-out infinite alternate}
+@keyframes bocazas{from{transform:scaleY(.22)}to{transform:scaleY(1)}}
+.muppet .parpado{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:parpadeo 4.6s infinite;animation-delay:var(--d,0s)}
+@keyframes parpadeo{0%,93%,100%{transform:scaleY(0)}96%{transform:scaleY(1)}}
 .titere.entra{animation:subir .5s cubic-bezier(.2,1.5,.4,1)}
 .titere.sale{animation:bajar .4s ease-in forwards}
 @keyframes subir{from{transform:translateY(140%)}}
 @keyframes bajar{to{transform:translateY(160%)}}
-.titere.habla .muneco{animation:hablar .32s ease-in-out infinite alternate}
-@keyframes hablar{from{transform:rotate(-7deg) translateY(0)}to{transform:rotate(7deg) translateY(-12px)}}
+.titere.habla .muneco{animation:hablar .38s ease-in-out infinite alternate}
+@keyframes hablar{from{transform:rotate(-5deg) translateY(0)}to{transform:rotate(5deg) translateY(-10px)}}
 .titere.fx-saltar{animation:saltar .45s ease-in-out 3}
 @keyframes saltar{50%{transform:translateY(-60px)}}
 .titere.fx-temblar{animation:temblar .09s linear 12}
@@ -269,9 +284,12 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 @keyframes volar{to{transform:translate(70vw,-70vh) rotate(900deg) scale(.4)}}
 .titere.fx-huir{animation:huir 1.2s ease-in forwards}
 @keyframes huir{20%{transform:translateY(-40px)}100%{transform:translate(-90vw,-20px)}}
-.titere.fx-dormir .muneco{transform:rotate(-80deg)}
+.titere.fx-dormir .muneco{transform:rotate(-70deg)}
 .titere.fx-dormir::after{content:'💤';position:absolute;top:-20px;right:-20px;font-size:40px;animation:flota 2s ease-in-out infinite}
 .titere.toque{animation:saltar .4s ease-in-out}
+/* Lolo, el presentador, asoma por la esquina cuando narra */
+.presentador{position:absolute;left:5%;bottom:58px;z-index:2;--s:.8;transform:translateY(150%);transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+.presentador.ver{transform:translateY(0)}
 .tabla{position:absolute;left:0;right:0;bottom:0;height:82px;background:repeating-linear-gradient(90deg,#C77B3A 0 70px,#B36A2E 70px 140px);border-top:var(--borde);
   display:flex;align-items:center;justify-content:center;z-index:3}
 .tabla span{background:var(--amarillo);border:var(--borde);border-radius:14px;padding:4px 18px;font-size:clamp(18px,3vw,26px);font-weight:700;box-shadow:4px 4px 0 var(--tinta);max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -280,8 +298,8 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .telon.der{right:0}
 .escenario.abierto .telon.izq{transform:translateX(-92%)}
 .escenario.abierto .telon.der{transform:translateX(92%)}
-.festón{position:absolute;top:0;left:0;right:0;height:38px;z-index:7;background:radial-gradient(circle at 50% 0,#C8102E 0 26px,transparent 27px) 0 0/60px 38px repeat-x;border-top:6px solid #FFD21F}
-.bocadillo{position:absolute;top:44px;z-index:5;max-width:min(420px,80%);background:#fff;border:var(--borde);border-radius:22px;padding:10px 16px;font-size:clamp(17px,2.4vw,23px);font-weight:600;box-shadow:5px 5px 0 var(--tinta);display:none}
+.feston{position:absolute;top:0;left:0;right:0;height:38px;z-index:7;background:radial-gradient(circle at 50% 0,#C8102E 0 26px,transparent 27px) 0 0/60px 38px repeat-x;border-top:6px solid #FFD21F}
+.bocadillo{position:absolute;top:44px;z-index:9;max-width:min(440px,82%);background:#fff;border:var(--borde);border-radius:22px;padding:10px 16px;font-size:clamp(16px,2.3vw,22px);font-weight:600;box-shadow:5px 5px 0 var(--tinta);display:none}
 .bocadillo b{display:block;font-size:.8em;color:var(--rojo)}
 .bocadillo::after{content:'';position:absolute;bottom:-18px;left:var(--cola,50%);width:24px;height:24px;background:#fff;border-right:var(--borde);border-bottom:var(--borde);transform:translateX(-50%) rotate(45deg)}
 .letrero-fin{position:absolute;inset:0;z-index:8;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px}
@@ -289,7 +307,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .letrero-fin h3{margin:0;font-size:clamp(60px,12vw,120px);color:var(--amarillo);-webkit-text-stroke:4px var(--tinta);paint-order:stroke fill;text-shadow:6px 6px 0 var(--tinta);animation:latido 1s ease-in-out infinite}
 .letrero-fin div{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .narracion{flex:none;background:var(--papel);padding:12px 16px;display:flex;flex-direction:column;gap:10px}
-.narracion .txt{font-size:clamp(18px,2.6vw,24px);font-weight:600;min-height:2.6em;text-align:center}
+.narracion .txt{font-size:clamp(17px,2.4vw,22px);font-weight:600;min-height:2.6em;text-align:center}
 .narracion .mandos{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 /* ---------- Pintar ---------- */
@@ -317,12 +335,16 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .carta.ok .cara-b{background:#D9F7CF}
 
 /* ---------- Animales ---------- */
-.granja{padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
-.animal{border:var(--borde);border-radius:24px;box-shadow:var(--sombra);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:21px;font-weight:700;position:relative}
-.animal .em{font-size:70px}
+.granja{height:100%;padding:18px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(3,minmax(110px,1fr));gap:16px}
+@media (max-width:760px){.granja{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:minmax(118px,auto);height:auto}}
+.animal{border:var(--borde);border-radius:24px;box-shadow:var(--sombra);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  font-size:clamp(16px,1.8vw,21px);font-weight:700;position:relative;min-width:0;padding:30px 4px 8px}
+.animal .em{font-size:clamp(44px,6vw,70px);line-height:1}
 .animal.baila .em{animation:baila .25s linear 4}
 @keyframes baila{25%{transform:rotate(-14deg) scale(1.1)}75%{transform:rotate(14deg) scale(1.1)}}
-.animal .ono{position:absolute;top:-16px;right:-8px;background:#fff;border:3px solid var(--tinta);border-radius:14px;padding:2px 10px;font-size:20px;animation:flotante 1.2s ease-out forwards}
+.animal .ono{position:absolute;top:6px;left:50%;max-width:94%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff;color:var(--tinta);
+  border:3px solid var(--tinta);border-radius:14px;padding:1px 10px;font-size:clamp(12px,1.4vw,17px);animation:onoSale 1.2s ease-out forwards}
+@keyframes onoSale{from{opacity:0;transform:translate(-50%,8px)}20%,80%{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,0)}}
 
 /* ---------- Máquina de dar abrasos ---------- */
 .abrasos{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;position:relative;overflow:hidden;
@@ -437,6 +459,46 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .papelera .calcetin{font-size:130px;background:none;border:0;padding:0}
 .papelera .calcetin.baila{animation:baila .25s linear 6}
 .papelera p{font-size:26px;font-weight:600;margin:0;max-width:600px}
+/* ---------- Idioma ---------- */
+.idiomas{display:flex;gap:10px;justify-content:center}
+#btnIdioma{font-size:18px;padding:8px 12px;white-space:nowrap}
+@media (max-width:600px){#btnIdioma{font-size:15px;padding:6px 8px}#barra{gap:8px;padding:0 8px}}
+
+/* ---------- Cosas que pasan en el fondo ---------- */
+.ambiente{position:absolute;z-index:1;cursor:pointer;user-select:none}
+.duende{bottom:calc(16vh + 4px);display:flex;flex-direction:column;align-items:center;line-height:1}
+.duende .sombrero{width:34px;height:28px;background:#1E8A3A;border:3px solid var(--tinta);border-radius:4px 4px 0 0;position:relative;margin-bottom:-8px;z-index:1}
+.duende .sombrero::before{content:'';position:absolute;left:-3px;right:-3px;bottom:5px;height:7px;background:#FFD21F;border-top:2px solid var(--tinta);border-bottom:2px solid var(--tinta)}
+.duende .sombrero::after{content:'';position:absolute;left:-14px;right:-14px;bottom:-7px;height:7px;background:#1E8A3A;border:3px solid var(--tinta);border-radius:6px}
+.duende .cara-duende{font-size:46px;animation:andar .35s ease-in-out infinite alternate}
+.duende .trebol{position:absolute;right:-18px;top:30px;font-size:22px}
+.duende .oro{position:absolute;left:-30px;top:34px;font-size:34px;animation:latido .5s ease-in-out infinite}
+.duende .bocata{position:absolute;top:-34px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#fff;border:3px solid var(--tinta);border-radius:12px;padding:2px 8px;font-size:16px;font-weight:700;opacity:0;transition:opacity .3s}
+.duende.con-oro .bocata{opacity:1}
+@keyframes andar{from{transform:rotate(-8deg) translateY(0)}to{transform:rotate(8deg) translateY(-4px)}}
+.fugaz{width:170px;height:4px;border-radius:4px;transform-origin:0 50%;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+.fugaz::before{content:'★';position:absolute;left:-14px;top:-17px;font-size:30px;color:#FFF4B8;text-shadow:0 0 14px #fff}
+.ovni{display:flex;flex-direction:column;align-items:center}
+.ovni .nave{font-size:64px;animation:flota 1.6s ease-in-out infinite}
+.ovni .rayo{width:96px;height:0;margin-top:-12px;background:linear-gradient(rgba(255,240,120,.85),rgba(255,240,120,0));clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);transition:height .6s}
+.ovni.abduce .rayo{height:170px}
+.avion{display:flex;align-items:center;gap:0;white-space:nowrap}
+.avion .aparato{font-size:56px}
+.avion .pancarta{background:#fff;border:3px solid var(--tinta);border-radius:6px;padding:4px 14px;font-size:22px;font-weight:700;margin-right:-6px;animation:ondea .5s ease-in-out infinite alternate}
+@keyframes ondea{from{transform:skewY(-3deg)}to{transform:skewY(3deg)}}
+.globo-amb{font-size:64px;line-height:1}
+.pajaros{display:flex;gap:18px;font-size:34px}
+.pajaros span{animation:aleteo .25s ease-in-out infinite alternate}
+.pajaros span:nth-child(2){margin-top:-24px}
+@keyframes aleteo{to{transform:scaleY(.7)}}
+.lego div{transition:background .8s}
+
+/* ---------- Etiquetadora: controles ---------- */
+.doom-ayuda{position:absolute;left:12px;top:10px;z-index:2;background:rgba(27,27,47,.65);color:#fff;border-radius:10px;padding:4px 10px;font-size:15px;font-weight:600;pointer-events:none}
+.cruceta{display:grid;grid-template-areas:". a ." "i b d";gap:4px}
+.cruceta .btn{color:var(--tinta);font-size:16px;padding:4px 10px;border-radius:10px;box-shadow:2px 2px 0 var(--tinta);touch-action:none}
+.disparo{font-size:20px;padding:8px 14px}
+@media (max-width:700px){.doom-hud{gap:6px;padding:6px}.hud-caja{min-width:0;padding:4px 8px}.hud-cara{font-size:34px}.doom-ayuda{display:none}}
 </style>
 </head>
 <body>
@@ -444,6 +506,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 <div id="arranque">
   <div class="logo-grande" id="logoArranque"></div>
   <div class="chapa-os">Safarrancho OS</div>
+  <div class="idiomas" id="idiomasArranque"></div>
   <div class="carga"><i id="barraCarga"></i></div>
   <div id="msgCarga">Encendiendo...</div>
   <button class="btn rojo" id="btnEmpezar">¡A jugar! 🚀</button>
@@ -463,6 +526,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 <div id="barra">
   <button class="btn" id="btnInicio">🌈 <span class="txt">Safarrancho</span></button>
   <div id="tarea"></div>
+  <button class="btn blanco" id="btnIdioma">🌐 ES</button>
   <button class="btn blanco" id="btnMudo" title="Sonido">🔊</button>
   <div id="reloj">--:--</div>
 </div>
@@ -746,18 +810,36 @@ const Sonido = {
 };
 
 /* =========================================================
+   Idioma (español / inglés). Se elige dentro de la web y se guarda:
+   no depende del idioma del navegador ni del sistema.
+   ========================================================= */
+let IDIOMA = leer('idioma') === 'en' ? 'en' : 'es';
+const T = (es, en) => (IDIOMA === 'en' ? en : es);
+const nombreApp = app => T(app.nombre, app.en);
+const mayuscula = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* =========================================================
    Voz (lectura en voz alta con el navegador)
    ========================================================= */
 const Voz = {
-  voz: null, hay: 'speechSynthesis' in window,
+  hay: 'speechSynthesis' in window, voces: [],
   init() {
     if (!this.hay) return;
-    const elegirVoz = () => {
-      const vs = speechSynthesis.getVoices();
-      this.voz = vs.find(v => v.lang === 'es-ES') || vs.find(v => /^es/i.test(v.lang)) || null;
-    };
-    elegirVoz();
-    speechSynthesis.onvoiceschanged = elegirVoz;
+    const cargar = () => { this.voces = speechSynthesis.getVoices(); };
+    cargar();
+    speechSynthesis.onvoiceschanged = cargar;
+  },
+  // Elige a mano una voz del idioma de la web. Si no se elige, algunos navegadores
+  // usan su voz por defecto (a menudo inglesa) aunque el texto esté en español.
+  vozPara(idioma) {
+    if (!this.voces.length && this.hay) this.voces = speechSynthesis.getVoices();
+    const lang = v => v.lang.replace('_', '-').toLowerCase();
+    const preferidas = idioma === 'en' ? ['en-gb', 'en-us', 'en-au', 'en-ie'] : ['es-es', 'es-mx', 'es-us'];
+    for (const p of preferidas) {
+      const v = this.voces.find(v => lang(v) === p && v.localService) || this.voces.find(v => lang(v) === p);
+      if (v) return v;
+    }
+    return this.voces.find(v => lang(v).startsWith(idioma)) || null;
   },
   decir(texto, { pitch = 1, rate = 1 } = {}) {
     const lectura = 900 + texto.length * 55;
@@ -765,16 +847,17 @@ const Voz = {
       if (!this.hay || Sonido.mudo) { setTimeout(res, lectura); return; }
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(texto);
-      u.lang = 'es-ES';
-      if (this.voz) u.voice = this.voz;
+      const voz = this.vozPara(IDIOMA);
+      u.lang = voz ? voz.lang.replace('_', '-') : T('es-ES', 'en-GB');
+      if (voz) u.voice = voz;
       u.pitch = limitar(pitch, 0, 2);
       u.rate = rate;
       const t0 = Date.now();
       let hecho = false;
-      // Si no hay voz instalada, el navegador "termina" al instante: dejamos tiempo para leer.
+      // Si no hay ninguna voz instalada, el navegador «termina» al instante: dejamos tiempo para leer.
       const fin = () => {
         if (hecho) return; hecho = true;
-        const minimo = this.voz ? 0 : lectura;
+        const minimo = voz ? 0 : lectura;
         setTimeout(res, Math.max(0, minimo - (Date.now() - t0)));
       };
       u.onend = fin; u.onerror = fin;
@@ -811,7 +894,7 @@ function textoFlotante(cont, x, y, texto) {
 }
 function dinosaurio() {
   if ($('#dino')) return;
-  const d = el('div', { id: 'dino' }, el('span', {}, '🦖'), el('b', {}, '¡ROAAR!'));
+  const d = el('div', { id: 'dino' }, el('span', {}, '🦖'), el('b', {}, T('¡ROAAR!', 'ROAAR!')));
   document.body.append(d);
   Sonido.rugido();
   setTimeout(() => d.remove(), 7100);
@@ -821,7 +904,7 @@ function modoDisco() {
   if (on) {
     document.body.append(el('div', { id: 'bolaDisco' }, '🪩'));
     Sonido.fanfarria();
-    aviso('🕺 ¡MODO DISCO! 💃');
+    aviso(T('🕺 ¡MODO DISCO! 💃', '🕺 DISCO MODE! 💃'));
     lluvia(['🎶', '✨', '🎵', '💃', '🕺'], 30);
   } else {
     $('#bolaDisco')?.remove();
@@ -845,9 +928,9 @@ function lluviaCaramelos() {
 function programarCaramelos() { setTimeout(() => { lluviaCaramelos(); programarCaramelos(); }, azar(90, 240) * 1000); }
 function saludoLucia() {
   lluvia(['👑', '💖', '⭐', '🌈', '🦄'], 50);
-  aviso('👑 ¡Hola, Lucía! 👑');
+  aviso(T('👑 ¡Hola, Lucía! 👑', '👑 Hello, Lucía! 👑'));
   Sonido.fanfarria();
-  Voz.decir('¡Hola, Lucía! ¡Bienvenida a tu mundo!', { pitch: 1.4 });
+  Voz.decir(T('¡Hola, Lucía! ¡Bienvenida a tu mundo!', 'Hello, Lucía! Welcome to your world!'), { pitch: 1.4 });
 }
 
 /* =========================================================
@@ -866,13 +949,13 @@ function abrirApp(id) {
   const v = el('div', { class: 'ventana' },
     el('div', { class: 'titulo', style: { background: app.color, color: app.texto || '#fff' } },
       el('span', { class: 'em' }, app.emoji),
-      el('span', { class: 'txt' }, app.nombre),
+      el('span', { class: 'txt' }, nombreApp(app)),
       el('button', { class: 'cerrar', title: 'Cerrar', onclick: () => cerrarApp() }, '✕')),
     cuerpo);
   document.body.append(v);
   const inst = app.crear(cuerpo, v) || {};
   actual = { id, v, inst };
-  $('#tarea').replaceChildren(el('span', { class: 'chip' }, app.emoji + ' ' + app.nombre));
+  $('#tarea').replaceChildren(el('span', { class: 'chip' }, app.emoji + ' ' + nombreApp(app)));
 }
 function cerrarApp(silencio) {
   if (!actual) return;
@@ -890,19 +973,19 @@ function cerrarApp(silencio) {
    APP: Navegador (con la piscina de bolas)
    ========================================================= */
 Apps.navegador = {
-  nombre: 'Navegador', emoji: '🌐', color: 'var(--azul)',
+  nombre: 'Navegador', en: 'Browser', emoji: '🌐', color: 'var(--azul)',
   crear(c) {
-    const url = el('input', { class: 'nav-url', value: '', spellcheck: 'false', autocomplete: 'off', 'aria-label': 'Dirección' });
+    const url = el('input', { class: 'nav-url', value: '', spellcheck: 'false', autocomplete: 'off', 'aria-label': T('Dirección', 'Address') });
     const pagina = el('div', { class: 'nav-pagina' });
-    const atras = el('button', { class: 'btn blanco', title: 'Atrás', onclick: () => mover(-1) }, '⬅️');
-    const adelante = el('button', { class: 'btn blanco', title: 'Adelante', onclick: () => mover(1) }, '➡️');
+    const atras = el('button', { class: 'btn blanco', title: T('Atrás', 'Back'), onclick: () => mover(-1) }, '⬅️');
+    const adelante = el('button', { class: 'btn blanco', title: T('Adelante', 'Forward'), onclick: () => mover(1) }, '➡️');
     c.append(el('div', { class: 'nav' },
       el('div', { class: 'nav-barra' },
         atras, adelante,
-        el('button', { class: 'btn blanco', title: 'Recargar', onclick: () => ir(historial[pos], false) }, '🔄'),
-        el('button', { class: 'btn', title: 'Inicio', onclick: () => ir('safarrancho://inicio') }, '🏠'),
+        el('button', { class: 'btn blanco', title: T('Recargar', 'Reload'), onclick: () => ir(historial[pos], false) }, '🔄'),
+        el('button', { class: 'btn', title: T('Inicio', 'Home'), onclick: () => ir('safarrancho://inicio') }, '🏠'),
         url,
-        el('button', { class: 'btn verde', onclick: () => ir(url.value) }, '¡Ir!')),
+        el('button', { class: 'btn verde', onclick: () => ir(url.value) }, T('¡Ir!', 'Go!'))),
       pagina));
     url.addEventListener('keydown', e => { if (e.key === 'Enter') { ir(url.value); url.blur(); } });
 
@@ -912,8 +995,8 @@ Apps.navegador = {
       u = (u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
       if (!u || u === 'inicio' || u === 'safarrancho://inicio') return 'safarrancho://inicio';
       if (/luc[ií]a|safarrancho/.test(u)) return 'www.lucia.es';
-      if (/piscina|bolas/.test(u)) return 'www.piscinadebolas.es';
-      if (/burbuja/.test(u)) return 'www.burbujas.es';
+      if (/piscina|bolas|ball|pit/.test(u)) return 'www.piscinadebolas.es';
+      if (/burbuja|bubble/.test(u)) return 'www.burbujas.es';
       if (!u.includes('.')) u = 'www.' + u.replace(/\s+/g, '') + '.es';
       return u;
     }
@@ -942,13 +1025,13 @@ Apps.navegador = {
 const SITIOS = {
   'safarrancho://inicio'(p, ir) {
     p.append(el('div', { class: 'web' },
-      el('h1', {}, '🔍 ¿A dónde vamos hoy?'),
+      el('h1', {}, T('🔍 ¿A dónde vamos hoy?', '🔍 Where shall we go today?')),
       el('div', { class: 'tiles' },
         el('button', { class: 'tile', style: { background: 'var(--rojo)', color: '#fff' }, onclick: () => ir('www.piscinadebolas.es') },
-          el('span', { class: 'em' }, '🎪'), 'Piscina de bolas', el('small', {}, 'www.piscinadebolas.es')),
+          el('span', { class: 'em' }, '🎪'), T('Piscina de bolas', 'Ball pit'), el('small', {}, 'www.piscinadebolas.es')),
         el('button', { class: 'tile', style: { background: 'var(--azul)', color: '#fff' }, onclick: () => ir('www.burbujas.es') },
-          el('span', { class: 'em' }, '🫧'), 'Explota burbujas', el('small', {}, 'www.burbujas.es'))),
-      el('p', { style: { fontSize: '18px', opacity: .6 } }, 'Pista: hay una web secreta... ¿sabes cómo se llama? 🤫')));
+          el('span', { class: 'em' }, '🫧'), T('Explota burbujas', 'Pop the bubbles'), el('small', {}, 'www.burbujas.es'))),
+      el('p', { style: { fontSize: '18px', opacity: .6 } }, T('Pista: hay una web secreta... ¿sabes cómo se llama? 🤫', 'Tip: there\'s a secret website... do you know its name? 🤫'))));
   },
   'www.piscinadebolas.es': paginaPiscina,
   'www.burbujas.es': paginaBurbujas,
@@ -956,20 +1039,20 @@ const SITIOS = {
     p.append(el('div', { class: 'web web-secreta' },
       el('div', { class: 'caja-secreta' },
         el('div', { class: 'corona' }, '👑'),
-        el('h1', {}, 'La web secreta de Lucía'),
-        el('p', {}, '¡Has encontrado la página secreta! Aquí manda Lucía, la reina de Safarrancho.'))));
+        el('h1', {}, T('La web secreta de Lucía', 'Lucía\'s secret website')),
+        el('p', {}, T('¡Has encontrado la página secreta! Aquí manda Lucía, la reina de Safarrancho.', 'You found the secret page! Lucía, the queen of Safarrancho, is the boss here.')))));
     lluvia(['👑', '💖', '✨', '🦄'], 40);
     Sonido.fanfarria();
-    Voz.decir('¡Has encontrado la web secreta de Lucía!', { pitch: 1.4 });
+    Voz.decir(T('¡Has encontrado la web secreta de Lucía!', 'You found Lucía\'s secret website!'), { pitch: 1.4 });
   }
 };
 
 function paginaPerdida(p, ir, u) {
   p.append(el('div', { class: 'web' },
     el('div', { style: { fontSize: '120px' } }, '🐶🍪'),
-    el('h1', {}, '¡Ups!'),
-    el('p', {}, `La página «${u}» se ha ido a merendar y todavía no ha vuelto.`),
-    el('button', { class: 'btn rojo', onclick: () => ir('safarrancho://inicio') }, '🏠 Volver al inicio')));
+    el('h1', {}, T('¡Ups!', 'Oops!')),
+    el('p', {}, T(`La página «${u}» se ha ido a merendar y todavía no ha vuelto.`, `The page "${u}" has gone out for a snack and isn\'t back yet.`)),
+    el('button', { class: 'btn rojo', onclick: () => ir('safarrancho://inicio') }, T('🏠 Volver al inicio', '🏠 Back home'))));
   Sonido.fallo();
 }
 
@@ -988,22 +1071,22 @@ function paginaPiscina(p) {
     return s;
   });
 
-  const contador = el('span', { class: 'contador' }, '0 bolas');
+  const contador = el('span', { class: 'contador' }, T('0 bolas', '0 balls'));
   const btnLuna = el('button', { class: 'btn mini', onclick: () => {
-    luna = !luna; btnLuna.textContent = luna ? '🌍 Gravedad Tierra' : '🌙 Gravedad Luna';
+    luna = !luna; btnLuna.textContent = luna ? T('🌍 Gravedad Tierra', '🌍 Earth gravity') : T('🌙 Gravedad Luna', '🌙 Moon gravity');
     Sonido.barrido(luna ? 300 : 900, luna ? 900 : 300, 0.3, { onda: 'triangle', vol: 0.25 });
-  } }, '🌙 Gravedad Luna');
+  } }, T('🌙 Gravedad Luna', '🌙 Moon gravity'));
   const caja = el('div', { class: 'piscina-caja' });
   const cv = el('canvas');
   caja.append(cv);
   p.append(el('div', { class: 'piscina' },
     el('div', { class: 'web-cab' },
-      el('h2', {}, '🎪 Piscina de bolas'),
+      el('h2', {}, T('🎪 Piscina de bolas', '🎪 Ball pit')),
       contador,
-      el('button', { class: 'btn mini', onclick: () => { llenar(30); Sonido.pop(); } }, '➕ 30 bolas'),
-      el('button', { class: 'btn mini azul', onclick: terremoto }, '🌋 ¡Terremoto!'),
+      el('button', { class: 'btn mini', onclick: () => { llenar(30); Sonido.pop(); } }, T('➕ 30 bolas', '➕ 30 balls')),
+      el('button', { class: 'btn mini azul', onclick: terremoto }, T('🌋 ¡Terremoto!', '🌋 Earthquake!')),
       btnLuna,
-      el('button', { class: 'btn mini verde', onclick: vaciar }, '🧹 Vaciar')),
+      el('button', { class: 'btn mini verde', onclick: vaciar }, T('🧹 Vaciar', '🧹 Empty'))),
     caja));
 
   const ctx = cv.getContext('2d');
@@ -1125,7 +1208,7 @@ function paginaPiscina(p) {
         ctx.fillText('🦆', b.x, b.y + b.r * 0.1);
       } else ctx.drawImage(SPR[b.c], b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
     }
-    contador.textContent = (bolas.length - 1) + ' bolas';
+    contador.textContent = (bolas.length - 1) + T(' bolas', ' balls');
   }
 
   function posicion(e) { return posEnLienzo(e, cv, W, H); }
@@ -1141,7 +1224,7 @@ function paginaPiscina(p) {
     }
     if (mejor) {
       agarrada = mejor;
-      if (mejor.pato) { Sonido.cuac(); textoFlotante(caja, q.x, q.y - 30, '¡CUAC!'); }
+      if (mejor.pato) { Sonido.cuac(); textoFlotante(caja, q.x, q.y - 30, T('¡CUAC!', 'QUACK!')); }
       else Sonido.clic();
     } else {
       // ¡Chapuzón! empuja las bolas cercanas
@@ -1151,7 +1234,7 @@ function paginaPiscina(p) {
         if (d < radio) { const f = (1 - d / radio) * 1500 * esc; b.vx += dx / d * f; b.vy += dy / d * f - 250 * esc; }
       }
       Sonido.pop();
-      textoFlotante(caja, q.x, q.y, '¡PLOF!');
+      textoFlotante(caja, q.x, q.y, T('¡PLOF!', 'SPLASH!'));
     }
   });
   cv.addEventListener('pointermove', e => {
@@ -1197,10 +1280,10 @@ function paginaPiscina(p) {
 
 /* ---- Burbujas ---- */
 function paginaBurbujas(p) {
-  const contador = el('span', { class: 'contador' }, '0 explotadas');
+  const contador = el('span', { class: 'contador' }, T('0 explotadas', '0 popped'));
   const caja = el('div', { class: 'piscina-caja', style: { background: 'linear-gradient(#7FD3FF,#1F5FD6)' } });
   const cv = el('canvas'); caja.append(cv);
-  p.append(el('div', { class: 'piscina' }, el('div', { class: 'web-cab', style: { background: 'var(--azul)' } }, el('h2', {}, '🫧 Explota burbujas'), contador), caja));
+  p.append(el('div', { class: 'piscina' }, el('div', { class: 'web-cab', style: { background: 'var(--azul)' } }, el('h2', {}, T('🫧 Explota burbujas', '🫧 Pop the bubbles')), contador), caja));
   const ctx = cv.getContext('2d');
   let W = 0, H = 0, dpr = 1, total = 0;
   const burbujas = [], trozos = [];
@@ -1212,10 +1295,10 @@ function paginaBurbujas(p) {
       const b = burbujas[i];
       if (Math.hypot(b.x - x, b.y - y) < b.r + 8) {
         burbujas.splice(i, 1); total++;
-        contador.textContent = total + ' explotadas';
+        contador.textContent = total + T(' explotadas', ' popped');
         for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2; trozos.push({ x: b.x, y: b.y, vx: Math.cos(a) * 180, vy: Math.sin(a) * 180, v: 1, h: b.h }); }
         Sonido.barrido(azar(500, 900), 1600, 0.08, { onda: 'triangle', vol: 0.3 });
-        if (total % 25 === 0) { lluvia(['🫧', '⭐', '🎉'], 25); Sonido.exito(); aviso(`¡${total} burbujas! 🎉`); }
+        if (total % 25 === 0) { lluvia(['🫧', '⭐', '🎉'], 25); Sonido.exito(); aviso(T(`¡${total} burbujas! 🎉`, `${total} bubbles! 🎉`)); }
         break;
       }
     }
@@ -1257,7 +1340,7 @@ function paginaBurbujas(p) {
    APP: Calculadora de sumas y restas
    ========================================================= */
 Apps.calculadora = {
-  nombre: 'Calculadora', emoji: '🧮', color: 'var(--amarillo)', texto: 'var(--tinta)',
+  nombre: 'Calculadora', en: 'Calculator', emoji: '🧮', color: 'var(--amarillo)', texto: 'var(--tinta)',
   crear(c) {
     let a = '', op = null, b = '', res = null, igualRepetido = 0;
     const cuenta = el('div', { class: 'cuenta' });
@@ -1292,16 +1375,16 @@ Apps.calculadora = {
     function borrar() { a = ''; op = null; b = ''; res = null; igualRepetido = 0; pintar(); }
     function igual() {
       if (res !== null) {
-        if (++igualRepetido === 4) { aviso('😤 ¡Que ya te lo he dicho! Son ' + res); Voz.decir('¡Que ya te lo he dicho! ¡Son ' + res + '!', { pitch: 0.8 }); igualRepetido = 0; }
+        if (++igualRepetido === 4) { aviso(T('😤 ¡Que ya te lo he dicho! Son ', '😤 I already told you! It\'s ') + res); Voz.decir(T('¡Que ya te lo he dicho! ¡Son ', 'I already told you! It\'s ') + res + '!', { pitch: 0.8 }); igualRepetido = 0; }
         return;
       }
       if (!op || b === '') { Sonido.fallo(); return; }
       const x = +a, y = +b;
       res = op === '+' ? x + y : x - y;
       pintar();
-      const frase = `${x} ${op === '+' ? 'más' : 'menos'} ${y} son ${res}`;
-      if (res === 100) { lluvia(['💯', '🎉', '⭐'], 45); aviso('💯 ¡CIEN! 💯'); Sonido.fanfarria(); }
-      else if (x === 0 && y === 0) { aviso('Nada ' + (op === '+' ? 'más' : 'menos') + ' nada... ¡NADA! 🫥'); }
+      const frase = T(`${x} ${op === '+' ? 'más' : 'menos'} ${y} son ${res}`, `${x} ${op === '+' ? 'plus' : 'minus'} ${y} is ${res}`);
+      if (res === 100) { lluvia(['💯', '🎉', '⭐'], 45); aviso(T('💯 ¡CIEN! 💯', '💯 ONE HUNDRED! 💯')); Sonido.fanfarria(); }
+      else if (x === 0 && y === 0) { aviso(T('Nada ' + (op === '+' ? 'más' : 'menos') + ' nada... ¡NADA! 🫥', 'Nothing ' + (op === '+' ? 'plus' : 'minus') + ' nothing... NOTHING! 🫥')); }
       else Sonido.exito();
       Voz.decir(frase, { rate: 0.95 });
     }
@@ -1321,22 +1404,22 @@ Apps.calculadora = {
       const x = +(a || 0), y = +(b || 0);
       if (!op) { if (x > 0 && x <= 20) dibujo.append(fila(x, '🍎')); return; }
       if (x > 20 || y > 20) {
-        if (res !== null) dibujo.append(el('span', { class: 'frase' }, '¡Son números muy grandes para dibujarlos! 🐘'));
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, T('¡Son números muy grandes para dibujarlos! 🐘', 'These numbers are too big to draw! 🐘')));
         return;
       }
       if (op === '+') {
         if (x) dibujo.append(fila(x, '🍎'));
         dibujo.append(el('span', { class: 'signo' }, '+'));
         if (y) dibujo.append(fila(y, '🍌'));
-        if (res !== null) dibujo.append(el('span', { class: 'frase' }, `Juntamos ${x} ${x === 1 ? 'manzana' : 'manzanas'} y ${y} ${y === 1 ? 'plátano' : 'plátanos'}: ¡${res} frutas! 😋`));
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, T(`Juntamos ${x} ${x === 1 ? 'manzana' : 'manzanas'} y ${y} ${y === 1 ? 'plátano' : 'plátanos'}: ¡${res} frutas! 😋`, `We put together ${x} ${x === 1 ? 'apple' : 'apples'} and ${y} ${y === 1 ? 'banana' : 'bananas'}: ${res} pieces of fruit! 😋`)));
       } else {
         if (res === null) { if (x) dibujo.append(fila(x, '🍪')); dibujo.append(el('span', { class: 'signo' }, '−'), y ? fila(y, '😋') : ''); }
         else if (res >= 0) {
           dibujo.append(fila(x, '🍪', y));
-          dibujo.append(el('span', { class: 'frase' }, `Tenías ${x} galletas, te comes ${y}... ¡quedan ${res}! 🍪`));
+          dibujo.append(el('span', { class: 'frase' }, T(`Tenías ${x} galletas, te comes ${y}... ¡quedan ${res}! 🍪`, `You had ${x} biscuits, you eat ${y}... ${res} left! 🍪`)));
         } else {
           dibujo.append(fila(x, '🍪', x));
-          dibujo.append(el('span', { class: 'frase' }, `¡Solo había ${x} galletas! Te faltan ${-res}. Eso es un número negativo: como deber ${-res} ${res === -1 ? 'galleta' : 'galletas'}. 🙈`));
+          dibujo.append(el('span', { class: 'frase' }, T(`¡Solo había ${x} galletas! Te faltan ${-res}. Eso es un número negativo: como deber ${-res} ${res === -1 ? 'galleta' : 'galletas'}. 🙈`, `There were only ${x} biscuits! You are ${-res} short. That\'s a negative number: like owing ${-res} ${res === -1 ? 'biscuit' : 'biscuits'}. 🙈`)));
         }
       }
     }
@@ -1346,63 +1429,97 @@ Apps.calculadora = {
 
 /* =========================================================
    APP: Cuentacuentos
+   Cada página: [escena, texto en español, texto en inglés]
    ========================================================= */
 const CUENTOS = [
-  { titulo: 'El dragón con hipo', em: '🐉', color: 'var(--rojo)', paginas: [
-    ['🐉🏰', 'Había una vez un dragón llamado Fermín que vivía en un castillo muy, muy grande.'],
-    ['🐉💥', 'Un día, Fermín se despertó con hipo. ¡HIP! Y cada vez que hacía hip, en vez de fuego le salía una burbuja de colores.'],
-    ['🐉🫧🫧', 'Probó a beber agua del revés, a contar hasta cien y a aguantar la respiración. Pero nada: ¡HIP! ¡Más burbujas!'],
-    ['👧🐉', 'Entonces llegó una niña muy lista y le dijo: «Fermín, ¿sabes que hoy es tu cumpleaños?». «¿De verdad?», preguntó el dragón, sorprendidísimo.'],
-    ['🎂🐉🔥', '¡Del susto se le quitó el hipo! Y con su fuego encendió todas las velas de la tarta. Fue la fiesta más divertida del castillo. Fin.']
+  { titulo: 'El dragón con hipo', en: 'The Dragon with Hiccups', em: '🐉', color: 'var(--rojo)', paginas: [
+    ['🐉🏰', 'Había una vez un dragón llamado Fermín que vivía en un castillo muy, muy grande.', 'Once upon a time there was a dragon called Fermín who lived in a very, very big castle.'],
+    ['🐉💥', 'Un día, Fermín se despertó con hipo. ¡HIP! Y cada vez que hacía hip, en vez de fuego le salía una burbuja de colores.', 'One day, Fermín woke up with hiccups. HIC! And every time he hiccuped, a colourful bubble came out instead of fire.'],
+    ['🐉🫧🫧', 'Probó a beber agua del revés, a contar hasta cien y a aguantar la respiración. Pero nada: ¡HIP! ¡Más burbujas!', 'He tried drinking water upside down, counting to a hundred and holding his breath. But nothing worked: HIC! More bubbles!'],
+    ['👧🐉', 'Entonces llegó una niña muy lista y le dijo: «Fermín, ¿sabes que hoy es tu cumpleaños?». «¿De verdad?», preguntó el dragón, sorprendidísimo.', 'Then a very clever girl came along and said: "Fermín, did you know it\'s your birthday today?" "Really?" asked the dragon, very surprised.'],
+    ['🎂🐉🔥', '¡Del susto se le quitó el hipo! Y con su fuego encendió todas las velas de la tarta. Fue la fiesta más divertida del castillo. Fin.', 'The surprise made his hiccups go away! And with his fire he lit all the candles on the cake. It was the best party the castle had ever seen. The end.']
   ] },
-  { titulo: 'La luna que no quería dormir', em: '🌙', color: 'var(--azul)', paginas: [
-    ['🌙⭐✨', 'Cada mañana, cuando salía el sol, la Luna tenía que irse a dormir. Y a la Luna eso no le gustaba nada.'],
-    ['🌙😤☀️', '«¡Yo también quiero ver el día!», protestaba. «Quiero ver los parques, los columpios y a los niños jugando».'],
-    ['☀️🤝🌙', 'El Sol, que era muy bueno, le dijo: «Quédate un ratito conmigo por la mañana. Desde aquí arriba se ve todo».'],
-    ['🌙🎠👦', 'Y así fue. Si miras al cielo algunas mañanas, verás a la Luna, blanquita y contenta, mirando los columpios.'],
-    ['🌙😴💤', 'Y cuando se cansa, se va a dormir tan feliz, igual que tú. Buenas noches, Luna. Fin.']
+  { titulo: 'La luna que no quería dormir', en: 'The Moon Who Wouldn\'t Sleep', em: '🌙', color: 'var(--azul)', paginas: [
+    ['🌙⭐✨', 'Cada mañana, cuando salía el sol, la Luna tenía que irse a dormir. Y a la Luna eso no le gustaba nada.', 'Every morning, when the sun came up, the Moon had to go to sleep. And the Moon did not like that one bit.'],
+    ['🌙😤☀️', '«¡Yo también quiero ver el día!», protestaba. «Quiero ver los parques, los columpios y a los niños jugando».', '"I want to see the daytime too!" she complained. "I want to see the parks, the swings and the children playing."'],
+    ['☀️🤝🌙', 'El Sol, que era muy bueno, le dijo: «Quédate un ratito conmigo por la mañana. Desde aquí arriba se ve todo».', 'The Sun, who was very kind, said: "Stay with me for a little while in the morning. You can see everything from up here."'],
+    ['🌙🎠👦', 'Y así fue. Si miras al cielo algunas mañanas, verás a la Luna, blanquita y contenta, mirando los columpios.', 'And so she did. If you look at the sky on some mornings, you will see the Moon, pale and happy, watching the swings.'],
+    ['🌙😴💤', 'Y cuando se cansa, se va a dormir tan feliz, igual que tú. Buenas noches, Luna. Fin.', 'And when she gets tired, she goes to sleep feeling happy, just like you. Good night, Moon. The end.']
   ] },
-  { titulo: 'La jirafa que quería ser bajita', em: '🦒', color: 'var(--amarillo)', paginas: [
-    ['🦒🌳', 'Gertrudis era una jirafa altísima. Tan alta, que su cabeza siempre estaba entre las nubes.'],
-    ['🦒☁️😢', 'Pero estaba triste: cuando sus amigos jugaban al escondite, ella nunca podía esconderse. ¡Se le veía desde lejísimos!'],
-    ['🐒❓🐘', 'Un día, el pequeño mono se perdió en la selva. Todos lo buscaron, pero nadie lo encontraba.'],
-    ['🦒👀🐒', 'Gertrudis estiró su largo cuello, miró por encima de los árboles y gritó: «¡Allí está, junto al río!».'],
-    ['🦒❤️🐒🐘', 'Desde ese día, Gertrudis está orgullosa de ser alta. Y en el escondite... ¡ahora es ella la que busca! Fin.']
+  { titulo: 'La jirafa que quería ser bajita', en: 'The Giraffe Who Wanted to Be Short', em: '🦒', color: 'var(--amarillo)', paginas: [
+    ['🦒🌳', 'Gertrudis era una jirafa altísima. Tan alta, que su cabeza siempre estaba entre las nubes.', 'Gertrude was a very, very tall giraffe. So tall that her head was always up in the clouds.'],
+    ['🦒☁️😢', 'Pero estaba triste: cuando sus amigos jugaban al escondite, ella nunca podía esconderse. ¡Se le veía desde lejísimos!', 'But she was sad: when her friends played hide and seek, she could never hide. Everyone could see her from miles away!'],
+    ['🐒❓🐘', 'Un día, el pequeño mono se perdió en la selva. Todos lo buscaron, pero nadie lo encontraba.', 'One day, the little monkey got lost in the jungle. Everybody looked for him, but nobody could find him.'],
+    ['🦒👀🐒', 'Gertrudis estiró su largo cuello, miró por encima de los árboles y gritó: «¡Allí está, junto al río!».', 'Gertrude stretched her long neck, looked over the trees and shouted: "There he is, by the river!"'],
+    ['🦒❤️🐒🐘', 'Desde ese día, Gertrudis está orgullosa de ser alta. Y en el escondite... ¡ahora es ella la que busca! Fin.', 'From that day on, Gertrude is proud of being tall. And when they play hide and seek... she\'s the one who seeks! The end.']
   ] },
-  { titulo: 'El calcetín que siempre se perdía', em: '🧦', color: 'var(--verde)', paginas: [
-    ['🧦❓', 'En casa de Lucía había un calcetín que siempre, siempre se perdía.'],
-    ['🧦🛏️🐱', 'Un día apareció debajo de la cama. Otro día, dentro de la nevera. ¡Y una vez, en la cabeza del gato!'],
-    ['👧🧦', '«¿Por qué te escapas tanto?», le preguntó Lucía. «Porque he perdido a mi pareja y la estoy buscando», contestó el calcetín.'],
-    ['🔍🗑️💻', 'Lucía y el calcetín buscaron juntos por toda la casa... y la encontraron escondida en la papelera del ordenador.'],
-    ['🧦🧦💕', 'Desde entonces, los dos calcetines van siempre juntos. Y si alguna vez pierdes uno... ¡mira en la papelera! Fin.']
+  { titulo: 'El calcetín que siempre se perdía', en: 'The Sock That Always Got Lost', em: '🧦', color: 'var(--verde)', paginas: [
+    ['🧦❓', 'En casa de Lucía había un calcetín que siempre, siempre se perdía.', 'In Lucía\'s house there was a sock that always, always got lost.'],
+    ['🧦🛏️🐱', 'Un día apareció debajo de la cama. Otro día, dentro de la nevera. ¡Y una vez, en la cabeza del gato!', 'One day it turned up under the bed. Another day, inside the fridge. And once, on top of the cat\'s head!'],
+    ['👧🧦', '«¿Por qué te escapas tanto?», le preguntó Lucía. «Porque he perdido a mi pareja y la estoy buscando», contestó el calcetín.', '"Why do you keep running away?" Lucía asked it. "Because I\'ve lost my partner and I\'m looking for it," answered the sock.'],
+    ['🔍🗑️💻', 'Lucía y el calcetín buscaron juntos por toda la casa... y la encontraron escondida en la papelera del ordenador.', 'Lucía and the sock searched the whole house together... and they found it hiding in the computer\'s bin.'],
+    ['🧦🧦💕', 'Desde entonces, los dos calcetines van siempre juntos. Y si alguna vez pierdes uno... ¡mira en la papelera! Fin.', 'Since then, the two socks always go everywhere together. And if you ever lose one... look in the bin! The end.']
+  ] },
+  { titulo: 'El pingüino que tenía calor', en: 'The Penguin Who Was Too Hot', em: '🐧', color: '#19B3B3', paginas: [
+    ['🐧☀️', 'Pepe era un pingüino que vivía en el zoo. Y aquel verano hacía muchísimo calor.', 'Pepe was a penguin who lived at the zoo. And that summer it was very, very hot.'],
+    ['🐧💦😓', '«¡Uf, qué calor!», decía Pepe. Probó a ponerse a la sombra, a abanicarse con las alas y a meterse en un charquito.', '"Phew, it\'s so hot!" said Pepe. He tried sitting in the shade, fanning himself with his wings and jumping into a little puddle.'],
+    ['🐧🍦', 'Entonces vio un puesto de helados. «¡Uno de hielo, por favor!», pidió. Pero se derritió antes de comérselo.', 'Then he saw an ice-cream stand. "One made of ice, please!" he asked. But it melted before he could eat it.'],
+    ['👧❄️🐧', 'Una niña tuvo una idea: lo llevó al cuarto de las neveras, donde guardaban el pescado. ¡Allí hacía un frío perfecto!', 'A girl had an idea: she took him to the fridge room, where they kept the fish. It was perfectly cold in there!'],
+    ['🐧😎🧊', 'Desde entonces, cuando hace calor, Pepe se echa la siesta entre cubitos de hielo. ¡Es el pingüino más feliz del zoo! Fin.', 'Since then, whenever it\'s hot, Pepe takes his nap among ice cubes. He\'s the happiest penguin in the zoo! The end.']
+  ] },
+  { titulo: 'La nube que llovía caramelos', en: 'The Cloud That Rained Sweets', em: '☁️', color: 'var(--rosa)', paginas: [
+    ['☁️', 'Había una vez una nube pequeñita que no sabía llover. Las otras nubes llovían agua, pero ella... nada de nada.', 'Once upon a time there was a tiny cloud who didn\'t know how to rain. The other clouds rained water, but she... nothing at all.'],
+    ['☁️💪', 'Un día lo intentó con todas sus fuerzas. Apretó, apretó... ¡y empezaron a caer caramelos!', 'One day she tried as hard as she could. She squeezed and squeezed... and sweets started to fall!'],
+    ['☁️🍬🍭', 'Los niños del pueblo salieron corriendo con sus paraguas al revés para recoger los caramelos de colores.', 'The children in the village ran outside with their umbrellas upside down to catch the colourful sweets.'],
+    ['🦷😟', 'Pero la nube se preocupó: «¿Y si se les estropean los dientes?». Así que decidió llover caramelos solo los domingos.', 'But the cloud got worried: "What if their teeth get spoilt?" So she decided to rain sweets only on Sundays.'],
+    ['☁️🌈😊', 'Y el resto de la semana llueve agua, para que crezcan las flores. ¡Mira al cielo el domingo, por si acaso! Fin.', 'And the rest of the week she rains water, so the flowers can grow. Look up at the sky on Sunday, just in case! The end.']
+  ] },
+  { titulo: 'El robot que aprendió a bailar', en: 'The Robot Who Learned to Dance', em: '🤖', color: 'var(--morado)', paginas: [
+    ['🤖🏭', 'Bip era un robot que trabajaba en una fábrica de juguetes. Hacía siempre lo mismo: pieza, tornillo, caja. Pieza, tornillo, caja.', 'Bip was a robot who worked in a toy factory. He always did the same thing: piece, screw, box. Piece, screw, box.'],
+    ['🤖🎶', 'Un día, alguien encendió la radio. Sonó una canción tan alegre que a Bip se le empezó a mover un pie. ¡Clac, clac!', 'One day, someone switched on the radio. A song played that was so happy that Bip\'s foot started to move. Clack, clack!'],
+    ['🤖💃', 'Luego el otro pie. Luego los brazos. ¡Y luego la cabeza dio una vuelta entera! ¡Bip estaba bailando!', 'Then the other foot. Then his arms. And then his head spun all the way round! Bip was dancing!'],
+    ['🧸🤖🪀', 'Los juguetes de la fábrica se despertaron y se pusieron a bailar con él. ¡Fue la fiesta más ruidosa del mundo!', 'The toys in the factory woke up and started dancing with him. It was the noisiest party in the world!'],
+    ['🤖❤️🎵', 'Ahora, cada viernes, en la fábrica hay baile. Y los juguetes salen tan contentos que hacen reír a todos los niños. Fin.', 'Now, every Friday, there\'s dancing at the factory. And the toys come out so happy that they make all the children laugh. The end.']
+  ] },
+  { titulo: 'La tortuga más rápida del mundo', en: 'The Fastest Tortoise in the World', em: '🐢', color: 'var(--naranja)', paginas: [
+    ['🐢🐇', 'Tula era una tortuga muy lenta. Tan lenta que el conejo siempre le ganaba en las carreras.', 'Tula was a very slow tortoise. So slow that the rabbit always beat her in races.'],
+    ['🐢🛹', 'Un día, Tula encontró un monopatín en el parque. Se subió con mucho cuidado... ¡y salió disparada!', 'One day, Tula found a skateboard in the park. She climbed on very carefully... and off she zoomed!'],
+    ['🐢💨🐇', '¡Zuuum! Adelantó al conejo, a la ardilla y hasta a una bicicleta. Todos la miraban con la boca abierta.', 'Zoooom! She overtook the rabbit, the squirrel and even a bicycle. Everyone stared with their mouths open.'],
+    ['🐢🏆', 'Tula ganó la gran carrera del bosque. Pero lo que más le gustó fue sentir el viento en la cara.', 'Tula won the big forest race. But what she liked most was feeling the wind on her face.'],
+    ['🐢🐇🛹', 'Ahora Tula y el conejo comparten el monopatín, y van juntos a todas partes. ¡Rapidísimo! Fin.', 'Now Tula and the rabbit share the skateboard, and they go everywhere together. Super fast! The end.']
   ] }
 ];
 
 Apps.cuentos = {
-  nombre: 'Cuentacuentos', emoji: '📖', color: 'var(--rojo)',
+  nombre: 'Cuentacuentos', en: 'Storyteller', emoji: '📖', color: 'var(--rojo)',
   crear(c) {
     let leerSolo = true;
+    const textoSolo = () => leerSolo ? T('📢 Leer solo: sí', '📢 Read aloud: on') : T('🤐 Leer solo: no', '🤐 Read aloud: off');
     function estante() {
       Voz.callar();
-      c.replaceChildren(el('div', { class: 'estante' }, CUENTOS.map(cu =>
-        el('button', { class: 'libro', style: { background: cu.color, color: cu.color.includes('amarillo') ? 'var(--tinta)' : '#fff' }, onclick: () => abrir(cu) },
-          el('span', { class: 'em' }, cu.em), cu.titulo))));
+      c.replaceChildren(el('div', { class: 'estante-zona' },
+        el('h2', { class: 'estante-titulo' }, T('📚 ¿Qué cuento leemos hoy?', '📚 Which story shall we read today?')),
+        el('div', { class: 'estante' }, CUENTOS.map(cu =>
+          el('button', { class: 'libro', style: { background: cu.color, color: cu.color.includes('amarillo') ? 'var(--tinta)' : '#fff' }, onclick: () => abrir(cu) },
+            el('span', { class: 'em' }, cu.em), T(cu.titulo, cu.en))))));
     }
     function abrir(cu) {
       let n = 0;
       const escena = el('div', { class: 'escena' });
       const texto = el('div', { class: 'texto' });
       const puntos = el('div', { class: 'puntos' });
-      const ant = el('button', { class: 'btn azul', onclick: () => ir(n - 1) }, '⬅️');
-      const sig = el('button', { class: 'btn azul', onclick: () => ir(n + 1) }, '➡️');
-      const solo = el('button', { class: 'btn mini blanco', onclick: () => { leerSolo = !leerSolo; solo.textContent = leerSolo ? '📢 Leer solo: sí' : '🤐 Leer solo: no'; } }, leerSolo ? '📢 Leer solo: sí' : '🤐 Leer solo: no');
+      const ant = el('button', { class: 'btn azul', 'aria-label': T('Página anterior', 'Previous page'), onclick: () => ir(n - 1) }, '⬅️');
+      const sig = el('button', { class: 'btn azul', 'aria-label': T('Página siguiente', 'Next page'), onclick: () => ir(n + 1) }, '➡️');
+      const solo = el('button', { class: 'btn mini blanco', onclick: () => { leerSolo = !leerSolo; solo.textContent = textoSolo(); } }, textoSolo());
       c.replaceChildren(el('div', { class: 'pagina' },
-        el('div', { style: { alignSelf: 'stretch', display: 'flex', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' } },
-          el('button', { class: 'btn mini', onclick: estante }, '📚 Otros cuentos'), solo),
+        el('div', { class: 'pagina-cab' },
+          el('button', { class: 'btn mini', onclick: estante }, T('📚 Otros cuentos', '📚 More stories')),
+          el('b', { class: 'pagina-titulo' }, cu.em + ' ' + T(cu.titulo, cu.en)),
+          solo),
         escena, texto,
-        el('div', { class: 'mandos' }, ant, el('button', { class: 'btn rojo', onclick: leer }, '🔊 Leer'), sig),
+        el('div', { class: 'mandos' }, ant, el('button', { class: 'btn rojo', onclick: leer }, T('🔊 Leer', '🔊 Read')), sig),
         puntos));
-      function leer() { Voz.decir(cu.paginas[n][1], { rate: 0.92, pitch: 1.1 }); }
+      function leer() { Voz.decir(T(cu.paginas[n][1], cu.paginas[n][2]), { rate: 0.92, pitch: 1.1 }); }
       function ir(i) {
         if (i < 0) return;
         if (i >= cu.paginas.length) { lluvia(['⭐', '📖', '💖'], 25); Sonido.fanfarria(); estante(); return; }
@@ -1410,9 +1527,9 @@ Apps.cuentos = {
         Sonido.barrido(400, 800, 0.12, { onda: 'triangle', vol: 0.2 });
         escena.textContent = cu.paginas[n][0];
         escena.style.animation = 'none'; void escena.offsetWidth; escena.style.animation = '';
-        texto.textContent = cu.paginas[n][1];
+        texto.textContent = T(cu.paginas[n][1], cu.paginas[n][2]);
         ant.disabled = n === 0;
-        sig.textContent = n === cu.paginas.length - 1 ? '🏁 Fin' : '➡️';
+        sig.textContent = n === cu.paginas.length - 1 ? T('🏁 Fin', '🏁 The end') : '➡️';
         puntos.replaceChildren(...cu.paginas.map((_, k) => el('i', { class: k === n ? 'on' : '' })));
         if (leerSolo) leer(); else Voz.callar();
       }
@@ -1428,12 +1545,12 @@ Apps.cuentos = {
 const ESTRELLITA = {
   // Cada línea: 7 notas (la última dura 2 tiempos), sus sílabas y 4 acordes (uno cada 2 tiempos)
   lineas: [
-    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], ac: ['C', 'C', 'F', 'C'] },
-    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], ac: ['F', 'C', 'G', 'C'] },
-    { n: [67, 67, 65, 65, 64, 64, 62], s: ['En', 'el', 'cie-', 'lo', 'o en', 'el', 'mar,'], ac: ['C', 'F', 'C', 'G'] },
-    { n: [67, 67, 65, 65, 64, 64, 62], s: ['un', 'dia-', 'man-', 'te', 'de', 'ver-', 'dad.'], ac: ['C', 'F', 'C', 'G'] },
-    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], ac: ['C', 'C', 'F', 'C'] },
-    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], ac: ['F', 'C', 'G', 'C'] }
+    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], en: ['Twin-', 'kle,', 'twin-', 'kle,', 'lit-', 'tle', 'star,'], ac: ['C', 'C', 'F', 'C'] },
+    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], en: ['How', 'I', 'won-', 'der', 'what', 'you', 'are.'], ac: ['F', 'C', 'G', 'C'] },
+    { n: [67, 67, 65, 65, 64, 64, 62], s: ['En', 'el', 'cie-', 'lo', 'o en', 'el', 'mar,'], en: ['Up', 'a-', 'bove', 'the', 'world', 'so', 'high,'], ac: ['C', 'F', 'C', 'G'] },
+    { n: [67, 67, 65, 65, 64, 64, 62], s: ['un', 'dia-', 'man-', 'te', 'de', 'ver-', 'dad.'], en: ['Like', 'a', 'dia-', 'mond', 'in', 'the', 'sky.'], ac: ['C', 'F', 'C', 'G'] },
+    { n: [60, 60, 67, 67, 69, 69, 67], s: ['Es-', 'tre-', 'lli-', 'ta,', '¿dón-', 'de es-', 'tás?'], en: ['Twin-', 'kle,', 'twin-', 'kle,', 'lit-', 'tle', 'star,'], ac: ['C', 'C', 'F', 'C'] },
+    { n: [65, 65, 64, 64, 62, 62, 60], s: ['Me', 'pre-', 'gun-', 'to', 'quién', 'se-', 'rás.'], en: ['How', 'I', 'won-', 'der', 'what', 'you', 'are.'], ac: ['F', 'C', 'G', 'C'] }
   ],
   acordes: { C: [48, 60, 64, 67], F: [53, 65, 69, 72], G: [55, 62, 67, 71] }
 };
@@ -1463,11 +1580,11 @@ function dibujarPixelArt(cv, mapa, colores) {
 }
 
 Apps.musica = {
-  nombre: 'Música', emoji: '🎵', color: 'var(--verde)',
+  nombre: 'Música', en: 'Music', emoji: '🎵', color: 'var(--verde)',
   crear(c) {
     const zona = el('div', { class: 'zona' });
-    const tabEst = el('button', { class: 'btn sel', onclick: () => vista('estrellita') }, '⭐ Estrellita 8 bits');
-    const tabXil = el('button', { class: 'btn azul', onclick: () => vista('xilofono') }, '🎹 Xilófono');
+    const tabEst = el('button', { class: 'btn sel', onclick: () => vista('estrellita') }, T('⭐ Estrellita 8 bits', '⭐ Twinkle Twinkle 8-bit'));
+    const tabXil = el('button', { class: 'btn azul', onclick: () => vista('xilofono') }, T('🎹 Xilófono', '🎹 Xylophone'));
     c.append(el('div', { class: 'musica' }, el('div', { class: 'pestanas' }, tabEst, tabXil), zona));
 
     let cancion = null; // { gain, raf }
@@ -1501,7 +1618,7 @@ Apps.musica = {
       const sils = [];
       ESTRELLITA.lineas.forEach((l, li) => {
         const linea = el('div', { class: 'linea' });
-        l.s.forEach((s, si) => {
+        T(l.s, l.en).forEach((s, si) => {
           const sp = el('span', { class: 'sil' }, s);
           linea.append(sp);
           if (!s.endsWith('-')) linea.append(' ');
@@ -1509,14 +1626,14 @@ Apps.musica = {
         });
         letra.append(linea);
       });
-      const tocar = el('button', { class: 'btn rojo', style: { fontSize: '28px' } }, '▶️ ¡Tocar!');
+      const tocar = el('button', { class: 'btn rojo', style: { fontSize: '28px' } }, T('▶️ ¡Tocar!', '▶️ Play!'));
       const vel = [['🐢', 70], ['🚶', 100], ['🐇', 140]].map(([em, bpm]) =>
         el('button', { class: 'btn mini ' + (bpm === tempo ? 'sel' : 'blanco'), onclick: e => { tempo = bpm; vel.forEach(v => v.className = 'btn mini blanco'); e.currentTarget.className = 'btn mini sel'; } }, em));
-      const bat = el('button', { class: 'btn mini blanco', onclick: () => { bateria = !bateria; bat.textContent = bateria ? '🥁 Batería: sí' : '🥁 Batería: no'; } }, bateria ? '🥁 Batería: sí' : '🥁 Batería: no');
+      const bat = el('button', { class: 'btn mini blanco', onclick: () => { bateria = !bateria; bat.textContent = bateria ? T('🥁 Batería: sí', '🥁 Drums: on') : T('🥁 Batería: no', '🥁 Drums: off'); } }, bateria ? T('🥁 Batería: sí', '🥁 Drums: on') : T('🥁 Batería: no', '🥁 Drums: off'));
       tocar.onclick = () => {
         Sonido.init();
-        if (cancion) { parar(); limpiar(); tocar.textContent = '▶️ ¡Tocar!'; return; }
-        tocar.textContent = '⏹️ Parar';
+        if (cancion) { parar(); limpiar(); tocar.textContent = T('▶️ ¡Tocar!', '▶️ Play!'); return; }
+        tocar.textContent = T('⏹️ Parar', '⏹️ Stop');
         empezar();
       };
       zona.append(estrella, el('div', { style: { display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' } }, tocar, ...vel, bat), letra);
@@ -1526,7 +1643,7 @@ Apps.musica = {
         letra.querySelectorAll('.linea').forEach(l => l.classList.remove('activa'));
       }
       function empezar() {
-        if (!Sonido.ctx) { tocar.textContent = '▶️ ¡Tocar!'; return; }
+        if (!Sonido.ctx) { tocar.textContent = T('▶️ ¡Tocar!', '▶️ Play!'); return; }
         const ctx = Sonido.ctx, gain = ctx.createGain();
         gain.gain.value = 1; gain.connect(Sonido.master);
         const b = 60 / tempo, t0 = ctx.currentTime + 0.15, eventos = [];
@@ -1566,7 +1683,7 @@ Apps.musica = {
               estrella.classList.add('bote'); setTimeout(() => estrella.classList.remove('bote'), 110);
             }
           }
-          if (ahora > fin) { parar(); limpiar(); tocar.textContent = '▶️ ¡Tocar!'; lluvia(['⭐', '🌟', '✨'], 30); return; }
+          if (ahora > fin) { parar(); limpiar(); tocar.textContent = T('▶️ ¡Tocar!', '▶️ Play!'); lluvia(['⭐', '🌟', '✨'], 30); return; }
           if (cancion) cancion.raf = requestAnimationFrame(bucle);
         };
         cancion = { gain, raf: requestAnimationFrame(bucle) };
@@ -1574,8 +1691,8 @@ Apps.musica = {
     }
 
     function vistaXilofono() {
-      const NOTAS = [['Do', 60, 'var(--rojo)'], ['Re', 62, 'var(--naranja)'], ['Mi', 64, 'var(--amarillo)'], ['Fa', 65, 'var(--verde)'],
-        ['Sol', 67, '#19B3B3'], ['La', 69, 'var(--azul)'], ['Si', 71, 'var(--morado)'], ['Do', 72, 'var(--rosa)']];
+      const NOTAS = [[T('Do', 'C'), 60, 'var(--rojo)'], [T('Re', 'D'), 62, 'var(--naranja)'], [T('Mi', 'E'), 64, 'var(--amarillo)'], [T('Fa', 'F'), 65, 'var(--verde)'],
+        [T('Sol', 'G'), 67, '#19B3B3'], [T('La', 'A'), 69, 'var(--azul)'], [T('Si', 'B'), 71, 'var(--morado)'], [T('Do', 'C'), 72, 'var(--rosa)']];
       const TECLAS = 'asdfghjk';
       const xilo = el('div', { class: 'xilo' });
       const botones = NOTAS.map(([nombre, m, col], i) => {
@@ -1596,20 +1713,20 @@ Apps.musica = {
         // Easter egg: tocar el principio de Estrellita (Do Do Sol Sol La La Sol)
         if (ultimasNotas.slice(-7).join() === '60,60,67,67,69,69,67') {
           ultimasNotas = [];
-          setTimeout(() => { lluvia(['⭐', '🌟', '✨', '💫'], 50); aviso('⭐ ¡Has tocado Estrellita! ⭐'); Voz.decir('¡Has tocado Estrellita! ¡Eres una artista!', { pitch: 1.3 }); }, 500);
+          setTimeout(() => { lluvia(['⭐', '🌟', '✨', '💫'], 50); aviso(T('⭐ ¡Has tocado Estrellita! ⭐', '⭐ You played Twinkle Twinkle! ⭐')); Voz.decir(T('¡Has tocado Estrellita! ¡Eres una artista!', 'You played Twinkle Twinkle! You\'re a real artist!'), { pitch: 1.3 }); }, 500);
         }
         // Easter egg: el principio de «Cara al sol» (La Sol Fa Fa Fa Do Fa Sol La).
         // Se comparan los saltos entre notas, así funciona en cualquier tono.
         const saltos = ultimasNotas.slice(1).map((v, k) => v - ultimasNotas[k]);
         if (ultimasNotas.length === 9 && saltos.join() === '-2,-2,0,0,-5,5,2,2') {
           ultimasNotas = [];
-          setTimeout(() => { lluvia(['🌞', '☀️', '🌞', '😎'], 55); aviso('🌞 ¡Solecitos sonrientes! 🌞'); Voz.decir('¡Solecitos sonrientes!', { pitch: 1.4 }); }, 500);
+          setTimeout(() => { lluvia(['🌞', '☀️', '🌞', '😎'], 55); aviso(T('🌞 ¡Solecitos sonrientes! 🌞', '🌞 Smiley little suns! 🌞')); Voz.decir(T('¡Solecitos sonrientes!', 'Smiley little suns!'), { pitch: 1.4 }); }, 500);
         }
       }
       const tecla = e => { const i = TECLAS.indexOf(e.key); if (i >= 0 && !e.repeat) golpe(i); };
       document.addEventListener('keydown', tecla);
       teclaXilo = tecla;
-      zona.append(el('p', { style: { margin: 0, fontSize: '20px', fontWeight: 600, textAlign: 'center' } }, '¡Toca las barras! 🎶 (Pista secreta: Do, Do, Sol, Sol, La, La, Sol...)'), xilo);
+      zona.append(el('p', { style: { margin: 0, fontSize: '20px', fontWeight: 600, textAlign: 'center' } }, T('¡Toca las barras! 🎶 (Pista secreta: Do, Do, Sol, Sol, La, La, Sol...)', 'Hit the bars! 🎶 (Secret tip: C, C, G, G, A, A, G...)')), xilo);
     }
     vista('estrellita');
     return { cerrar() { parar(); soltarTeclado(); } };
@@ -1617,148 +1734,410 @@ Apps.musica = {
 };
 
 /* =========================================================
-   APP: Guiñoles — teatro de marionetas
-   Cada paso del guion: [escenario, reparto, quién habla ('' = narrador), texto, efecto]
-   Efectos: saltar, temblar, volar, huir, dormir  →  'efecto:personaje' (o 'efecto:todos')
+   APP: Guiñoles — teatro de marionetas al estilo de los programas de títeres:
+   cabezas de fieltro, ojos de pelota de ping-pong, bocaza que se abre al hablar.
+   Las marionetas se dibujan en SVG a partir de una «ficha» (piel, orejas, nariz, pelo...).
    ========================================================= */
+const TINTA = '#1B1B2F';
+const MUP = {
+  lolo: { piel: '#3AA0FF', nariz: 'bola', narizColor: '#FF8A1F', pelo: { tipo: 'pelusa', color: '#3AA0FF' }, ropa: '#FFD21F', extra: ['mejillas'] },
+  cerdito1: { piel: '#FFA8C5', orejas: 'cerdo', nariz: 'cerdo', ropa: '#1F5FD6', sombrero: 'gorra', sombreroColor: '#FFD21F', extra: ['mejillas'] },
+  cerdito2: { piel: '#FF9DBE', orejas: 'cerdo', nariz: 'cerdo', ropa: '#25A84A', pelo: { tipo: 'pelusa', color: '#FF7AA8' }, extra: ['mejillas'] },
+  cerdito3: { piel: '#FF93B6', orejas: 'cerdo', nariz: 'cerdo', ropa: '#E63027', extra: ['mejillas', 'gafas'] },
+  lobo: { piel: '#8A8F99', forma: 'alargada', orejas: 'lobo', nariz: 'hocico', hocico: '#D3D6DD', ojos: { parpado: true }, ropa: '#6B4226', extra: ['colmillos', 'cejas'] },
+  ricitos: { piel: '#F7C9A9', pelo: { tipo: 'rizos', color: '#FFD21F' }, nariz: 'bola', narizColor: '#F29A7A', ropa: '#FF5FA2', extra: ['mejillas', 'pecas'] },
+  papaOso: { piel: '#8B5A2B', forma: 'ancha', orejas: 'oso', nariz: 'hocico', hocico: '#C79A6B', ropa: '#1F5FD6', extra: ['cejas'] },
+  mamaOsa: { piel: '#A86E3C', orejas: 'oso', nariz: 'hocico', hocico: '#D9AE7E', ropa: '#8B3FD9', sombrero: 'lazo', sombreroColor: '#FF5FA2', extra: ['mejillas'] },
+  osito: { piel: '#C68B52', orejas: 'oso', nariz: 'hocico', hocico: '#E8C298', ropa: '#FFD21F', sombrero: 'gorro', sombreroColor: '#25A84A', extra: ['mejillas'] },
+  hansel: { piel: '#F5C6A5', pelo: { tipo: 'liso', color: '#7A4A1E' }, nariz: 'bola', narizColor: '#E9A07F', ropa: '#25A84A', extra: ['pecas'] },
+  gretel: { piel: '#F7CDB0', pelo: { tipo: 'trenzas', color: '#FF8A1F' }, nariz: 'bola', narizColor: '#EBA383', ropa: '#E63027', extra: ['mejillas'] },
+  bruja: { piel: '#8BCB6A', forma: 'alargada', pelo: { tipo: 'liso', color: '#6B2FA0' }, nariz: 'larga', sombrero: 'bruja', sombreroColor: '#2B2140', ojos: { parpado: true }, ropa: '#2B2140', extra: ['verruga', 'cejas'] },
+  pajaro: { piel: '#4FB3FF', nariz: 'pico', sombrero: 'cresta', sombreroColor: '#4FB3FF', ropa: '#4FB3FF' },
+  papa: { piel: '#F2C19E', pelo: { tipo: 'liso', color: '#4A2E15' }, nariz: 'bola', narizColor: '#E39A78', barbaColor: '#4A2E15', ropa: '#7A4A1E', extra: ['barba'] },
+  pulgarcito: { piel: '#F7CDB0', nariz: 'bola', narizColor: '#EBA383', sombrero: 'gorro', sombreroColor: '#E63027', ropa: '#1F5FD6', extra: ['pecas', 'mejillas'] },
+  hermanos: { grupo: 3, piel: '#F2C19E', pelo: { tipo: 'liso', color: '#7A4A1E' }, nariz: 'bola', narizColor: '#E39A78', ropas: ['#FF8A1F', '#25A84A', '#8B3FD9'] },
+  ogro: { piel: '#7FA650', forma: 'ancha', ojos: { tam: 13, parpado: true }, nariz: 'bola', narizColor: '#5E8A3A', pelo: { tipo: 'pelusa', color: '#4A3A1A' }, ropa: '#6B4226', extra: ['colmillosArriba', 'cejas'] },
+  padres: { grupo: 2, piel: '#F2C19E', pelo: { tipo: 'liso', color: '#4A2E15' }, nariz: 'bola', narizColor: '#E39A78', ropas: ['#8B3FD9', '#1F5FD6'] },
+  caperucita: { piel: '#F7CDB0', pelo: { tipo: 'liso', color: '#7A4A1E' }, sombrero: 'capucha', sombreroColor: '#E63027', nariz: 'bola', narizColor: '#EBA383', ropa: '#E63027', extra: ['mejillas', 'pecas'] },
+  abuela: { piel: '#F2C9AE', pelo: { tipo: 'moño', color: '#D9D9E0' }, nariz: 'bola', narizColor: '#E3A38A', ropa: '#8B3FD9', extra: ['gafas', 'mejillas'] },
+  lenador: { piel: '#E9B48F', pelo: { tipo: 'liso', color: '#B5442A' }, nariz: 'bola', narizColor: '#D98C6A', barbaColor: '#B5442A', sombrero: 'gorro', sombreroColor: '#25A84A', ropa: '#E63027', extra: ['barba'] },
+  ratita: { piel: '#B9BCC6', orejas: 'raton', nariz: 'raton', sombrero: 'lazo', sombreroColor: '#E63027', ropa: '#FFD21F', extra: ['bigotes', 'mejillas'] },
+  gallo: { piel: '#FFFFFF', nariz: 'pico', sombrero: 'cresta', sombreroColor: '#E63027', ropa: '#FF8A1F' },
+  perro: { piel: '#C68B52', orejas: 'perro', orejaColor: '#7A4A1E', nariz: 'hocico', hocico: '#E8C298', ropa: '#1F5FD6', extra: ['mejillas'] },
+  gato: { piel: '#FF9A3C', orejas: 'gato', nariz: 'raton', narizColor: '#FF5FA2', ojos: { parpado: true }, ropa: '#2B2140', extra: ['bigotes'] },
+  ratonPerez: { piel: '#9C8F84', orejas: 'raton', nariz: 'raton', sombrero: 'gorra', sombreroColor: '#1F5FD6', ropa: '#E63027', extra: ['bigotes', 'gafas'] },
+  burro: { piel: '#9AA0AA', forma: 'alargada', orejas: 'burro', nariz: 'hocico', hocico: '#D3D6DD', pelo: { tipo: 'pelusa', color: '#4A4F5A' }, ropa: '#25A84A' },
+  ladrones: { grupo: 2, piel: '#E9B48F', nariz: 'bola', narizColor: '#D98C6A', barbaColor: '#2B2140', sombrero: 'gorra', sombreroColor: '#2B2140', ropas: ['#2B2140', '#4A4F5A'], extra: ['antifaz', 'barba'] },
+  patito: { piel: '#B5B8C2', nariz: 'pico', pelo: { tipo: 'pelusa', color: '#8A8F99' }, ropa: '#B5B8C2' },
+  mamaPata: { piel: '#FFFFFF', nariz: 'pico', sombrero: 'lazo', sombreroColor: '#1F5FD6', ropa: '#FFFFFF', extra: ['mejillas'] },
+  patitos: { grupo: 3, piel: '#FFD21F', nariz: 'pico', pelo: { tipo: 'pelusa', color: '#F2B800' }, ropas: ['#FFD21F', '#FFD21F', '#FFD21F'] },
+  cisne: { piel: '#FFFFFF', forma: 'alargada', nariz: 'pico', sombrero: 'corona', sombreroColor: '#FFD21F', ropa: '#FFFFFF', extra: ['mejillas'] },
+  cisneJoven: { piel: '#FFFFFF', forma: 'alargada', nariz: 'pico', pelo: { tipo: 'pelusa', color: '#D9D9E0' }, ropa: '#FFFFFF', extra: ['mejillas'] }
+};
+
+// Dibuja una marioneta (o un grupo pequeño) como SVG a partir de su ficha
+function munecoSVG(ficha) {
+  let dentro;
+  if (ficha.grupo) {
+    const n = ficha.grupo, esc = n === 2 ? 0.74 : 0.62, paso = (200 - 200 * esc) / (n - 1);
+    dentro = '';
+    for (let i = 0; i < n; i++) {
+      const una = { ...ficha, grupo: 0, ropa: (ficha.ropas || [])[i] || ficha.ropa };
+      dentro += `<g transform="translate(${(i * paso).toFixed(1)} ${(250 * (1 - esc)).toFixed(1)}) scale(${esc})">${partesMuneco(una, i)}</g>`;
+    }
+  } else dentro = partesMuneco(ficha, 0);
+  return `<svg class="muppet" viewBox="-20 -70 240 320" aria-hidden="true">${dentro}</svg>`;
+}
+function partesMuneco(s, semilla) {
+  const [rx, ry] = { redonda: [66, 62], alargada: [56, 72], ancha: [76, 58] }[s.forma || 'redonda'];
+  const cx = 100, cy = 100, piel = s.piel, ropa = s.ropa || '#1F5FD6';
+  const ojos = { tam: 16, sep: 25, parpado: false, ...(s.ojos || {}) };
+  const ey = cy - 20, ex = s.extra || [], sc = s.sombreroColor || '#E63027';
+  const L = `stroke="${TINTA}" stroke-width="4" stroke-linejoin="round"`;
+  const espejo = (f) => f(-1) + f(1);
+  let svg = '';
+
+  // --- Detrás de la cabeza: orejas, capucha y trenzas ---
+  if (s.sombrero === 'capucha') svg += `<ellipse cx="${cx}" cy="${cy + 10}" rx="${rx + 22}" ry="${ry + 24}" fill="${sc}" ${L}/>`;
+  if (s.pelo && s.pelo.tipo === 'trenzas') svg += espejo(d => [0, 1, 2].map(i =>
+    `<circle cx="${cx + d * (rx + 6)}" cy="${cy + 12 + i * 22}" r="13" fill="${s.pelo.color}" ${L}/>`).join('') +
+    `<path d="M${cx + d * (rx + 6) - 10} ${cy + 78} l20 0 l-10 12 z" fill="${TINTA}"/>`);
+  const o = s.orejas, oc = s.orejaColor || piel;
+  if (o === 'cerdo') svg += espejo(d => `<path d="M${cx + d * 40} ${cy - 46} L${cx + d * 70} ${cy - 84} L${cx + d * 66} ${cy - 30} Z" fill="${piel}" ${L}/><path d="M${cx + d * 50} ${cy - 50} L${cx + d * 64} ${cy - 70} L${cx + d * 62} ${cy - 44} Z" fill="${oscurecer(piel, .82)}"/>`);
+  if (o === 'oso') svg += espejo(d => `<circle cx="${cx + d * rx * .72}" cy="${cy - ry * .78}" r="22" fill="${piel}" ${L}/><circle cx="${cx + d * rx * .72}" cy="${cy - ry * .78}" r="11" fill="${s.hocico || oscurecer(piel, .8)}"/>`);
+  if (o === 'lobo' || o === 'gato') {
+    const alto = o === 'lobo' ? 108 : 92;
+    svg += espejo(d => `<path d="M${cx + d * 18} ${cy - ry + 14} L${cx + d * 52} ${cy - alto} L${cx + d * 56} ${cy - 30} Z" fill="${piel}" ${L}/><path d="M${cx + d * 28} ${cy - ry + 14} L${cx + d * 48} ${cy - alto + 22} L${cx + d * 50} ${cy - 40} Z" fill="${o === 'gato' ? '#FFB3C7' : oscurecer(piel, .78)}"/>`);
+  }
+  if (o === 'raton') svg += espejo(d => `<circle cx="${cx + d * rx * .82}" cy="${cy - ry * .7}" r="32" fill="${piel}" ${L}/><circle cx="${cx + d * rx * .82}" cy="${cy - ry * .7}" r="19" fill="#FFB3C7"/>`);
+  if (o === 'burro') svg += espejo(d => `<ellipse cx="${cx + d * 34}" cy="${cy - ry - 26}" rx="15" ry="44" transform="rotate(${d * 18} ${cx + d * 34} ${cy - ry - 26})" fill="${piel}" ${L}/><ellipse cx="${cx + d * 34}" cy="${cy - ry - 26}" rx="7" ry="30" transform="rotate(${d * 18} ${cx + d * 34} ${cy - ry - 26})" fill="#FFB3C7"/>`);
+
+  // --- Cuerpo con brazos y manos ---
+  svg += espejo(d => `<path d="M${cx + d * 38} 188 Q${cx + d * 62} 205 ${cx + d * 64} 236" fill="none" stroke="${TINTA}" stroke-width="27" stroke-linecap="round"/><path d="M${cx + d * 38} 188 Q${cx + d * 62} 205 ${cx + d * 64} 236" fill="none" stroke="${ropa}" stroke-width="19" stroke-linecap="round"/><circle cx="${cx + d * 64}" cy="240" r="12" fill="${piel}" ${L}/>`);
+  svg += `<path d="M58 180 Q100 164 142 180 L160 262 L40 262 Z" fill="${ropa}" ${L}/><path d="M80 174 Q100 192 120 174" fill="none" stroke="${oscurecer(ropa === '#FFFFFF' ? '#D9D9E0' : ropa, .72)}" stroke-width="6" stroke-linecap="round"/>`;
+
+  // --- Cabeza de fieltro con un brillo suave ---
+  svg += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${piel}" ${L}/>`;
+  svg += `<ellipse cx="${cx - rx * .35}" cy="${cy - ry * .5}" rx="${rx * .32}" ry="${ry * .18}" fill="#fff" opacity=".18"/>`;
+  if (o === 'perro') svg += espejo(d => `<ellipse cx="${cx + d * (rx - 4)}" cy="${cy + 2}" rx="19" ry="46" transform="rotate(${d * -12} ${cx + d * (rx - 4)} ${cy + 2})" fill="${oc}" ${L}/>`);
+
+  // --- Pelo ---
+  const p = s.pelo;
+  if (p && (p.tipo === 'liso' || p.tipo === 'trenzas' || p.tipo === 'moño')) {
+    svg += `<path d="M${cx - rx - 3} ${cy - 4} C${cx - rx} ${cy - ry - 34} ${cx + rx} ${cy - ry - 34} ${cx + rx + 3} ${cy - 4} Q${cx + rx * .55} ${cy - ry * .72} ${cx + 6} ${cy - ry * .62} Q${cx - rx * .3} ${cy - ry * .8} ${cx - rx - 3} ${cy - 4} Z" fill="${p.color}" ${L}/>`;
+    if (p.tipo === 'moño') svg += `<circle cx="${cx}" cy="${cy - ry - 16}" r="22" fill="${p.color}" ${L}/>`;
+  }
+  if (p && p.tipo === 'rizos') {
+    for (let a = 160; a <= 380; a += 22) {
+      const r = a * Math.PI / 180;
+      svg += `<circle cx="${(cx + (rx + 2) * Math.cos(r)).toFixed(1)}" cy="${(cy + (ry + 2) * Math.sin(r) - 4).toFixed(1)}" r="17" fill="${p.color}" ${L}/>`;
+    }
+  }
+  if (p && p.tipo === 'pelusa') svg += `<path d="M${cx - 18} ${cy - ry + 8} Q${cx - 26} ${cy - ry - 24} ${cx - 8} ${cy - ry - 14} Q${cx} ${cy - ry - 34} ${cx + 8} ${cy - ry - 14} Q${cx + 26} ${cy - ry - 24} ${cx + 18} ${cy - ry + 8} Z" fill="${p.color}" ${L}/>`;
+
+  // --- Barba (debajo de la boca) ---
+  if (ex.includes('barba')) svg += `<path d="M${cx - rx + 10} ${cy + 4} Q${cx - rx + 2} ${cy + ry + 30} ${cx} ${cy + ry + 38} Q${cx + rx - 2} ${cy + ry + 30} ${cx + rx - 10} ${cy + 4} Q${cx} ${cy + 26} ${cx - rx + 10} ${cy + 4} Z" fill="${s.barbaColor || '#4A2E15'}" ${L}/>`;
+
+  // --- Boca (se abre al hablar) ---
+  const hocico = s.nariz === 'hocico';
+  const my = hocico ? cy + 40 : cy + 34, mrx = s.forma === 'ancha' ? 44 : s.nariz === 'pico' ? 24 : 36;
+  svg += `<g class="boca"><ellipse cx="${cx}" cy="${my}" rx="${mrx}" ry="20" fill="#5A0F1E" ${L}/><ellipse cx="${cx}" cy="${my + 10}" rx="${mrx * .5}" ry="8" fill="#FF6F91"/></g>`;
+  if (ex.includes('colmillosArriba')) svg += espejo(d => `<path d="M${cx + d * mrx * .6 - 6} ${my + 16} L${cx + d * mrx * .6 + 6} ${my + 16} L${cx + d * mrx * .6} ${my - 8} Z" fill="#fff" ${L}/>`);
+
+  // --- Antifaz, ojos de ping-pong, gafas y cejas ---
+  if (ex.includes('antifaz')) svg += `<rect x="${cx - ojos.sep - 30}" y="${ey - 17}" width="${2 * (ojos.sep + 30)}" height="34" rx="16" fill="${TINTA}"/>`;
+  svg += espejo(d => {
+    const x = cx + d * ojos.sep, t = ojos.tam, px = x - d * t * .22, py = ey + t * .15;
+    let e = `<circle cx="${x}" cy="${ey}" r="${t}" fill="#fff" ${L}/><circle cx="${px}" cy="${py}" r="${t * .42}" fill="${TINTA}"/><circle cx="${px + 3}" cy="${py - 3}" r="2.6" fill="#fff"/>`;
+    if (ojos.parpado) e += `<path d="M${x - t - 1} ${ey} A${t + 1} ${t + 1} 0 0 1 ${x + t + 1} ${ey} Z" fill="${piel}" ${L}/>`;
+    e += `<circle class="parpado" cx="${x}" cy="${ey}" r="${t + 2}" fill="${piel}" style="--d:${(semilla * 1.3 + (d + 1)) % 4}s"/>`;
+    if (ex.includes('gafas')) e += `<circle cx="${x}" cy="${ey}" r="${t + 7}" fill="none" stroke="${TINTA}" stroke-width="4"/>`;
+    if (ex.includes('cejas')) e += `<path d="M${x + d * 18} ${ey - t - 14} L${x - d * 12} ${ey - t - 3}" stroke="${TINTA}" stroke-width="7" stroke-linecap="round"/>`;
+    return e;
+  });
+  if (ex.includes('gafas')) svg += `<path d="M${cx - ojos.sep + ojos.tam + 7} ${ey} L${cx + ojos.sep - ojos.tam - 7} ${ey}" stroke="${TINTA}" stroke-width="4"/>`;
+
+  // --- Nariz (hocico, pico, bola...) ---
+  const nc = s.narizColor || '#FF8A1F';
+  if (s.nariz === 'bola') svg += `<circle cx="${cx}" cy="${cy + 8}" r="14" fill="${nc}" ${L}/><circle cx="${cx - 4}" cy="${cy + 3}" r="4" fill="#fff" opacity=".6"/>`;
+  if (s.nariz === 'cerdo') svg += `<ellipse cx="${cx}" cy="${cy + 6}" rx="24" ry="17" fill="${oscurecer(piel, .88)}" ${L}/>` + espejo(d => `<ellipse cx="${cx + d * 8}" cy="${cy + 6}" rx="4" ry="7" fill="${oscurecer(piel, .6)}"/>`);
+  if (hocico) svg += `<ellipse cx="${cx}" cy="${cy + 20}" rx="34" ry="24" fill="${s.hocico}" ${L}/><ellipse cx="${cx}" cy="${cy + 6}" rx="14" ry="10" fill="${TINTA}"/><circle cx="${cx - 4}" cy="${cy + 3}" r="3" fill="#fff" opacity=".7"/>`;
+  if (s.nariz === 'pico') svg += `<path d="M${cx - 22} ${cy + 4} Q${cx} ${cy - 8} ${cx + 22} ${cy + 4} L${cx} ${cy + 30} Z" fill="#FF8A1F" ${L}/>`;
+  if (s.nariz === 'larga') svg += `<path d="M${cx - 9} ${ey + 12} Q${cx - 8} ${cy + 30} ${cx + 20} ${cy + 32} Q${cx + 12} ${cy + 16} ${cx + 9} ${ey + 12} Z" fill="${oscurecer(piel, .9)}" ${L}/>`;
+  if (s.nariz === 'raton') svg += `<circle cx="${cx}" cy="${cy + 6}" r="10" fill="${s.narizColor || '#FF5FA2'}" ${L}/>`;
+  if (ex.includes('verruga')) svg += `<circle cx="${cx + 16}" cy="${cy + 24}" r="5" fill="${oscurecer(piel, .7)}"/>`;
+  if (ex.includes('bigotes')) svg += espejo(d => [-8, 0, 8].map(dy => `<path d="M${cx + d * 16} ${cy + 8 + dy / 2} L${cx + d * 52} ${cy + 2 + dy * 1.4}" stroke="${TINTA}" stroke-width="3" stroke-linecap="round"/>`).join(''));
+  if (ex.includes('colmillos')) svg += espejo(d => `<path d="M${cx + d * 16 - 6} ${cy + 40} L${cx + d * 16 + 6} ${cy + 40} L${cx + d * 16} ${cy + 55} Z" fill="#fff" ${L}/>`);
+  if (ex.includes('mejillas')) svg += espejo(d => `<circle cx="${cx + d * rx * .66}" cy="${cy + 16}" r="12" fill="#FF5FA2" opacity=".35"/>`);
+  if (ex.includes('pecas')) svg += espejo(d => [[0, 0], [8, 6], [-6, 8]].map(([a, b]) => `<circle cx="${cx + d * (rx * .5 + a)}" cy="${cy + 8 + b}" r="2.4" fill="#A0522D"/>`).join(''));
+
+  // --- Sombreros y adornos (encima de todo) ---
+  if (s.sombrero === 'bruja') svg += `<ellipse cx="${cx}" cy="${cy - ry + 12}" rx="${rx + 28}" ry="13" fill="${sc}" ${L}/><path d="M${cx - 44} ${cy - ry + 8} L${cx + 26} ${cy - ry - 104} L${cx + 44} ${cy - ry + 8} Z" fill="${sc}" ${L}/><path d="M${cx - 40} ${cy - ry - 4} L${cx + 41} ${cy - ry - 4} L${cx + 39} ${cy - ry + 6} L${cx - 42} ${cy - ry + 6} Z" fill="#8B3FD9"/>`;
+  if (s.sombrero === 'capucha') svg += `<path d="M${cx - rx - 8} ${cy + 34} Q${cx - rx - 10} ${cy - ry - 30} ${cx} ${cy - ry - 26} Q${cx + rx + 10} ${cy - ry - 30} ${cx + rx + 8} ${cy + 34}" fill="none" stroke="${TINTA}" stroke-width="26" stroke-linecap="round"/><path d="M${cx - rx - 8} ${cy + 34} Q${cx - rx - 10} ${cy - ry - 30} ${cx} ${cy - ry - 26} Q${cx + rx + 10} ${cy - ry - 30} ${cx + rx + 8} ${cy + 34}" fill="none" stroke="${sc}" stroke-width="18" stroke-linecap="round"/>`;
+  if (s.sombrero === 'gorro') svg += `<path d="M${cx - rx + 2} ${cy - ry * .42} Q${cx} ${cy - ry - 52} ${cx + rx - 2} ${cy - ry * .42} Z" fill="${sc}" ${L}/><path d="M${cx - rx + 2} ${cy - ry * .42} Q${cx} ${cy - ry * .62} ${cx + rx - 2} ${cy - ry * .42}" fill="none" stroke="#fff" stroke-width="8"/><circle cx="${cx}" cy="${cy - ry - 34}" r="14" fill="#fff" ${L}/>`;
+  if (s.sombrero === 'gorra') svg += `<path d="M${cx - rx + 6} ${cy - ry * .45} Q${cx} ${cy - ry - 42} ${cx + rx - 6} ${cy - ry * .45} Z" fill="${sc}" ${L}/><ellipse cx="${cx + 34}" cy="${cy - ry * .45}" rx="42" ry="10" fill="${sc}" ${L}/>`;
+  if (s.sombrero === 'corona') svg += `<path d="M${cx - 40} ${cy - ry + 12} L${cx - 40} ${cy - ry - 30} L${cx - 20} ${cy - ry - 8} L${cx} ${cy - ry - 40} L${cx + 20} ${cy - ry - 8} L${cx + 40} ${cy - ry - 30} L${cx + 40} ${cy - ry + 12} Z" fill="${sc}" ${L}/><circle cx="${cx}" cy="${cy - ry - 4}" r="6" fill="#E63027"/>`;
+  if (s.sombrero === 'cresta') svg += `<circle cx="${cx - 20}" cy="${cy - ry - 2}" r="14" fill="${sc}" ${L}/><circle cx="${cx + 20}" cy="${cy - ry - 2}" r="14" fill="${sc}" ${L}/><circle cx="${cx}" cy="${cy - ry - 14}" r="18" fill="${sc}" ${L}/>`;
+  if (s.sombrero === 'lazo') {
+    const bx = cx + rx * .55, by = cy - ry * .78;
+    svg += `<path d="M${bx} ${by} L${bx - 28} ${by - 18} L${bx - 28} ${by + 18} Z" fill="${sc}" ${L}/><path d="M${bx} ${by} L${bx + 28} ${by - 18} L${bx + 28} ${by + 18} Z" fill="${sc}" ${L}/><circle cx="${bx}" cy="${by}" r="8" fill="${sc}" ${L}/>`;
+  }
+  return svg;
+}
+
 const ESCENAS = {
   campo: { clase: 'esc-campo', deco: [['☀️', 88, 14, 70], ['☁️', 20, 15, 60], ['☁️', 60, 22, 46], ['🌳', 8, 52, 90], ['🌻', 94, 58, 50], ['🌷', 30, 64, 34]] },
   bosque: { clase: 'esc-bosque', deco: [['🌲', 8, 40, 120], ['🌲', 26, 32, 140], ['🌲', 76, 34, 140], ['🌲', 93, 42, 110], ['🍄', 50, 64, 40], ['🦉', 26, 14, 40]] },
   dulce: { clase: 'esc-dulce', deco: [['🍭', 10, 40, 90], ['🍬', 30, 18, 50], ['🍫', 70, 16, 50], ['🧁', 90, 42, 80], ['🍩', 50, 12, 46]] },
   osos: { clase: 'esc-osos', deco: [['🪟', 22, 26, 80], ['🖼️', 72, 24, 60], ['🪴', 92, 50, 70], ['🕰️', 48, 18, 50]] },
   ogro: { clase: 'esc-ogro', deco: [['🦴', 14, 30, 60], ['🕸️', 90, 14, 70], ['🕯️', 64, 30, 46], ['🪨', 6, 58, 60]] },
-  noche: { clase: 'esc-noche', deco: [['🌙', 84, 16, 70], ['⭐', 20, 12, 30], ['⭐', 50, 22, 24], ['🌲', 10, 44, 110], ['🌲', 92, 46, 100]] }
+  noche: { clase: 'esc-noche', deco: [['🌙', 84, 16, 70], ['⭐', 20, 12, 30], ['⭐', 50, 22, 24], ['🌲', 10, 44, 110], ['🌲', 92, 46, 100]] },
+  abuela: { clase: 'esc-abuela', deco: [['🖼️', 20, 24, 60], ['🪟', 72, 24, 76], ['🧶', 90, 54, 46], ['🕰️', 46, 16, 46]] },
+  estanque: { clase: 'esc-estanque', deco: [['☁️', 22, 14, 60], ['☀️', 86, 14, 64], ['🌳', 6, 42, 100], ['🌾', 92, 56, 56], ['🌿', 30, 58, 40]] }
 };
 
+// Cada obra: personajes (pj) y guion. Cada paso del guion:
+// [escenario, reparto, quién habla ('' = el presentador narra), texto ES, texto EN, efecto]
+// Efectos: saltar, temblar, volar, huir, dormir  →  'efecto:personaje' (o 'efecto:todos')
 const OBRAS = [
-  { id: 'cerditos', titulo: 'Los tres cerditos', em: '🐷🐷🐷', sub: '¡y el lobo feroz!',
+  { titulo: 'Los tres cerditos', en: 'The Three Little Pigs', sub: '¡y el lobo feroz!', subEn: 'and the big bad wolf!',
     pj: {
-      c1: { e: '🐷', n: 'Cerdito pequeño', p: 1.9, r: 1.15, s: 0.8 },
-      c2: { e: '🐷', n: 'Cerdito mediano', p: 1.6, r: 1.1, s: 0.95 },
-      c3: { e: '🐷', n: 'Cerdito mayor', p: 1.3, r: 1, s: 1.1 },
-      lobo: { e: '🐺', n: 'Lobo feroz', p: 0.4, r: 0.9, s: 1.2 },
-      paja: { e: '🛖', n: 'Casa de paja', prop: 1 },
-      madera: { e: '🏚️', n: 'Casa de madera', prop: 1 },
-      ladrillo: { e: '🏠', n: 'Casa de ladrillo', prop: 1, s: 1.3 }
+      c1: { m: 'cerdito1', n: 'Cerdito pequeño', en: 'Little Pig', p: 1.9, r: 1.15, s: 0.8 },
+      c2: { m: 'cerdito2', n: 'Cerdito mediano', en: 'Middle Pig', p: 1.6, r: 1.1, s: 0.9 },
+      c3: { m: 'cerdito3', n: 'Cerdito mayor', en: 'Big Pig', p: 1.3, r: 1, s: 1 },
+      lobo: { m: 'lobo', n: 'Lobo feroz', en: 'Big Bad Wolf', p: 0.4, r: 0.9, s: 1.1 },
+      paja: { e: '🛖', n: 'Casa de paja', en: 'Straw house', prop: 1 },
+      madera: { e: '🏚️', n: 'Casa de madera', en: 'Wooden house', prop: 1 },
+      ladrillo: { e: '🏠', n: 'Casa de ladrillo', en: 'Brick house', prop: 1, s: 1.3 }
     },
     guion: [
-      ['campo', 'c1 c2 c3', '', 'Había una vez tres cerditos que decidieron construir, cada uno, su propia casa.'],
-      ['campo', 'c1 paja', 'c1', '¡Yo la haré de paja! Así termino prontísimo y me voy a jugar.'],
-      ['campo', 'c2 madera', 'c2', '¡Yo la haré de madera! Es rápido y bastante fuerte.'],
-      ['campo', 'c3 ladrillo', 'c3', 'Yo la haré de ladrillo. Tardaré más, pero será muy resistente.'],
-      ['bosque', 'lobo', 'lobo', '¡Je, je, je! Soy el lobo feroz y tengo muchísima hambre. ¡Huelo a cerdito!'],
-      ['campo', 'c1 paja lobo', 'lobo', 'Cerdito, cerdito, ¡déjame entrar!'],
-      ['campo', 'c1 paja lobo', 'c1', '¡No, no y no! ¡Ni por los pelos de mi barbilla!', 'temblar:c1'],
-      ['campo', 'c1 paja lobo', 'lobo', 'Pues soplaré, y soplaré... ¡y tu casa derribaré! ¡FUUUUU!', 'volar:paja'],
-      ['campo', 'c1 c2 madera lobo', '', '¡La casa de paja salió volando! El cerdito pequeño corrió a casa de su hermano.'],
-      ['campo', 'c1 c2 madera lobo', 'lobo', 'Soplaré, y soplaré... ¡y vuestra casa derribaré! ¡FUUUUU!', 'volar:madera'],
-      ['campo', 'c1 c2 c3 ladrillo', '', '¡La casa de madera también salió volando! Los dos cerditos corrieron a casa de su hermano mayor.'],
-      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', 'Soplaré, y soplaré... ¡FUUUUUUUUU!', 'temblar:lobo'],
-      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo sopló y sopló hasta ponerse morado... ¡pero la casa de ladrillo no se movió ni un poquito!'],
-      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', '¡Grrr! ¡Pues entraré por la chimenea!'],
-      ['campo', 'c1 c2 c3 ladrillo lobo', 'c3', '¡Rápido, hermanos! ¡Poned la olla de agua caliente en la chimenea!', 'saltar:c3'],
-      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo bajó por la chimenea... ¡y se quemó la cola! Salió corriendo y nunca más volvió.', 'huir:lobo'],
-      ['campo', 'c1 c2 c3 ladrillo', 'todos', '¡Bieeen! ¡Viva la casa de ladrillo!', 'saltar:todos'],
-      ['campo', 'c1 c2 c3 ladrillo', '', 'Y desde entonces, los tres cerditos vivieron juntos y felices. Fin.']
+      ['campo', 'c1 c2 c3', '', 'Había una vez tres cerditos que decidieron construir, cada uno, su propia casa.', 'Once upon a time there were three little pigs who each decided to build their own house.'],
+      ['campo', 'c1 paja', 'c1', '¡Yo la haré de paja! Así termino prontísimo y me voy a jugar.', 'I\'ll make mine out of straw! That way I\'ll finish really quickly and go and play.'],
+      ['campo', 'c2 madera', 'c2', '¡Yo la haré de madera! Es rápido y bastante fuerte.', 'I\'ll make mine out of wood! It\'s quick and quite strong.'],
+      ['campo', 'c3 ladrillo', 'c3', 'Yo la haré de ladrillo. Tardaré más, pero será muy resistente.', 'I\'ll make mine out of bricks. It\'ll take longer, but it will be very strong.'],
+      ['bosque', 'lobo', 'lobo', '¡Je, je, je! Soy el lobo feroz y tengo muchísima hambre. ¡Huelo a cerdito!', 'Heh, heh, heh! I\'m the big bad wolf and I\'m very, very hungry. I smell little pig!'],
+      ['campo', 'c1 paja lobo', 'lobo', 'Cerdito, cerdito, ¡déjame entrar!', 'Little pig, little pig, let me come in!'],
+      ['campo', 'c1 paja lobo', 'c1', '¡No, no y no! ¡Ni por los pelos de mi barbilla!', 'No, no, no! Not by the hair on my chinny chin chin!', 'temblar:c1'],
+      ['campo', 'c1 paja lobo', 'lobo', 'Pues soplaré, y soplaré... ¡y tu casa derribaré! ¡FUUUUU!', 'Then I\'ll huff, and I\'ll puff... and I\'ll blow your house down! WHOOOOSH!', 'volar:paja'],
+      ['campo', 'c1 c2 madera lobo', '', '¡La casa de paja salió volando! El cerdito pequeño corrió a casa de su hermano.', 'The straw house blew away! The little pig ran to his brother\'s house.'],
+      ['campo', 'c1 c2 madera lobo', 'lobo', 'Soplaré, y soplaré... ¡y vuestra casa derribaré! ¡FUUUUU!', 'I\'ll huff, and I\'ll puff... and I\'ll blow your house down! WHOOOOSH!', 'volar:madera'],
+      ['campo', 'c1 c2 c3 ladrillo', '', '¡La casa de madera también salió volando! Los dos cerditos corrieron a casa de su hermano mayor.', 'The wooden house blew away too! The two little pigs ran to their big brother\'s house.'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', 'Soplaré, y soplaré... ¡FUUUUUUUUU!', 'I\'ll huff, and I\'ll puff... WHOOOOOOOOSH!', 'temblar:lobo'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo sopló y sopló hasta ponerse morado... ¡pero la casa de ladrillo no se movió ni un poquito!', 'The wolf huffed and puffed until he turned purple... but the brick house didn\'t move one little bit!'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'lobo', '¡Grrr! ¡Pues entraré por la chimenea!', 'Grrr! Then I\'ll come down the chimney!'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', 'c3', '¡Rápido, hermanos! ¡Poned la olla de agua caliente en la chimenea!', 'Quick, brothers! Put the pot of hot water in the fireplace!', 'saltar:c3'],
+      ['campo', 'c1 c2 c3 ladrillo lobo', '', 'El lobo bajó por la chimenea... ¡y se quemó la cola! Salió corriendo y nunca más volvió.', 'The wolf came down the chimney... and burnt his tail! He ran away and never came back.', 'huir:lobo'],
+      ['campo', 'c1 c2 c3 ladrillo', 'todos', '¡Bieeen! ¡Viva la casa de ladrillo!', 'Hooray! Three cheers for the brick house!', 'saltar:todos'],
+      ['campo', 'c1 c2 c3 ladrillo', '', 'Y desde entonces, los tres cerditos vivieron juntos y felices. Fin.', 'And from then on, the three little pigs lived together happily ever after. The end.']
     ] },
-  { id: 'ricitos', titulo: 'Ricitos de Oro', em: '👱‍♀️🐻🧸', sub: 'y los tres osos',
+  { titulo: 'Ricitos de Oro', en: 'Goldilocks', sub: 'y los tres osos', subEn: 'and the three bears',
     pj: {
-      ricitos: { e: '👱‍♀️', n: 'Ricitos de Oro', p: 1.5, r: 1.05, s: 0.95 },
-      papa: { e: '🐻', n: 'Papá Oso', p: 0.5, r: 0.9, s: 1.25 },
-      mama: { e: '🐻', n: 'Mamá Osa', p: 1.1, r: 1, s: 1 },
-      bebe: { e: '🧸', n: 'Osito', p: 1.9, r: 1.15, s: 0.75 },
-      sopa: { e: '🥣', n: 'Sopa', prop: 1, s: 0.7 },
-      silla: { e: '🪑', n: 'Silla', prop: 1, s: 0.8 },
-      cama: { e: '🛏️', n: 'Cama', prop: 1 }
+      ricitos: { m: 'ricitos', n: 'Ricitos de Oro', en: 'Goldilocks', p: 1.5, r: 1.05, s: 0.9 },
+      papa: { m: 'papaOso', n: 'Papá Oso', en: 'Daddy Bear', p: 0.5, r: 0.9, s: 1.1 },
+      mama: { m: 'mamaOsa', n: 'Mamá Osa', en: 'Mummy Bear', p: 1.1, r: 1, s: 1 },
+      bebe: { m: 'osito', n: 'Osito', en: 'Baby Bear', p: 1.9, r: 1.15, s: 0.75 },
+      sopa: { e: '🥣', n: 'Sopa', en: 'Soup', prop: 1, s: 0.7 },
+      silla: { e: '🪑', n: 'Silla', en: 'Chair', prop: 1, s: 0.8 },
+      cama: { e: '🛏️', n: 'Cama', en: 'Bed', prop: 1 }
     },
     guion: [
-      ['bosque', 'papa mama bebe', '', 'En una casita del bosque vivían tres osos: Papá Oso, Mamá Osa y el pequeño Osito.'],
-      ['osos', 'papa mama sopa bebe', 'mama', '¡La sopa está muy caliente! Vamos a dar un paseo mientras se enfría.'],
-      ['bosque', 'ricitos', '', 'Mientras tanto, una niña de pelo dorado llamada Ricitos de Oro paseaba por el bosque.'],
-      ['bosque', 'ricitos', 'ricitos', '¡Oh, una casita! La puerta está abierta... voy a echar un vistazo.'],
-      ['osos', 'ricitos sopa', 'ricitos', 'Esta sopa quema... esta está fría... ¡y esta está perfecta! Ñam, ñam.', 'saltar:ricitos'],
-      ['osos', 'ricitos silla', 'ricitos', 'Esta silla es muy dura... esta, muy blanda... ¡y esta es perfecta! ¡Ay! ¡Crac! ¡La he roto!', 'temblar:silla'],
-      ['osos', 'ricitos cama', 'ricitos', '¡Qué sueño tengo! Esta camita es perfecta... zzz...', 'dormir:ricitos'],
-      ['osos', 'papa mama sopa bebe', 'papa', '¡Alguien ha probado mi sopa!'],
-      ['osos', 'papa mama sopa bebe', 'mama', '¡Alguien ha probado la mía!'],
-      ['osos', 'papa mama sopa bebe', 'bebe', '¡Y alguien se ha comido toda mi sopa!', 'temblar:bebe'],
-      ['osos', 'papa mama silla bebe', 'bebe', '¡Y alguien ha roto mi sillita!'],
-      ['osos', 'papa mama bebe cama ricitos', 'bebe', '¡Mirad! ¡Hay una niña durmiendo en mi cama!', 'dormir:ricitos'],
-      ['osos', 'papa mama bebe cama ricitos', 'ricitos', '¡Aaah! ¡Tres osos!', 'saltar:ricitos'],
-      ['osos', 'papa mama bebe ricitos', 'ricitos', 'Perdón, perdón... no debí entrar sin permiso. ¿Puedo arreglar la sillita?'],
-      ['osos', 'papa mama bebe ricitos', 'papa', 'Claro que sí. Y la próxima vez, llama a la puerta.'],
-      ['osos', 'papa mama bebe ricitos', '', 'Ricitos de Oro arregló la sillita, preparó más sopa y se hicieron muy amigos. Fin.', 'saltar:todos']
+      ['bosque', 'papa mama bebe', '', 'En una casita del bosque vivían tres osos: Papá Oso, Mamá Osa y el pequeño Osito.', 'In a little house in the forest lived three bears: Daddy Bear, Mummy Bear and little Baby Bear.'],
+      ['osos', 'papa mama sopa bebe', 'mama', '¡La sopa está muy caliente! Vamos a dar un paseo mientras se enfría.', 'The soup is very hot! Let\'s go for a walk while it cools down.'],
+      ['bosque', 'ricitos', '', 'Mientras tanto, una niña de pelo dorado llamada Ricitos de Oro paseaba por el bosque.', 'Meanwhile, a girl with golden hair called Goldilocks was walking through the forest.'],
+      ['bosque', 'ricitos', 'ricitos', '¡Oh, una casita! La puerta está abierta... voy a echar un vistazo.', 'Oh, a little house! The door is open... I\'ll have a look inside.'],
+      ['osos', 'ricitos sopa', 'ricitos', 'Esta sopa quema... esta está fría... ¡y esta está perfecta! Ñam, ñam.', 'This soup is too hot... this one is too cold... and this one is just right! Yum, yum.', 'saltar:ricitos'],
+      ['osos', 'ricitos silla', 'ricitos', 'Esta silla es muy dura... esta, muy blanda... ¡y esta es perfecta! ¡Ay! ¡Crac! ¡La he roto!', 'This chair is too hard... this one is too soft... and this one is just right! Oops! Crack! I broke it!', 'temblar:silla'],
+      ['osos', 'ricitos cama', 'ricitos', '¡Qué sueño tengo! Esta camita es perfecta... zzz...', 'I\'m so sleepy! This little bed is just right... zzz...', 'dormir:ricitos'],
+      ['osos', 'papa mama sopa bebe', 'papa', '¡Alguien ha probado mi sopa!', 'Somebody\'s been eating my soup!'],
+      ['osos', 'papa mama sopa bebe', 'mama', '¡Alguien ha probado la mía!', 'Somebody\'s been eating mine!'],
+      ['osos', 'papa mama sopa bebe', 'bebe', '¡Y alguien se ha comido toda mi sopa!', 'And somebody\'s eaten all of mine!', 'temblar:bebe'],
+      ['osos', 'papa mama silla bebe', 'bebe', '¡Y alguien ha roto mi sillita!', 'And somebody\'s broken my little chair!'],
+      ['osos', 'papa mama bebe cama ricitos', 'bebe', '¡Mirad! ¡Hay una niña durmiendo en mi cama!', 'Look! There\'s a girl sleeping in my bed!', 'dormir:ricitos'],
+      ['osos', 'papa mama bebe cama ricitos', 'ricitos', '¡Aaah! ¡Tres osos!', 'Aaah! Three bears!', 'saltar:ricitos'],
+      ['osos', 'papa mama bebe ricitos', 'ricitos', 'Perdón, perdón... no debí entrar sin permiso. ¿Puedo arreglar la sillita?', 'Sorry, sorry... I shouldn\'t have come in without asking. Can I fix the little chair?'],
+      ['osos', 'papa mama bebe ricitos', 'papa', 'Claro que sí. Y la próxima vez, llama a la puerta.', 'Of course. And next time, knock on the door.'],
+      ['osos', 'papa mama bebe ricitos', '', 'Ricitos de Oro arregló la sillita, preparó más sopa y se hicieron muy amigos. Fin.', 'Goldilocks fixed the little chair, made more soup, and they all became great friends. The end.', 'saltar:todos']
     ] },
-  { id: 'hansel', titulo: 'Hansel y Gretel', em: '👦👧🍭', sub: 'y la casita de chocolate',
+  { titulo: 'Hansel y Gretel', en: 'Hansel and Gretel', sub: 'y la casita de chocolate', subEn: 'and the chocolate house',
     pj: {
-      hansel: { e: '👦', n: 'Hansel', p: 1.3, r: 1.05 },
-      gretel: { e: '👧', n: 'Gretel', p: 1.6, r: 1.05 },
-      bruja: { e: '🧙‍♀️', n: 'Bruja', p: 1.9, r: 0.85, s: 1.15 },
-      pajaros: { e: '🐦', n: 'Pajaritos', p: 2, r: 1.3, s: 0.7 },
-      migas: { e: '🍞', n: 'Migas', prop: 1, s: 0.6 },
-      casita: { e: '🏠', n: 'Casita de chocolate', prop: 1, s: 1.3 },
-      jaula: { e: '🔒', n: 'Jaula', prop: 1, s: 0.7 },
-      tesoro: { e: '💎', n: 'Tesoro', prop: 1, s: 0.8 },
-      papa: { e: '👨', n: 'Papá', p: 0.8, r: 0.95 }
+      hansel: { m: 'hansel', n: 'Hansel', en: 'Hansel', p: 1.3, r: 1.05 },
+      gretel: { m: 'gretel', n: 'Gretel', en: 'Gretel', p: 1.6, r: 1.05 },
+      bruja: { m: 'bruja', n: 'Bruja', en: 'Witch', p: 1.9, r: 0.85, s: 1.05 },
+      pajaros: { m: 'pajaro', n: 'Pajaritos', en: 'Little birds', p: 2, r: 1.3, s: 0.7 },
+      papa: { m: 'papa', n: 'Papá', en: 'Dad', p: 0.8, r: 0.95 },
+      migas: { e: '🍞', n: 'Migas', en: 'Breadcrumbs', prop: 1, s: 0.6 },
+      casita: { e: '🏠', n: 'Casita de chocolate', en: 'Chocolate house', prop: 1, s: 1.3 },
+      jaula: { e: '🔒', n: 'Jaula', en: 'Cage', prop: 1, s: 0.7 },
+      tesoro: { e: '💎', n: 'Tesoro', en: 'Treasure', prop: 1, s: 0.8 }
     },
     guion: [
-      ['bosque', 'hansel gretel', '', 'Hansel y Gretel eran dos hermanos que fueron al bosque a buscar leña.'],
-      ['bosque', 'hansel migas gretel', 'hansel', 'Iré dejando migas de pan por el camino. ¡Así sabremos volver a casa!'],
-      ['bosque', 'hansel gretel pajaros', '', 'Pero los pajaritos del bosque se comieron todas las migas.'],
-      ['bosque', 'hansel gretel pajaros', 'pajaros', '¡Pío, pío! ¡Qué migas tan ricas! ¡Gracias!', 'saltar:pajaros'],
-      ['bosque', 'hansel gretel', 'gretel', '¡Oh, no! ¡Nos hemos perdido!', 'temblar:gretel'],
-      ['dulce', 'hansel casita gretel', 'hansel', '¡Mira, Gretel! ¡Una casa hecha de chocolate, galletas y caramelos!', 'saltar:hansel'],
-      ['dulce', 'hansel casita gretel', 'gretel', '¡Ñam! ¡Esta ventana es de azúcar!'],
-      ['dulce', 'hansel gretel casita bruja', 'bruja', '¡Ji, ji, ji! ¿Quién se está comiendo mi casita?'],
-      ['dulce', 'hansel gretel casita bruja', 'bruja', 'Pasad, pasad, niños... dentro tengo muchos más dulces.'],
-      ['dulce', 'jaula hansel gretel bruja', '', 'Pero era una bruja muy malvada, ¡y encerró a Hansel en una jaula!', 'temblar:hansel'],
-      ['dulce', 'jaula hansel gretel bruja', 'bruja', 'Gretel, ¡enciende el horno! Tengo planes muy malvados... ¡ji, ji, ji!'],
-      ['dulce', 'jaula hansel gretel bruja', 'gretel', 'No sé cómo se hace... ¿me enseñas tú, bruja?'],
-      ['dulce', 'jaula hansel gretel bruja', '', 'La bruja se asomó al horno y Gretel, que era muy lista, ¡la empujó dentro y cerró la puerta! ¡PUM!', 'huir:bruja'],
-      ['dulce', 'hansel gretel', 'gretel', '¡Hansel, ya eres libre!', 'saltar:todos'],
-      ['dulce', 'hansel tesoro gretel', 'hansel', '¡Mira cuántos tesoros tenía la bruja! Nos los llevamos a casa.'],
-      ['campo', 'hansel papa gretel', '', 'Siguieron el río y por fin llegaron a casa, donde su papá les esperaba con un abrazo enorme. Fin.', 'saltar:todos']
+      ['bosque', 'hansel gretel', '', 'Hansel y Gretel eran dos hermanos que fueron al bosque a buscar leña.', 'Hansel and Gretel were a brother and sister who went into the forest to collect firewood.'],
+      ['bosque', 'hansel migas gretel', 'hansel', 'Iré dejando migas de pan por el camino. ¡Así sabremos volver a casa!', 'I\'ll leave a trail of breadcrumbs. That way we\'ll find our way home!'],
+      ['bosque', 'hansel gretel pajaros', '', 'Pero los pajaritos del bosque se comieron todas las migas.', 'But the little birds in the forest ate all the breadcrumbs.'],
+      ['bosque', 'hansel gretel pajaros', 'pajaros', '¡Pío, pío! ¡Qué migas tan ricas! ¡Gracias!', 'Tweet, tweet! What tasty crumbs! Thank you!', 'saltar:pajaros'],
+      ['bosque', 'hansel gretel', 'gretel', '¡Oh, no! ¡Nos hemos perdido!', 'Oh no! We\'re lost!', 'temblar:gretel'],
+      ['dulce', 'hansel casita gretel', 'hansel', '¡Mira, Gretel! ¡Una casa hecha de chocolate, galletas y caramelos!', 'Look, Gretel! A house made of chocolate, biscuits and sweets!', 'saltar:hansel'],
+      ['dulce', 'hansel casita gretel', 'gretel', '¡Ñam! ¡Esta ventana es de azúcar!', 'Yum! This window is made of sugar!'],
+      ['dulce', 'hansel gretel casita bruja', 'bruja', '¡Ji, ji, ji! ¿Quién se está comiendo mi casita?', 'Hee, hee, hee! Who\'s nibbling my little house?'],
+      ['dulce', 'hansel gretel casita bruja', 'bruja', 'Pasad, pasad, niños... dentro tengo muchos más dulces.', 'Come in, come in, children... I have lots more sweets inside.'],
+      ['dulce', 'jaula hansel gretel bruja', '', 'Pero era una bruja muy malvada, ¡y encerró a Hansel en una jaula!', 'But she was a very wicked witch, and she locked Hansel in a cage!', 'temblar:hansel'],
+      ['dulce', 'jaula hansel gretel bruja', 'bruja', 'Gretel, ¡enciende el horno! Tengo planes muy malvados... ¡ji, ji, ji!', 'Gretel, light the oven! I have some very wicked plans... hee, hee, hee!'],
+      ['dulce', 'jaula hansel gretel bruja', 'gretel', 'No sé cómo se hace... ¿me enseñas tú, bruja?', 'I don\'t know how to... will you show me, witch?'],
+      ['dulce', 'jaula hansel gretel bruja', '', 'La bruja se asomó al horno y Gretel, que era muy lista, ¡la empujó dentro y cerró la puerta! ¡PUM!', 'The witch leaned into the oven and Gretel, who was very clever, pushed her in and shut the door! BANG!', 'huir:bruja'],
+      ['dulce', 'hansel gretel', 'gretel', '¡Hansel, ya eres libre!', 'Hansel, you\'re free!', 'saltar:todos'],
+      ['dulce', 'hansel tesoro gretel', 'hansel', '¡Mira cuántos tesoros tenía la bruja! Nos los llevamos a casa.', 'Look how much treasure the witch had! Let\'s take it home.'],
+      ['campo', 'hansel papa gretel', '', 'Siguieron el río y por fin llegaron a casa, donde su papá les esperaba con un abrazo enorme. Fin.', 'They followed the river and at last they got home, where their dad was waiting with an enormous hug. The end.', 'saltar:todos']
     ] },
-  { id: 'pulgarcito', titulo: 'Pulgarcito', em: '🧒👢👹', sub: 'pequeño pero muy listo',
+  { titulo: 'Pulgarcito', en: 'Tom Thumb', sub: 'pequeño pero muy listo', subEn: 'small but very clever',
     pj: {
-      pulgar: { e: '🧒', n: 'Pulgarcito', p: 2, r: 1.2, s: 0.6 },
-      hermanos: { e: '👦👦👦', n: 'Hermanos', p: 1.4, r: 1.05, s: 0.75 },
-      pajaros: { e: '🐦', n: 'Pajaritos', p: 2, r: 1.3, s: 0.7 },
-      piedras: { e: '🪨', n: 'Piedrecitas', prop: 1, s: 0.6 },
-      ogro: { e: '👹', n: 'Ogro', p: 0.2, r: 0.8, s: 1.4 },
-      botas: { e: '👢', n: 'Botas de siete leguas', prop: 1, s: 0.8 },
-      padres: { e: '👨👩', n: 'Papá y mamá', p: 1, r: 1, s: 0.9 }
+      pulgar: { m: 'pulgarcito', n: 'Pulgarcito', en: 'Tom Thumb', p: 2, r: 1.2, s: 0.65 },
+      hermanos: { m: 'hermanos', n: 'Hermanos', en: 'Brothers', p: 1.4, r: 1.05, s: 1.2 },
+      pajaros: { m: 'pajaro', n: 'Pajaritos', en: 'Little birds', p: 2, r: 1.3, s: 0.7 },
+      ogro: { m: 'ogro', n: 'Ogro', en: 'Ogre', p: 0.2, r: 0.8, s: 1.25 },
+      padres: { m: 'padres', n: 'Papá y mamá', en: 'Mum and Dad', p: 1, r: 1, s: 1.15 },
+      piedras: { e: '🪨', n: 'Piedrecitas', en: 'Pebbles', prop: 1, s: 0.6 },
+      botas: { e: '👢', n: 'Botas de siete leguas', en: 'Seven-league boots', prop: 1, s: 0.8 }
     },
     guion: [
-      ['campo', 'hermanos pulgar', '', 'Pulgarcito era el más pequeño de siete hermanos. ¡Tan pequeño como un dedo pulgar! Pero era el más listo de todos.'],
-      ['campo', 'hermanos pulgar', 'pulgar', '¡Hola! Soy pequeñito... ¡pero tengo ideas muy grandes!', 'saltar:pulgar'],
-      ['bosque', 'hermanos piedras pulgar', '', 'Un día, los hermanos se perdieron en el bosque. Pero Pulgarcito había ido tirando piedrecitas blancas por el camino.'],
-      ['bosque', 'hermanos piedras pulgar', 'pulgar', '¡Seguidme! Las piedrecitas nos llevarán a casa.', 'saltar:pulgar'],
-      ['bosque', 'hermanos pulgar pajaros', '', 'Otro día volvieron a perderse. Esta vez Pulgarcito tiró migas de pan... ¡pero los pájaros se las comieron!'],
-      ['bosque', 'hermanos pulgar pajaros', 'pajaros', '¡Pío, pío! ¡Qué buenas!', 'saltar:pajaros'],
-      ['ogro', 'hermanos pulgar ogro', '', 'Caminando y caminando, llegaron a la casa de un ogro gigante y gruñón.'],
-      ['ogro', 'hermanos pulgar ogro', 'ogro', '¡GRRR! ¿Quién anda ahí? ¡Aquí huele a niño!', 'temblar:todos'],
-      ['ogro', 'hermanos pulgar ogro', 'pulgar', '¡Hermanos, escondeos debajo de la cama! Yo tengo un plan.'],
-      ['ogro', 'pulgar ogro', 'ogro', 'Uaaaah... qué sueño... me voy a echar la siesta... ¡ZZZ!', 'dormir:ogro'],
-      ['ogro', 'pulgar botas ogro', '', 'Mientras el ogro roncaba, Pulgarcito le quitó sus botas mágicas de siete leguas, ¡que daban pasos gigantes!', 'dormir:ogro'],
-      ['ogro', 'pulgar botas', 'pulgar', '¡Con estas botas, cada paso es tan largo como siete caminos!', 'saltar:pulgar'],
-      ['campo', 'hermanos pulgar botas', '', 'Pulgarcito se puso las botas y, de un par de saltos, llevó a todos sus hermanos a casa.', 'saltar:todos'],
-      ['campo', 'padres hermanos pulgar', 'padres', '¡Hijos! ¡Qué alegría! ¡Estáis todos aquí!', 'saltar:todos'],
-      ['campo', 'padres hermanos pulgar botas', '', 'Y con sus botas tan rápidas, Pulgarcito se hizo cartero del rey y su familia ya nunca pasó hambre. Fin.']
+      ['campo', 'hermanos pulgar', '', 'Pulgarcito era el más pequeño de siete hermanos. ¡Tan pequeño como un dedo pulgar! Pero era el más listo de todos.', 'Tom Thumb was the youngest of seven brothers. As small as a thumb! But he was the cleverest of them all.'],
+      ['campo', 'hermanos pulgar', 'pulgar', '¡Hola! Soy pequeñito... ¡pero tengo ideas muy grandes!', 'Hello! I\'m very small... but I have very big ideas!', 'saltar:pulgar'],
+      ['bosque', 'hermanos piedras pulgar', '', 'Un día, los hermanos se perdieron en el bosque. Pero Pulgarcito había ido tirando piedrecitas blancas por el camino.', 'One day, the brothers got lost in the forest. But Tom Thumb had dropped little white pebbles along the path.'],
+      ['bosque', 'hermanos piedras pulgar', 'pulgar', '¡Seguidme! Las piedrecitas nos llevarán a casa.', 'Follow me! The pebbles will lead us home.', 'saltar:pulgar'],
+      ['bosque', 'hermanos pulgar pajaros', '', 'Otro día volvieron a perderse. Esta vez Pulgarcito tiró migas de pan... ¡pero los pájaros se las comieron!', 'Another day they got lost again. This time Tom Thumb dropped breadcrumbs... but the birds ate them!'],
+      ['bosque', 'hermanos pulgar pajaros', 'pajaros', '¡Pío, pío! ¡Qué buenas!', 'Tweet, tweet! Delicious!', 'saltar:pajaros'],
+      ['ogro', 'hermanos pulgar ogro', '', 'Caminando y caminando, llegaron a la casa de un ogro gigante y gruñón.', 'They walked and walked until they reached the house of a huge, grumpy ogre.'],
+      ['ogro', 'hermanos pulgar ogro', 'ogro', '¡GRRR! ¿Quién anda ahí? ¡Aquí huele a niño!', 'GRRR! Who\'s there? I smell children!', 'temblar:todos'],
+      ['ogro', 'hermanos pulgar ogro', 'pulgar', '¡Hermanos, escondeos debajo de la cama! Yo tengo un plan.', 'Brothers, hide under the bed! I have a plan.'],
+      ['ogro', 'pulgar ogro', 'ogro', 'Uaaaah... qué sueño... me voy a echar la siesta... ¡ZZZ!', 'Yaaawn... I\'m so sleepy... I\'ll have a nap... ZZZ!', 'dormir:ogro'],
+      ['ogro', 'pulgar botas ogro', '', 'Mientras el ogro roncaba, Pulgarcito le quitó sus botas mágicas de siete leguas, ¡que daban pasos gigantes!', 'While the ogre snored, Tom Thumb took his magic seven-league boots, which took giant steps!', 'dormir:ogro'],
+      ['ogro', 'pulgar botas', 'pulgar', '¡Con estas botas, cada paso es tan largo como siete caminos!', 'With these boots, every step is as long as seven roads!', 'saltar:pulgar'],
+      ['campo', 'hermanos pulgar botas', '', 'Pulgarcito se puso las botas y, de un par de saltos, llevó a todos sus hermanos a casa.', 'Tom Thumb put on the boots and, in a couple of jumps, took all his brothers home.', 'saltar:todos'],
+      ['campo', 'padres hermanos pulgar', 'padres', '¡Hijos! ¡Qué alegría! ¡Estáis todos aquí!', 'Children! How wonderful! You\'re all here!', 'saltar:todos'],
+      ['campo', 'padres hermanos pulgar botas', '', 'Y con sus botas tan rápidas, Pulgarcito se hizo cartero del rey y su familia ya nunca pasó hambre. Fin.', 'And with his super-fast boots, Tom Thumb became the king\'s messenger, and his family never went hungry again. The end.']
+    ] },
+  { titulo: 'Caperucita Roja', en: 'Little Red Riding Hood', sub: 'y el lobo del bosque', subEn: 'and the wolf in the woods',
+    pj: {
+      caperucita: { m: 'caperucita', n: 'Caperucita', en: 'Red Riding Hood', p: 1.6, r: 1.05, s: 0.9 },
+      lobo: { m: 'lobo', n: 'Lobo', en: 'Wolf', p: 0.4, r: 0.9, s: 1.1 },
+      abuela: { m: 'abuela', n: 'Abuelita', en: 'Grandma', p: 1.2, r: 0.85, s: 0.95 },
+      lenador: { m: 'lenador', n: 'Leñador', en: 'Woodcutter', p: 0.7, r: 0.95, s: 1.1 },
+      cesta: { e: '🧺', n: 'Cesta', en: 'Basket', prop: 1, s: 0.7 }
+    },
+    guion: [
+      ['campo', 'caperucita cesta', '', 'Había una vez una niña a la que todos llamaban Caperucita Roja, por su capa roja con capucha.', 'Once upon a time there was a little girl everyone called Little Red Riding Hood, because of her red hooded cape.'],
+      ['campo', 'caperucita cesta', 'caperucita', '¡Voy a llevarle a la abuelita esta cesta con pasteles y fruta!', 'I\'m taking this basket of cakes and fruit to Grandma!', 'saltar:caperucita'],
+      ['bosque', 'caperucita cesta lobo', 'lobo', 'Hola, niña... ¿Adónde vas tan solita por el bosque?', 'Hello, little girl... Where are you going all alone in the forest?'],
+      ['bosque', 'caperucita cesta lobo', 'caperucita', '¡A casa de mi abuelita, al otro lado del bosque!', 'To my grandma\'s house, on the other side of the forest!'],
+      ['bosque', 'caperucita cesta lobo', 'lobo', 'Je, je... Yo iré por el camino corto. ¡Ya verás qué sorpresa!', 'Heh, heh... I\'ll take the short cut. What a surprise she\'ll get!', 'huir:lobo'],
+      ['abuela', 'abuela', '', 'Mientras tanto, la abuelita estaba en casa tejiendo una bufanda.', 'Meanwhile, Grandma was at home knitting a scarf.'],
+      ['abuela', 'abuela lobo', 'lobo', '¡Toc, toc! Soy yo, Caperucita...', 'Knock, knock! It\'s me, Little Red Riding Hood...'],
+      ['abuela', 'abuela lobo', 'abuela', '¡Esa voz tan ronca no es de Caperucita! ¡Me escondo en el armario!', 'That gruff voice isn\'t Little Red Riding Hood\'s! I\'ll hide in the wardrobe!', 'huir:abuela'],
+      ['abuela', 'lobo', '', 'El lobo se puso el gorro de dormir de la abuelita y se metió en la cama.', 'The wolf put on Grandma\'s nightcap and climbed into her bed.', 'dormir:lobo'],
+      ['abuela', 'caperucita cesta lobo', 'caperucita', 'Abuelita, ¡qué orejas tan grandes tienes!', 'Grandma, what big ears you have!'],
+      ['abuela', 'caperucita cesta lobo', 'lobo', '¡Son para oírte mejor!', 'All the better to hear you with!'],
+      ['abuela', 'caperucita cesta lobo', 'caperucita', 'Abuelita, ¡qué boca tan grande tienes!', 'Grandma, what a big mouth you have!'],
+      ['abuela', 'caperucita cesta lobo', 'lobo', '¡Es para comerme... todos tus pasteles!', 'All the better to eat... all your cakes!', 'saltar:lobo'],
+      ['abuela', 'caperucita lenador lobo', 'lenador', '¡Alto ahí, lobo! ¡Fuera de esta casa!', 'Stop right there, wolf! Out of this house!', 'huir:lobo'],
+      ['abuela', 'caperucita lenador abuela', '', 'El lobo salió corriendo y nunca volvió. La abuelita salió del armario y todos merendaron juntos. Fin.', 'The wolf ran away and never came back. Grandma came out of the wardrobe and they all had tea together. The end.', 'saltar:todos']
+    ] },
+  { titulo: 'La ratita presumida', en: 'The Vain Little Mouse', sub: 'y sus pretendientes', subEn: 'and her suitors',
+    pj: {
+      ratita: { m: 'ratita', n: 'Ratita', en: 'Little Mouse', p: 1.8, r: 1.1, s: 0.85 },
+      gallo: { m: 'gallo', n: 'Gallo', en: 'Rooster', p: 1.3, r: 1.1, s: 1 },
+      perro: { m: 'perro', n: 'Perro', en: 'Dog', p: 0.8, r: 1, s: 1 },
+      gato: { m: 'gato', n: 'Gato', en: 'Cat', p: 1.1, r: 0.8, s: 1 },
+      perez: { m: 'ratonPerez', n: 'Ratón Pérez', en: 'Pérez the Mouse', p: 1.5, r: 1.1, s: 0.85 },
+      escoba: { e: '🧹', n: 'Escoba', en: 'Broom', prop: 1, s: 0.8 },
+      moneda: { e: '💰', n: 'Moneda', en: 'Coin', prop: 1, s: 0.6 },
+      lazo: { e: '🎀', n: 'Lazo', en: 'Ribbon', prop: 1, s: 0.6 }
+    },
+    guion: [
+      ['campo', 'ratita escoba', '', 'La ratita presumida barría la puerta de su casa cuando, de repente, encontró una moneda.', 'The vain little mouse was sweeping her doorstep when, all of a sudden, she found a coin.'],
+      ['campo', 'ratita moneda', 'ratita', '¡Una moneda! ¿Qué me compraré? ¡Ya sé: un lazo rojo para mi colita!', 'A coin! What shall I buy? I know: a red ribbon for my tail!', 'saltar:ratita'],
+      ['campo', 'ratita lazo', '', 'Con su lazo nuevo, la ratita estaba guapísima. Y empezaron a llegar pretendientes.', 'With her new ribbon, the little mouse looked lovely. And suitors started to arrive.'],
+      ['campo', 'ratita gallo', 'gallo', 'Ratita, ratita, tú que eres tan bonita, ¿te quieres casar conmigo?', 'Little mouse, little mouse, you\'re so pretty, will you marry me?'],
+      ['campo', 'ratita gallo', 'ratita', '¿Y por las noches qué harás?', 'And what will you do at night?'],
+      ['campo', 'ratita gallo', 'gallo', '¡Quiquiriquí! ¡Quiquiriquí!', 'Cock-a-doodle-doo! Cock-a-doodle-doo!', 'temblar:ratita'],
+      ['campo', 'ratita gallo', 'ratita', '¡Ay, no, que me despertarás!', 'Oh no, you\'ll wake me up!', 'huir:gallo'],
+      ['campo', 'ratita perro', 'perro', 'Ratita, ratita, ¿te quieres casar conmigo? Por las noches haré... ¡guau, guau!', 'Little mouse, little mouse, will you marry me? At night I\'ll go... woof, woof!'],
+      ['campo', 'ratita perro', 'ratita', '¡Uy, qué susto! ¡Tampoco!', 'Eek, how scary! No thank you!', 'huir:perro'],
+      ['noche', 'ratita gato', 'gato', 'Ratita, ratita... por las noches haré... miau, miau... muy dulcemente.', 'Little mouse, little mouse... at night I\'ll go... meow, meow... very sweetly.'],
+      ['noche', 'ratita gato', 'ratita', '¡Qué voz tan suave! Contigo me casaré.', 'What a soft voice! I will marry you.'],
+      ['noche', 'ratita gato', 'gato', 'Je, je... ¡Qué ratita tan apetitosa!', 'Heh, heh... What a tasty little mouse!', 'saltar:gato'],
+      ['noche', 'ratita gato perez', 'perez', '¡Ratita, cuidado! ¡Ese gato quiere merendarte!', 'Little mouse, watch out! That cat wants you for his tea!'],
+      ['noche', 'ratita perez gato', '', 'El ratón Pérez tiró un cubo de agua al gato, y el gato salió huyendo. ¡Fffff!', 'Pérez the mouse threw a bucket of water over the cat, and the cat ran away. Hisss!', 'huir:gato'],
+      ['campo', 'ratita perez lazo', 'ratita', 'Ratón Pérez, ¡tú eres el más valiente! ¿Quieres ser mi amigo?', 'Pérez, you\'re the bravest of all! Will you be my friend?'],
+      ['campo', 'ratita perez lazo', '', 'Y desde ese día, la ratita y el ratón Pérez se hicieron inseparables. Fin.', 'And from that day on, the little mouse and Pérez were inseparable. The end.', 'saltar:todos']
+    ] },
+  { titulo: 'Los músicos de Bremen', en: 'The Bremen Musicians', sub: 'una banda muy ruidosa', subEn: 'a very noisy band',
+    pj: {
+      burro: { m: 'burro', n: 'Burro', en: 'Donkey', p: 0.6, r: 0.95, s: 1.1 },
+      perro: { m: 'perro', n: 'Perro', en: 'Dog', p: 0.9, r: 1.05, s: 0.95 },
+      gato: { m: 'gato', n: 'Gato', en: 'Cat', p: 1.3, r: 1, s: 0.9 },
+      gallo: { m: 'gallo', n: 'Gallo', en: 'Rooster', p: 1.6, r: 1.15, s: 0.8 },
+      ladrones: { m: 'ladrones', n: 'Ladrones', en: 'Robbers', p: 0.6, r: 1.1, s: 1.15 },
+      guitarra: { e: '🎸', n: 'Guitarra', en: 'Guitar', prop: 1, s: 0.8 },
+      comida: { e: '🍗', n: 'Banquete', en: 'Feast', prop: 1, s: 0.7 },
+      casa: { e: '🏠', n: 'Casa', en: 'House', prop: 1, s: 1.2 }
+    },
+    guion: [
+      ['campo', 'burro', '', 'Había una vez un burro que ya era mayor para trabajar. Así que decidió irse a la ciudad de Bremen a ser músico.', 'Once upon a time there was a donkey who was too old to work. So he decided to go to the city of Bremen and become a musician.'],
+      ['campo', 'burro guitarra', 'burro', '¡Iiih-aah! ¡Seré el mejor guitarrista del mundo!', 'Hee-haw! I\'ll be the best guitarist in the world!', 'saltar:burro'],
+      ['campo', 'burro perro', 'perro', '¡Guau! ¿Puedo ir contigo? ¡Yo toco el tambor!', 'Woof! Can I come with you? I play the drums!'],
+      ['campo', 'burro perro gato', 'gato', '¡Miau! ¡Y yo canto como los ángeles!', 'Meow! And I sing like an angel!'],
+      ['campo', 'burro perro gato gallo', 'gallo', '¡Quiquiriquí! ¡Y yo hago los solos!', 'Cock-a-doodle-doo! And I do the solos!', 'saltar:gallo'],
+      ['bosque', 'burro perro gato gallo', '', 'Caminando por el bosque, se hizo de noche. Entonces vieron una casa con luz.', 'Walking through the forest, night fell. Then they saw a house with a light on.'],
+      ['noche', 'ladrones comida casa', '', 'Dentro de la casa había unos ladrones contando su tesoro y comiendo un banquete.', 'Inside the house, some robbers were counting their treasure and eating a feast.'],
+      ['noche', 'ladrones comida', 'ladrones', '¡Ja, ja! ¡Nadie nos encontrará aquí!', 'Ha, ha! Nobody will ever find us here!'],
+      ['noche', 'burro perro gato gallo', 'burro', 'Amigos, ¡vamos a darles un concierto! Uno encima del otro... ¡ya!', 'Friends, let\'s give them a concert! One on top of the other... now!'],
+      ['noche', 'burro perro gato gallo', 'todos', '¡IIIH-AAAH! ¡GUAU! ¡MIAU! ¡QUIQUIRIQUÍ!', 'HEE-HAW! WOOF! MEOW! COCK-A-DOODLE-DOO!', 'temblar:todos'],
+      ['noche', 'ladrones', 'ladrones', '¡Un monstruo! ¡Un monstruo de cuatro cabezas! ¡Corred!', 'A monster! A four-headed monster! Run!', 'huir:ladrones'],
+      ['noche', 'burro perro gato gallo comida', '', 'Los ladrones huyeron y nunca volvieron. Y los músicos se comieron el banquete.', 'The robbers ran away and never came back. And the musicians ate the feast.', 'saltar:todos'],
+      ['campo', 'burro perro gato gallo guitarra', '', 'Se quedaron a vivir en aquella casa, dando un concierto cada noche. ¿Llegaron a Bremen? ¡Eso da igual! Fin.', 'They stayed to live in that house, giving a concert every night. Did they ever reach Bremen? Who cares! The end.']
+    ] },
+  { titulo: 'El patito feo', en: 'The Ugly Duckling', sub: 'que se convirtió en cisne', subEn: 'who became a swan',
+    pj: {
+      mama: { m: 'mamaPata', n: 'Mamá Pata', en: 'Mother Duck', p: 1.2, r: 1, s: 1 },
+      patitos: { m: 'patitos', n: 'Patitos', en: 'Ducklings', p: 2, r: 1.2, s: 1.1 },
+      patito: { m: 'patito', n: 'Patito', en: 'Duckling', p: 1.7, r: 1, s: 0.8 },
+      cisne: { m: 'cisne', n: 'Cisne', en: 'Swan', p: 1.3, r: 0.95, s: 1.05 },
+      joven: { m: 'cisneJoven', n: 'Cisne joven', en: 'Young swan', p: 1.5, r: 1, s: 1 },
+      huevo: { e: '🥚', n: 'Huevo', en: 'Egg', prop: 1, s: 0.6 }
+    },
+    guion: [
+      ['estanque', 'mama huevo', '', 'Mamá Pata estaba sentada sobre sus huevos, esperando a que nacieran sus patitos.', 'Mother Duck was sitting on her eggs, waiting for her ducklings to hatch.'],
+      ['estanque', 'mama patitos', 'mama', '¡Cuac! ¡Ya han nacido! ¡Qué amarillitos y qué bonitos!', 'Quack! They\'ve hatched! So yellow and so lovely!', 'saltar:patitos'],
+      ['estanque', 'mama patitos huevo', '', 'Pero quedaba un huevo más grande que los demás. Crac, crac... ¡y salió un patito gris!', 'But there was one egg bigger than the others. Crack, crack... and out came a grey duckling!'],
+      ['estanque', 'mama patitos patito', 'patitos', '¡Qué patito tan raro! ¡Es gris y grandote!', 'What a strange duckling! He\'s grey and big!'],
+      ['estanque', 'patito', 'patito', 'Nadie quiere jugar conmigo... Me iré a buscar amigos a otro sitio.', 'Nobody wants to play with me... I\'ll go and find friends somewhere else.', 'temblar:patito'],
+      ['bosque', 'patito', '', 'El patito caminó y caminó. Pasó el otoño, llegó el invierno, y el patito creció y creció.', 'The duckling walked and walked. Autumn passed, winter came, and the duckling grew and grew.'],
+      ['noche', 'patito', 'patito', 'Brrr, qué frío... Pero no me rindo. ¡En primavera encontraré amigos!', 'Brrr, it\'s cold... But I won\'t give up. In spring I\'ll find friends!'],
+      ['estanque', 'patito cisne', '', 'Cuando llegó la primavera, el patito vio unos pájaros blancos preciosos en el lago.', 'When spring came, the duckling saw some beautiful white birds on the lake.'],
+      ['estanque', 'patito cisne', 'cisne', '¡Hola! ¿Por qué estás tan triste? ¡Ven a nadar con nosotros!', 'Hello! Why are you so sad? Come and swim with us!'],
+      ['estanque', 'patito cisne', 'patito', '¿Conmigo? Pero si soy un patito feo...', 'With me? But I\'m an ugly duckling...'],
+      ['estanque', 'joven cisne', 'cisne', '¡Mírate en el agua! ¡Eres un cisne como nosotros!', 'Look at yourself in the water! You\'re a swan, just like us!'],
+      ['estanque', 'joven cisne', 'joven', '¡Soy un cisne! ¡Un cisne precioso!', 'I\'m a swan! A beautiful swan!', 'saltar:joven'],
+      ['estanque', 'mama patitos cisne joven', '', 'Y el cisne nadó feliz con sus nuevos amigos... y también con sus hermanos patos, que le pidieron perdón. Fin.', 'And the swan swam happily with his new friends... and with his duck brothers and sisters too, who said sorry. The end.', 'saltar:todos']
     ] }
 ];
 
 Apps.guinoles = {
-  nombre: 'Guiñoles', emoji: '🎭', color: 'var(--morado)',
+  nombre: 'Guiñoles', en: 'Puppets', emoji: '🎭', color: 'var(--morado)',
   crear(c) {
     let token = 0, auto = true, timers = [];
     const limpiarTimers = () => { timers.forEach(clearTimeout); timers = []; };
+    const nombrePj = pj => T(pj.n, pj.en);
     function cartelera() {
       token++; limpiarTimers(); Voz.callar();
       c.replaceChildren(el('div', { class: 'teatro' }, el('div', { class: 'cartelera' },
-        el('h2', {}, '🎭 Teatro de guiñoles'),
-        el('div', { class: 'carteles' }, OBRAS.map(o =>
-          el('button', { class: 'cartel', onclick: () => funcion(o) }, el('span', { class: 'em' }, o.em), o.titulo, el('small', {}, o.sub)))))));
+        el('h2', {}, T('🎭 Calle Safarrancho, 123', '🎭 123 Safarrancho Street')),
+        el('p', { class: 'cartelera-sub' }, T('Teatro de guiñoles · elige una función', 'Puppet theatre · pick a show')),
+        el('div', { class: 'carteles' }, OBRAS.map(o => {
+          const caras = Object.values(o.pj).filter(p => p.m).slice(0, 3);
+          return el('button', { class: 'cartel', onclick: () => funcion(o) },
+            el('div', { class: 'caras', html: caras.map(p => munecoSVG(MUP[p.m])).join('') }),
+            T(o.titulo, o.en), el('small', {}, T(o.sub, o.subEn)));
+        })))));
     }
     function funcion(obra) {
       const mi = ++token; limpiarTimers();
@@ -1766,31 +2145,33 @@ Apps.guinoles = {
       const fondo = el('div', { class: 'fondo-esc' });
       const fila = el('div', { class: 'fila' });
       const bocadillo = el('div', { class: 'bocadillo' });
-      const fin = el('div', { class: 'letrero-fin' }, el('h3', {}, '¡FIN!'),
-        el('div', {}, el('button', { class: 'btn rojo', onclick: () => funcion(obra) }, '🔁 Otra vez'), el('button', { class: 'btn', onclick: cartelera }, '🎭 Otra historia')));
-      const escenario = el('div', { class: 'escenario' }, fondo, bocadillo, fila,
-        el('div', { class: 'tabla' }, el('span', {}, obra.titulo)),
-        el('div', { class: 'telon izq' }), el('div', { class: 'telon der' }), el('div', { class: 'festón' }), fin);
-      const txt = el('div', { class: 'txt' }, '🥁 ¡Que empiece la función!');
+      const lolo = el('div', { class: 'titere presentador', html: `<div class="muneco">${munecoSVG(MUP.lolo)}</div>` });
+      const fin = el('div', { class: 'letrero-fin' }, el('h3', {}, T('¡FIN!', 'THE END!')),
+        el('div', {}, el('button', { class: 'btn rojo', onclick: () => funcion(obra) }, T('🔁 Otra vez', '🔁 Again')), el('button', { class: 'btn', onclick: cartelera }, T('🎭 Otra historia', '🎭 Another show'))));
+      const escenario = el('div', { class: 'escenario' }, fondo, bocadillo, fila, lolo,
+        el('div', { class: 'tabla' }, el('span', {}, T(obra.titulo, obra.en))),
+        el('div', { class: 'telon izq' }), el('div', { class: 'telon der' }), el('div', { class: 'feston' }), fin);
+      const txt = el('div', { class: 'txt' }, T('🥁 ¡Que empiece la función!', '🥁 Let the show begin!'));
       const btnAuto = el('button', { class: 'btn mini verde', onclick: () => {
         auto = !auto; pintarAuto();
         if (auto && idx >= 0) recitar(idx, token);
       } });
-      const pintarAuto = () => { btnAuto.textContent = auto ? '⏸️ Pausa' : '▶️ Seguir solo'; };
+      const pintarAuto = () => { btnAuto.textContent = auto ? T('⏸️ Pausa', '⏸️ Pause') : T('▶️ Seguir solo', '▶️ Play on'); };
       pintarAuto();
       c.replaceChildren(el('div', { class: 'teatro' }, escenario, el('div', { class: 'narracion' }, txt,
         el('div', { class: 'mandos' },
-          el('button', { class: 'btn mini', onclick: cartelera }, '🎭 Historias'),
-          el('button', { class: 'btn mini azul', onclick: () => ir(idx - 1) }, '⏮️'),
+          el('button', { class: 'btn mini', onclick: cartelera }, T('🎭 Historias', '🎭 Shows')),
+          el('button', { class: 'btn mini azul', 'aria-label': T('Anterior', 'Previous'), onclick: () => ir(idx - 1) }, '⏮️'),
           btnAuto,
-          el('button', { class: 'btn mini azul', onclick: () => ir(idx + 1) }, '⏭️')))));
+          el('button', { class: 'btn mini azul', 'aria-label': T('Siguiente', 'Next'), onclick: () => ir(idx + 1) }, '⏭️')))));
 
       const vivos = new Map();
       let escenaActual = null;
       function crearTitere(id) {
         const pj = obra.pj[id];
-        const t = el('div', { class: 'titere' + (pj.prop ? ' prop' : ''), style: { '--s': pj.s || 1 } },
-          el('div', { class: 'muneco' }, pj.e), el('div', { class: 'chapita' }, pj.n), el('div', { class: 'palo' }));
+        const t = pj.prop
+          ? el('div', { class: 'titere prop' }, el('div', { class: 'muneco' }, pj.e))
+          : el('div', { class: 'titere', html: `<div class="muneco">${munecoSVG(MUP[pj.m])}</div>` });
         t.style.setProperty('--s', pj.s || 1);
         t.addEventListener('click', () => {
           if (t.classList.contains('habla')) return;
@@ -1807,7 +2188,8 @@ Apps.guinoles = {
         fondo.replaceChildren(...esc.deco.map(([e, x, y, tam]) => el('div', { class: 'deco', style: { left: x + '%', top: y + '%', fontSize: tam + 'px' } }, e)));
       }
       function pintarPaso(i) {
-        const [esc, reparto, quien, texto, fx] = obra.guion[i];
+        const [esc, reparto, quien, es, en, fx] = obra.guion[i];
+        const texto = T(es, en);
         ponerEscena(esc);
         const ids = reparto.split(' ');
         for (const [id, nodo] of vivos) if (!ids.includes(id)) {
@@ -1822,25 +2204,29 @@ Apps.guinoles = {
           nodo.classList.remove('habla', 'fx-saltar', 'fx-temblar', 'fx-dormir');
           nodo.style.order = k;
         });
-        // quién habla
+        lolo.classList.remove('habla');
+        let hablan;
         if (quien) {
-          const hablan = quien === 'todos' ? ids.filter(id => !obra.pj[id].prop) : [quien];
-          hablan.forEach(id => vivos.get(id)?.classList.add('habla'));
-          const nombre = quien === 'todos' ? '¡Todos!' : obra.pj[quien].n;
+          hablan = (quien === 'todos' ? ids.filter(id => !obra.pj[id].prop) : [quien]).map(id => vivos.get(id)).filter(Boolean);
+          lolo.classList.remove('ver');
+          const nombre = quien === 'todos' ? T('¡Todos!', 'Everyone!') : nombrePj(obra.pj[quien]);
           bocadillo.replaceChildren(el('b', {}, nombre), texto);
-          bocadillo.style.display = 'block';
-          requestAnimationFrame(() => colocarBocadillo(hablan.map(id => vivos.get(id)).filter(Boolean)));
           txt.replaceChildren('🗣️ ', el('b', {}, nombre), ': ', texto);
         } else {
-          bocadillo.style.display = 'none';
+          // Narra el presentador, Lolo, que asoma por la esquina
+          hablan = [lolo];
+          lolo.classList.add('ver');
+          bocadillo.replaceChildren(el('b', {}, 'Lolo'), texto);
           txt.replaceChildren('📜 ', texto);
         }
-        // efectos especiales
+        hablan.forEach(n => n.classList.add('habla'));
+        bocadillo.style.display = 'block';
+        requestAnimationFrame(() => colocarBocadillo(hablan));
         if (fx) {
           const [tipo, quienFx] = fx.split(':');
           const objetivo = quienFx === 'todos' ? [...vivos.values()].filter(n => !n.classList.contains('prop')) : [vivos.get(quienFx)].filter(Boolean);
           objetivo.forEach(n => { n.classList.remove('fx-' + tipo); void n.offsetWidth; n.classList.add('fx-' + tipo); });
-          if (tipo === 'volar') { Sonido.ruido(Sonido.t, 1, { vol: 0.25, filtro: 800 }); }
+          if (tipo === 'volar') Sonido.ruido(Sonido.t, 1, { vol: 0.25, filtro: 800 });
           if (tipo === 'huir') Sonido.barrido(800, 150, 0.8, { onda: 'square', vol: 0.12 });
           if (tipo === 'saltar') Sonido.boing();
           if (tipo === 'temblar') Sonido.barrido(120, 90, 0.5, { onda: 'sawtooth', vol: 0.1 });
@@ -1849,21 +2235,22 @@ Apps.guinoles = {
       }
       function colocarBocadillo(nodos) {
         if (!nodos.length) return;
-        const anchoEsc = escenario.clientWidth;
-        const centros = nodos.map(n => fila.offsetLeft + n.offsetLeft + n.offsetWidth / 2);
+        const re = escenario.getBoundingClientRect();
+        const centros = nodos.map(n => { const r = n.getBoundingClientRect(); return r.left - re.left + r.width / 2; });
         const cx = centros.reduce((a, b) => a + b, 0) / centros.length;
         const w = bocadillo.offsetWidth;
-        const left = limitar(cx - w / 2, 10, anchoEsc - w - 10);
+        const left = limitar(cx - w / 2, re.width * 0.06, re.width * 0.94 - w);
         bocadillo.style.left = left + 'px';
         bocadillo.style.setProperty('--cola', limitar(cx - left, 24, w - 24) + 'px');
       }
       async function recitar(i, mio) {
-        const [, , quien, texto] = obra.guion[i];
+        const [, , quien, es, en] = obra.guion[i];
         const pj = quien && quien !== 'todos' ? obra.pj[quien] : null;
-        const voz = !quien ? { pitch: 1, rate: 0.95 } : quien === 'todos' ? { pitch: 1.5, rate: 1.05 } : { pitch: pj.p, rate: pj.r };
-        await Voz.decir(texto, voz);
+        const voz = !quien ? { pitch: 1.3, rate: 0.95 } : quien === 'todos' ? { pitch: 1.5, rate: 1.05 } : { pitch: pj.p, rate: pj.r };
+        await Voz.decir(T(es, en), voz);
         if (mio !== token || i !== idx) return;
         vivos.forEach(n => n.classList.remove('habla'));
+        lolo.classList.remove('habla');
         if (!auto) return;
         await espera(650);
         if (mio !== token || i !== idx || !auto) return;
@@ -1885,8 +2272,9 @@ Apps.guinoles = {
         token++;
         bocadillo.style.display = 'none';
         vivos.forEach(n => n.classList.remove('habla'));
+        lolo.classList.remove('habla', 'ver');
         escenario.classList.remove('abierto');
-        txt.replaceChildren('👏 ¡Bravo! ¡Bravo! 👏');
+        txt.replaceChildren(T('👏 ¡Bravo! ¡Bravo! 👏', '👏 Bravo! Bravo! 👏'));
         Sonido.aplausos();
         timers.push(setTimeout(() => fin.classList.add('ver'), 1300));
       }
@@ -1904,7 +2292,7 @@ Apps.guinoles = {
    APP: Pintar
    ========================================================= */
 Apps.pintar = {
-  nombre: 'Pintar', emoji: '🎨', color: 'var(--naranja)',
+  nombre: 'Pintar', en: 'Paint', emoji: '🎨', color: 'var(--naranja)',
   crear(c) {
     const COLORES = ['#E63027', '#FFD21F', '#1F5FD6', '#25A84A', '#FF8A1F', '#8B3FD9', '#FF5FA2', '#7A4A1E', '#1B1B2F', '#FFFFFF'];
     const SELLOS = ['⭐', '❤️', '🌸', '🐶', '🦄', '🚀', '🌈', '🍓', '🦋', '👑'];
@@ -1923,8 +2311,8 @@ Apps.pintar = {
     herr.append(...btnColores, el('span', { class: 'separa' }), ...btnGrosor, el('span', { class: 'separa' }), btnPincel, btnArco,
       el('span', { class: 'separa' }), cajaSellos,
       el('span', { class: 'separa' }),
-      el('button', { class: 'btn mini rojo', onclick: borrarTodo }, '🗑️ Borrar'),
-      el('button', { class: 'btn mini verde', onclick: guardarImg }, '💾 Guardar'));
+      el('button', { class: 'btn mini rojo', onclick: borrarTodo }, T('🗑️ Borrar', '🗑️ Clear')),
+      el('button', { class: 'btn mini verde', onclick: guardarImg }, T('💾 Guardar', '💾 Save')));
 
     function ponerModo(m) { modo = m; marcar(); Sonido.clic(); }
     function marcar() {
@@ -1990,7 +2378,7 @@ Apps.pintar = {
     function guardarImg() {
       const a = el('a', { download: 'dibujo-de-lucia.png', href: cv.toDataURL('image/png') });
       document.body.append(a); a.click(); a.remove();
-      Sonido.exito(); aviso('💾 ¡Dibujo guardado!');
+      Sonido.exito(); aviso(T('💾 ¡Dibujo guardado!', '💾 Drawing saved!'));
     }
     return { cerrar() { ro.disconnect(); } };
   }
@@ -2000,23 +2388,23 @@ Apps.pintar = {
    APP: Memoria (parejas)
    ========================================================= */
 Apps.memoria = {
-  nombre: 'Memoria', emoji: '🧠', color: 'var(--rosa)',
+  nombre: 'Memoria', en: 'Memory', emoji: '🧠', color: 'var(--rosa)',
   crear(c) {
     const BICHOS = ['🐶', '🐱', '🐸', '🦁', '🐵', '🐼', '🐷', '🐰', '🦊', '🐯', '🐨', '🐙'];
     let parejas = 6;
-    const intentosEl = el('span', {}, 'Intentos: 0');
+    const intentosEl = el('span', {}, T('Intentos: 0', 'Tries: 0'));
     const tablero = el('div', { class: 'tablero' });
-    const bFacil = el('button', { class: 'btn mini', onclick: () => { parejas = 6; nueva(); } }, '😊 Fácil');
-    const bDificil = el('button', { class: 'btn mini', onclick: () => { parejas = 10; nueva(); } }, '🤓 Difícil');
+    const bFacil = el('button', { class: 'btn mini', onclick: () => { parejas = 6; nueva(); } }, T('😊 Fácil', '😊 Easy'));
+    const bDificil = el('button', { class: 'btn mini', onclick: () => { parejas = 10; nueva(); } }, T('🤓 Difícil', '🤓 Hard'));
     c.append(el('div', { class: 'memoria' },
-      el('div', { class: 'info' }, bFacil, bDificil, el('button', { class: 'btn mini verde', onclick: () => nueva() }, '🔀 Otra partida'), intentosEl),
+      el('div', { class: 'info' }, bFacil, bDificil, el('button', { class: 'btn mini verde', onclick: () => nueva() }, T('🔀 Otra partida', '🔀 New game')), intentosEl),
       tablero));
     let abiertas = [], intentos = 0, hechas = 0, bloqueo = false;
     function nueva() {
       bFacil.classList.toggle('sel', parejas === 6); bDificil.classList.toggle('sel', parejas === 10);
       const cartas = barajar(barajar([...BICHOS]).slice(0, parejas).flatMap(b => [b, b]));
       abiertas = []; intentos = 0; hechas = 0; bloqueo = false;
-      intentosEl.textContent = 'Intentos: 0';
+      intentosEl.textContent = T('Intentos: 0', 'Tries: 0');
       const colsN = parejas === 6 ? 4 : 5;
       tablero.style.gridTemplateColumns = `repeat(${colsN},1fr)`;
       tablero.style.maxWidth = parejas === 6 ? '640px' : '820px';
@@ -2032,13 +2420,13 @@ Apps.memoria = {
       carta.classList.add('vuelta'); Sonido.clic();
       abiertas.push(carta);
       if (abiertas.length < 2) return;
-      intentos++; intentosEl.textContent = 'Intentos: ' + intentos;
+      intentos++; intentosEl.textContent = T('Intentos: ', 'Tries: ') + intentos;
       const [a, b] = abiertas; abiertas = [];
       if (a.dataset.em === b.dataset.em) {
         setTimeout(() => { a.classList.add('ok'); b.classList.add('ok'); Sonido.exito(); }, 350);
         if (++hechas === parejas) setTimeout(() => {
-          lluvia(['🎉', '🎊', '⭐', '🏆'], 45); Sonido.fanfarria(); aviso('🏆 ¡Lo has conseguido!');
-          Voz.decir(`¡Bravo! ¡Lo has conseguido en ${intentos} intentos!`, { pitch: 1.3 });
+          lluvia(['🎉', '🎊', '⭐', '🏆'], 45); Sonido.fanfarria(); aviso(T('🏆 ¡Lo has conseguido!', '🏆 You did it!'));
+          Voz.decir(T(`¡Bravo! ¡Lo has conseguido en ${intentos} intentos!`, `Well done! You did it in ${intentos} tries!`), { pitch: 1.3 });
         }, 800);
       } else {
         bloqueo = true;
@@ -2050,25 +2438,38 @@ Apps.memoria = {
 };
 
 /* =========================================================
-   APP: Animales
+   APP: Animales — 18 animales: 3 filas de 6 en pantalla grande, 6 de 3 en el móvil
+   [emoji, nombre ES, sonido ES, nombre EN, sonido EN]
    ========================================================= */
+const ANIMALES = [
+  ['🐮', 'La vaca', 'muuuu', 'The cow', 'moo'], ['🐶', 'El perro', 'guau, guau', 'The dog', 'woof, woof'],
+  ['🐱', 'El gato', 'miau', 'The cat', 'meow'], ['🦆', 'El pato', 'cuac, cuac', 'The duck', 'quack, quack'],
+  ['🐑', 'La oveja', 'beeeee', 'The sheep', 'baa'], ['🐷', 'El cerdo', 'oinc, oinc', 'The pig', 'oink, oink'],
+  ['🐓', 'El gallo', 'quiquiriquí', 'The rooster', 'cock-a-doodle-doo'], ['🐔', 'La gallina', 'co, co, co', 'The hen', 'cluck, cluck'],
+  ['🐴', 'El caballo', 'iiiiiih', 'The horse', 'neigh'], ['🦁', 'El león', 'groaaar', 'The lion', 'roar'],
+  ['🐘', 'El elefante', 'pruuuu', 'The elephant', 'toot'], ['🐵', 'El mono', 'uh, uh, ah, ah', 'The monkey', 'ooh, ooh, aah, aah'],
+  ['🐸', 'La rana', 'croac, croac', 'The frog', 'ribbit, ribbit'], ['🦉', 'El búho', 'uh, uuuh', 'The owl', 'hoot, hoot'],
+  ['🐺', 'El lobo', 'auuuuu', 'The wolf', 'awoo'], ['🐍', 'La serpiente', 'sssss', 'The snake', 'hiss'],
+  ['🐝', 'La abeja', 'bzzzzz', 'The bee', 'buzz'], ['🐭', 'El ratón', 'iii, iii', 'The mouse', 'squeak, squeak']
+];
+
 Apps.animales = {
-  nombre: 'Animales', emoji: '🐮', color: 'var(--amarillo)', texto: 'var(--tinta)',
+  nombre: 'Animales', en: 'Animals', emoji: '🐮', color: 'var(--amarillo)', texto: 'var(--tinta)',
   crear(c) {
-    const ANIMALES = [
-      ['🐮', 'La vaca', 'muuuuu'], ['🐶', 'El perro', 'guau, guau'], ['🐱', 'El gato', 'miau'], ['🦆', 'El pato', 'cuac, cuac'],
-      ['🐑', 'La oveja', 'beeeee'], ['🐷', 'El cerdo', 'oinc, oinc'], ['🐓', 'El gallo', 'quiquiriquí'], ['🦁', 'El león', 'groaaar'],
-      ['🐴', 'El caballo', 'iiiiiih'], ['🐸', 'La rana', 'croac, croac'], ['🦉', 'El búho', 'uh, uuuh'], ['🐝', 'La abeja', 'bzzzzz']
-    ];
-    const cols = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', 'var(--verde)'];
-    c.append(el('div', { class: 'granja' }, ANIMALES.map(([e, n, s], i) => {
-      const b = el('button', { class: 'animal', style: { background: cols[i % 4], color: i % 4 === 1 ? 'var(--tinta)' : '#fff' } }, el('span', { class: 'em' }, e), n.replace(/^(La|El) /, ''));
+    const cols = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', 'var(--verde)', 'var(--naranja)', 'var(--morado)'];
+    c.append(el('div', { class: 'granja' }, ANIMALES.map(([e, nEs, sEs, nEn, sEn], i) => {
+      const n = T(nEs, nEn), s = T(sEs, sEn);
+      const fondo = cols[(i + Math.floor(i / 6)) % cols.length];
+      const b = el('button', { class: 'animal', style: { background: fondo, color: fondo.includes('amarillo') ? 'var(--tinta)' : '#fff' } },
+        el('span', { class: 'em' }, e), mayuscula(n.replace(/^(La|El|The) /, '')));
       b.addEventListener('click', () => {
         b.classList.remove('baila'); void b.offsetWidth; b.classList.add('baila');
+        b.querySelector('.ono')?.remove();
         const ono = el('span', { class: 'ono' }, '¡' + s.split(',')[0].toUpperCase() + '!');
+        if (IDIOMA === 'en') ono.textContent = s.split(',')[0].toUpperCase() + '!';
         b.append(ono); setTimeout(() => ono.remove(), 1200);
         if (e === '🦆') Sonido.cuac(); else Sonido.boing();
-        Voz.decir(`${n} hace ${s}`, { pitch: 1.2 });
+        Voz.decir(T(`${n} hace ${s}`, `${n} says ${s}`), { pitch: 1.2 });
       });
       return b;
     })));
@@ -2080,9 +2481,10 @@ Apps.animales = {
    Cada n abrasos (n sorpresa, de 5 a 8) hay uno que la máquina no quiere: ¡puñito!
    ========================================================= */
 Apps.abrasos = {
-  nombre: 'Máquina de dar abrasos', emoji: '🤗', color: 'var(--rosa)',
+  nombre: 'Máquina de dar abrasos', en: 'Hug Machine', emoji: '🤗', color: 'var(--rosa)',
   crear(c, ventana) {
-    const FRASES = ['¡Toma un abraso muy fuerte!', '¡Abraso de oso!', '¡Un achuchón!', '¡Abraso con cosquillas!', '¡Abraso calentito!', '¡Abraso gigante!', '¡Abraso de pulpo, con ocho brazos!'];
+    const FRASES = T(['¡Toma un abraso muy fuerte!', '¡Abraso de oso!', '¡Un achuchón!', '¡Abraso con cosquillas!', '¡Abraso calentito!', '¡Abraso gigante!', '¡Abraso de pulpo, con ocho brazos!'],
+      ['Have a big squeezy hug!', 'A bear hug!', 'A great big cuddle!', 'A tickly hug!', 'A warm and cosy hug!', 'A giant hug!', 'An octopus hug, with eight arms!']);
     const nuevoTurno = () => Math.floor(azar(5, 9));
     let abrasos = 0, punitos = 0, desde = 0, turno = nuevoTurno(), ocupada = false, vivo = true;
 
@@ -2093,11 +2495,11 @@ Apps.abrasos = {
       el('div', { class: 'tronco' },
         el('div', { class: 'brazo izq' }), el('div', { class: 'brazo der' }),
         el('div', { class: 'corazon' }, '❤️'),
-        el('div', { class: 'cartel-maquina' }, 'ABRASOS S.A.')));
-    const globo = el('div', { class: 'globo' }, '¡Hola! ¿Quieres un abraso?');
-    const nAbrasos = el('span', {}, '🤗 Abrasos: 0');
-    const nPunitos = el('span', {}, '👊 Puñitos: 0');
-    const boton = el('button', { class: 'btn boton-abraso' }, '🤗 ¡Dame un abraso!');
+        el('div', { class: 'cartel-maquina' }, T('ABRASOS S.A.', 'HUGS INC.'))));
+    const globo = el('div', { class: 'globo' }, T('¡Hola! ¿Quieres un abraso?', 'Hello! Would you like a hug?'));
+    const nAbrasos = el('span', {}, T('🤗 Abrasos: 0', '🤗 Hugs: 0'));
+    const nPunitos = el('span', {}, T('👊 Puñitos: 0', '👊 Punches: 0'));
+    const boton = el('button', { class: 'btn boton-abraso' }, T('🤗 ¡Dame un abraso!', '🤗 Give me a hug!'));
     const zona = el('div', { class: 'abrasos' }, globo, maquina, boton, el('div', { class: 'marcador' }, nAbrasos, nPunitos));
     c.append(zona);
 
@@ -2114,7 +2516,7 @@ Apps.abrasos = {
     }
     async function abraso() {
       abrasos++;
-      nAbrasos.textContent = '🤗 Abrasos: ' + abrasos;
+      nAbrasos.textContent = T('🤗 Abrasos: ', '🤗 Hugs: ') + abrasos;
       const frase = elegir(FRASES);
       cara.textContent = '🥰';
       globo.textContent = frase;
@@ -2122,7 +2524,7 @@ Apps.abrasos = {
       Sonido.abraso();
       corazones(9);
       Voz.decir(frase, { pitch: 1.3 });
-      if (abrasos % 20 === 0) { lluvia(['❤️', '💖', '🤗'], 45); aviso(`🤗 ¡${abrasos} abrasos! 🤗`); }
+      if (abrasos % 20 === 0) { lluvia(['❤️', '💖', '🤗'], 45); aviso(T(`🤗 ¡${abrasos} abrasos! 🤗`, `🤗 ${abrasos} hugs! 🤗`)); }
       await espera(1400);
       maquina.classList.remove('abraza');
       cara.textContent = '🙂';
@@ -2130,23 +2532,23 @@ Apps.abrasos = {
     async function punito() {
       punitos++;
       cara.textContent = '😤';
-      globo.textContent = '¡Hoy no quiero abrasos!';
+      globo.textContent = T('¡Hoy no quiero abrasos!', 'No hugs today!');
       maquina.classList.add('enfadada');
-      await Voz.decir('¡Hoy no quiero abrasos! ¡Toma un puñito!', { pitch: 0.7, rate: 1.1 });
+      await Voz.decir(T('¡Hoy no quiero abrasos! ¡Toma un puñito!', 'No hugs today! Have a little punch!'), { pitch: 0.7, rate: 1.1 });
       if (!vivo) return;
       maquina.classList.remove('enfadada');
-      const pu = el('div', { class: 'punio' }, '👊'), pow = el('div', { class: 'pow' }, '¡POW!');
+      const pu = el('div', { class: 'punio' }, '👊'), pow = el('div', { class: 'pow' }, T('¡POW!', 'POW!'));
       zona.append(pu, pow);
       setTimeout(() => { pu.remove(); pow.remove(); }, 1200);
       reiniciarClase(ventana, 'tiembla');
       Sonido.punio();
-      nPunitos.textContent = '👊 Puñitos: ' + punitos;
+      nPunitos.textContent = T('👊 Puñitos: ', '👊 Punches: ') + punitos;
       await espera(1200);
       if (!vivo) return;
       cara.textContent = '😜';
-      globo.textContent = '¡Era broma! ¿Otro abraso?';
+      globo.textContent = T('¡Era broma! ¿Otro abraso?', 'Just kidding! Another hug?');
       Sonido.boing();
-      await Voz.decir('¡Era broma! ¿Otro abraso?', { pitch: 1.4 });
+      await Voz.decir(T('¡Era broma! ¿Otro abraso?', 'Just kidding! Another hug?'), { pitch: 1.4 });
       cara.textContent = '🙂';
     }
     boton.addEventListener('click', async () => {
@@ -2165,20 +2567,25 @@ Apps.abrasos = {
    APP: Bola de cristal de la Brujita Lucía
    ========================================================= */
 Apps.bola = {
-  nombre: 'Bola de cristal', emoji: '🔮', color: 'var(--morado)',
+  nombre: 'Bola de cristal', en: 'Crystal Ball', emoji: '🔮', color: 'var(--morado)',
   crear(c) {
-    const PREGUNTAS = [
+    const PREGUNTAS = T([
       { p: '🌅 ¿Qué pasará mañana?', r: [['🌈', 'Mañana verás un arcoíris... ¡o algo igual de bonito!'], ['🐶', 'Mañana un perrito te mirará y moverá la cola.'], ['🎁', 'Mañana encontrarás una sorpresa pequeñita.'], ['😂', 'Mañana te vas a reír muchísimo.'], ['🧦', 'Mañana perderás un calcetín... ¡mira en la papelera!'], ['🤗', 'Mañana darás un abraso enorme.']] },
       { p: '🍝 ¿Qué voy a comer?', r: [['🍕', 'Veo... ¡pizza!'], ['🥦', 'Veo brócoli... ¡que te pondrá fuerte como un dragón!'], ['🍦', 'Veo un helado en tu futuro.'], ['🍝', 'Veo macarrones con tomate.'], ['🍓', 'Veo fresas. ¡Muchas fresas!'], ['🥞', 'Veo tortitas con chocolate.']] },
       { p: '🦄 ¿Qué seré de mayor?', r: [['🚀', 'Serás astronauta y viajarás a la Luna.'], ['🎂', 'Serás cocinera de tartas gigantes.'], ['🐾', 'Serás doctora de animales.'], ['🎨', 'Serás una pintora famosa.'], ['👑', 'Serás la reina de Safarrancho. ¡Claro!'], ['🦖', 'Serás buscadora de dinosaurios.']] }
-    ];
-    const SORPRESAS = [['🐉', 'Un dragón quiere ser tu amigo.'], ['⭐', 'Hoy eres la estrella de la casa.'], ['🦄', 'Un unicornio te está buscando para jugar.'], ['🍬', 'Veo... ¡caramelos! Pero solo si te lavas los dientes.']];
+    ], [
+      { p: '🌅 What will happen tomorrow?', r: [['🌈', 'Tomorrow you will see a rainbow... or something just as pretty!'], ['🐶', 'Tomorrow a little dog will look at you and wag its tail.'], ['🎁', 'Tomorrow you will find a tiny surprise.'], ['😂', 'Tomorrow you are going to laugh a lot.'], ['🧦', 'Tomorrow you will lose a sock... look in the bin!'], ['🤗', 'Tomorrow you will give an enormous hug.']] },
+      { p: '🍝 What will I eat?', r: [['🍕', 'I see... pizza!'], ['🥦', 'I see broccoli... it will make you as strong as a dragon!'], ['🍦', 'I see an ice cream in your future.'], ['🍝', 'I see pasta with tomato sauce.'], ['🍓', 'I see strawberries. Lots of strawberries!'], ['🥞', 'I see pancakes with chocolate.']] },
+      { p: '🦄 What will I be when I grow up?', r: [['🚀', 'You will be an astronaut and fly to the Moon.'], ['🎂', 'You will be a baker of giant cakes.'], ['🐾', 'You will be an animal doctor.'], ['🎨', 'You will be a famous painter.'], ['👑', 'You will be the queen of Safarrancho. Of course!'], ['🦖', 'You will be a dinosaur hunter.']] }
+    ]);
+    const SORPRESAS = T([['🐉', 'Un dragón quiere ser tu amigo.'], ['⭐', 'Hoy eres la estrella de la casa.'], ['🦄', 'Un unicornio te está buscando para jugar.'], ['🍬', 'Veo... ¡caramelos! Pero solo si te lavas los dientes.']],
+      [['🐉', 'A dragon wants to be your friend.'], ['⭐', 'Today you are the star of the house.'], ['🦄', 'A unicorn is looking for you to play.'], ['🍬', 'I see... sweets! But only if you brush your teeth.']]);
     let ocupada = false, consultas = 0, ultima = null, vivo = true;
 
     const vision = el('div', { class: 'vision' });
-    const bola = el('button', { class: 'bola', 'aria-label': 'Bola de cristal' }, el('div', { class: 'niebla' }), vision);
-    const bruja = el('button', { class: 'bruja' }, el('span', { class: 'em' }, '🧙‍♀️'), el('span', { class: 'nombre-bruja' }, 'Brujita Lucía'));
-    const oraculo = el('div', { class: 'oraculo' }, 'Soy la Brujita Lucía. ¡Pregúntale a mi bola mágica!');
+    const bola = el('button', { class: 'bola', 'aria-label': T('Bola de cristal', 'Crystal ball') }, el('div', { class: 'niebla' }), vision);
+    const bruja = el('button', { class: 'bruja' }, el('span', { class: 'em' }, '🧙‍♀️'), el('span', { class: 'nombre-bruja' }, T('Brujita Lucía', 'Lucía the Little Witch')));
+    const oraculo = el('div', { class: 'oraculo' }, T('Soy la Brujita Lucía. ¡Pregúntale a mi bola mágica!', 'I\'m Lucía the Little Witch. Ask my magic ball!'));
     const zona = el('div', { class: 'bola-app' });
     for (let i = 0; i < 40; i++) zona.append(el('div', { class: 'estrellita', style: {
       left: azar(0, 100) + '%', top: azar(0, 100) + '%', fontSize: azar(8, 20) + 'px', animationDelay: -azar(0, 2) + 's' } }, '✦'));
@@ -2187,7 +2594,7 @@ Apps.bola = {
       oraculo,
       el('div', { class: 'preguntas' },
         PREGUNTAS.map(q => el('button', { class: 'btn', onclick: () => consultar(q.r) }, q.p)),
-        el('button', { class: 'btn rojo', onclick: () => consultar(null) }, '✨ ¡Sorpréndeme!')));
+        el('button', { class: 'btn rojo', onclick: () => consultar(null) }, T('✨ ¡Sorpréndeme!', '✨ Surprise me!'))));
     c.append(zona);
 
     bola.addEventListener('click', () => consultar(null));
@@ -2195,7 +2602,7 @@ Apps.bola = {
       bruja.classList.remove('hechizo'); void bruja.offsetWidth; bruja.classList.add('hechizo');
       lluvia(['✨', '⭐', '💫'], 25);
       Sonido.misterio();
-      Voz.decir('¡Abracadabra, pata de cabra!', { pitch: 1.7, rate: 0.95 });
+      Voz.decir(T('¡Abracadabra, pata de cabra!', 'Abracadabra, hocus pocus!'), { pitch: 1.7, rate: 0.95 });
     });
 
     function chispas() {
@@ -2219,8 +2626,8 @@ Apps.bola = {
         Sonido.barrido(900, 200, 1.2, { onda: 'triangle', vol: 0.2 });
         await espera(300);
         vision.textContent = '😵'; vision.classList.add('ver');
-        oraculo.textContent = '¡Uy! La bola se ha mareado de tanto mirar el futuro. Pregunta otra vez.';
-        await Voz.decir('¡Uy! La bola se ha mareado de tanto mirar el futuro.', { pitch: 1.6, rate: 0.95 });
+        oraculo.textContent = T('¡Uy! La bola se ha mareado de tanto mirar el futuro. Pregunta otra vez.', 'Oops! The ball got dizzy from looking at the future. Ask again.');
+        await Voz.decir(T('¡Uy! La bola se ha mareado de tanto mirar el futuro.', 'Oops! The ball got dizzy from looking at the future.'), { pitch: 1.6, rate: 0.95 });
         ocupada = false;
         return;
       }
@@ -2229,7 +2636,7 @@ Apps.bola = {
       do { r = elegir(opciones); } while (r === ultima && opciones.length > 1);
       ultima = r;
       bola.classList.add('agitando');
-      oraculo.textContent = 'Mmm... la bola está mirando el futuro...';
+      oraculo.textContent = T('Mmm... la bola está mirando el futuro...', 'Hmm... the ball is looking into the future...');
       Sonido.misterio();
       await espera(1700);
       if (!vivo) return;
@@ -2250,10 +2657,10 @@ Apps.bola = {
    Consonante → caramelo, vocal → chocolate, número → estrella.
    ========================================================= */
 Apps.hoja = {
-  nombre: 'Hoja de chuches', emoji: '🍬', color: 'var(--verde)',
+  nombre: 'Hoja de chuches', en: 'Sweetie Sheet', emoji: '🍬', color: 'var(--verde)',
   crear(c) {
     const COLS = 'ABCDEFGH', NF = 10, N = COLS.length * NF;
-    const TIPOS = { caramelo: { em: '🍬', f: 'CARAMELO' }, estrella: { em: '⭐', f: 'ESTRELLA' }, chocolate: { em: '🍫', f: 'CHOCOLATE' } };
+    const TIPOS = { caramelo: { em: '🍬', f: T('CARAMELO', 'CANDY') }, estrella: { em: '⭐', f: T('ESTRELLA', 'STAR') }, chocolate: { em: '🍫', f: 'CHOCOLATE' } };
     const tipoDe = ch => {
       const l = ch.toLowerCase();
       if (/[0-9]/.test(l)) return 'estrella';
@@ -2270,7 +2677,7 @@ Apps.hoja = {
 
     const ref = el('span', { class: 'ref' }, 'A1');
     const valor = el('span', { class: 'valor' });
-    const entrada = el('input', { class: 'hoja-entrada', type: 'text', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Escribe en la hoja' });
+    const entrada = el('input', { class: 'hoja-entrada', type: 'text', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': T('Escribe en la hoja', 'Type on the sheet') });
     const tabla = el('table', { class: 'hoja-tabla' });
     const wrap = el('div', { class: 'tabla-wrap' }, tabla, entrada);
     const celdas = [], cabCols = [], cabFilas = [];
@@ -2293,24 +2700,24 @@ Apps.hoja = {
     const cuentas = {};
     const totales = el('div', { class: 'totales' }, Object.entries(TIPOS).map(([t, { em }]) => {
       cuentas[t] = el('b', {}, '0');
-      return el('div', { class: 'total' }, el('span', { style: { fontSize: '30px' } }, em), el('code', {}, `=CONTAR(${em})`), cuentas[t]);
+      return el('div', { class: 'total' }, el('span', { style: { fontSize: '30px' } }, em), el('code', {}, T(`=CONTAR(${em})`, `=COUNT(${em})`)), cuentas[t]);
     }));
     let confirmar = false;
     const btnVaciar = el('button', { class: 'btn mini rojo', onclick: () => {
       if (!confirmar) {
-        confirmar = true; btnVaciar.textContent = '¿Seguro? Toca otra vez';
-        setTimeout(() => { confirmar = false; btnVaciar.textContent = '🗑️ Vaciar hoja'; }, 3000);
+        confirmar = true; btnVaciar.textContent = T('¿Seguro? Toca otra vez', 'Sure? Tap again');
+        setTimeout(() => { confirmar = false; btnVaciar.textContent = T('🗑️ Vaciar hoja', '🗑️ Clear sheet'); }, 3000);
         return;
       }
-      confirmar = false; btnVaciar.textContent = '🗑️ Vaciar hoja';
+      confirmar = false; btnVaciar.textContent = T('🗑️ Vaciar hoja', '🗑️ Clear sheet');
       datos.fill(null); datos.forEach((_, i) => pintarCelda(i)); recontar(); guardarHoja(); seleccionar(0); enfocar();
       Sonido.barrido(900, 120, 0.4, { onda: 'triangle', vol: 0.25 });
-    } }, '🗑️ Vaciar hoja');
+    } }, T('🗑️ Vaciar hoja', '🗑️ Clear sheet'));
 
     c.append(el('div', { class: 'hoja' },
       el('div', { class: 'hoja-barra' },
         el('div', { class: 'leyenda' }, el('span', {}, 'B, C, D… → 🍬'), el('span', {}, 'A, E, I, O, U → 🍫'), el('span', {}, '1, 2, 3… → ⭐')),
-        el('button', { class: 'btn mini', onclick: () => enfocar() }, '⌨️ Escribir'),
+        el('button', { class: 'btn mini', onclick: () => enfocar() }, T('⌨️ Escribir', '⌨️ Type')),
         btnVaciar),
       el('div', { class: 'formula' }, ref, el('span', { class: 'fx' }, 'fx'), valor),
       el('div', { class: 'hoja-cuerpo' }, wrap, totales)));
@@ -2356,19 +2763,19 @@ Apps.hoja = {
         escrito = '';
         lluvia(['👑', '🍬', '🍫'], 40);
         aviso('👑 L-U-C-Í-A = 🍬🍫🍬🍫🍫');
-        Voz.decir('¡Lucía! ¡Dulce como un caramelo!', { pitch: 1.4 });
+        Voz.decir(T('¡Lucía! ¡Dulce como un caramelo!', 'Lucía! Sweet as a candy!'), { pitch: 1.4 });
       }
       const fila = Math.floor(i / COLS.length), desde = fila * COLS.length;
       const llenaDeEstrellas = datos.slice(desde, desde + COLS.length).every(v => v && v.t === 'estrella');
       if (llenaDeEstrellas && !filasCelebradas.has(fila)) {
         filasCelebradas.add(fila);
-        lluvia(['⭐', '🌟', '✨'], 40); aviso('⭐ ¡Fila de estrellas! ⭐'); Sonido.exito();
+        lluvia(['⭐', '🌟', '✨'], 40); aviso(T('⭐ ¡Fila de estrellas! ⭐', '⭐ A row of stars! ⭐')); Sonido.exito();
       } else if (!llenaDeEstrellas) filasCelebradas.delete(fila);
       const todoChocolate = datos.every(v => v && v.t === 'chocolate');
       if (todoChocolate && !empacho) {
         empacho = true;
-        lluvia(['🍫', '🤢'], 45); aviso('🤢 ¡Empacho de chocolate!');
-        Voz.decir('¡Uf! ¡Empacho de chocolate!', { pitch: 0.9 });
+        lluvia(['🍫', '🤢'], 45); aviso(T('🤢 ¡Empacho de chocolate!', '🤢 Too much chocolate!'));
+        Voz.decir(T('¡Uf! ¡Empacho de chocolate!', 'Ugh! Too much chocolate!'), { pitch: 0.9 });
       } else if (!todoChocolate) empacho = false;
     }
 
@@ -2398,35 +2805,52 @@ Apps.hoja = {
 };
 
 /* =========================================================
-   APP: Etiquetadora — un pasillo de oficina en 3D falso (estilo Doom)
-   y una pistola que dispara etiquetas de estrellas y caramelos.
+   APP: Etiquetadora — un pasillo de oficina en 3D falso (estilo Doom).
+   Flechas o WASD para moverse, barra espaciadora para disparar etiquetas.
+   En pantallas táctiles hay cruceta y botón de disparo.
    ========================================================= */
 Apps.etiquetas = {
-  nombre: 'Etiquetadora', emoji: '🏷️', color: '#5E5E68',
+  nombre: 'Etiquetadora', en: 'Label Blaster', emoji: '🏷️', color: '#5E5E68',
   crear(c) {
-    const COSAS = [['🪑', 'Silla', 0.5], ['🖥️', 'Ordenador', 0.5], ['mesa', 'Mesa', 0], ['mesa', 'Mesa', 0], ['🗄️', 'Archivador', 0.7],
-      ['🖨️', 'Impresora', 0.45], ['☕', 'Taza', 0.3], ['🪴', 'Planta', 0.6], ['📦', 'Caja', 0.4], ['🗑️', 'Papelera', 0.4], ['💼', 'Maletín', 0.35], ['🛋️', 'Sofá', 0.55]];
+    const COSAS = [['🪑', 'Silla', 'Chair', 0.5], ['🖥️', 'Ordenador', 'Computer', 0.5], ['mesa', 'Mesa', 'Desk', 0], ['mesa', 'Mesa', 'Desk', 0],
+      ['🗄️', 'Archivador', 'Filing cabinet', 0.7], ['🖨️', 'Impresora', 'Printer', 0.45], ['☕', 'Taza', 'Mug', 0.3], ['🪴', 'Planta', 'Plant', 0.6],
+      ['📦', 'Caja', 'Box', 0.4], ['🗑️', 'Papelera', 'Bin', 0.4], ['💼', 'Maletín', 'Briefcase', 0.35], ['🛋️', 'Sofá', 'Sofa', 0.55]];
     const MUNI = { estrella: '⭐', caramelo: '🍬' };
     const EMOJI = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
     let municion = 'estrella', total = 0, dios = false, tCara = 0, codigo = '';
+    const tecla = { arriba: false, abajo: false, izq: false, der: false };
 
     const cv = el('canvas');
-    const escena = el('div', { class: 'doom-escena' }, cv);
+    const escena = el('div', { class: 'doom-escena' }, cv, el('div', { class: 'doom-ayuda' }, T('⬆️⬇️⬅️➡️ moverse · espacio: disparar', '⬆️⬇️⬅️➡️ move · space: shoot')));
     const cara = el('div', { class: 'hud-caja hud-cara' }, '😃');
     const marcador = el('b', {}, '0');
-    const bEst = el('button', { class: 'btn sel', title: 'Estrellas (tecla 1)', onclick: () => elegirMunicion('estrella') }, '⭐');
-    const bCar = el('button', { class: 'btn blanco', title: 'Caramelos (tecla 2)', onclick: () => elegirMunicion('caramelo') }, '🍬');
+    const bEst = el('button', { class: 'btn sel', title: T('Estrellas (tecla 1)', 'Stars (key 1)'), onclick: () => elegirMunicion('estrella') }, '⭐');
+    const bCar = el('button', { class: 'btn blanco', title: T('Caramelos (tecla 2)', 'Sweets (key 2)'), onclick: () => elegirMunicion('caramelo') }, '🍬');
     let musica = Sonido.metalEstrellita();
-    const bMusica = el('button', { class: 'btn sel', title: 'Música', onclick: () => {
+    const bMusica = el('button', { class: 'btn sel', title: T('Música', 'Music'), onclick: () => {
       if (musica) { musica.parar(); musica = null; } else musica = Sonido.metalEstrellita();
       bMusica.className = 'btn ' + (musica ? 'sel' : 'blanco');
       bMusica.textContent = musica ? '🎸' : '🔇';
     } }, '🎸');
+    // Cruceta táctil: mantener pulsado para andar
+    const flecha = (dir, txt, area) => {
+      const b = el('button', { class: 'btn blanco', style: { gridArea: area }, 'aria-label': dir }, txt);
+      const on = e => { e.preventDefault(); tecla[dir] = true; mira.fija = true; };
+      const off = () => { tecla[dir] = false; };
+      b.addEventListener('pointerdown', on);
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => b.addEventListener(t, off));
+      return b;
+    };
+    const cruceta = el('div', { class: 'cruceta' },
+      flecha('arriba', '▲', 'a'), flecha('izq', '◀', 'i'), flecha('der', '▶', 'd'), flecha('abajo', '▼', 'b'));
+    const bDisparo = el('button', { class: 'btn rojo disparo', onclick: () => dispararMira() }, T('🏷️ ¡Pum!', '🏷️ Fire!'));
     c.append(el('div', { class: 'doom' }, escena, el('div', { class: 'doom-hud' },
-      el('div', { class: 'hud-caja' }, el('small', {}, 'MUNICIÓN'), el('div', { class: 'hud-botones' }, bEst, bCar)),
+      el('div', { class: 'hud-caja' }, el('small', {}, T('MOVER', 'MOVE')), cruceta),
+      el('div', { class: 'hud-caja' }, el('small', {}, T('MUNICIÓN', 'AMMO')), el('div', { class: 'hud-botones' }, bEst, bCar)),
       cara,
-      el('div', { class: 'hud-caja' }, el('small', {}, 'ETIQUETADO'), marcador),
-      el('div', { class: 'hud-caja' }, el('small', {}, 'MÚSICA'), el('div', { class: 'hud-botones' }, bMusica)))));
+      el('div', { class: 'hud-caja' }, el('small', {}, T('ETIQUETADO', 'LABELLED')), marcador),
+      el('div', { class: 'hud-caja' }, el('small', {}, T('MÚSICA', 'MUSIC')), el('div', { class: 'hud-botones' }, bMusica)),
+      el('div', { class: 'hud-caja' }, el('small', {}, T('DISPARO', 'SHOOT')), bDisparo))));
 
     function elegirMunicion(m) {
       municion = m;
@@ -2437,10 +2861,11 @@ Apps.etiquetas = {
     function ponerCara(em, ms) { cara.textContent = em; tCara = performance.now() + ms; }
 
     const ctx = cv.getContext('2d');
-    let W = 0, H = 0, dpr = 1, avance = 0, reloj = 0, proxima = 0.2, retro = 0;
+    let W = 0, H = 0, dpr = 1, avance = 0, reloj = 0, proxima = 0.2, retro = 0, camX = 0, pasos = 0, andando = 0;
     let boca = { x: 0, y: 0 };
     const cosas = [], balas = [], marcas = [];
-    const mira = { x: 0, y: 0, ver: false };
+    // Mira: con ratón sigue al puntero; con teclado o cruceta queda fija en el centro
+    const mira = { x: 0, y: 0, ver: false, fija: false };
     const ro = new ResizeObserver(() => {
       if (!escena.clientWidth) return;
       dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -2451,14 +2876,16 @@ Apps.etiquetas = {
 
     // Perspectiva: el suelo está a OJO por debajo de la vista; z es la distancia
     const OJO = 0.5, TECHO = 1.6, PARED = 1.25;
-    const hz = () => H * 0.42, F = () => H * 0.9;
-    const px = (x, z) => W / 2 + F() * x / z;
+    const balanceo = () => Math.sin(pasos * 9) * 4 * andando;
+    const hz = () => H * 0.42 + balanceo(), F = () => H * 0.9;
+    const px = (x, z) => W / 2 + F() * (x - camX) / z;
     const py = (alto, z) => hz() + F() * (OJO - alto) / z;
+    const centroMira = () => ({ x: W / 2, y: H * 0.42 + H * 0.08 });
 
     function nuevaCosa() {
       const jefe = !cosas.some(o => o.jefe) && Math.random() < 0.1;
-      const [e, n, alto] = jefe ? ['🧑‍💼', 'Jefe', 0.62] : elegir(COSAS);
-      cosas.push({ e, n, alto, x: azar(-0.85, 0.85), z: 8, jefe, fase: azar(0, 6), pegatinas: [], bote: 0, huye: false });
+      const [e, nEs, nEn, alto] = jefe ? ['🧑‍💼', 'Jefe', 'Boss', 0.62] : elegir(COSAS);
+      cosas.push({ e, n: T(nEs, nEn), alto, x: camX + azar(-0.85, 0.85), z: 8, jefe, fase: azar(0, 6), pegatinas: [], bote: 0, huye: false });
     }
     function caja(o) {
       const s = F() / o.z, base = py(0, o.z), x = px(o.x, o.z);
@@ -2485,33 +2912,33 @@ Apps.etiquetas = {
       ctx.fillText(MUNI[tipo], 0, tam * 0.05);
       ctx.restore();
     }
+    const modulo = (a, m) => ((a % m) + m) % m;
 
     function dibujarPasillo() {
-      const zc = 0.3, zl = 40;
+      // zc muy cerca: así las paredes llegan siempre hasta el borde de la pantalla
+      const zc = 0.08, zl = 40;
       ctx.fillStyle = '#D9D9E0'; ctx.fillRect(0, 0, W, hz());
       ctx.fillStyle = '#5B6B8C'; ctx.fillRect(0, hz(), W, H - hz());
-      // Moqueta: franjas que se acercan al andar
+      // Moqueta: franjas que se mueven al andar
       ctx.strokeStyle = 'rgba(255,255,255,.13)'; ctx.lineWidth = 2;
       for (let k = 0; k < 30; k++) {
-        const z = k + 1 - (avance % 1); if (z < zc) continue;
+        const z = k + 1 - modulo(avance, 1); if (z < zc) continue;
         const y = py(0, z); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       }
-      // Fluorescentes del techo
       for (let k = 0; k < 14; k++) {
-        const z1 = k * 3 + 1.5 - (avance % 3), z2 = z1 + 0.9; if (z1 < 0.35) continue;
+        const z1 = k * 3 + 1.5 - modulo(avance, 3), z2 = z1 + 0.9; if (z1 < 0.35) continue;
         cuad([px(-0.35, z1), py(TECHO, z1), px(0.35, z1), py(TECHO, z1), px(0.35, z2), py(TECHO, z2), px(-0.35, z2), py(TECHO, z2)], '#FFFDE7');
       }
-      // Paredes con puertas azules y columnas
       for (const lado of [-1, 1]) {
         const X = lado * PARED;
         cuad([px(X, zc), py(TECHO, zc), px(X, zl), py(TECHO, zl), px(X, zl), py(0, zl), px(X, zc), py(0, zc)], lado < 0 ? '#EDE6D3' : '#E3DBC4');
         for (let k = 0; k < 9; k++) {
-          const z1 = k * 5 + (lado < 0 ? 2 : 4.5) - (avance % 5), z2 = z1 + 0.9; if (z1 < zc) continue;
+          const z1 = k * 5 + (lado < 0 ? 2 : 4.5) - modulo(avance, 5), z2 = z1 + 0.9; if (z1 < zc) continue;
           cuad([px(X, z1), py(0, z1), px(X, z1), py(1.05, z1), px(X, z2), py(1.05, z2), px(X, z2), py(0, z2)], '#1F5FD6');
         }
         ctx.strokeStyle = 'rgba(27,27,47,.25)';
         for (let k = 0; k < 20; k++) {
-          const z = k * 2 + 1 - (avance % 2); if (z < zc) continue;
+          const z = k * 2 + 1 - modulo(avance, 2); if (z < zc) continue;
           ctx.lineWidth = Math.max(1, 6 / z);
           ctx.beginPath(); ctx.moveTo(px(X, z), py(TECHO, z)); ctx.lineTo(px(X, z), py(0, z)); ctx.stroke();
         }
@@ -2538,7 +2965,8 @@ Apps.etiquetas = {
     }
     function dibujarPistola() {
       const u = Math.min(W, H) / 720;
-      const gx = W * 0.62 + (mira.ver ? (mira.x - W / 2) * 0.1 : 0), gy = H + 20 * u + retro * 16 * u;
+      const gx = W * 0.62 + (mira.ver && !mira.fija ? (mira.x - W / 2) * 0.1 : 0) + Math.sin(pasos * 4.5) * 10 * andando;
+      const gy = H + 20 * u + retro * 16 * u + Math.abs(Math.cos(pasos * 4.5)) * 8 * andando;
       ctx.save(); ctx.translate(gx, gy); ctx.scale(u, u);
       ctx.lineWidth = 4; ctx.strokeStyle = '#1B1B2F';
       ctx.fillStyle = '#1F5FD6'; rr(-22, -95, 44, 100, 12); ctx.fill(); ctx.stroke();
@@ -2551,12 +2979,13 @@ Apps.etiquetas = {
       boca = { x: gx, y: gy - 212 * u };
     }
     function dibujarMira() {
-      if (!mira.ver) return;
+      const m = mira.fija ? centroMira() : mira;
+      if (!mira.fija && !mira.ver) return;
       ctx.strokeStyle = '#E63027'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(mira.x, mira.y, 16, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(m.x, m.y, 16, 0, Math.PI * 2); ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(mira.x - 26, mira.y); ctx.lineTo(mira.x - 8, mira.y); ctx.moveTo(mira.x + 8, mira.y); ctx.lineTo(mira.x + 26, mira.y);
-      ctx.moveTo(mira.x, mira.y - 26); ctx.lineTo(mira.x, mira.y - 8); ctx.moveTo(mira.x, mira.y + 8); ctx.lineTo(mira.x, mira.y + 26);
+      ctx.moveTo(m.x - 26, m.y); ctx.lineTo(m.x - 8, m.y); ctx.moveTo(m.x + 8, m.y); ctx.lineTo(m.x + 26, m.y);
+      ctx.moveTo(m.x, m.y - 26); ctx.lineTo(m.x, m.y - 8); ctx.moveTo(m.x, m.y + 8); ctx.lineTo(m.x, m.y + 26);
       ctx.stroke();
     }
 
@@ -2567,6 +2996,10 @@ Apps.etiquetas = {
       retro = 1;
       Sonido.barrido(1200, 400, 0.08, { onda: 0.25, vol: 0.1 });
       if (Sonido.ok()) Sonido.ruido(Sonido.t, 0.05, { vol: 0.15, filtro: 3000 });
+    }
+    function dispararMira() {
+      const m = mira.fija || !mira.ver ? centroMira() : mira;
+      disparar(m.x, m.y);
     }
     function impacto(b) {
       const cerca = cosas.filter(o => o.z > 0.6).sort((a, d) => a.z - d.z);
@@ -2579,16 +3012,16 @@ Apps.etiquetas = {
         o.bote = 1;
         total++; marcador.textContent = total;
         Sonido.chuche(b.tipo); Sonido.pop();
-        textoFlotante(escena, b.tx, b.ty - 20, '¡' + o.n + '!');
+        textoFlotante(escena, b.tx, b.ty - 20, T('¡' + o.n + '!', o.n + '!'));
         if (o.jefe && !o.huye) {
           o.huye = true;
           ponerCara('😎', 1800);
-          aviso('🧑‍💼 ¡Has etiquetado al jefe!');
-          Voz.decir('¡Has etiquetado al jefe!', { pitch: 1.3 });
+          aviso(T('🧑‍💼 ¡Has etiquetado al jefe!', '🧑‍💼 You labelled the boss!'));
+          Voz.decir(T('¡Has etiquetado al jefe!', 'You labelled the boss!'), { pitch: 1.3 });
         } else ponerCara('😆', 450);
         if (total % 25 === 0) {
-          lluvia(['🏆', '⭐', '🍬'], 40); aviso('🏆 ¡Empleada del mes!'); Sonido.fanfarria();
-          Voz.decir('¡Empleada del mes!', { pitch: 1.3 });
+          lluvia(['🏆', '⭐', '🍬'], 40); aviso(T('🏆 ¡Empleada del mes!', '🏆 Employee of the month!')); Sonido.fanfarria();
+          Voz.decir(T('¡Empleada del mes!', 'Employee of the month!'), { pitch: 1.3 });
         }
         return;
       }
@@ -2596,7 +3029,12 @@ Apps.etiquetas = {
       ponerCara('😮', 400);
     }
     function actualizar(dt) {
-      const vel = 1.3;
+      // Andar: hacia delante y hacia atrás cambia la distancia; a los lados mueve la cámara
+      const delante = (tecla.arriba ? 1 : 0) - (tecla.abajo ? 1 : 0), lado = (tecla.der ? 1 : 0) - (tecla.izq ? 1 : 0);
+      const vel = delante * 2.6 + 0.35; // las cosas se acercan solas un poquito
+      camX = limitar(camX + lado * dt * 1.8, -0.7, 0.7);
+      andando = limitar(andando + (delante || lado ? dt * 4 : -dt * 4), 0, 1);
+      pasos += dt * andando;
       avance += dt * vel; reloj += dt;
       proxima -= dt;
       if (proxima <= 0) { nuevaCosa(); proxima = azar(0.6, 1.3); }
@@ -2605,10 +3043,10 @@ Apps.etiquetas = {
         o.z -= dt * vel;
         o.bote = Math.max(0, o.bote - dt * 3);
         if (o.jefe) {
-          if (o.huye) o.x += dt * 2.5 * (o.x >= 0 ? 1 : -1);
-          else o.x = limitar(o.x + Math.sin(reloj * 1.5 + o.fase) * dt * 0.7, -0.9, 0.9);
+          if (o.huye) o.x += dt * 2.5 * (o.x >= camX ? 1 : -1);
+          else o.x = limitar(o.x + Math.sin(reloj * 1.5 + o.fase) * dt * 0.7, -1.1, 1.1);
         }
-        if (o.z < 0.6 || Math.abs(o.x) > 2.5) cosas.splice(i, 1);
+        if (o.z < 0.6 || o.z > 14 || Math.abs(o.x) > 3) cosas.splice(i, 1);
       }
       for (let i = balas.length - 1; i >= 0; i--) {
         const b = balas[i]; b.t += dt / 0.2;
@@ -2632,33 +3070,39 @@ Apps.etiquetas = {
     }
 
     escena.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
       const q = posEnLienzo(e, cv, W, H);
-      mira.x = q.x; mira.y = q.y; mira.ver = e.pointerType === 'mouse';
-      escena.classList.toggle('raton', mira.ver);
+      mira.x = q.x; mira.y = q.y; mira.ver = true; mira.fija = false;
+      escena.classList.add('raton');
     });
     escena.addEventListener('pointerleave', () => { mira.ver = false; });
     escena.addEventListener('pointerdown', e => {
       const q = posEnLienzo(e, cv, W, H);
-      if (e.pointerType === 'mouse') { mira.x = q.x; mira.y = q.y; mira.ver = true; }
+      if (e.pointerType === 'mouse') { mira.x = q.x; mira.y = q.y; mira.ver = true; mira.fija = false; }
       disparar(q.x, q.y);
     });
-    const teclas = e => {
+    const MAPA = { arrowup: 'arriba', w: 'arriba', arrowdown: 'abajo', s: 'abajo', arrowleft: 'izq', a: 'izq', arrowright: 'der', d: 'der' };
+    const abajoTecla = e => {
       if (e.target.matches('input, textarea')) return;
-      if (e.key === '1') elegirMunicion('estrella');
+      const k = e.key.toLowerCase(), dir = MAPA[k];
+      if (dir) { e.preventDefault(); tecla[dir] = true; mira.fija = true; escena.classList.remove('raton'); }
+      else if (e.key === ' ') { e.preventDefault(); if (!e.repeat) dispararMira(); }
+      else if (e.key === '1') elegirMunicion('estrella');
       else if (e.key === '2') elegirMunicion('caramelo');
-      else if (e.key === ' ') { e.preventDefault(); disparar(mira.ver ? mira.x : W / 2, mira.ver ? mira.y : hz() + H * 0.12); }
       if (e.key.length === 1) {
-        codigo = (codigo + e.key.toLowerCase()).slice(-5);
+        codigo = (codigo + k).slice(-5);
         // Easter egg: IDDQD, el truco de «modo dios» del Doom original → disparo triple
         if (codigo === 'iddqd') {
           codigo = ''; dios = !dios;
           cara.textContent = dios ? '😇' : '😃';
-          aviso(dios ? '😇 ¡MODO DIOS! Etiquetas triples' : 'Modo dios desactivado');
+          aviso(dios ? T('😇 ¡MODO DIOS! Etiquetas triples', '😇 GOD MODE! Triple labels') : T('Modo dios desactivado', 'God mode off'));
           Sonido.fanfarria();
         }
       }
     };
-    document.addEventListener('keydown', teclas);
+    const arribaTecla = e => { const dir = MAPA[e.key.toLowerCase()]; if (dir) tecla[dir] = false; };
+    document.addEventListener('keydown', abajoTecla);
+    document.addEventListener('keyup', arribaTecla);
 
     let raf = 0, ultimo = performance.now();
     function bucle(t) {
@@ -2667,7 +3111,14 @@ Apps.etiquetas = {
       raf = requestAnimationFrame(bucle);
     }
     raf = requestAnimationFrame(bucle);
-    return { cerrar() { cancelAnimationFrame(raf); ro.disconnect(); document.removeEventListener('keydown', teclas); if (musica) musica.parar(); } };
+    return {
+      cerrar() {
+        cancelAnimationFrame(raf); ro.disconnect();
+        document.removeEventListener('keydown', abajoTecla);
+        document.removeEventListener('keyup', arribaTecla);
+        if (musica) musica.parar();
+      }
+    };
   }
 };
 
@@ -2675,24 +3126,24 @@ Apps.etiquetas = {
    APP: Papelera (con sorpresa)
    ========================================================= */
 Apps.papelera = {
-  nombre: 'Papelera', emoji: '🗑️', color: '#9AA3B5',
+  nombre: 'Papelera', en: 'Bin', emoji: '🗑️', color: '#9AA3B5',
   crear(c) {
-    const calcetin = el('button', { class: 'calcetin', title: '¿Qué es esto?' }, '🧦');
-    const texto = el('p', {}, 'La papelera está casi vacía... solo hay un calcetín perdido. ¿Será la pareja del calcetín del cuento? 🤔');
+    const calcetin = el('button', { class: 'calcetin', title: T('¿Qué es esto?', 'What\'s this?') }, '🧦');
+    const texto = el('p', {}, T('La papelera está casi vacía... solo hay un calcetín perdido. ¿Será la pareja del calcetín del cuento? 🤔', 'The bin is almost empty... there\'s just one lost sock. Could it be the partner of the sock in the story? 🤔'));
     calcetin.addEventListener('click', () => {
       calcetin.classList.remove('baila'); void calcetin.offsetWidth; calcetin.classList.add('baila');
       calcetin.textContent = '🧦🧦';
-      texto.textContent = '¡Sí! ¡Los dos calcetines vuelven a estar juntos! 💕';
+      texto.textContent = T('¡Sí! ¡Los dos calcetines vuelven a estar juntos! 💕', 'Yes! The two socks are back together! 💕');
       lluvia(['🧦', '💕', '✨'], 30);
       Sonido.fanfarria();
-      Voz.decir('¡Gracias por encontrarme! ¡Por fin estoy con mi pareja!', { pitch: 1.7, rate: 1.1 });
+      Voz.decir(T('¡Gracias por encontrarme! ¡Por fin estoy con mi pareja!', 'Thank you for finding me! At last I\'m with my partner!'), { pitch: 1.7, rate: 1.1 });
     });
     c.append(el('div', { class: 'papelera' }, calcetin, texto));
   }
 };
 
 /* =========================================================
-   Escritorio, menú, reloj, fondos, easter eggs
+   Escritorio, menú, idioma, reloj, fondos, easter eggs
    ========================================================= */
 const ORDEN = ['navegador', 'calculadora', 'cuentos', 'musica', 'guinoles', 'pintar', 'memoria', 'animales', 'abrasos', 'bola', 'hoja', 'etiquetas', 'papelera'];
 
@@ -2704,20 +3155,41 @@ function montarEscritorio() {
     // Easter egg: a veces, en vez de abrirse la app, ¡sale un muñeco con muelle!
     return el('button', { class: 'icono', onclick: () => {
       if (!$('.sorpresa') && Math.random() < 1 / 7) munecoSorpresa(cara); else abrirApp(id);
-    } }, cara, el('span', { class: 'nombre' }, a.nombre));
+    } }, cara, el('span', { class: 'nombre' }, nombreApp(a)));
   }));
-  const menu = $('#menu');
-  menu.replaceChildren(
+  $('#menu').replaceChildren(
     el('h3', {}, '🌈 Safarrancho OS'),
-    ...ORDEN.map(id => el('button', { onclick: () => abrirApp(id) }, el('span', { class: 'em' }, Apps[id].emoji), Apps[id].nombre)),
+    ...ORDEN.map(id => el('button', { onclick: () => abrirApp(id) }, el('span', { class: 'em' }, Apps[id].emoji), nombreApp(Apps[id]))),
     el('hr'),
-    el('button', { onclick: () => { cerrarMenu(); cambiarFondo(); } }, el('span', { class: 'em' }, '🖼️'), 'Cambiar fondo'),
-    el('button', { onclick: apagar }, el('span', { class: 'em' }, '🌙'), 'Apagar'));
+    el('button', { onclick: () => { cerrarMenu(); cambiarIdioma(IDIOMA === 'es' ? 'en' : 'es'); } }, el('span', { class: 'em' }, '🌐'), T('English', 'Español')),
+    el('button', { onclick: () => { cerrarMenu(); cambiarFondo(); } }, el('span', { class: 'em' }, '🖼️'), T('Cambiar fondo', 'Change wallpaper')),
+    el('button', { onclick: apagar }, el('span', { class: 'em' }, '🌙'), T('Apagar', 'Shut down')));
+  $('#logoEscritorio').replaceChildren();
   letrasDeColores($('#logoEscritorio'), "Lucía's World");
+  $('#btnMudo').title = T('Sonido', 'Sound');
+  $('#btnIdioma').textContent = '🌐 ' + IDIOMA.toUpperCase();
+  $('#btnIdioma').title = T('Idioma: español', 'Language: English');
+  document.documentElement.lang = IDIOMA;
 }
 function cerrarMenu() { $('#menu').classList.remove('abierto'); }
 $('#btnInicio').addEventListener('click', e => { e.stopPropagation(); Sonido.clic(); $('#menu').classList.toggle('abierto'); });
 document.addEventListener('click', e => { if (!e.target.closest('#menu') && !e.target.closest('#btnInicio')) cerrarMenu(); });
+
+/* ---------- Idioma ---------- */
+function cambiarIdioma(nuevo) {
+  if (nuevo === IDIOMA) return;
+  IDIOMA = nuevo;
+  guardar('idioma', nuevo);
+  // La app abierta se vuelve a abrir para que salga entera en el idioma nuevo
+  const abierta = actual && actual.id;
+  cerrarApp(true);
+  montarEscritorio();
+  pintarArranque();
+  Sonido.clic();
+  if (abierta) setTimeout(() => abrirApp(abierta), 250);
+  if (!$('#arranque')) Voz.decir(T('¡Hola! Ahora hablo español.', 'Hello! Now I speak English.'), { pitch: 1.3 });
+}
+$('#btnIdioma').addEventListener('click', () => cambiarIdioma(IDIOMA === 'es' ? 'en' : 'es'));
 
 const FONDOS = ['cielo', 'noche', 'lego'];
 let fondoActual = FONDOS.includes(leer('fondo')) ? leer('fondo') : 'cielo';
@@ -2726,6 +3198,7 @@ function ponerFondo(nombre) {
   const esc = $('#escritorio'), d = $('#decor');
   esc.className = 'fondo-' + nombre;
   d.replaceChildren();
+  document.querySelectorAll('.ambiente').forEach(n => n.remove());
   if (nombre === 'cielo') {
     d.append(el('div', { class: 'arcoiris' }),
       el('div', { class: 'colina', style: { width: '70vw', height: '50vh', left: '-10vw', bottom: '-30vh' } }),
@@ -2746,7 +3219,104 @@ function ponerFondo(nombre) {
 function cambiarFondo() {
   ponerFondo(FONDOS[(FONDOS.indexOf(fondoActual) + 1) % FONDOS.length]);
   Sonido.pop();
+  setTimeout(lanzarAmbiente, 1200);
 }
+
+/* ---------- Cosas que pasan en el fondo de vez en cuando ---------- */
+function ambiente(clase, ...hijos) {
+  const n = el('div', { class: 'ambiente ' + clase }, ...hijos);
+  // Tocarlas no hace «boing»: tienen su propia sorpresa
+  n.addEventListener('pointerdown', e => e.stopPropagation());
+  $('#escritorio').append(n);
+  return n;
+}
+const AMBIENTE = {
+  // Un duende va hasta el final del arcoíris, coge el oro y sale corriendo
+  duende() {
+    const ancho = innerWidth, meta = Math.min(440, ancho * 0.42);
+    const bocata = el('span', { class: 'bocata' }, T('¡Mi oro! ☘️', 'My gold! ☘️'));
+    const d = ambiente('duende', bocata, el('div', { class: 'sombrero' }), el('span', { class: 'cara-duende' }, '🧔'), el('span', { class: 'trebol' }, '☘️'));
+    d.style.left = ancho + 'px';
+    const ida = d.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${meta - ancho}px)` }], { duration: 5000, fill: 'forwards' });
+    ida.onfinish = () => {
+      d.classList.add('con-oro');
+      d.append(el('span', { class: 'oro' }, '💰'));
+      Sonido.caramelos();
+      setTimeout(() => {
+        const vuelta = d.animate([{ transform: `translateX(${meta - ancho}px)` }, { transform: `translateX(${-meta - 160}px)` }], { duration: 3200, fill: 'forwards' });
+        vuelta.onfinish = () => d.remove();
+      }, 1800);
+    };
+    d.addEventListener('click', () => {
+      lluvia(['💰', '🍀', '✨'], 35); Sonido.exito();
+      Voz.decir(T('¡Eh! ¡Que es mi oro!', 'Hey! That\'s my gold!'), { pitch: 1.9 });
+    });
+  },
+  // Una estrella fugaz cruza el cielo: si la tocas, pides un deseo
+  fugaz() {
+    const f = ambiente('fugaz');
+    const x0 = azar(innerWidth * 0.45, innerWidth * 0.95), y0 = azar(20, innerHeight * 0.25);
+    const dx = -azar(320, 620), dy = azar(140, 280), ang = Math.atan2(-dy, -dx) * 180 / Math.PI;
+    f.style.left = x0 + 'px'; f.style.top = y0 + 'px';
+    f.animate([
+      { transform: `translate(0,0) rotate(${ang}deg)`, opacity: 0 },
+      { opacity: 1, offset: 0.15 },
+      { transform: `translate(${dx}px,${dy}px) rotate(${ang}deg)`, opacity: 0 }
+    ], { duration: 2200, easing: 'ease-in', fill: 'forwards' }).onfinish = () => f.remove();
+    f.addEventListener('click', () => { aviso(T('🌠 ¡Pide un deseo!', '🌠 Make a wish!')); lluvia(['⭐', '✨', '🌟'], 25); Sonido.exito(); });
+  },
+  // Un platillo volante con su rayo de luz
+  ovni() {
+    const o = ambiente('ovni', el('span', { class: 'nave' }, '🛸'), el('div', { class: 'rayo' }));
+    o.style.top = azar(8, 22) + '%';
+    o.style.left = '-120px';
+    o.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${innerWidth + 240}px)` }], { duration: 11000, fill: 'forwards' }).onfinish = () => o.remove();
+    setTimeout(() => o.classList.add('abduce'), 4000);
+    setTimeout(() => o.classList.remove('abduce'), 6500);
+    o.addEventListener('click', () => { lluvia(['👽', '🛸', '⭐'], 25); Voz.decir(T('¡Hola, terrícola!', 'Hello, earthling!'), { pitch: 2, rate: 1.2 }); });
+  },
+  // Una avioneta con una pancarta
+  avion() {
+    const a = ambiente('avion', el('span', { class: 'pancarta' }, T('¡Hola, Lucía! ❤️', 'Hello, Lucía! ❤️')), el('span', { class: 'aparato' }, '✈️'));
+    a.style.top = azar(6, 16) + '%';
+    a.style.left = '-360px';
+    a.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${innerWidth + 400}px)` }], { duration: 14000, fill: 'forwards' }).onfinish = () => a.remove();
+    a.addEventListener('click', () => { lluvia(['❤️', '✈️', '☁️'], 25); Sonido.exito(); });
+  },
+  // Un globo sube flotando: si lo tocas, explota
+  globo() {
+    const g = ambiente('globo-amb', elegir(['🎈', '🎈', '🎈']));
+    g.style.left = azar(10, 85) + 'vw';
+    g.style.bottom = '-80px';
+    g.style.filter = `hue-rotate(${Math.floor(azar(0, 360))}deg)`;
+    const anim = g.animate([{ transform: 'translate(0,0)' }, { transform: `translate(${azar(-80, 80)}px, -${innerHeight + 160}px)` }], { duration: 12000, fill: 'forwards' });
+    anim.onfinish = () => g.remove();
+    g.addEventListener('click', e => {
+      Sonido.pop();
+      textoFlotante($('#escritorio'), e.clientX, e.clientY, T('¡POP!', 'POP!'));
+      g.remove();
+    });
+  },
+  // Una bandada de pájaros
+  pajaros() {
+    const p = ambiente('pajaros', el('span', {}, '🐦'), el('span', {}, '🐦'), el('span', {}, '🐦'));
+    p.style.top = azar(20, 40) + '%';
+    p.style.left = innerWidth + 'px';
+    p.animate([{ transform: 'translateX(0)' }, { transform: `translateX(-${innerWidth + 300}px)` }], { duration: 10000, fill: 'forwards' }).onfinish = () => p.remove();
+    p.addEventListener('click', () => { Voz.decir(T('¡Pío, pío!', 'Tweet, tweet!'), { pitch: 2, rate: 1.3 }); });
+  },
+  // En el fondo de bloques, algunos bloques cambian de color
+  bloques() {
+    const opciones = ['var(--rojo)', 'var(--amarillo)', 'var(--azul)', '#fff'];
+    document.querySelectorAll('.lego div').forEach(b => { if (Math.random() < 0.35) b.style.background = elegir(opciones); });
+  }
+};
+const POR_FONDO = { cielo: ['duende', 'duende', 'avion', 'globo', 'pajaros'], noche: ['fugaz', 'fugaz', 'fugaz', 'ovni'], lego: ['bloques', 'globo'] };
+function lanzarAmbiente() {
+  if ($('#apagado') || $('#arranque') || document.hidden || actual) return;
+  AMBIENTE[elegir(POR_FONDO[fondoActual])]();
+}
+function programarAmbiente() { setTimeout(() => { lanzarAmbiente(); programarAmbiente(); }, azar(12, 28) * 1000); }
 
 function reloj() {
   const d = new Date(), h = d.getHours();
@@ -2762,10 +3332,10 @@ $('#btnMudo').addEventListener('click', () => { Sonido.init(); Sonido.setMudo(!S
 
 // Easter egg: pinchar en el escritorio, fuera de las cajas → ¡BOING!
 $('#escritorio').addEventListener('pointerdown', e => {
-  if (e.target.closest('.icono, #logo')) return;
+  if (e.target.closest('.icono, #logo, .ambiente')) return;
   Sonido.init();
   Sonido.muelle();
-  textoFlotante($('#escritorio'), e.clientX, e.clientY, '¡BOING!');
+  textoFlotante($('#escritorio'), e.clientX, e.clientY, T('¡BOING!', 'BOING!'));
 });
 // Easter egg: 3 toques en el reloj → ¡dinosaurio!
 let toquesReloj = 0, tReloj = 0;
@@ -2780,7 +3350,7 @@ $('#logo').addEventListener('click', () => {
   const ahora = Date.now();
   toquesLogo = ahora - tLogo < 800 ? toquesLogo + 1 : 1; tLogo = ahora;
   Sonido.clic();
-  if (toquesLogo >= 5) { toquesLogo = 0; lluvia(['⭐', '🌟', '✨', '💫'], 50); Sonido.fanfarria(); aviso('🌟 ¡Lluvia de estrellas! 🌟'); }
+  if (toquesLogo >= 5) { toquesLogo = 0; lluvia(['⭐', '🌟', '✨', '💫'], 50); Sonido.fanfarria(); aviso(T('🌟 ¡Lluvia de estrellas! 🌟', '🌟 Star shower! 🌟')); }
 });
 // Easter eggs de teclado: código Konami y escribir «lucia»
 const KONAMI = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
@@ -2803,33 +3373,48 @@ function apagar() {
   cerrarMenu(); cerrarApp(true);
   document.body.classList.remove('disco'); $('#bolaDisco')?.remove();
   Sonido.nana();
-  Voz.decir('Buenas noches, Lucía', { pitch: 1.2, rate: 0.85 });
-  const ap = el('div', { id: 'apagado' }, el('div', { class: 'gran' }, '🌙'), el('p', {}, 'Buenas noches, Lucía'), el('small', {}, 'Toca para despertar ☀️'));
-  ap.addEventListener('click', () => { ap.remove(); Sonido.arranque(); aviso('☀️ ¡Buenos días!'); });
+  Voz.decir(T('Buenas noches, Lucía', 'Good night, Lucía'), { pitch: 1.2, rate: 0.85 });
+  const ap = el('div', { id: 'apagado' }, el('div', { class: 'gran' }, '🌙'), el('p', {}, T('Buenas noches, Lucía', 'Good night, Lucía')), el('small', {}, T('Toca para despertar ☀️', 'Tap to wake up ☀️')));
+  ap.addEventListener('click', () => { ap.remove(); Sonido.arranque(); aviso(T('☀️ ¡Buenos días!', '☀️ Good morning!')); });
   document.body.append(ap);
 }
 
 /* ---------- Arranque ---------- */
+const MENSAJES_CARGA = {
+  es: ['Inflando globos...', 'Despertando a los dinosaurios...', 'Pintando el arcoíris...', 'Llenando la piscina de bolas...', 'Afinando la estrellita...', 'Buscando calcetines perdidos...', '¡Listo!'],
+  en: ['Blowing up balloons...', 'Waking up the dinosaurs...', 'Painting the rainbow...', 'Filling the ball pit...', 'Tuning the little star...', 'Looking for lost socks...', 'Ready!']
+};
+let pasoCarga = 0;
+function pintarArranque() {
+  if (!$('#arranque')) return;
+  $('#btnEmpezar').textContent = T('¡A jugar! 🚀', 'Let\'s play! 🚀');
+  const m = MENSAJES_CARGA[IDIOMA];
+  $('#msgCarga').textContent = m[Math.min(pasoCarga, m.length - 1)];
+  $('#idiomasArranque').replaceChildren(...[['es', 'Español'], ['en', 'English']].map(([cod, txt]) =>
+    el('button', { class: 'btn mini ' + (cod === IDIOMA ? 'sel' : 'blanco'), onclick: () => cambiarIdioma(cod) }, txt)));
+}
 (function arrancar() {
   letrasDeColores($('#logoArranque'), "Lucía's World");
   montarEscritorio();
   ponerFondo(fondoActual);
   Voz.init();
-  const mensajes = ['Inflando globos...', 'Despertando a los dinosaurios...', 'Pintando el arcoíris...', 'Llenando la piscina de bolas...', 'Afinando la estrellita...', 'Buscando calcetines perdidos...', '¡Listo!'];
-  let i = 0;
-  const barra = $('#barraCarga'), msg = $('#msgCarga');
+  pintarArranque();
+  const barra = $('#barraCarga');
   const tick = setInterval(() => {
-    msg.textContent = mensajes[i];
-    barra.style.width = ((i + 1) / mensajes.length * 100) + '%';
-    if (++i >= mensajes.length) { clearInterval(tick); $('#btnEmpezar').style.display = 'inline-flex'; }
+    const m = MENSAJES_CARGA[IDIOMA];
+    $('#msgCarga').textContent = m[pasoCarga];
+    barra.style.width = ((pasoCarga + 1) / m.length * 100) + '%';
+    if (++pasoCarga >= m.length) { clearInterval(tick); $('#btnEmpezar').style.display = 'inline-flex'; }
   }, 380);
   $('#btnEmpezar').addEventListener('click', () => {
     Sonido.init();
     Sonido.arranque();
     $('#arranque').classList.add('fuera');
     setTimeout(() => $('#arranque').remove(), 600);
-    Voz.decir('¡Bienvenida al mundo de Lucía!', { pitch: 1.3 });
+    Voz.decir(T('¡Bienvenida al mundo de Lucía!', 'Welcome to Lucía\'s world!'), { pitch: 1.3 });
     programarCaramelos();
+    setTimeout(lanzarAmbiente, 5000);
+    programarAmbiente();
   });
 })();
 </script>
