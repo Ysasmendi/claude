@@ -399,6 +399,8 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .sellos button.sel{background:var(--amarillo)}
 .sellos button .dib{width:40px;height:40px}
 .punto-pincel{display:inline-block;border-radius:50%;background:var(--tinta);vertical-align:middle}
+.herramientas .btn.mini:has(.punto-pincel){min-width:46px;min-height:46px}
+.cruceta .btn{min-height:44px;min-width:48px}
 
 /* ---------- Memoria ---------- */
 .memoria{padding:18px;display:flex;flex-direction:column;align-items:center;gap:16px;min-height:100%}
@@ -512,6 +514,8 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .vision.ver{opacity:1;transform:scale(1)}
 .vision .dib{width:clamp(90px,15vw,150px);height:clamp(90px,15vw,150px)}
 .bruja .em.dib{width:clamp(120px,19vw,200px);height:clamp(156px,24.7vw,260px)}
+/* En el móvil, la brujita y la bola caben juntas en la misma fila */
+@media (max-width:600px){.escena-bruja{flex-wrap:nowrap}.bruja .em.dib{width:28vw;height:36.4vw}.bola{width:50vw}.bola-app{justify-content:safe center;overflow:auto}}
 .peana{width:min(170px,42vw);height:40px;margin-top:-12px;background:linear-gradient(var(--amarillo),#C99A00);border:var(--borde);border-radius:12px 12px 22px 22px;box-shadow:4px 4px 0 var(--tinta)}
 .oraculo{position:relative;z-index:1;background:#fff;color:var(--tinta);border:var(--borde);border-radius:22px;padding:10px 20px;font-size:clamp(20px,3vw,26px);font-weight:700;
   box-shadow:5px 5px 0 var(--tinta);text-align:center;max-width:min(640px,92%);min-height:56px}
@@ -7596,7 +7600,9 @@ Apps.guinoles = {
         if (i >= obra.guion.length) { terminar(); return; }
         token++; const mio = token;
         Voz.callar();
-        cartelInicio.classList.remove('ver');
+        cartelInicio.classList.remove('ver', 'final');
+        // Si se salta la cabecera (o se vuelve desde el «Fin»), se quita el negro
+        if (negro.classList.contains('instantaneo') || i < obra.guion.length && idx >= obra.guion.length - 1 && negro.classList.contains('ver')) negro.classList.remove('instantaneo', 'ver');
         const cambia = obra.guion[i][0] !== escenaActual;
         idx = i;
         const seguir = () => { pintarPaso(i); timers.push(setTimeout(() => { if (mio === token) recitar(i, mio); }, cambia ? 650 : 150)); };
@@ -8570,7 +8576,8 @@ Apps.voces = {
     function pintar() {
       const lista = Voz.listar(IDIOMA), ahora = Voz.vozPara(IDIOMA), elegida = leer('voz-' + IDIOMA) || '';
       const ayuda = el('div', { class: 'voces-ayuda' }, pasos().map(([sitio, txt]) => el('p', {}, el('b', {}, sitio + ': '), txt)));
-      zona.replaceChildren(
+      // replaceChildren escribiría «null» como texto: se quitan los huecos antes
+      zona.replaceChildren(...[
         el('h2', {}, T('🗣️ ¿Qué voz habla?', '🗣️ Which voice is speaking?')),
         el('p', { class: 'voces-actual ' + (ahora ? 'bien' : 'mal') }, ahora
           ? T(`✅ Ahora habla «${ahora.name}» (${ahora.lang}).`, `✅ Now speaking: "${ahora.name}" (${ahora.lang}).`)
@@ -8584,7 +8591,7 @@ Apps.voces = {
             `${v.name} · ${v.lang}${v.localService ? '' : ' ☁️'}`))) : null,
         lista.length ? el('details', {}, el('summary', {}, T('¿Cómo instalo más voces?', 'How do I install more voices?')), ayuda) : ayuda,
         el('small', {}, T(`Voces en este aparato: ${Voz.voces.length} en total, ${lista.length} en español. ☁️ = necesita internet.`,
-          `Voices on this device: ${Voz.voces.length} in total, ${lista.length} in English. ☁️ = needs internet.`)));
+          `Voices on this device: ${Voz.voces.length} in total, ${lista.length} in English. ☁️ = needs internet.`))].filter(Boolean));
     }
     pintar();
     const t = setTimeout(pintar, 900); // las voces a veces llegan un poco tarde

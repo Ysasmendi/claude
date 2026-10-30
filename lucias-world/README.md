@@ -2,7 +2,7 @@
 
 Sistema operativo de juguete para niños, en un solo archivo HTML. Colores primarios, botones grandes, sonido 8 bits sintetizado y voz en español o inglés.
 
-Todo está dibujado a mano en SVG dentro del propio archivo: iconos, animales, decorados, marionetas, cuentos y visiones de la bola de cristal. Los emojis solo quedan como reserva.
+Todo está dibujado a mano en SVG dentro del propio archivo: iconos, botones, animales, decorados, marionetas, el robot de los abrasos, cuentos, celebraciones y visiones de la bola de cristal. En el código los textos pueden llevar emojis por comodidad, pero en pantalla nunca se ve ninguno: un traductor los cambia al momento por su dibujo (tabla `EMOJI_DIBUJO`).
 
 Está publicado en: https://ysasmendi.github.io/claude/lucias-world/
 
@@ -12,7 +12,7 @@ Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier n
 
 - **Idioma:** el botón 🌐 de la barra de abajo (o el del arranque, o el menú 🌈) cambia entre español e inglés. La elección se guarda y no depende del idioma del navegador.
 - **Voz:** usa la lectura en voz alta del navegador y elige a propósito una voz del idioma de la web. En **Menú 🌈 → Voz** se ve qué voz se está usando, se puede probar y elegir otra, y vienen los pasos para instalar una voz española si el aparato no tiene ninguna (si no la hay, el navegador lee el español con una voz inglesa y suena con acento).
-- **Sonido:** el botón 🔊 silencia todo.
+- **Sonido:** el botón del altavoz silencia todo. Mientras el OS está encendido suena un siseo inaudible (−85 dB) que mantiene despierta la salida de audio, para que altavoces y auriculares no hagan «pop» al acabar cada frase de la voz.
 
 ## Apps
 
