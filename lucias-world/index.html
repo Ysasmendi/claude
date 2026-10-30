@@ -90,6 +90,7 @@ input{font-family:inherit}
   gap:26px 18px;padding:26px 28px 40px;max-width:1120px;margin:0 auto;max-height:calc(100% - 130px);overflow:auto}
 .dib{display:inline-block;line-height:0;vertical-align:middle}
 .dib>svg{width:100%;height:100%;display:block;overflow:visible}
+.muni.dib{width:30px;height:30px}
 .icono .cara .dib-icono.dib{width:92px;height:92px;filter:drop-shadow(0 3px 0 rgba(27,27,47,.25))}
 .icono .cara{background-image:radial-gradient(circle at 30% 22%,rgba(255,255,255,.45),rgba(255,255,255,0) 55%) !important}
 #menu button .em.dib{width:40px;height:40px}
@@ -7079,8 +7080,8 @@ Apps.etiquetas = {
     const escena = el('div', { class: 'doom-escena' }, cv, el('div', { class: 'doom-ayuda' }, T('⬆️⬇️ andar · ratón: apuntar · clic o espacio: disparar', '⬆️⬇️ walk · mouse: aim · click or space: shoot')));
     const cara = el('div', { class: 'hud-caja hud-cara' }, '😃');
     const marcador = el('b', {}, '0');
-    const bEst = el('button', { class: 'btn sel', title: T('Estrellas (tecla 1)', 'Stars (key 1)'), onclick: () => elegirMunicion('estrella') }, '⭐');
-    const bCar = el('button', { class: 'btn blanco', title: T('Caramelos (tecla 2)', 'Sweets (key 2)'), onclick: () => elegirMunicion('caramelo') }, '🍬');
+    const bEst = el('button', { class: 'btn sel', title: T('Estrellas (tecla 1)', 'Stars (key 1)'), onclick: () => elegirMunicion('estrella') }, dibujo('chuche_estrella', '⭐', 'muni'));
+    const bCar = el('button', { class: 'btn blanco', title: T('Caramelos (tecla 2)', 'Sweets (key 2)'), onclick: () => elegirMunicion('caramelo') }, dibujo('chuche_caramelo', '🍬', 'muni'));
     let musica = Sonido.metalEstrellita();
     const bMusica = el('button', { class: 'btn sel', title: T('Música', 'Music'), onclick: () => {
       if (musica) { musica.parar(); musica = null; } else musica = Sonido.metalEstrellita();
