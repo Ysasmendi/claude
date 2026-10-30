@@ -2,6 +2,8 @@
 
 Sistema operativo de juguete para niños, en un solo archivo HTML. Colores primarios, botones grandes, sonido 8 bits sintetizado y voz en español o inglés.
 
+Todo está dibujado a mano en SVG dentro del propio archivo: iconos, animales, decorados, marionetas, cuentos y visiones de la bola de cristal. Los emojis solo quedan como reserva.
+
 Está publicado en: https://ysasmendi.github.io/claude/lucias-world/
 
 ## Cómo abrirlo
@@ -9,7 +11,7 @@ Está publicado en: https://ysasmendi.github.io/claude/lucias-world/
 Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier navegador moderno, también en iPad y en el móvil. No necesita internet; con conexión, carga además la tipografía Fredoka.
 
 - **Idioma:** el botón 🌐 de la barra de abajo (o el del arranque, o el menú 🌈) cambia entre español e inglés. La elección se guarda y no depende del idioma del navegador.
-- **Voz:** usa la lectura en voz alta del navegador y elige a propósito una voz del idioma de la web. Safari y Chrome en Mac y en iPad traen voces en español y en inglés.
+- **Voz:** usa la lectura en voz alta del navegador y elige a propósito una voz del idioma de la web. En **Menú 🌈 → Voz** se ve qué voz se está usando, se puede probar y elegir otra, y vienen los pasos para instalar una voz española si el aparato no tiene ninguna (si no la hay, el navegador lee el español con una voz inglesa y suena con acento).
 - **Sonido:** el botón 🔊 silencia todo.
 
 ## Apps
@@ -20,10 +22,10 @@ Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier n
 | 🧮 Calculadora | Sumas y restas con botones gigantes. Dibuja la cuenta con frutas y galletas, y la lee en voz alta. Explica los números negativos. |
 | 📖 Cuentacuentos | 8 cuentos originales que se leen solos, página a página. |
 | 🎵 Música | «Estrellita, ¿dónde estás?» (en inglés, «Twinkle, Twinkle, Little Star») en 8 bits, con la letra iluminada estilo karaoke, 3 velocidades y batería. También incluye un xilófono de 8 notas. |
-| 🎭 Guiñoles | Teatro de marionetas al estilo de los programas de títeres, con cabezas de fieltro, ojos de pelota de ping-pong y una bocaza que se abre al hablar. Todas las marionetas están dibujadas a mano en SVG. Lolo, un monstruito azul, presenta y narra. Hay 8 obras: Los tres cerditos, Ricitos de Oro, Hansel y Gretel, Pulgarcito, Caperucita Roja, La ratita presumida, Los músicos de Bremen y El patito feo. |
+| 🎭 Guiñoles | «Safarrancho Studios»: películas con marionetas de fieltro (ojos de pelota de ping-pong, bocaza que se abre al hablar, brazos con varilla que gesticulan). Cabecera de estudio, decorados pintados con primer plano, cámara que se acerca a quien habla, fundidos a negro entre escenas, foco de luz, partículas (pétalos, hojas, nieve, luciérnagas…), bocadillos pegados a cada personaje, voz distinta para cada uno, narrador en off con subtítulos y música propia de cada escena (más tensa cuando sale el malo). 8 películas de unos 40 planos, basadas en los cuentos originales: Los tres cerditos, Ricitos de Oro, Hansel y Gretel, Pulgarcito, Caperucita Roja, La ratita presumida, Los músicos de Bremen y El patito feo. |
 | 🎨 Pintar | Colores, pincel arcoíris, sellos de emojis y opción de guardar el dibujo como imagen. |
 | 🧠 Memoria | Juego de parejas en modo fácil o difícil. |
-| 🐮 Animales | 18 animales: al tocar uno, dice cómo suena. En inglés, la vaca dice «moo». |
+| 🐮 Animales | 18 animales dibujados a mano: al tocar uno suena su grabación de verdad y luego la voz dice cómo hace. En inglés, la vaca dice «moo». |
 | 🤗 Máquina de dar abrasos | Un robot que da abrasos, con brazos que se cruzan, corazones y frases distintas. Cada cierto número de abrasos (un número sorpresa entre 5 y 8) hay uno que no quiere: se enfada y suelta un puñito 👊 «¡POW!»… y luego dice que era broma. |
 | 🔮 Bola de cristal | La Brujita Lucía y su bola mágica predicen el futuro: qué pasará mañana, qué vas a comer, qué serás de mayor o una sorpresa. |
 | 🍬 Hoja de chuches | Una hoja de cálculo como Excel donde solo se pintan chuches. Al escribir, cada consonante pinta un 🍬, cada vocal una 🍫 y cada número una ⭐. La barra de fórmulas enseña qué tecla era (`=CARAMELO("m")`), y abajo están los totales (`=CONTAR(🍬)`). Se guarda sola. |
@@ -34,8 +36,8 @@ Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier n
 
 Cada 12–28 segundos, cuando no hay ninguna app abierta, pasa algo en el escritorio, según el fondo elegido:
 
-- **Cielo:** un duende va al final del arcoíris, coge su oro y sale corriendo. También pasan una avioneta con la pancarta «¡Hola, Lucía!», globos y pájaros.
-- **Noche:** estrellas fugaces y un platillo volante con su rayo.
+- **Cielo:** un duende va al final del arcoíris, coge su olla de oro y sale corriendo. También pasan una avioneta con la pancarta «¡Hola, Lucía!», globos y pájaros que aletean. El sol tiene cara: si lo tocas, canta.
+- **Noche:** estrellas fugaces, un cohete y un platillo volante con su rayo. La luna duerme con gorro: si la tocas, suena una nana.
 - **Bloques:** los bloques cambian de color, y a veces sube un globo.
 
 Casi todo se puede tocar: el duende protesta, la estrella fugaz te deja pedir un deseo, los globos explotan y el ovni saluda.
@@ -57,6 +59,7 @@ Casi todo se puede tocar: el duende protesta, la estrella fugaz te deja pedir un
 - **Hoja de chuches**: escribir `lucia` da 🍬🍫🍬🍫🍫 y una lluvia de coronas. Una fila entera de números provoca una lluvia de estrellas, y la hoja entera de vocales, un empacho de chocolate.
 - **Etiquetadora**: de vez en cuando pasa el jefe 🧑‍💼; si lo etiquetas, sale corriendo. Cada 25 etiquetas eres «Empleada del mes». Escribir `iddqd` (el truco de modo dios del Doom original) activa el disparo triple.
 - **Guiñoles**: tocar una marioneta la hace saltar.
+- **Sol del escritorio**: tocarlo hace sonar el «Cara al sol» en 8 bits, con lluvia de soles.
 - **Papelera**: el calcetín perdido encuentra a su pareja, que conecta con el cuento del calcetín.
 - **Menú 🌈 → Apagar**: «Buenas noches, Lucía» con una nana.
 
@@ -64,6 +67,29 @@ Casi todo se puede tocar: el duende protesta, la estrella fugaz te deja pedir un
 
 Todo está en `index.html`. Los textos van en los dos idiomas con `T('español', 'english')`.
 
-- **Nueva obra de guiñoles**: añadir un objeto a `OBRAS`. Cada línea del guion es `[escenario, reparto, quién habla, texto ES, texto EN, efecto]`. Las marionetas nuevas se diseñan con una ficha en `MUP` (piel, orejas, nariz, pelo, sombrero, ropa, extras).
+- **Nueva película de guiñoles**: añadir un objeto a `OBRAS`. Cada plano del guion es `[escenario, reparto, quién habla, texto ES, texto EN, efecto, música]`; si quién habla va vacío, es el narrador. La música es opcional (`pastoral`, `misterio`, `noche`, `dulce`, `hogar`, `peligro`, `agua`, `invierno`, `fiesta`, `triste`); si no se pone, se elige según el escenario. Las marionetas nuevas se diseñan con una ficha en `MUP` (piel, orejas, nariz, pelo, sombrero, ropa, extras).
+- **Nuevo dibujo**: añadir una función a `ILUS` que devuelva un SVG. Donde se use, `dibujo('nombre', '🙂')` lo pinta, o pone el emoji si el dibujo no existe.
 - **Nuevo cuento**: añadir un objeto a `CUENTOS`, con páginas `[escena, texto ES, texto EN]`.
 - **Nueva app**: crear `Apps.miApp = { nombre, en, emoji, color, crear(cuerpo) { ... } }` y añadir su id a `ORDEN`.
+
+## Créditos de los sonidos de animales
+
+Grabaciones reales, recortadas a 1–2,5 segundos, normalizadas y con fundidos suaves. Todas son de dominio público o CC0, salvo el cerdo (CC BY 3.0) y el mono (CC BY 4.0), que piden citar al autor. La serpiente no tiene grabación: su siseo está sintetizado.
+
+- vaca — Cow moos 3 (BigSoundBank #2383) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/cow-moos-3-s2383.html
+- perro — Barking dog (BigSoundBank #0916) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/barking-dog-s0916.html
+- gato — Meow of a Siamese cat - freemaster2.wav — freemaster2 (Freesound) — CC0 — https://commons.wikimedia.org/wiki/File:Meow_of_a_Siamese_cat_-_freemaster2.wav
+- pato — Ducks (BigSoundBank #0276) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/ducks-s0276.html
+- oveja — Sheep bleating.ogg — earthcalling (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Sheep_bleating.ogg
+- cerdo — Pig grunt - Erdie.ogg (grunt repeated twice) — erdie — CC BY 3.0 — https://commons.wikimedia.org/wiki/File:Pig_grunt_-_Erdie.ogg
+- gallo — Medium rooster crowing.ogg — alys (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Medium_rooster_crowing.ogg
+- gallina — Hen announcing shes lain an egg.ogg — alys (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Hen_announcing_shes_lain_an_egg.ogg
+- caballo — Wiehern.ogg — Hü. — Public domain — https://commons.wikimedia.org/wiki/File:Wiehern.ogg
+- leon — Lion raring-sound1TamilNadu178.ogg — த*உழவன் (Info-farmer) — Public domain — https://commons.wikimedia.org/wiki/File:Lion_raring-sound1TamilNadu178.ogg
+- elefante — Elephant voice - trumpeting.ogg — தகவலுழவன் (Info-farmer) — CC0 — https://commons.wikimedia.org/wiki/File:Elephant_voice_-_trumpeting.ogg
+- mono — Pant-hoot call made by a male chimpanzee.ogg — Pawel Fedurek et al. (supplementary audio of the article at https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5674848/) — CC BY 4.0 — https://commons.wikimedia.org/wiki/File:Pant-hoot_call_made_by_a_male_chimpanzee.ogg
+- rana — PigFrog EvergladesNP (Lithobates grylio) — NPS Natural Sounds & Night Skies Division — Public domain (US NPS) — https://commons.wikimedia.org/wiki/File:PigFrog_EvergladesNP.ogg (same recording, downloaded from https://www.nps.gov/subjects/sound/sounds-pigfrog.htm)
+- buho — Tawny Owl 2 (BigSoundBank #1764) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/tawny-owl-2-s1764.html
+- lobo — Wolf (Denali National Park) - NPS Sound Gallery — U.S. National Park Service — Public domain (US NPS) — https://www.nps.gov/subjects/sound/sounds-wolf.htm
+- abeja — Bee (Yosemite National Park) - NPS Sound Gallery — U.S. National Park Service — Public domain (US NPS) — https://www.nps.gov/subjects/sound/sounds-bee.htm
+- raton — Mouse screams (BigSoundBank #0459), 5 squeaks spliced — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/mouse-screams-s0459.html
