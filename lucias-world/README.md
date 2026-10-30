@@ -22,6 +22,9 @@ Doble clic en `index.html`. Funciona en cualquier navegador moderno, también en
 | 🧠 Memoria | Juego de parejas en modo fácil o difícil. |
 | 🐮 Animales | Al tocar un animal, dice cómo suena. |
 | 🤗 Máquina de dar abrasos | Un robot que da abrasos, con brazos que se cruzan, corazones y frases distintas. Cada cierto número de abrasos (un número sorpresa entre 5 y 8) hay uno que no quiere: se enfada y suelta un puñito 👊 «¡POW!»… y luego dice que era broma. Cada 20 abrasos cae una lluvia de corazones. |
+| 🔮 Bola de cristal | La Brujita Lucía y su bola mágica predicen el futuro: qué pasará mañana, qué vas a comer, qué serás de mayor o una sorpresa. La bola tiembla, se llena de niebla y muestra la visión. |
+| 🍬 Hoja de chuches | Una hoja de cálculo como Excel donde solo se pintan chuches. Al escribir, cada consonante pinta un 🍬, cada vocal una 🍫 y cada número una ⭐. La barra de fórmulas enseña qué tecla era (`=CARAMELO("m")`), y abajo están los totales (`=CONTAR(🍬)`). Se guarda sola. |
+| 🏷️ Etiquetadora | Un pasillo de oficina en 3D falso estilo Doom, con Estrellita en modo heavy metal de fondo. Se acercan mesas, sillas, ordenadores y archivadores, y con la pistola etiquetadora les pegas etiquetas de ⭐ o 🍬. Las teclas 1 y 2 cambian de munición y la barra espaciadora dispara. |
 | 🗑️ Papelera | Tiene una sorpresa dentro. |
 
 ## Easter eggs (spoiler para adultos)
@@ -37,6 +40,10 @@ Doble clic en `index.html`. Funciona en cualquier navegador moderno, también en
 - **Piscina de bolas**: hay un pato 🦆 que flota y hace «¡cuac!» si lo tocas.
 - **Calculadora**: un resultado de 100 lanza una fiesta. 0 + 0 dice «¡NADA!». Pulsar «=» muchas veces seguidas hace que se enfade.
 - **Xilófono**: tocar Do Do Sol Sol La La Sol (el principio de Estrellita) desata una lluvia de estrellas.
+- **Xilófono**: tocar La Sol Fa Fa Fa Do Fa Sol La (el principio de «Cara al sol») hace caer solecitos sonrientes. Funciona en cualquier tono, porque se comparan los saltos entre notas.
+- **Bola de cristal**: tocar a la Brujita lanza un «¡Abracadabra, pata de cabra!». Cada 7 preguntas, la bola se marea.
+- **Hoja de chuches**: escribir `lucia` da 🍬🍫🍬🍫🍫 y una lluvia de coronas. Una fila entera de números provoca una lluvia de estrellas, y la hoja entera de vocales, un empacho de chocolate.
+- **Etiquetadora**: de vez en cuando pasa el jefe 🧑‍💼; si lo etiquetas, sale corriendo. Cada 25 etiquetas eres «Empleada del mes». Escribir `iddqd` (el truco de modo dios del Doom original) activa el disparo triple.
 - **Papelera**: el calcetín perdido encuentra a su pareja, que conecta con el cuento del calcetín.
 - **Menú 🌈 → Apagar**: «Buenas noches, Lucía» con una nana.
 

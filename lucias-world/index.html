@@ -66,7 +66,7 @@ input{font-family:inherit}
 @keyframes nube{from{transform:translateX(-40vw)}to{transform:translateX(140vw)}}
 .colina{position:absolute;border-radius:50%;background:var(--verde);border:var(--borde)}
 .arcoiris{position:absolute;left:-160px;bottom:-330px;width:720px;height:720px;border-radius:50%;
-  background:radial-gradient(circle,transparent 50%,var(--azul) 50% 58%,var(--verde) 58% 66%,var(--amarillo) 66% 74%,var(--rojo) 74% 82%,transparent 82%)}
+  background:radial-gradient(circle,transparent 48%,#8B3FD9 48% 53%,#3A2FA8 53% 58%,var(--azul) 58% 63%,var(--verde) 63% 68%,var(--amarillo) 68% 73%,var(--naranja) 73% 78%,var(--rojo) 78% 83%,transparent 83%)}
 .luna{position:absolute;right:8%;top:40px;width:110px;height:110px;border-radius:50%;background:#FFF4B8;border:var(--borde);
   box-shadow:inset -22px -10px 0 #F2DB6B}
 .estrellita{position:absolute;color:#FFF4B8;animation:titila 2s ease-in-out infinite}
@@ -364,6 +364,74 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 @keyframes pow{0%{transform:translateX(-50%) scale(.3) rotate(-15deg)}25%{transform:translateX(-50%) scale(1.2) rotate(-8deg)}80%{transform:translateX(-50%) scale(1) rotate(-8deg);opacity:1}100%{transform:translateX(-50%) scale(1) rotate(-8deg);opacity:0}}
 .ventana.tiembla{animation:tiembla .08s linear 8}
 
+/* ---------- Bola de cristal ---------- */
+.bola-app{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;position:relative;overflow:hidden;color:#fff;
+  background:radial-gradient(circle at 50% 35%,#5B34B0,#1E1248 72%)}
+.escena-bruja{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,4vw,40px);flex-wrap:wrap;position:relative;z-index:1}
+.bruja{background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bruja .em{font-size:clamp(90px,15vw,150px);line-height:1;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.4));animation:flota 3.5s ease-in-out infinite}
+.bruja.hechizo .em{animation:baila .25s linear 4}
+.nombre-bruja{background:var(--amarillo);color:var(--tinta);border:3px solid var(--tinta);border-radius:12px;padding:2px 12px;font-weight:700;font-size:18px}
+.bola-pie{display:flex;flex-direction:column;align-items:center}
+.bola{width:min(250px,60vw);max-width:100%;aspect-ratio:1;border-radius:50%;border:var(--borde);position:relative;overflow:hidden;display:grid;place-items:center;padding:0;
+  background:radial-gradient(circle at 34% 28%,#fff 0 5%,#D9CCFF 14%,#8B5CF6 48%,#3B1A8F 100%);box-shadow:0 0 50px 12px rgba(190,160,255,.55)}
+.bola::after{content:'';position:absolute;left:18%;top:12%;width:26%;height:16%;border-radius:50%;background:rgba(255,255,255,.5);transform:rotate(-30deg);pointer-events:none}
+.niebla{position:absolute;inset:-25%;pointer-events:none;background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.55),transparent 35%,rgba(255,95,162,.5),transparent 65%,rgba(255,210,31,.45),transparent);
+  filter:blur(16px);opacity:.3;animation:girar 6s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.bola.agitando{animation:temblar .09s linear infinite}
+.bola.agitando .niebla{opacity:1;animation-duration:.7s}
+.bola.mareada{animation:mareo 1.6s ease-in-out}
+@keyframes mareo{25%{transform:rotate(25deg)}50%{transform:rotate(-25deg)}75%{transform:rotate(15deg)}}
+.vision{position:relative;z-index:1;font-size:clamp(60px,11vw,96px);opacity:0;transform:scale(.3);transition:opacity .5s,transform .5s cubic-bezier(.2,1.6,.4,1)}
+.vision.ver{opacity:1;transform:scale(1)}
+.peana{width:min(170px,42vw);height:40px;margin-top:-12px;background:linear-gradient(var(--amarillo),#C99A00);border:var(--borde);border-radius:12px 12px 22px 22px;box-shadow:4px 4px 0 var(--tinta)}
+.oraculo{position:relative;z-index:1;background:#fff;color:var(--tinta);border:var(--borde);border-radius:22px;padding:10px 20px;font-size:clamp(20px,3vw,26px);font-weight:700;
+  box-shadow:5px 5px 0 var(--tinta);text-align:center;max-width:min(640px,92%);min-height:56px}
+.preguntas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;position:relative;z-index:1}
+
+/* ---------- Hoja de chuches ---------- */
+.hoja{display:flex;flex-direction:column;height:100%;background:#F4F7FB}
+.hoja-barra{flex:none;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;background:#E3F5E8;border-bottom:var(--borde)}
+.leyenda{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.leyenda span{background:#fff;border:3px solid var(--tinta);border-radius:12px;padding:4px 10px;font-weight:700;font-size:17px;white-space:nowrap}
+.formula{flex:none;display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:3px solid #C9D2E3;background:#fff;font-size:20px}
+.formula .ref{min-width:64px;text-align:center;border:2px solid #C9D2E3;border-radius:8px;padding:2px 8px;font-weight:700}
+.formula .fx{font-style:italic;font-weight:700;color:var(--verde)}
+.formula .valor{flex:1;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hoja-cuerpo{flex:1;min-height:0;overflow:auto;display:flex;gap:18px;padding:14px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.tabla-wrap{position:relative;max-width:100%;overflow-x:auto}
+.hoja-tabla{--celda:clamp(30px,min(calc((100vw - 150px) / 9),calc((100vh - 350px) / 11)),60px);border-collapse:collapse;background:#fff;border:var(--borde);box-shadow:var(--sombra)}
+.hoja-tabla th{background:#E9EEF7;color:#4A5570;font-size:14px;font-weight:700;border:2px solid #C9D2E3;padding:0}
+.hoja-tabla thead th{height:26px}
+.hoja-tabla tbody th{width:30px}
+.hoja-tabla th.marca{background:#CDEFD7;color:var(--tinta)}
+.hoja-tabla td{width:var(--celda);height:var(--celda);min-width:var(--celda);border:2px solid #C9D2E3;text-align:center;vertical-align:middle;font-size:calc(var(--celda) * .62);line-height:1;padding:0;cursor:cell}
+.hoja-tabla td span{display:inline-block}
+.hoja-tabla td span.pinta{animation:pinta .3s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pinta{from{transform:scale(.2)}}
+.hoja-tabla td.sel{outline:4px solid var(--verde);outline-offset:-3px;background:#EAF8EE}
+.hoja-entrada{position:absolute;width:24px;height:24px;opacity:0;border:0;padding:0;font-size:16px;caret-color:transparent;pointer-events:none}
+.totales{display:flex;flex-direction:column;gap:10px;min-width:0}
+.total{background:#fff;border:var(--borde);border-radius:16px;box-shadow:4px 4px 0 var(--tinta);padding:8px 14px;display:flex;align-items:center;gap:12px}
+.total code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;color:#4A5570}
+.total b{font-size:28px;font-variant-numeric:tabular-nums;margin-left:auto}
+@media (max-width:760px){.totales{flex-direction:row;flex-wrap:wrap;justify-content:center}}
+
+/* ---------- Etiquetadora (oficina estilo Doom) ---------- */
+.doom{display:flex;flex-direction:column;height:100%;background:#2B2B33}
+.doom-escena{flex:1;min-height:0;position:relative;overflow:hidden;cursor:crosshair}
+.doom-escena.raton{cursor:none}
+.doom-escena canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.doom-hud{flex:none;display:flex;gap:10px;align-items:stretch;justify-content:center;flex-wrap:wrap;padding:10px;border-top:var(--borde);
+  background:repeating-linear-gradient(0deg,#6B6B75 0 6px,#5E5E68 6px 12px)}
+.hud-caja{background:#3A3A44;border:3px solid var(--tinta);border-radius:12px;padding:6px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff;min-width:110px}
+.hud-caja small{font-size:13px;font-weight:700;letter-spacing:2px;color:#FFB4AE}
+.hud-caja b{font-size:34px;line-height:1;color:var(--rojo);font-variant-numeric:tabular-nums;text-shadow:2px 2px 0 #000}
+.hud-cara{font-size:46px;background:#C9A27A;min-width:80px}
+.hud-botones{display:flex;gap:8px}
+.hud-botones .btn{font-size:24px;padding:4px 12px}
+
 /* ---------- Papelera ---------- */
 .papelera{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;text-align:center}
 .papelera .calcetin{font-size:130px;background:none;border:0;padding:0}
@@ -552,6 +620,73 @@ const Sonido = {
   punio() {
     this.barrido(700, 70, 0.3, { onda: 'square', vol: 0.2 });
     if (this.ok()) this.ruido(this.t, 0.35, { vol: 0.45, filtro: 150 });
+  },
+  misterio() {
+    if (!this.ok()) return;
+    [72, 75, 78, 81, 84, 81, 78, 75, 72, 75, 78, 81].forEach((m, i) => this.nota(mtof(m), this.t + i * 0.13, 0.3, { onda: 'triangle', vol: 0.12, caida: true }));
+    this.nota(mtof(48), this.t, 1.7, { onda: 'sine', vol: 0.15 });
+  },
+  chuche(tipo) {
+    if (!this.ok()) return;
+    if (tipo === 'caramelo') this.nota(880, this.t, 0.12, { onda: 0.25, vol: 0.1, caida: true });
+    else if (tipo === 'estrella') { this.nota(1568, this.t, 0.15, { onda: 0.125, vol: 0.07, caida: true }); this.nota(2093, this.t + 0.06, 0.2, { onda: 0.125, vol: 0.07, caida: true }); }
+    else { this.nota(196, this.t, 0.15, { onda: 'triangle', vol: 0.25, caida: true }); this.ruido(this.t, 0.08, { vol: 0.12, filtro: 2500 }); }
+  },
+  bombo(t, destino) {
+    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.12);
+    g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    o.connect(g); g.connect(destino); o.start(t); o.stop(t + 0.16);
+  },
+  // Estrellita en modo heavy metal: en Do menor, guitarras distorsionadas con acordes
+  // de quinta, doble bombo y caja en 2 y 4. Se repite sola hasta que se llama a parar().
+  metalEstrellita() {
+    if (!this.ctx) return null;
+    const ctx = this.ctx, salida = ctx.createGain();
+    salida.gain.value = 0.55; salida.connect(this.master);
+    const dist = ctx.createWaveShaper(), n = 1024, curva = new Float32Array(n), k = 60;
+    for (let i = 0; i < n; i++) { const x = i * 2 / n - 1; curva[i] = (1 + k) * x / (1 + k * Math.abs(x)); }
+    dist.curve = curva; dist.oversample = '4x';
+    const filtro = ctx.createBiquadFilter(); filtro.type = 'lowpass'; filtro.frequency.value = 3200;
+    const guitarra = ctx.createGain(), volGuitarra = ctx.createGain();
+    guitarra.gain.value = 0.6; volGuitarra.gain.value = 0.18;
+    guitarra.connect(dist); dist.connect(filtro); filtro.connect(volGuitarra); volGuitarra.connect(salida);
+    const b = 60 / 160;
+    const MENOR = { 64: 63, 69: 68 }; // Mi → Mi♭ y La → La♭
+    const RAIZ = { C: 36, F: 41, G: 43 };
+    let timer = null, vivo = true;
+    const vuelta = inicio => {
+      let t = inicio;
+      ESTRELLITA.lineas.forEach(l => {
+        const tl = t;
+        l.n.forEach((m, i) => {
+          const d = i === 6 ? 2 * b : b, nota = MENOR[m] || m;
+          this.nota(mtof(nota + 12), t, d * 0.9, { onda: 'sawtooth', vol: 0.08, destino: salida });
+          this.nota(mtof(nota + 24), t, d * 0.9, { onda: 0.125, vol: 0.03, destino: salida });
+          t += d;
+        });
+        l.ac.forEach((a, ai) => {
+          const ta = tl + ai * 2 * b, r = RAIZ[a];
+          for (let q = 0; q < 4; q++) {
+            const tq = ta + q * b / 2, largo = q === 0 ? b / 2 * 0.95 : b / 2 * 0.5;
+            [r, r + 7, r + 12].forEach(m => this.nota(mtof(m), tq, largo, { onda: 'sawtooth', vol: 0.3, destino: guitarra }));
+            this.bombo(tq, salida);
+            this.ruido(tq, 0.03, { vol: 0.06, destino: salida, filtro: 8000 });
+          }
+          this.ruido(ta + b, 0.12, { vol: 0.35, destino: salida, filtro: 1200 });
+          if (ai === 0) this.ruido(ta, 0.8, { vol: 0.1, destino: salida, filtro: 5000 });
+        });
+      });
+      timer = setTimeout(() => { if (vivo) vuelta(t); }, Math.max(0, (t - ctx.currentTime - 1.5) * 1000));
+    };
+    vuelta(ctx.currentTime + 0.1);
+    return {
+      parar() {
+        vivo = false; clearTimeout(timer);
+        salida.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
+        setTimeout(() => salida.disconnect(), 300);
+      }
+    };
   },
   caramelos() {
     if (!this.ok()) return;
@@ -1457,11 +1592,18 @@ Apps.musica = {
           Sonido.nota(mtof(m + 24), Sonido.t, 0.15, { onda: 0.25, vol: 0.05, caida: true });
         }
         botones[i].classList.add('toca'); setTimeout(() => botones[i].classList.remove('toca'), 120);
-        ultimasNotas.push(m); ultimasNotas = ultimasNotas.slice(-7);
+        ultimasNotas.push(m); ultimasNotas = ultimasNotas.slice(-9);
         // Easter egg: tocar el principio de Estrellita (Do Do Sol Sol La La Sol)
-        if (ultimasNotas.join() === '60,60,67,67,69,69,67') {
+        if (ultimasNotas.slice(-7).join() === '60,60,67,67,69,69,67') {
           ultimasNotas = [];
           setTimeout(() => { lluvia(['⭐', '🌟', '✨', '💫'], 50); aviso('⭐ ¡Has tocado Estrellita! ⭐'); Voz.decir('¡Has tocado Estrellita! ¡Eres una artista!', { pitch: 1.3 }); }, 500);
+        }
+        // Easter egg: el principio de «Cara al sol» (La Sol Fa Fa Fa Do Fa Sol La).
+        // Se comparan los saltos entre notas, así funciona en cualquier tono.
+        const saltos = ultimasNotas.slice(1).map((v, k) => v - ultimasNotas[k]);
+        if (ultimasNotas.length === 9 && saltos.join() === '-2,-2,0,0,-5,5,2,2') {
+          ultimasNotas = [];
+          setTimeout(() => { lluvia(['🌞', '☀️', '🌞', '😎'], 55); aviso('🌞 ¡Solecitos sonrientes! 🌞'); Voz.decir('¡Solecitos sonrientes!', { pitch: 1.4 }); }, 500);
         }
       }
       const tecla = e => { const i = TECLAS.indexOf(e.key); if (i >= 0 && !e.repeat) golpe(i); };
@@ -2020,6 +2162,516 @@ Apps.abrasos = {
 };
 
 /* =========================================================
+   APP: Bola de cristal de la Brujita Lucía
+   ========================================================= */
+Apps.bola = {
+  nombre: 'Bola de cristal', emoji: '🔮', color: 'var(--morado)',
+  crear(c) {
+    const PREGUNTAS = [
+      { p: '🌅 ¿Qué pasará mañana?', r: [['🌈', 'Mañana verás un arcoíris... ¡o algo igual de bonito!'], ['🐶', 'Mañana un perrito te mirará y moverá la cola.'], ['🎁', 'Mañana encontrarás una sorpresa pequeñita.'], ['😂', 'Mañana te vas a reír muchísimo.'], ['🧦', 'Mañana perderás un calcetín... ¡mira en la papelera!'], ['🤗', 'Mañana darás un abraso enorme.']] },
+      { p: '🍝 ¿Qué voy a comer?', r: [['🍕', 'Veo... ¡pizza!'], ['🥦', 'Veo brócoli... ¡que te pondrá fuerte como un dragón!'], ['🍦', 'Veo un helado en tu futuro.'], ['🍝', 'Veo macarrones con tomate.'], ['🍓', 'Veo fresas. ¡Muchas fresas!'], ['🥞', 'Veo tortitas con chocolate.']] },
+      { p: '🦄 ¿Qué seré de mayor?', r: [['🚀', 'Serás astronauta y viajarás a la Luna.'], ['🎂', 'Serás cocinera de tartas gigantes.'], ['🐾', 'Serás doctora de animales.'], ['🎨', 'Serás una pintora famosa.'], ['👑', 'Serás la reina de Safarrancho. ¡Claro!'], ['🦖', 'Serás buscadora de dinosaurios.']] }
+    ];
+    const SORPRESAS = [['🐉', 'Un dragón quiere ser tu amigo.'], ['⭐', 'Hoy eres la estrella de la casa.'], ['🦄', 'Un unicornio te está buscando para jugar.'], ['🍬', 'Veo... ¡caramelos! Pero solo si te lavas los dientes.']];
+    let ocupada = false, consultas = 0, ultima = null, vivo = true;
+
+    const vision = el('div', { class: 'vision' });
+    const bola = el('button', { class: 'bola', 'aria-label': 'Bola de cristal' }, el('div', { class: 'niebla' }), vision);
+    const bruja = el('button', { class: 'bruja' }, el('span', { class: 'em' }, '🧙‍♀️'), el('span', { class: 'nombre-bruja' }, 'Brujita Lucía'));
+    const oraculo = el('div', { class: 'oraculo' }, 'Soy la Brujita Lucía. ¡Pregúntale a mi bola mágica!');
+    const zona = el('div', { class: 'bola-app' });
+    for (let i = 0; i < 40; i++) zona.append(el('div', { class: 'estrellita', style: {
+      left: azar(0, 100) + '%', top: azar(0, 100) + '%', fontSize: azar(8, 20) + 'px', animationDelay: -azar(0, 2) + 's' } }, '✦'));
+    zona.append(
+      el('div', { class: 'escena-bruja' }, bruja, el('div', { class: 'bola-pie' }, bola, el('div', { class: 'peana' }))),
+      oraculo,
+      el('div', { class: 'preguntas' },
+        PREGUNTAS.map(q => el('button', { class: 'btn', onclick: () => consultar(q.r) }, q.p)),
+        el('button', { class: 'btn rojo', onclick: () => consultar(null) }, '✨ ¡Sorpréndeme!')));
+    c.append(zona);
+
+    bola.addEventListener('click', () => consultar(null));
+    bruja.addEventListener('click', () => {
+      bruja.classList.remove('hechizo'); void bruja.offsetWidth; bruja.classList.add('hechizo');
+      lluvia(['✨', '⭐', '💫'], 25);
+      Sonido.misterio();
+      Voz.decir('¡Abracadabra, pata de cabra!', { pitch: 1.7, rate: 0.95 });
+    });
+
+    function chispas() {
+      const r = zona.getBoundingClientRect(), b = bola.getBoundingClientRect();
+      for (let i = 0; i < 10; i++) {
+        const s = el('span', { class: 'corazoncito', style: {
+          left: (b.left - r.left + azar(0, b.width)) + 'px', top: (b.top - r.top + azar(0, b.height * 0.7)) + 'px', animationDelay: azar(0, 0.5) + 's' } }, elegir(['✨', '⭐', '💫']));
+        zona.append(s);
+        setTimeout(() => s.remove(), 2100);
+      }
+    }
+    async function consultar(lista) {
+      if (ocupada) return;
+      ocupada = true;
+      Sonido.init();
+      consultas++;
+      vision.classList.remove('ver');
+      // Easter egg: a la séptima pregunta la bola se marea
+      if (consultas % 7 === 0) {
+        bola.classList.remove('mareada'); void bola.offsetWidth; bola.classList.add('mareada');
+        Sonido.barrido(900, 200, 1.2, { onda: 'triangle', vol: 0.2 });
+        await espera(300);
+        vision.textContent = '😵'; vision.classList.add('ver');
+        oraculo.textContent = '¡Uy! La bola se ha mareado de tanto mirar el futuro. Pregunta otra vez.';
+        await Voz.decir('¡Uy! La bola se ha mareado de tanto mirar el futuro.', { pitch: 1.6, rate: 0.95 });
+        ocupada = false;
+        return;
+      }
+      const opciones = lista || [...PREGUNTAS.flatMap(q => q.r), ...SORPRESAS];
+      let r;
+      do { r = elegir(opciones); } while (r === ultima && opciones.length > 1);
+      ultima = r;
+      bola.classList.add('agitando');
+      oraculo.textContent = 'Mmm... la bola está mirando el futuro...';
+      Sonido.misterio();
+      await espera(1700);
+      if (!vivo) return;
+      bola.classList.remove('agitando');
+      vision.textContent = r[0]; vision.classList.add('ver');
+      oraculo.textContent = r[1];
+      chispas();
+      Sonido.exito();
+      await Voz.decir(r[1], { pitch: 1.6, rate: 0.92 });
+      ocupada = false;
+    }
+    return { cerrar() { vivo = false; } };
+  }
+};
+
+/* =========================================================
+   APP: Hoja de chuches — una hoja de cálculo donde solo se pintan chuches.
+   Consonante → caramelo, vocal → chocolate, número → estrella.
+   ========================================================= */
+Apps.hoja = {
+  nombre: 'Hoja de chuches', emoji: '🍬', color: 'var(--verde)',
+  crear(c) {
+    const COLS = 'ABCDEFGH', NF = 10, N = COLS.length * NF;
+    const TIPOS = { caramelo: { em: '🍬', f: 'CARAMELO' }, estrella: { em: '⭐', f: 'ESTRELLA' }, chocolate: { em: '🍫', f: 'CHOCOLATE' } };
+    const tipoDe = ch => {
+      const l = ch.toLowerCase();
+      if (/[0-9]/.test(l)) return 'estrella';
+      if ('aeiouáéíóúü'.includes(l)) return 'chocolate';
+      if (/\p{L}/u.test(l)) return 'caramelo';
+      return null;
+    };
+    let datos = Array(N).fill(null);
+    try { const g = JSON.parse(leer('hoja') || 'null'); if (Array.isArray(g) && g.length === N) datos = g; } catch (e) {}
+    let sel = 0, escrito = '', empacho = false;
+    const filasCelebradas = new Set();
+    // Un carácter invisible dentro del campo permite detectar «borrar» también en el teclado del iPad
+    const CENT = '​';
+
+    const ref = el('span', { class: 'ref' }, 'A1');
+    const valor = el('span', { class: 'valor' });
+    const entrada = el('input', { class: 'hoja-entrada', type: 'text', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Escribe en la hoja' });
+    const tabla = el('table', { class: 'hoja-tabla' });
+    const wrap = el('div', { class: 'tabla-wrap' }, tabla, entrada);
+    const celdas = [], cabCols = [], cabFilas = [];
+    const cabeza = el('tr', {}, el('th'));
+    for (const l of COLS) { const th = el('th', {}, l); cabCols.push(th); cabeza.append(th); }
+    const cuerpo = el('tbody');
+    for (let f = 0; f < NF; f++) {
+      const th = el('th', {}, f + 1); cabFilas.push(th);
+      const tr = el('tr', {}, th);
+      for (let k = 0; k < COLS.length; k++) {
+        const i = f * COLS.length + k;
+        const td = el('td');
+        td.addEventListener('click', () => { seleccionar(i); enfocar(); });
+        celdas.push(td); tr.append(td);
+      }
+      cuerpo.append(tr);
+    }
+    tabla.append(el('thead', {}, cabeza), cuerpo);
+
+    const cuentas = {};
+    const totales = el('div', { class: 'totales' }, Object.entries(TIPOS).map(([t, { em }]) => {
+      cuentas[t] = el('b', {}, '0');
+      return el('div', { class: 'total' }, el('span', { style: { fontSize: '30px' } }, em), el('code', {}, `=CONTAR(${em})`), cuentas[t]);
+    }));
+    let confirmar = false;
+    const btnVaciar = el('button', { class: 'btn mini rojo', onclick: () => {
+      if (!confirmar) {
+        confirmar = true; btnVaciar.textContent = '¿Seguro? Toca otra vez';
+        setTimeout(() => { confirmar = false; btnVaciar.textContent = '🗑️ Vaciar hoja'; }, 3000);
+        return;
+      }
+      confirmar = false; btnVaciar.textContent = '🗑️ Vaciar hoja';
+      datos.fill(null); datos.forEach((_, i) => pintarCelda(i)); recontar(); guardarHoja(); seleccionar(0); enfocar();
+      Sonido.barrido(900, 120, 0.4, { onda: 'triangle', vol: 0.25 });
+    } }, '🗑️ Vaciar hoja');
+
+    c.append(el('div', { class: 'hoja' },
+      el('div', { class: 'hoja-barra' },
+        el('div', { class: 'leyenda' }, el('span', {}, 'B, C, D… → 🍬'), el('span', {}, 'A, E, I, O, U → 🍫'), el('span', {}, '1, 2, 3… → ⭐')),
+        el('button', { class: 'btn mini', onclick: () => enfocar() }, '⌨️ Escribir'),
+        btnVaciar),
+      el('div', { class: 'formula' }, ref, el('span', { class: 'fx' }, 'fx'), valor),
+      el('div', { class: 'hoja-cuerpo' }, wrap, totales)));
+
+    function enfocar() { try { entrada.focus({ preventScroll: true }); } catch (e) { entrada.focus(); } }
+    function guardarHoja() { guardar('hoja', JSON.stringify(datos)); }
+    function pintarCelda(i, animar = false) {
+      const v = datos[i];
+      celdas[i].replaceChildren(v ? el('span', { class: animar ? 'pinta' : '' }, TIPOS[v.t].em) : '');
+    }
+    function recontar() {
+      for (const t in TIPOS) cuentas[t].textContent = datos.filter(v => v && v.t === t).length;
+    }
+    function seleccionar(i) {
+      sel = (i + N) % N;
+      const col = sel % COLS.length, fila = Math.floor(sel / COLS.length);
+      celdas.forEach((td, k) => td.classList.toggle('sel', k === sel));
+      cabCols.forEach((th, k) => th.classList.toggle('marca', k === col));
+      cabFilas.forEach((th, k) => th.classList.toggle('marca', k === fila));
+      ref.textContent = COLS[col] + (fila + 1);
+      const v = datos[sel];
+      valor.textContent = v ? `=${TIPOS[v.t].f}("${v.ch}")` : '';
+      // El campo invisible va encima de la celda para que el iPad no salte a otro sitio
+      const rw = wrap.getBoundingClientRect(), rc = celdas[sel].getBoundingClientRect();
+      entrada.style.left = (rc.left - rw.left + wrap.scrollLeft) + 'px';
+      entrada.style.top = (rc.top - rw.top + wrap.scrollTop) + 'px';
+    }
+    function poner(i, v) { datos[i] = v; pintarCelda(i, !!v); recontar(); guardarHoja(); }
+    function escribir(ch) {
+      if (ch === ' ') { poner(sel, null); seleccionar(sel + 1); return; }
+      const t = tipoDe(ch);
+      if (!t) return;
+      const i = sel;
+      poner(i, { t, ch });
+      Sonido.chuche(t);
+      seleccionar(i + 1);
+      sorpresas(ch, i);
+    }
+    function borrarAtras() { seleccionar(sel - 1); poner(sel, null); seleccionar(sel); Sonido.clic(); }
+    function sorpresas(ch, i) {
+      escrito = (escrito + ch.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')).slice(-5);
+      if (escrito === 'lucia') {
+        escrito = '';
+        lluvia(['👑', '🍬', '🍫'], 40);
+        aviso('👑 L-U-C-Í-A = 🍬🍫🍬🍫🍫');
+        Voz.decir('¡Lucía! ¡Dulce como un caramelo!', { pitch: 1.4 });
+      }
+      const fila = Math.floor(i / COLS.length), desde = fila * COLS.length;
+      const llenaDeEstrellas = datos.slice(desde, desde + COLS.length).every(v => v && v.t === 'estrella');
+      if (llenaDeEstrellas && !filasCelebradas.has(fila)) {
+        filasCelebradas.add(fila);
+        lluvia(['⭐', '🌟', '✨'], 40); aviso('⭐ ¡Fila de estrellas! ⭐'); Sonido.exito();
+      } else if (!llenaDeEstrellas) filasCelebradas.delete(fila);
+      const todoChocolate = datos.every(v => v && v.t === 'chocolate');
+      if (todoChocolate && !empacho) {
+        empacho = true;
+        lluvia(['🍫', '🤢'], 45); aviso('🤢 ¡Empacho de chocolate!');
+        Voz.decir('¡Uf! ¡Empacho de chocolate!', { pitch: 0.9 });
+      } else if (!todoChocolate) empacho = false;
+    }
+
+    entrada.value = CENT;
+    entrada.addEventListener('input', () => {
+      const v = entrada.value;
+      if (!v.includes(CENT) && v.length === 0) borrarAtras();
+      else for (const ch of v.replace(CENT, '')) escribir(ch);
+      entrada.value = CENT;
+      try { entrada.setSelectionRange(1, 1); } catch (e) {}
+    });
+    entrada.addEventListener('keydown', e => {
+      const ancho = COLS.length;
+      const mov = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: ancho, ArrowUp: -ancho, Tab: 1 }[e.key];
+      if (mov) { e.preventDefault(); seleccionar(sel + mov); }
+      else if (e.key === 'Enter') { e.preventDefault(); seleccionar((Math.floor(sel / ancho) + 1) * ancho); }
+      else if (e.key === 'Delete') { e.preventDefault(); poner(sel, null); seleccionar(sel); }
+      else if (e.key === 'Escape') cerrarApp();
+    });
+
+    datos.forEach((_, i) => pintarCelda(i));
+    recontar();
+    requestAnimationFrame(() => seleccionar(0));
+    enfocar();
+    return { cerrar() { entrada.blur(); } };
+  }
+};
+
+/* =========================================================
+   APP: Etiquetadora — un pasillo de oficina en 3D falso (estilo Doom)
+   y una pistola que dispara etiquetas de estrellas y caramelos.
+   ========================================================= */
+Apps.etiquetas = {
+  nombre: 'Etiquetadora', emoji: '🏷️', color: '#5E5E68',
+  crear(c) {
+    const COSAS = [['🪑', 'Silla', 0.5], ['🖥️', 'Ordenador', 0.5], ['mesa', 'Mesa', 0], ['mesa', 'Mesa', 0], ['🗄️', 'Archivador', 0.7],
+      ['🖨️', 'Impresora', 0.45], ['☕', 'Taza', 0.3], ['🪴', 'Planta', 0.6], ['📦', 'Caja', 0.4], ['🗑️', 'Papelera', 0.4], ['💼', 'Maletín', 0.35], ['🛋️', 'Sofá', 0.55]];
+    const MUNI = { estrella: '⭐', caramelo: '🍬' };
+    const EMOJI = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    let municion = 'estrella', total = 0, dios = false, tCara = 0, codigo = '';
+
+    const cv = el('canvas');
+    const escena = el('div', { class: 'doom-escena' }, cv);
+    const cara = el('div', { class: 'hud-caja hud-cara' }, '😃');
+    const marcador = el('b', {}, '0');
+    const bEst = el('button', { class: 'btn sel', title: 'Estrellas (tecla 1)', onclick: () => elegirMunicion('estrella') }, '⭐');
+    const bCar = el('button', { class: 'btn blanco', title: 'Caramelos (tecla 2)', onclick: () => elegirMunicion('caramelo') }, '🍬');
+    let musica = Sonido.metalEstrellita();
+    const bMusica = el('button', { class: 'btn sel', title: 'Música', onclick: () => {
+      if (musica) { musica.parar(); musica = null; } else musica = Sonido.metalEstrellita();
+      bMusica.className = 'btn ' + (musica ? 'sel' : 'blanco');
+      bMusica.textContent = musica ? '🎸' : '🔇';
+    } }, '🎸');
+    c.append(el('div', { class: 'doom' }, escena, el('div', { class: 'doom-hud' },
+      el('div', { class: 'hud-caja' }, el('small', {}, 'MUNICIÓN'), el('div', { class: 'hud-botones' }, bEst, bCar)),
+      cara,
+      el('div', { class: 'hud-caja' }, el('small', {}, 'ETIQUETADO'), marcador),
+      el('div', { class: 'hud-caja' }, el('small', {}, 'MÚSICA'), el('div', { class: 'hud-botones' }, bMusica)))));
+
+    function elegirMunicion(m) {
+      municion = m;
+      bEst.className = 'btn ' + (m === 'estrella' ? 'sel' : 'blanco');
+      bCar.className = 'btn ' + (m === 'caramelo' ? 'sel' : 'blanco');
+      Sonido.clic();
+    }
+    function ponerCara(em, ms) { cara.textContent = em; tCara = performance.now() + ms; }
+
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1, avance = 0, reloj = 0, proxima = 0.2, retro = 0;
+    let boca = { x: 0, y: 0 };
+    const cosas = [], balas = [], marcas = [];
+    const mira = { x: 0, y: 0, ver: false };
+    const ro = new ResizeObserver(() => {
+      if (!escena.clientWidth) return;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = escena.clientWidth; H = escena.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    });
+    ro.observe(escena);
+
+    // Perspectiva: el suelo está a OJO por debajo de la vista; z es la distancia
+    const OJO = 0.5, TECHO = 1.6, PARED = 1.25;
+    const hz = () => H * 0.42, F = () => H * 0.9;
+    const px = (x, z) => W / 2 + F() * x / z;
+    const py = (alto, z) => hz() + F() * (OJO - alto) / z;
+
+    function nuevaCosa() {
+      const jefe = !cosas.some(o => o.jefe) && Math.random() < 0.1;
+      const [e, n, alto] = jefe ? ['🧑‍💼', 'Jefe', 0.62] : elegir(COSAS);
+      cosas.push({ e, n, alto, x: azar(-0.85, 0.85), z: 8, jefe, fase: azar(0, 6), pegatinas: [], bote: 0, huye: false });
+    }
+    function caja(o) {
+      const s = F() / o.z, base = py(0, o.z), x = px(o.x, o.z);
+      if (o.e === 'mesa') { const w = s * 0.95, h = s * 0.45; return { x: x - w / 2, y: base - h, w, h, s, base, cx: x }; }
+      const h = s * o.alto;
+      return { x: x - h * 0.55, y: base - h, w: h * 1.1, h, s, base, cx: x };
+    }
+    function rr(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+    function cuad(p, color) {
+      ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(p[0], p[1]);
+      for (let k = 2; k < p.length; k += 2) ctx.lineTo(p[k], p[k + 1]);
+      ctx.closePath(); ctx.fill();
+    }
+    function pegatina(x, y, tam, tipo, alfa = 1) {
+      if (tam < 1) return;
+      ctx.save(); ctx.globalAlpha = alfa; ctx.translate(x, y); ctx.rotate(-0.15);
+      ctx.fillStyle = '#fff'; ctx.strokeStyle = '#1B1B2F'; ctx.lineWidth = Math.max(1, tam * 0.08);
+      rr(-tam * 0.7, -tam * 0.55, tam * 1.4, tam * 1.1, tam * 0.25); ctx.fill(); ctx.stroke();
+      ctx.font = `${tam * 0.8}px ${EMOJI}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(MUNI[tipo], 0, tam * 0.05);
+      ctx.restore();
+    }
+
+    function dibujarPasillo() {
+      const zc = 0.3, zl = 40;
+      ctx.fillStyle = '#D9D9E0'; ctx.fillRect(0, 0, W, hz());
+      ctx.fillStyle = '#5B6B8C'; ctx.fillRect(0, hz(), W, H - hz());
+      // Moqueta: franjas que se acercan al andar
+      ctx.strokeStyle = 'rgba(255,255,255,.13)'; ctx.lineWidth = 2;
+      for (let k = 0; k < 30; k++) {
+        const z = k + 1 - (avance % 1); if (z < zc) continue;
+        const y = py(0, z); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+      // Fluorescentes del techo
+      for (let k = 0; k < 14; k++) {
+        const z1 = k * 3 + 1.5 - (avance % 3), z2 = z1 + 0.9; if (z1 < 0.35) continue;
+        cuad([px(-0.35, z1), py(TECHO, z1), px(0.35, z1), py(TECHO, z1), px(0.35, z2), py(TECHO, z2), px(-0.35, z2), py(TECHO, z2)], '#FFFDE7');
+      }
+      // Paredes con puertas azules y columnas
+      for (const lado of [-1, 1]) {
+        const X = lado * PARED;
+        cuad([px(X, zc), py(TECHO, zc), px(X, zl), py(TECHO, zl), px(X, zl), py(0, zl), px(X, zc), py(0, zc)], lado < 0 ? '#EDE6D3' : '#E3DBC4');
+        for (let k = 0; k < 9; k++) {
+          const z1 = k * 5 + (lado < 0 ? 2 : 4.5) - (avance % 5), z2 = z1 + 0.9; if (z1 < zc) continue;
+          cuad([px(X, z1), py(0, z1), px(X, z1), py(1.05, z1), px(X, z2), py(1.05, z2), px(X, z2), py(0, z2)], '#1F5FD6');
+        }
+        ctx.strokeStyle = 'rgba(27,27,47,.25)';
+        for (let k = 0; k < 20; k++) {
+          const z = k * 2 + 1 - (avance % 2); if (z < zc) continue;
+          ctx.lineWidth = Math.max(1, 6 / z);
+          ctx.beginPath(); ctx.moveTo(px(X, z), py(TECHO, z)); ctx.lineTo(px(X, z), py(0, z)); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = '#C9BFA3';
+      ctx.fillRect(px(-PARED, zl), py(TECHO, zl), px(PARED, zl) - px(-PARED, zl), py(0, zl) - py(TECHO, zl));
+    }
+    function dibujarCosa(o) {
+      const r = caja(o);
+      const bote = Math.sin(o.bote * Math.PI) * r.s * 0.08;
+      ctx.save(); ctx.translate(0, -bote);
+      if (o.e === 'mesa') {
+        const grosor = r.h * 0.16, pata = r.w * 0.07;
+        ctx.fillStyle = '#B5733A'; ctx.strokeStyle = '#1B1B2F'; ctx.lineWidth = Math.max(1, r.s * 0.012);
+        for (const [x, y, w, h] of [[r.x, r.y, r.w, grosor], [r.x + pata * 0.5, r.y + grosor, pata, r.h - grosor], [r.x + r.w - pata * 1.5, r.y + grosor, pata, r.h - grosor]]) {
+          ctx.fillRect(x, y, w, h); ctx.strokeRect(x, y, w, h);
+        }
+      } else {
+        ctx.font = `${r.h}px ${EMOJI}`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.fillText(o.e, r.cx, r.base);
+      }
+      for (const p of o.pegatinas) pegatina(r.cx + p.dx * r.s, r.base - p.dy * r.s, r.s * 0.13, p.tipo);
+      ctx.restore();
+    }
+    function dibujarPistola() {
+      const u = Math.min(W, H) / 720;
+      const gx = W * 0.62 + (mira.ver ? (mira.x - W / 2) * 0.1 : 0), gy = H + 20 * u + retro * 16 * u;
+      ctx.save(); ctx.translate(gx, gy); ctx.scale(u, u);
+      ctx.lineWidth = 4; ctx.strokeStyle = '#1B1B2F';
+      ctx.fillStyle = '#1F5FD6'; rr(-22, -95, 44, 100, 12); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#E63027'; rr(-62, -178, 124, 92, 22); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, -134, 30, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#FFD21F'; ctx.beginPath(); ctx.arc(0, -134, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#FFD21F'; rr(-30, -204, 60, 30, 8); ctx.fill(); ctx.stroke();
+      ctx.restore();
+      pegatina(gx, gy - 212 * u, 20 * u, dios ? (Math.floor(reloj * 4) % 2 ? 'estrella' : 'caramelo') : municion);
+      boca = { x: gx, y: gy - 212 * u };
+    }
+    function dibujarMira() {
+      if (!mira.ver) return;
+      ctx.strokeStyle = '#E63027'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(mira.x, mira.y, 16, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(mira.x - 26, mira.y); ctx.lineTo(mira.x - 8, mira.y); ctx.moveTo(mira.x + 8, mira.y); ctx.lineTo(mira.x + 26, mira.y);
+      ctx.moveTo(mira.x, mira.y - 26); ctx.lineTo(mira.x, mira.y - 8); ctx.moveTo(mira.x, mira.y + 8); ctx.lineTo(mira.x, mira.y + 26);
+      ctx.stroke();
+    }
+
+    function disparar(tx, ty) {
+      Sonido.init();
+      const tipos = dios ? ['estrella', 'caramelo', 'estrella'] : [municion];
+      tipos.forEach((tipo, k) => balas.push({ tipo, t: 0, ox: boca.x, oy: boca.y, tx: tx + (k - (tipos.length - 1) / 2) * 50, ty }));
+      retro = 1;
+      Sonido.barrido(1200, 400, 0.08, { onda: 0.25, vol: 0.1 });
+      if (Sonido.ok()) Sonido.ruido(Sonido.t, 0.05, { vol: 0.15, filtro: 3000 });
+    }
+    function impacto(b) {
+      const cerca = cosas.filter(o => o.z > 0.6).sort((a, d) => a.z - d.z);
+      for (const o of cerca) {
+        const r = caja(o);
+        // Zona de acierto generosa: los dedos pequeños no apuntan al píxel
+        const m = Math.max(22, r.w * 0.2);
+        if (b.tx < r.x - m || b.tx > r.x + r.w + m || b.ty < r.y - m || b.ty > r.y + r.h + m) continue;
+        o.pegatinas.push({ dx: (b.tx - r.cx) / r.s, dy: (r.base - b.ty) / r.s, tipo: b.tipo });
+        o.bote = 1;
+        total++; marcador.textContent = total;
+        Sonido.chuche(b.tipo); Sonido.pop();
+        textoFlotante(escena, b.tx, b.ty - 20, '¡' + o.n + '!');
+        if (o.jefe && !o.huye) {
+          o.huye = true;
+          ponerCara('😎', 1800);
+          aviso('🧑‍💼 ¡Has etiquetado al jefe!');
+          Voz.decir('¡Has etiquetado al jefe!', { pitch: 1.3 });
+        } else ponerCara('😆', 450);
+        if (total % 25 === 0) {
+          lluvia(['🏆', '⭐', '🍬'], 40); aviso('🏆 ¡Empleada del mes!'); Sonido.fanfarria();
+          Voz.decir('¡Empleada del mes!', { pitch: 1.3 });
+        }
+        return;
+      }
+      marcas.push({ x: b.tx, y: b.ty, tipo: b.tipo, v: 1 });
+      ponerCara('😮', 400);
+    }
+    function actualizar(dt) {
+      const vel = 1.3;
+      avance += dt * vel; reloj += dt;
+      proxima -= dt;
+      if (proxima <= 0) { nuevaCosa(); proxima = azar(0.6, 1.3); }
+      for (let i = cosas.length - 1; i >= 0; i--) {
+        const o = cosas[i];
+        o.z -= dt * vel;
+        o.bote = Math.max(0, o.bote - dt * 3);
+        if (o.jefe) {
+          if (o.huye) o.x += dt * 2.5 * (o.x >= 0 ? 1 : -1);
+          else o.x = limitar(o.x + Math.sin(reloj * 1.5 + o.fase) * dt * 0.7, -0.9, 0.9);
+        }
+        if (o.z < 0.6 || Math.abs(o.x) > 2.5) cosas.splice(i, 1);
+      }
+      for (let i = balas.length - 1; i >= 0; i--) {
+        const b = balas[i]; b.t += dt / 0.2;
+        if (b.t >= 1) { balas.splice(i, 1); impacto(b); }
+      }
+      for (let i = marcas.length - 1; i >= 0; i--) { marcas[i].v -= dt / 2.5; if (marcas[i].v <= 0) marcas.splice(i, 1); }
+      retro = Math.max(0, retro - dt * 6);
+      if (tCara && performance.now() > tCara) { cara.textContent = dios ? '😇' : '😃'; tCara = 0; }
+    }
+    function pintar() {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dibujarPasillo();
+      [...cosas].sort((a, d) => d.z - a.z).forEach(dibujarCosa);
+      for (const m of marcas) pegatina(m.x, m.y, 18, m.tipo, Math.min(1, m.v * 2));
+      dibujarPistola();
+      for (const b of balas) {
+        const x = b.ox + (b.tx - b.ox) * b.t, y = b.oy + (b.ty - b.oy) * b.t - Math.sin(b.t * Math.PI) * 40;
+        pegatina(x, y, 30 - 14 * b.t, b.tipo);
+      }
+      dibujarMira();
+    }
+
+    escena.addEventListener('pointermove', e => {
+      const q = posEnLienzo(e, cv, W, H);
+      mira.x = q.x; mira.y = q.y; mira.ver = e.pointerType === 'mouse';
+      escena.classList.toggle('raton', mira.ver);
+    });
+    escena.addEventListener('pointerleave', () => { mira.ver = false; });
+    escena.addEventListener('pointerdown', e => {
+      const q = posEnLienzo(e, cv, W, H);
+      if (e.pointerType === 'mouse') { mira.x = q.x; mira.y = q.y; mira.ver = true; }
+      disparar(q.x, q.y);
+    });
+    const teclas = e => {
+      if (e.target.matches('input, textarea')) return;
+      if (e.key === '1') elegirMunicion('estrella');
+      else if (e.key === '2') elegirMunicion('caramelo');
+      else if (e.key === ' ') { e.preventDefault(); disparar(mira.ver ? mira.x : W / 2, mira.ver ? mira.y : hz() + H * 0.12); }
+      if (e.key.length === 1) {
+        codigo = (codigo + e.key.toLowerCase()).slice(-5);
+        // Easter egg: IDDQD, el truco de «modo dios» del Doom original → disparo triple
+        if (codigo === 'iddqd') {
+          codigo = ''; dios = !dios;
+          cara.textContent = dios ? '😇' : '😃';
+          aviso(dios ? '😇 ¡MODO DIOS! Etiquetas triples' : 'Modo dios desactivado');
+          Sonido.fanfarria();
+        }
+      }
+    };
+    document.addEventListener('keydown', teclas);
+
+    let raf = 0, ultimo = performance.now();
+    function bucle(t) {
+      const dt = Math.min(0.05, (t - ultimo) / 1000); ultimo = t;
+      if (W > 0) { actualizar(dt); pintar(); }
+      raf = requestAnimationFrame(bucle);
+    }
+    raf = requestAnimationFrame(bucle);
+    return { cerrar() { cancelAnimationFrame(raf); ro.disconnect(); document.removeEventListener('keydown', teclas); if (musica) musica.parar(); } };
+  }
+};
+
+/* =========================================================
    APP: Papelera (con sorpresa)
    ========================================================= */
 Apps.papelera = {
@@ -2042,7 +2694,7 @@ Apps.papelera = {
 /* =========================================================
    Escritorio, menú, reloj, fondos, easter eggs
    ========================================================= */
-const ORDEN = ['navegador', 'calculadora', 'cuentos', 'musica', 'guinoles', 'pintar', 'memoria', 'animales', 'abrasos', 'papelera'];
+const ORDEN = ['navegador', 'calculadora', 'cuentos', 'musica', 'guinoles', 'pintar', 'memoria', 'animales', 'abrasos', 'bola', 'hoja', 'etiquetas', 'papelera'];
 
 function montarEscritorio() {
   const iconos = $('#iconos');
