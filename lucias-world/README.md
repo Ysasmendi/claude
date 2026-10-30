@@ -71,3 +71,25 @@ Todo está en `index.html`. Los textos van en los dos idiomas con `T('español',
 - **Nuevo dibujo**: añadir una función a `ILUS` que devuelva un SVG. Donde se use, `dibujo('nombre', '🙂')` lo pinta, o pone el emoji si el dibujo no existe.
 - **Nuevo cuento**: añadir un objeto a `CUENTOS`, con páginas `[escena, texto ES, texto EN]`.
 - **Nueva app**: crear `Apps.miApp = { nombre, en, emoji, color, crear(cuerpo) { ... } }` y añadir su id a `ORDEN`.
+
+## Créditos de los sonidos de animales
+
+Grabaciones reales, recortadas a 1–2,5 segundos, normalizadas y con fundidos suaves. Todas son de dominio público o CC0, salvo el cerdo (CC BY 3.0) y el mono (CC BY 4.0), que piden citar al autor. La serpiente no tiene grabación: su siseo está sintetizado.
+
+- vaca — Cow moos 3 (BigSoundBank #2383) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/cow-moos-3-s2383.html
+- perro — Barking dog (BigSoundBank #0916) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/barking-dog-s0916.html
+- gato — Meow of a Siamese cat - freemaster2.wav — freemaster2 (Freesound) — CC0 — https://commons.wikimedia.org/wiki/File:Meow_of_a_Siamese_cat_-_freemaster2.wav
+- pato — Ducks (BigSoundBank #0276) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/ducks-s0276.html
+- oveja — Sheep bleating.ogg — earthcalling (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Sheep_bleating.ogg
+- cerdo — Pig grunt - Erdie.ogg (grunt repeated twice) — erdie — CC BY 3.0 — https://commons.wikimedia.org/wiki/File:Pig_grunt_-_Erdie.ogg
+- gallo — Medium rooster crowing.ogg — alys (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Medium_rooster_crowing.ogg
+- gallina — Hen announcing shes lain an egg.ogg — alys (pdsounds.org) — Public domain — https://commons.wikimedia.org/wiki/File:Hen_announcing_shes_lain_an_egg.ogg
+- caballo — Wiehern.ogg — Hü. — Public domain — https://commons.wikimedia.org/wiki/File:Wiehern.ogg
+- leon — Lion raring-sound1TamilNadu178.ogg — த*உழவன் (Info-farmer) — Public domain — https://commons.wikimedia.org/wiki/File:Lion_raring-sound1TamilNadu178.ogg
+- elefante — Elephant voice - trumpeting.ogg — தகவலுழவன் (Info-farmer) — CC0 — https://commons.wikimedia.org/wiki/File:Elephant_voice_-_trumpeting.ogg
+- mono — Pant-hoot call made by a male chimpanzee.ogg — Pawel Fedurek et al. (supplementary audio of the article at https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5674848/) — CC BY 4.0 — https://commons.wikimedia.org/wiki/File:Pant-hoot_call_made_by_a_male_chimpanzee.ogg
+- rana — PigFrog EvergladesNP (Lithobates grylio) — NPS Natural Sounds & Night Skies Division — Public domain (US NPS) — https://commons.wikimedia.org/wiki/File:PigFrog_EvergladesNP.ogg (same recording, downloaded from https://www.nps.gov/subjects/sound/sounds-pigfrog.htm)
+- buho — Tawny Owl 2 (BigSoundBank #1764) — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/tawny-owl-2-s1764.html
+- lobo — Wolf (Denali National Park) - NPS Sound Gallery — U.S. National Park Service — Public domain (US NPS) — https://www.nps.gov/subjects/sound/sounds-wolf.htm
+- abeja — Bee (Yosemite National Park) - NPS Sound Gallery — U.S. National Park Service — Public domain (US NPS) — https://www.nps.gov/subjects/sound/sounds-bee.htm
+- raton — Mouse screams (BigSoundBank #0459), 5 squeaks spliced — Joseph Sardin (BigSoundBank) — CC0 1.0 — https://bigsoundbank.com/mouse-screams-s0459.html
