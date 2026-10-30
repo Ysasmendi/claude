@@ -21,6 +21,7 @@ Doble clic en `index.html`. Funciona en cualquier navegador moderno, también en
 | 🎨 Pintar | Colores, pincel arcoíris, sellos de emojis y opción de guardar el dibujo como imagen. |
 | 🧠 Memoria | Juego de parejas en modo fácil o difícil. |
 | 🐮 Animales | Al tocar un animal, dice cómo suena. |
+| 🤗 Máquina de dar abrasos | Un robot que da abrasos, con brazos que se cruzan, corazones y frases distintas. Cada cierto número de abrasos (un número sorpresa entre 5 y 8) hay uno que no quiere: se enfada y suelta un puñito 👊 «¡POW!»… y luego dice que era broma. Cada 20 abrasos cae una lluvia de corazones. |
 | 🗑️ Papelera | Tiene una sorpresa dentro. |
 
 ## Easter eggs (spoiler para adultos)
