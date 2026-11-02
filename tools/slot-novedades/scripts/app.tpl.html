@@ -1,0 +1,749 @@
+<title>Tragaperras de Novedades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --blue:#2947FE;
+    --blue-deep:#16249B;
+    --blue-hover:#1F37CC;
+    --white:#FFFFFF;
+    --bulb:#FFF6E0;
+    --bulb-glow:rgba(255,206,120,.9);
+    --cell-h:128px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--white);color:var(--blue)}
+  body{
+    font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+    letter-spacing:-0.03em;
+    color:var(--white);
+    background:var(--blue);
+    background-image:radial-gradient(120% 90% at 50% 0%, #3A56FF 0%, #2947FE 45%, var(--blue-deep) 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:22px 20px 26px;
+    gap:18px;
+  }
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand b{font-size:19px;font-weight:700;letter-spacing:-0.04em}
+  .brand span{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;opacity:.65}
+  h1{font-size:clamp(24px,3.6vw,34px);font-weight:800;text-align:center;text-wrap:balance;line-height:1.05}
+  .head{display:flex;flex-direction:column;align-items:center;gap:10px}
+
+  @keyframes rumble{
+    0%{transform:translate3d(0,0,0)}25%{transform:translate3d(-1px,1px,0)}
+    50%{transform:translate3d(1px,-1px,0)}75%{transform:translate3d(-1px,-1px,0)}
+    100%{transform:translate3d(1px,1px,0)}
+  }
+  .machine.fast{animation:rumble .1s linear infinite}
+  .machine{
+    position:relative;
+    width:min(660px,100%);
+    border:1px solid rgba(255,255,255,.34);
+    background:rgba(255,255,255,.07);
+    border-radius:22px;
+    padding:18px;
+    box-shadow:0 30px 70px -20px rgba(6,16,90,.55), inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .machine{transition:border-color .3s ease, box-shadow .3s ease}
+  .machine.spinning{
+    border-color:rgba(255,235,190,.5);
+    box-shadow:0 30px 70px -20px rgba(6,16,90,.55), inset 0 1px 0 rgba(255,255,255,.22),
+               0 0 46px rgba(255,206,120,.22);
+  }
+  .marquee{position:absolute;inset:-7px;pointer-events:none}
+  .marquee .edge{position:absolute;display:flex;justify-content:space-between}
+  .marquee .edge.top{top:0;left:22px;right:22px}
+  .marquee .edge.bottom{bottom:0;left:22px;right:22px}
+  .marquee .edge.left{left:0;top:22px;bottom:22px;flex-direction:column}
+  .marquee .edge.right{right:0;top:22px;bottom:22px;flex-direction:column}
+  .bulb{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.34);box-shadow:0 0 0 0 rgba(255,206,120,0)}
+  @keyframes chase{
+    0%{background:var(--bulb);box-shadow:0 0 16px 5px var(--bulb-glow)}
+    12%{background:var(--bulb);box-shadow:0 0 12px 3px rgba(255,206,120,.6)}
+    26%{background:rgba(255,240,205,.7);box-shadow:0 0 8px 1px rgba(255,206,120,.3)}
+    44%{background:rgba(255,255,255,.34);box-shadow:0 0 0 0 rgba(255,206,120,0)}
+    100%{background:rgba(255,255,255,.34);box-shadow:0 0 0 0 rgba(255,206,120,0)}
+  }
+  .machine.spinning .bulb{animation:chase .9s linear infinite}
+  .machine.brake .bulb{animation-duration:1.7s}
+  @keyframes allflash{
+    0%,100%{background:rgba(255,255,255,.32);box-shadow:0 0 0 0 rgba(255,206,120,0)}
+    45%{background:var(--white);box-shadow:0 0 18px 6px rgba(255,255,255,.95)}
+  }
+  .machine.won .bulb{animation:allflash .28s linear 4}
+
+  .window{
+    position:relative;
+    height:calc(var(--cell-h) * 3);
+    border-radius:15px;
+    overflow:hidden;
+    background:rgba(9,20,110,.42);
+    box-shadow:inset 0 2px 14px rgba(6,14,80,.5);
+  }
+  .strip{position:absolute;left:0;right:0;top:0;will-change:transform}
+  .cell{
+    height:var(--cell-h);
+    padding:14px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-align:center;
+  }
+  .card{
+    width:100%;height:100%;
+    background:var(--white);
+    color:var(--blue);
+    border-radius:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+    padding:12px 20px;
+  }
+  .card p{font-size:clamp(15px,2.1vw,20px);font-weight:700;line-height:1.22;text-wrap:balance}
+  .card .meta{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
+  .card .tag{background:#F0F3FF;border-radius:20px;padding:3px 9px}
+  .card .date{opacity:.55}
+  .card{transition:box-shadow .2s ease}
+  @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.055)}62%{transform:scale(.985)}100%{transform:scale(1)}}
+  @keyframes ring{from{box-shadow:0 0 0 0 rgba(255,255,255,.85)}to{box-shadow:0 0 0 24px rgba(255,255,255,0)}}
+  .card.win{animation:pop .6s cubic-bezier(.2,.9,.2,1), ring .8s ease-out}
+  @keyframes blink{0%,100%{opacity:0}10%{opacity:.55}22%{opacity:0}42%{opacity:.42}54%{opacity:0}74%{opacity:.3}86%{opacity:0}}
+  .flash{position:absolute;inset:0;pointer-events:none;background:var(--white);opacity:0}
+  @keyframes sheen{0%{transform:translateY(-140%)}100%{transform:translateY(340%)}}
+  .sheen{
+    position:absolute;left:0;right:0;height:42%;pointer-events:none;opacity:0;
+    background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.16) 50%,rgba(255,255,255,0) 100%);
+  }
+  .window.spin .sheen{opacity:1;animation:sheen .62s linear infinite}
+  @keyframes stamp{
+    0%{opacity:0;transform:rotate(-9deg) scale(.5)}
+    45%{opacity:1;transform:rotate(-9deg) scale(1.12)}
+    62%{transform:rotate(-9deg) scale(1)}
+    100%{opacity:0;transform:rotate(-9deg) scale(1)}
+  }
+  .chaching{
+    position:absolute;top:calc(var(--cell-h) - 19px);right:14px;z-index:3;pointer-events:none;opacity:0;
+    background:var(--white);color:var(--blue);
+    font-size:14px;font-weight:800;letter-spacing:0.04em;
+    padding:8px 14px;border-radius:999px;
+    box-shadow:0 8px 22px -6px rgba(6,14,80,.55);
+  }
+  .window.won .chaching{animation:stamp 1.5s cubic-bezier(.2,.9,.2,1)}
+  .window.won .flash{animation:blink 1s ease-out}
+  #sparks{position:absolute;inset:0;pointer-events:none}
+  .fade{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,
+      rgba(20,35,150,.95) 0%, rgba(24,40,170,.45) 24%, rgba(41,71,254,0) 34%,
+      rgba(41,71,254,0) 66%, rgba(24,40,170,.45) 76%, rgba(20,35,150,.95) 100%);
+  }
+  .guides{position:absolute;inset:0;pointer-events:none}
+  .guides i{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.28)}
+  .guides i:first-child{top:calc(var(--cell-h) - 1px)}
+  .guides i:last-child{top:calc(var(--cell-h) * 2)}
+  .guides b{
+    position:absolute;top:calc(var(--cell-h) * 1.5);transform:translateY(-50%);
+    font-size:16px;line-height:1;opacity:.9;
+  }
+  .guides b.l{left:6px}
+  .guides b.r{right:6px}
+
+  .lever{
+    position:absolute;top:26px;right:-36px;width:26px;height:176px;display:none;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:999px;
+  }
+  .lever .track{position:absolute;left:11px;top:14px;bottom:14px;width:4px;border-radius:4px;background:rgba(255,255,255,.3)}
+  .lever .knob{
+    position:absolute;left:1px;top:6px;width:24px;height:24px;border-radius:50%;
+    background:var(--white);box-shadow:0 4px 12px rgba(6,14,80,.5);
+    transition:top .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .machine.spinning .lever .knob{top:146px}
+  @media(min-width:820px){.lever{display:block}}
+
+  .card.win{cursor:pointer}
+  .card .hint{
+    position:absolute;left:14px;top:12px;
+    font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--blue);opacity:0;transition:opacity .3s ease .5s;
+  }
+  .card.win .hint{opacity:.42}
+  .card.win:hover .hint,.card.win:focus-visible .hint{opacity:.85}
+  .card{position:relative}
+
+  @keyframes print{
+    0%{opacity:0;transform:translateY(-14px) scaleY(.55)}
+    100%{opacity:1;transform:translateY(0) scaleY(1)}
+  }
+  .ticket{
+    position:absolute;
+    top:18px;left:18px;right:18px;                /* justo encima de la ventana de la bobina */
+    height:calc(var(--cell-h) * 3);
+    z-index:5;
+    display:flex;flex-direction:column;
+    transform-origin:top center;
+    animation:print .42s cubic-bezier(.2,.9,.2,1);
+    cursor:pointer;
+  }
+  .ticket[hidden]{display:none}
+  .ticket .perf{
+    height:12px;
+    background-image:radial-gradient(circle at 6px 0, transparent 5.4px, var(--white) 5.8px);
+    background-size:16px 12px;background-repeat:repeat-x;
+  }
+  .ticket .tbody{
+    flex:1;min-height:0;
+    background:var(--white);border-radius:0 0 14px 14px;
+    padding:16px 26px 14px;
+    box-shadow:0 26px 60px -14px rgba(6,16,90,.65);
+    display:flex;flex-direction:column;
+  }
+  .ticket .what{flex:1;min-height:0;overflow-y:auto}
+  .ticket .tfoot{margin-top:auto}
+  .ticket .eyebrow{
+    font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--blue);opacity:.5;
+    padding-bottom:10px;border-bottom:1px dashed rgba(41,71,254,.28);
+  }
+  .ticket h2{
+    font-size:clamp(18px,2.4vw,23px);font-weight:800;color:var(--blue);
+    line-height:1.16;text-wrap:balance;margin-top:10px;
+  }
+  .ticket .tmeta{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
+  }
+  .ticket .tmeta .tag{background:#F0F3FF;color:var(--blue);border-radius:20px;padding:3px 9px}
+  .ticket .what{
+    margin-top:12px;font-size:17px;line-height:1.5;color:#415162;
+    white-space:pre-line;letter-spacing:-0.02em;
+  }
+  .ticket .tfoot{
+    margin-top:12px;padding-top:10px;border-top:1px dashed rgba(41,71,254,.28);
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#8B95A5;
+  }
+  .ticket .tfoot button{
+    font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    background:none;border:none;color:var(--blue);cursor:pointer;padding:0;text-decoration:underline;
+  }
+  @media (prefers-reduced-motion:reduce){.ticket{animation:none}}
+
+  .controls{display:flex;flex-direction:column;align-items:center;gap:13px;width:min(660px,100%)}
+  button.spin{
+    font-family:inherit;letter-spacing:0.1em;text-transform:uppercase;
+    font-size:15px;font-weight:800;padding:14px 48px;
+    background:var(--white);color:var(--blue);
+    border:none;border-radius:999px;cursor:pointer;
+    box-shadow:0 10px 24px -8px rgba(6,14,80,.6);
+    transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease;
+  }
+  button.spin:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(6,14,80,.7)}
+  button.spin:active:not(:disabled){transform:translateY(2px);box-shadow:0 6px 14px -8px rgba(6,14,80,.6)}
+  button.spin:disabled{opacity:.45;cursor:default}
+  :is(button,input,label,a):focus-visible{outline:2px solid var(--white);outline-offset:3px;border-radius:8px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .chip{
+    font-family:inherit;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+    background:transparent;color:rgba(255,255,255,.72);
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:999px;padding:6px 12px;cursor:pointer;
+    display:flex;align-items:center;gap:7px;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+  }
+  .chip:hover{border-color:var(--white);color:var(--white)}
+  .chip[aria-pressed="true"]{background:var(--white);color:var(--blue);border-color:var(--white)}
+  .chip em{font-style:normal;font-variant-numeric:tabular-nums;opacity:.6;font-weight:700}
+
+  .row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;font-size:13px;font-weight:500}
+  .row label{display:flex;align-items:center;gap:8px;cursor:pointer;opacity:.85}
+  .row input{width:16px;height:16px;accent-color:#fff;cursor:pointer}
+  .row button.link{
+    font-family:inherit;font-size:13px;font-weight:600;background:none;border:none;
+    color:var(--white);opacity:.7;text-decoration:underline;cursor:pointer;padding:0;
+  }
+  .row button.link:hover{opacity:1}
+  .status{font-size:13px;font-weight:500;opacity:.65;font-variant-numeric:tabular-nums}
+  .status b{font-weight:700;opacity:1}
+  footer{font-size:11px;font-weight:500;opacity:.5;text-align:center;max-width:80ch;line-height:1.5}
+  footer code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:rgba(255,255,255,.14);padding:2px 5px;border-radius:4px}
+  @media (max-height:780px){
+    :root{--cell-h:112px}
+    body{padding:14px 20px 18px;gap:12px}
+    h1{font-size:26px}
+    footer{display:none}
+    .machine{padding:14px}
+    .ticket{top:14px;left:14px;right:14px}
+    .lever{top:20px;height:150px}
+    .machine.spinning .lever .knob{top:120px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .lever .knob,button.spin{transition:none}
+    .machine.fast{animation:none}
+    .window.spin .sheen{opacity:0;animation:none}
+    .machine.spinning .bulb,.machine.won .bulb{animation:none}
+  }
+</style>
+<!--BODY-->
+<div class="head">
+  <div class="brand"><b>dcycle</b><span>product news 2026</span></div>
+  <h1>Tragaperras de Novedades</h1>
+</div>
+
+<div class="machine" id="machine">
+  <div class="window">
+    <div class="strip" id="strip"></div>
+    <div class="sheen"></div>
+    <canvas id="sparks"></canvas>
+    <div class="chaching">¡CHA-CHING!</div>
+    <div class="flash"></div>
+    <div class="fade"></div>
+    <div class="guides"><i></i><b class="l">▸</b><b class="r">◂</b><i></i></div>
+  </div>
+  <div class="marquee" id="marquee" aria-hidden="true"></div>
+  <div class="lever" aria-hidden="true"><div class="track"></div><div class="knob"></div></div>
+  <section class="ticket" id="ticket" hidden tabindex="-1" aria-live="polite">
+    <div class="perf"></div>
+    <div class="tbody">
+      <p class="eyebrow" id="t-eyebrow"></p>
+      <h2 id="t-title"></h2>
+      <p class="tmeta"><span class="tag" id="t-cat"></span><span id="t-author"></span></p>
+      <p class="what" id="t-what"></p>
+      <p class="tfoot"><span>Tal y como se anunció en #product-news</span><button type="button" id="t-close">Cerrar</button></p>
+    </div>
+  </section>
+</div>
+
+<div class="controls">
+  <button class="spin" id="spin">Girar</button>
+  <div class="chips" id="chips"></div>
+  <div class="row">
+    <label><input type="checkbox" id="norepeat" checked> Sin repetir</label>
+    <label><input type="checkbox" id="sound" checked> Sonido</label>
+    <button class="link" id="reset">Reiniciar salidas</button>
+    <span class="status" id="status"></span>
+  </div>
+</div>
+
+<footer>
+  Cada tirada usa <code>crypto.getRandomValues</code> con muestreo por rechazo: aleatoriedad criptográfica, sin sesgo ni secuencia predecible.
+</footer>
+
+<script>
+const ITEMS = __DATA__;
+const CATS = {
+  PROD:'Producto', SKILL:'Skills', WEB:'Web', CLI:'CLI',
+  AGENT:'Leia / API', INIT:'Iniciativas', DOCS:'Docs'
+};
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+const stripEl = document.getElementById('strip');
+const machineEl = document.getElementById('machine');
+const spinBtn = document.getElementById('spin');
+const chipsEl = document.getElementById('chips');
+const statusEl = document.getElementById('status');
+const noRepeatEl = document.getElementById('norepeat');
+const soundEl = document.getElementById('sound');
+const windowEl = document.querySelector('.window');
+const sparksEl = document.getElementById('sparks');
+const marqueeEl = document.getElementById('marquee');
+
+/* Marquesina: las bombillas reciben su retardo en orden perimetral, así la luz
+   corre alrededor de la máquina en vez de parpadear en bloque. */
+(function bulbs(){
+  const edges = [['top',16],['right',6],['bottom',16],['left',6]];
+  const total = edges.reduce((a, [, c]) => a + c, 0);
+  let n = 0;
+  edges.forEach(([side, count]) => {
+    const edge = document.createElement('div');
+    edge.className = 'edge ' + side;
+    for (let k = 0; k < count; k++){
+      const b = document.createElement('div');
+      b.className = 'bulb';
+      const reversed = (side === 'bottom' || side === 'left');
+      const idx = n + (reversed ? count - 1 - k : k);
+      b.style.animationDelay = (-(idx / total) * 0.85).toFixed(3) + 's';
+      edge.append(b);
+    }
+    n += count;
+    marqueeEl.append(edge);
+  });
+})();
+
+const active = new Set(Object.keys(CATS));
+const used = new Set();
+let spinning = false;
+
+/* Entero uniforme en [0,n) con el CSPRNG del navegador. El rechazo descarta
+   los valores del último bloque incompleto, que es lo que introduciría sesgo. */
+function randInt(n){
+  if(n <= 0) return 0;
+  const limit = Math.floor(0x100000000 / n) * n;
+  const buf = new Uint32Array(1);
+  let v;
+  do { crypto.getRandomValues(buf); v = buf[0]; } while (v >= limit);
+  return v % n;
+}
+
+/* Sonido sintetizado: clics de bobina mientras gira, ding-ding-ding al parar. */
+let audio = null;
+function ac(){
+  if (!soundEl.checked) return null;
+  try { if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)(); }
+  catch (e) { return null; }
+  if (audio.state === 'suspended') audio.resume();
+  return audio;
+}
+function tone(freq, at, dur, {type = 'sine', gain = 0.06} = {}){
+  const a = ac(); if (!a) return;
+  try {
+    const t = a.currentTime + at;
+    const osc = a.createOscillator(), amp = a.createGain();
+    osc.type = type; osc.frequency.setValueAtTime(freq, t);
+    amp.gain.setValueAtTime(0, t);
+    amp.gain.linearRampToValueAtTime(gain, t + 0.006);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(amp).connect(a.destination);
+    osc.start(t); osc.stop(t + dur + 0.02);
+  } catch (e) { /* sin audio disponible: el juego sigue */ }
+}
+function noise(at, dur, {freq = 3000, q = 0.9, gain = 0.08} = {}){
+  const a = ac(); if (!a) return;
+  try {
+    const t = a.currentTime + at;
+    const len = Math.max(1, Math.floor(a.sampleRate * dur));
+    const buf = a.createBuffer(1, len, a.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    const src = a.createBufferSource(); src.buffer = buf;
+    const bp = a.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.value = freq; bp.Q.value = q;
+    const amp = a.createGain();
+    amp.gain.setValueAtTime(gain, t);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(bp).connect(amp).connect(a.destination);
+    src.start(t); src.stop(t + dur);
+  } catch (e) { /* sin audio disponible: el juego sigue */ }
+}
+/* Clic de bobina: golpe mecánico, no un pitido. */
+function tick(progress){
+  noise(0, 0.03 + progress * 0.02, {freq: 3400 - progress * 1200, q: 1.4, gain: 0.05});
+  tone(230 - progress * 80, 0, 0.02 + progress * 0.03, {type:'square', gain:0.02 + progress * 0.02});
+}
+/* Campanilleo de sala de juego: arpegio pentatónico que se ensancha al frenar. */
+const VEGAS = [1046.5, 1318.5, 1568, 2093, 1568, 1318.5];
+function jingle(step, progress){
+  const f = VEGAS[step % VEGAS.length];
+  tone(f, 0, 0.16, {type:'triangle', gain:0.028 + progress * 0.012});
+  tone(f * 1.5, 0, 0.1, {type:'sine', gain:0.014});
+}
+/* Caja registradora: cajón, "cha" metálico, "ching" de campana y monedas. */
+function chaChing(){
+  tone(95, 0, 0.16, {type:'sine', gain:0.16});
+  noise(0.005, 0.09, {freq: 5200, q: 0.7, gain: 0.14});
+  [2637, 3136].forEach((f, i) => {
+    tone(f, 0.075, 1.15, {type:'sine', gain: i ? 0.05 : 0.085});
+    tone(f * 1.004, 0.075, 1.15, {type:'sine', gain: i ? 0.03 : 0.05});
+  });
+  tone(1318.5, 0.075, 0.5, {type:'triangle', gain:0.05});
+  for (let k = 0; k < 11; k++){
+    const at = 0.16 + k * 0.055 + Math.random() * 0.05;
+    tone(1800 + Math.random() * 1600, at, 0.1, {type:'sine', gain:0.035});
+    noise(at, 0.05, {freq: 6000 + Math.random() * 3000, q: 1.2, gain: 0.035});
+  }
+}
+
+/* Impresora de tickets: servo bajando y tres golpes de cabezal. */
+function printer(){
+  const a = ac(); if (!a) return;
+  try {
+    const t = a.currentTime;
+    const osc = a.createOscillator(), amp = a.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(320, t);
+    osc.frequency.exponentialRampToValueAtTime(150, t + 0.3);
+    amp.gain.setValueAtTime(0.03, t);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+    osc.connect(amp).connect(a.destination);
+    osc.start(t); osc.stop(t + 0.34);
+  } catch (e) { /* sin audio */ }
+  [0, 0.09, 0.18].forEach(at => noise(at, 0.035, {freq: 2000, q: 2, gain: 0.03}));
+}
+
+/* Lluvia de monedas girando sobre la casilla premiada. */
+function coinShower(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = sparksEl.clientWidth, h = sparksEl.clientHeight;
+  sparksEl.width = w * dpr; sparksEl.height = h * dpr;
+  const g = sparksEl.getContext('2d');
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const coins = Array.from({length: 30}, () => ({
+    x: w * 0.5 + (Math.random() - 0.5) * w * 0.9,
+    y: -12 - Math.random() * h * 0.32,
+    vy: 4.6 + Math.random() * 3.2,
+    vx: (Math.random() - 0.5) * 1.1,
+    r: 5 + Math.random() * 5,
+    ph: Math.random() * Math.PI * 2,
+    sp: 0.18 + Math.random() * 0.16
+  }));
+  const t0 = performance.now();
+  (function frame(now){
+    const t = (now - t0) / 1500;
+    g.clearRect(0, 0, w, h);
+    if (t >= 1) return;
+    const fade = t > 0.75 ? 1 - (t - 0.75) / 0.25 : 1;
+    coins.forEach(c => {
+      c.y += c.vy; c.x += c.vx; c.vy += 0.16; c.ph += c.sp;
+      g.save();
+      g.translate(c.x, c.y);
+      g.scale(Math.max(0.14, Math.abs(Math.cos(c.ph))), 1);
+      g.beginPath(); g.arc(0, 0, c.r, 0, Math.PI * 2);
+      g.fillStyle = 'rgba(255,246,224,' + fade + ')'; g.fill();
+      g.beginPath(); g.arc(0, 0, c.r * 0.55, 0, Math.PI * 2);
+      g.strokeStyle = 'rgba(255,206,120,' + (0.85 * fade) + ')'; g.lineWidth = 1.4; g.stroke();
+      g.restore();
+    });
+    requestAnimationFrame(frame);
+  })(t0);
+}
+function celebrate(){
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (card){ card.classList.remove('win'); void card.offsetWidth; card.classList.add('win'); }
+  windowEl.classList.remove('won'); void windowEl.offsetWidth; windowEl.classList.add('won');
+  machineEl.classList.remove('won'); void machineEl.offsetWidth; machineEl.classList.add('won');
+  coinShower();
+  chaChing();
+}
+
+function pool(){
+  return ITEMS.filter(it => active.has(it.c) && !(noRepeatEl.checked && used.has(it.i)));
+}
+function fmtDate(d){
+  const [dd,mm] = d.split('-');
+  return Number(dd) + ' ' + MESES[Number(mm)-1];
+}
+function cell(item){
+  const el = document.createElement('div');
+  el.className = 'cell';
+  const card = document.createElement('div');
+  card.className = 'card';
+  const p = document.createElement('p');
+  p.textContent = item.t;
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = CATS[item.c];
+  const date = document.createElement('span');
+  date.className = 'date';
+  date.textContent = fmtDate(item.d);
+  meta.append(tag, date);
+  card.append(p, meta);
+  el.append(card);
+  return el;
+}
+function render(cells, ty){
+  stripEl.replaceChildren(...cells.map(cell));
+  stripEl.style.transform = 'translateY(' + ty + 'px)';
+}
+function idle(){
+  const p = pool();
+  const picks = [];
+  while (picks.length < 3 && p.length){
+    const c = p[randInt(p.length)];
+    if (p.length < 3 || !picks.includes(c)) picks.push(c);
+  }
+  render(picks.length ? picks : [
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'},
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'},
+    {t:'No queda ninguna novedad con estos filtros', c:'PROD', d:'01-01'}
+  ], 0);
+  spinBtn.disabled = p.length === 0;
+}
+const ticketEl = document.getElementById('ticket');
+const MES_LARGO = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function hideTicket(){
+  ticketEl.hidden = true;
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (card) card.setAttribute('aria-expanded', 'false');
+}
+function showTicket(item){
+  const [dd, mm] = item.d.split('-');
+  document.getElementById('t-eyebrow').textContent =
+    'Novedad ' + (item.i + 1) + ' de ' + ITEMS.length + ' · ' + Number(dd) + ' de ' + MES_LARGO[Number(mm) - 1] + ' de 2026';
+  document.getElementById('t-title').textContent = item.t;
+  document.getElementById('t-cat').textContent = CATS[item.c];
+  document.getElementById('t-author').textContent = item.a ? 'lo contó ' + item.a : '';
+  const whatEl = document.getElementById('t-what');
+  whatEl.dataset.full = item.w || 'Sin definición en el canal.';
+  ticketEl.hidden = false;
+  ticketEl.style.animation = 'none';
+  void ticketEl.offsetWidth;
+  ticketEl.style.animation = '';
+  fitTicket();
+  printer();
+  ticketEl.focus({preventScroll: true});
+}
+
+/* Se proyecta: el texto baja hasta 13px para caber. Por debajo de eso no se lee
+   desde el fondo de la sala, así que en lugar de seguir encogiendo se recorta
+   por palabra (búsqueda binaria) hasta que entra. Nunca hay scroll ni recorte
+   invisible: si sobra texto, se ve el "…". */
+function fitTicket(){
+  const what = document.getElementById('t-what');
+  const full = what.dataset.full || '';
+  const fits = () => what.scrollHeight <= what.clientHeight + 1;
+  for (const px of [17, 16, 15, 14, 13]){
+    what.style.fontSize = px + 'px';
+    what.style.lineHeight = px >= 14 ? '1.5' : '1.42';
+    what.textContent = full;
+    if (fits()) return;
+  }
+  const put = n => {
+    const cut = full.lastIndexOf(' ', n);
+    what.textContent = full.slice(0, cut > 40 ? cut : n).trimEnd().replace(/[·,;:]$/, '') + '…';
+  };
+  let lo = 60, hi = full.length, best = 60;
+  while (lo <= hi){
+    const mid = (lo + hi) >> 1;
+    put(mid);
+    if (fits()){ best = mid; lo = mid + 1; } else hi = mid - 1;
+  }
+  put(best);
+}
+function armCard(item){
+  const card = stripEl.children[1] && stripEl.children[1].querySelector('.card');
+  if (!card) return;
+  const hint = document.createElement('span');
+  hint.className = 'hint';
+  hint.textContent = 'toca para saber qué es';
+  card.prepend(hint);
+  card.classList.add('win');
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-expanded', 'false');
+  card.setAttribute('aria-label', 'Ver qué es: ' + item.t);
+  const toggle = () => {
+    const open = !ticketEl.hidden;
+    if (open) { hideTicket(); return; }
+    showTicket(item);
+    card.setAttribute('aria-expanded', 'true');
+  };
+  card.addEventListener('click', toggle);
+  card.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+  });
+}
+document.getElementById('t-close').addEventListener('click', hideTicket);
+ticketEl.addEventListener('click', hideTicket);
+document.addEventListener('keydown', e => { if (e.code === 'Escape' && !ticketEl.hidden) hideTicket(); });
+
+function status(){
+  const p = pool();
+  statusEl.innerHTML = 'En juego <b>' + p.length + '</b> · ya han salido <b>' + used.size + '</b> de <b>' + ITEMS.length + '</b>';
+}
+
+function spin(){
+  const p = pool();
+  if (spinning || !p.length) return;
+  spinning = true;
+  spinBtn.disabled = true;
+  hideTicket();
+  machineEl.classList.add('spinning', 'fast');
+  machineEl.classList.remove('brake');
+  machineEl.classList.remove('won');
+  windowEl.classList.remove('won');
+  windowEl.classList.add('spin');
+
+  const winner = p[randInt(p.length)];
+  const cellH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cell-h'));
+  const travel = 128 + randInt(18);                // casillas que pasan antes de parar
+  const cells = [ITEMS[randInt(ITEMS.length)], winner];
+  for (let k = 0; k < travel + 1; k++) cells.push(ITEMS[randInt(ITEMS.length)]);
+
+  const from = -travel * cellH;
+  let passed = 0, lastTick = 0, lastJingle = 0, jingleStep = 0;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  render(cells, from);
+
+  const finish = () => {
+    stripEl.style.transform = 'translateY(0px)';
+    stripEl.style.filter = 'none';
+    used.add(winner.i);
+    spinning = false;
+    machineEl.classList.remove('spinning', 'fast', 'brake');
+    windowEl.classList.remove('spin');
+    celebrate();
+    armCard(winner);
+    status();
+    spinBtn.disabled = pool().length === 0;
+    spinBtn.focus({preventScroll:true});
+  };
+
+  if (reduced){ setTimeout(finish, 320); return; }
+
+  const dur = 6200;
+  /* Mitad del tiempo a velocidad de crucero (75% de la distancia) y mitad
+     frenando el 25% restante. La cúbica arranca justo a la velocidad de
+     crucero, así que no hay salto perceptible en la transición. */
+  const CRUISE_T = 0.5, CRUISE_D = 0.75;
+  const ease = t => t < CRUISE_T
+    ? (t / CRUISE_T) * CRUISE_D
+    : CRUISE_D + (1 - CRUISE_D) * (1 - Math.pow(1 - (t - CRUISE_T) / (1 - CRUISE_T), 3));
+  const t0 = performance.now();
+  let prev = from;
+  (function frame(now){
+    const t = Math.min(1, (now - t0) / dur);
+    const e = ease(t);
+    const ty = from + (0 - from) * e;
+    const v = Math.abs(ty - prev); prev = ty;
+    stripEl.style.transform = 'translateY(' + ty + 'px)';
+    stripEl.style.filter = v > 6 ? 'blur(' + Math.min(9, v * 0.16) + 'px)' : 'none';
+    const crossed = Math.floor((ty - from) / cellH);
+    if (crossed > passed){
+      passed = crossed;
+      if (now - lastTick > (t < CRUISE_T ? 70 : 42)){ lastTick = now; tick(t); }
+    }
+    if (t > CRUISE_T) machineEl.classList.remove('fast');
+    if (t > 0.75) machineEl.classList.add('brake');
+    const beat = 130 + t * 190;
+    if (t < 0.9 && now - lastJingle > beat){ lastJingle = now; jingle(jingleStep++, t); }
+    if (t < 1) requestAnimationFrame(frame);
+    else finish();
+  })(t0);
+}
+
+Object.entries(CATS).forEach(([key,label]) => {
+  const b = document.createElement('button');
+  b.className = 'chip';
+  b.type = 'button';
+  b.setAttribute('aria-pressed','true');
+  const count = ITEMS.filter(i => i.c === key).length;
+  b.innerHTML = label + ' <em>' + count + '</em>';
+  b.addEventListener('click', () => {
+    if (spinning) return;
+    if (active.has(key)) active.delete(key); else active.add(key);
+    if (!active.size) active.add(key);
+    b.setAttribute('aria-pressed', String(active.has(key)));
+    idle(); status();
+  });
+  chipsEl.append(b);
+});
+
+spinBtn.addEventListener('click', spin);
+soundEl.addEventListener('change', () => { if (soundEl.checked) jingle(0, 0.5); });
+noRepeatEl.addEventListener('change', () => { hideTicket(); idle(); status(); });
+document.getElementById('reset').addEventListener('click', () => { hideTicket(); used.clear(); idle(); status(); });
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && e.target === document.body){ e.preventDefault(); spin(); }
+});
+
+idle(); status();
+</script>
