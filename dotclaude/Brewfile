@@ -1,0 +1,5 @@
+# Generado por `brew bundle dump` al ejecutar bootstrap-from-old-mac.sh
+# en el Mac viejo. Hasta entonces esta vacio a proposito.
+#
+# Para regenerarlo en cualquier momento:
+#   brew bundle dump --force --describe --file Brewfile

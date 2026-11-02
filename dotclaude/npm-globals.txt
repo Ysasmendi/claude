@@ -1,0 +1,2 @@
+# Un paquete por linea. Lo regenera bootstrap-from-old-mac.sh y sync.sh.
+@anthropic-ai/claude-code
