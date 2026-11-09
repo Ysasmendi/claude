@@ -12,7 +12,7 @@ Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier n
 
 - **Idioma:** el botón 🌐 de la barra de abajo (o el del arranque, o el menú 🌈) cambia entre español e inglés. La elección se guarda y no depende del idioma del navegador.
 - **Voz:** usa la lectura en voz alta del navegador y elige a propósito una voz del idioma de la web. En **Menú 🌈 → Voz** se ve qué voz se está usando, se puede probar y elegir otra, y vienen los pasos para instalar una voz española si el aparato no tiene ninguna (si no la hay, el navegador lee el español con una voz inglesa y suena con acento).
-- **Sonido:** el botón del altavoz silencia todo. Mientras el OS está encendido suena un siseo inaudible (−85 dB) que mantiene despierta la salida de audio, para que altavoces y auriculares no hagan «pop» al acabar cada frase de la voz.
+- **Sonido:** el botón del altavoz silencia todo. Mientras el OS está encendido suena un siseo inaudible (−80 dB) que mantiene despierta la salida de audio, para que altavoces y auriculares no hagan «pop» al acabar cada frase de la voz.
 
 ## Apps
 
@@ -29,7 +29,7 @@ Doble clic en `index.html`, o abrir el enlace de arriba. Funciona en cualquier n
 | 🤗 Máquina de dar abrasos | Un robot que da abrasos, con brazos que se cruzan, corazones y frases distintas. Cada cierto número de abrasos (un número sorpresa entre 5 y 8) hay uno que no quiere: se enfada y suelta un puñito 👊 «¡POW!»… y luego dice que era broma. |
 | 🔮 Bola de cristal | La Brujita Lucía y su bola mágica predicen el futuro: qué pasará mañana, qué vas a comer, qué serás de mayor o una sorpresa. |
 | 🍬 Hoja de chuches | Una hoja de cálculo como Excel donde solo se pintan chuches. Al escribir, cada consonante pinta un 🍬, cada vocal una 🍫 y cada número una ⭐. La barra de fórmulas enseña qué tecla era (`=CARAMELO("m")`), y abajo están los totales (`=CONTAR(🍬)`). Se guarda sola. |
-| 🏷️ Etiquetadora | Juego estilo Doom en un pasillo de oficina, con Estrellita en modo heavy metal. Te mueves con las flechas o WASD y disparas con la barra espaciadora. En tablet hay cruceta y botón de disparo en pantalla, y también se puede tocar donde quieras disparar. Las teclas 1 y 2 cambian de munición (⭐ o 🍬). |
+| 🏷️ Etiquetadora | Juego estilo Doom en un pasillo de oficina, con Estrellita en modo heavy metal. Avanzas y retrocedes con las flechas ↑ ↓ (o W y S); apuntas con el ratón y disparas con la barra espaciadora. En tablet hay cruceta y botón de disparo en pantalla, y también se puede tocar donde quieras disparar. Las teclas 1 y 2 cambian de munición (⭐ o 🍬). |
 | 🗑️ Papelera | Tiene una sorpresa dentro. |
 
 ## Cosas que pasan en el fondo

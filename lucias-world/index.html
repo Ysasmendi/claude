@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#E63027">
+<meta name="description" content="Lucía's World es Safarrancho OS: un sistema operativo de juguete para niños, con calculadora, cuentos, pintura, animales y muchas sorpresas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F5FD6'/%3E%3Cpath d='M32 8l7.2 16.2 17.6 1.7-13.3 11.7 3.9 17.2L32 45.8 16.6 54.8l3.9-17.2L7.2 25.9l17.6-1.7z' fill='%23FFD21F' stroke='%231B1B2F' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
 <title>Lucía's World · Safarrancho OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +121,7 @@ span.dib.emo{border:0 !important;background:none !important;padding:0 !important
 #btnMudo{font-size:26px;padding:6px 12px}
 @media (max-width:600px){#btnInicio .txt,#tarea .chip{display:none}#reloj{font-size:18px;padding:8px 10px}}
 #menu{position:fixed;left:14px;bottom:calc(var(--barra) + 10px);z-index:70;background:var(--papel);border:var(--borde);border-radius:24px;
-  box-shadow:10px 10px 0 var(--tinta);padding:14px;display:none;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - var(--barra) - 30px);overflow:auto}
+  box-shadow:10px 10px 0 var(--tinta);padding:14px;display:none;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - var(--barra) - 30px);max-height:calc(100dvh - var(--barra) - 30px);overflow:auto}
 #menu.abierto{display:block;animation:abrir .22s cubic-bezier(.2,1.4,.4,1)}
 #menu h3{margin:2px 6px 10px;font-size:22px}
 #menu button{width:100%;display:flex;align-items:center;gap:12px;font-size:21px;font-weight:700;background:none;border:0;padding:8px 10px;border-radius:14px;text-align:left}
@@ -236,7 +240,8 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .estante{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;flex:1}
 @media (max-width:900px){.estante{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .libro{border:var(--borde);border-radius:10px 24px 24px 10px;box-shadow:var(--sombra);padding:18px 12px;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-  font-size:clamp(17px,2.1vw,22px);font-weight:700;text-align:center;border-left-width:14px;color:#fff;-webkit-text-stroke:1px var(--tinta);text-wrap:balance;line-height:1.15}
+  font-size:clamp(17px,2.1vw,22px);font-weight:700;text-align:center;border-left-width:14px;color:#fff;-webkit-text-stroke:3px var(--tinta);paint-order:stroke fill;text-wrap:balance;line-height:1.15}
+.libro.libro-oscuro{-webkit-text-stroke:0}
 .libro .em{font-size:clamp(54px,7vw,80px);-webkit-text-stroke:0}
 .libro:active{transform:translate(4px,4px);box-shadow:none}
 .pagina{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;padding:20px}
@@ -366,8 +371,8 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .mandos-cine{flex:none;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:10px;background:#141018;border-top:3px solid #000}
 /* Ambiente de cada escena: pétalos, hojas, nieve, luciérnagas, burbujas... */
 .particulas{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;container-type:size}
-.part{position:absolute;display:block;width:10px;height:10px;animation:caer 10s linear infinite}
-@keyframes caer{from{transform:translate(0,-12cqh) rotate(0)}to{transform:translate(8cqw,112cqh) rotate(600deg)}}
+.part{position:absolute;display:block;width:10px;height:10px;animation:caerPart 10s linear infinite}
+@keyframes caerPart{from{transform:translate(0,-12cqh) rotate(0)}to{transform:translate(8cqw,112cqh) rotate(600deg)}}
 .part-petalos,.part-hojas,.part-nieve,.part-confeti{top:0 !important}
 .part-petalos{background:#FFB3D1;border-radius:70% 0 70% 0;width:11px;height:9px;opacity:.9}
 .part-hojas{background:#E39B2E;border-radius:0 80% 0 80%;width:14px;height:10px}
@@ -457,7 +462,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 @keyframes brazoDer{30%,75%{transform:rotate(-155deg)}}
 .maquina.enfadada .brazo{animation:temblar .09s linear infinite}
 /* Robot dibujado: todas las piezas comparten el mismo espacio de 300×380 */
-.maquina.robot{display:block;width:min(300px,62vw,calc((100vh - 460px) * .79));min-width:150px;aspect-ratio:300/380;flex:none}
+.maquina.robot{display:block;width:min(300px,62vw,calc((100vh - 460px) * .79));width:min(300px,62vw,calc((100dvh - 460px) * .79));min-width:150px;aspect-ratio:300/380;flex:none}
 .robot>div{position:absolute}
 .robot svg{display:block;width:100%;height:100%;overflow:visible}
 .robot-cuerpo{inset:0}
@@ -657,10 +662,45 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 
 /* ---------- Etiquetadora: controles ---------- */
 .doom-ayuda{position:absolute;left:12px;top:10px;z-index:2;background:rgba(27,27,47,.65);color:#fff;border-radius:10px;padding:4px 10px;font-size:15px;font-weight:600;pointer-events:none}
+@media (hover:none){.doom-ayuda{display:none}}
 .cruceta{display:grid;grid-template-areas:"a" "b";gap:4px}
 .cruceta .btn{color:var(--tinta);font-size:16px;padding:4px 10px;border-radius:10px;box-shadow:2px 2px 0 var(--tinta);touch-action:none}
 .disparo{font-size:20px;padding:8px 14px}
 @media (max-width:700px){.doom-hud{gap:6px;padding:6px}.hud-caja{min-width:0;padding:4px 8px}.hud-cara{font-size:34px}.hud-cara .dib{width:46px;height:46px}.doom-ayuda{display:none}}
+
+/* ---------- Móvil: sol/luna y robot en vertical ---------- */
+@media (max-width:600px){
+  .astro.sol,.astro.luna{width:84px;height:84px;right:0;top:0}
+  .maquina.robot{width:min(300px,calc((100vw - 80px) / 1.64),calc((100vh - 460px) * .79));width:min(300px,calc((100vw - 80px) / 1.64),calc((100dvh - 460px) * .79))}
+}
+/* ---------- Móvil apaisado: modo compacto ---------- */
+@media (max-height:520px){
+  :root{--barra:56px}
+  #barra{gap:8px;padding:0 10px}
+  #barra .btn{min-height:40px;min-width:40px}
+  #btnInicio{font-size:18px;padding:4px 12px}
+  #btnMudo{font-size:20px;padding:2px 8px}
+  #btnIdioma{font-size:15px;padding:4px 8px}
+  #tarea .chip{font-size:15px;padding:3px 10px}
+  #reloj{font-size:17px;padding:3px 10px}
+  .ventana{top:6px;bottom:calc(var(--barra) + 6px)}
+  .ventana .titulo{height:46px;font-size:21px;gap:8px;padding:0 6px 0 12px}
+  .ventana .titulo .em{font-size:26px}
+  .ventana .titulo .em.dib{width:34px;height:34px}
+  .ventana .cerrar{width:42px;height:42px;font-size:22px;border-radius:12px}
+  #arranque{overflow:auto;justify-content:safe center;gap:12px;padding:12px}
+  .carga{flex:none;height:28px}
+  .logo-grande{font-size:clamp(40px,14vh,62px)}
+  .doom-hud{flex-wrap:nowrap;gap:6px;padding:4px 8px}
+  .hud-caja{min-width:0;padding:2px 8px;gap:0}
+  .hud-caja small{display:none}
+  .hud-caja b{font-size:22px}
+  .hud-cara{font-size:28px;min-width:0}
+  .hud-cara .dib{width:36px;height:36px}
+  .hud-botones .btn{font-size:18px;padding:2px 8px;min-height:40px;min-width:40px}
+  .doom-escena{min-height:140px}
+  .granja{grid-template-rows:none;grid-auto-rows:minmax(118px,auto);height:auto}
+}
 </style>
 </head>
 <body>
@@ -689,7 +729,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
   <button class="btn" id="btnInicio">🌈 <span class="txt">Safarrancho</span></button>
   <div id="tarea"></div>
   <button class="btn blanco" id="btnIdioma">🌐 ES</button>
-  <button class="btn blanco" id="btnMudo" title="Sonido">🔊</button>
+  <button class="btn blanco" id="btnMudo" title="Sonido" aria-label="Sonido" aria-pressed="false">🔊</button>
   <div id="reloj">--:--</div>
 </div>
 
@@ -1947,6 +1987,80 @@ function pajaro(up) { const u = uid();
         D('M140 88 L170 40', 7, Gl, 10) + `<ellipse cx="140" cy="90" rx="10" ry="4" fill="#F5B942" stroke-width="3"/>` + H(158, 58, 1.5, 9, 32, .8));
     },
 
+    obj_noria: () => {
+      const v = mk();
+      const aro = 'M38 92 a62 62 0 1 0 124 0 a62 62 0 1 0 -124 0';
+      const cols = [[R, Rd], [Y, Yd], [B, Bd], [Gr, Grd], [O, Od], [P, Pd], [Pk, Pkd], [T, Td]];
+      const cab = cols.map(([c, cd], i) => { const a = (i * 45 - 90) * Math.PI / 180, x = r1(100 + 62 * Math.cos(a)), y = r1(92 + 62 * Math.sin(a));
+        return L(`M${x} ${y} V${r1(y + 6)}`, 3) + v(`rect x="${r1(x - 10)}" y="${r1(y + 5)}" width="20" height="17" rx="5"`, c, cd, 3, 3, `<rect x="${r1(x - 6)}" y="${r1(y + 9)}" width="12" height="6" rx="2" fill="#fff" opacity=".7"/>`, 4); }).join('');
+      return S(G(100, 186, 66, 7) +
+        D('M100 92 L52 178 M100 92 L148 178', 6, Br, 9) + L('M72 140 H128', 4, Brd) +
+        v('rect x="40" y="176" width="120" height="9" rx="4"', Gl, Gy, 0, 3) +
+        D(aro, 6, R, 9) + D('M60 92 a40 40 0 1 0 80 0 a40 40 0 1 0 -80 0', 3, Y, 8) +
+        L('M100 30 V154 M38 92 H162 M56 48 L144 136 M144 48 L56 136', 3, Gld) +
+        cab +
+        C(100, 92, 11, Y, 4.5) + Cn(100, 92, 4, R) + H(70, 56, 8, 3.5, -40, .7) + SP(176, 30, 9) + SP(26, 50, 6, W, 2.5));
+    },
+    obj_fuego: () => {
+      const v = mk();
+      return S(G(100, 184, 66, 7) +
+        v('path d="M100 14 C108 46 152 72 152 126 C152 160 130 184 100 184 C70 184 48 160 48 126 C48 96 66 82 76 56 C84 70 88 80 94 82 C94 56 92 34 100 14 Z"', O, Od, 10, 10, H(66, 122, 5, 16, 12, .4)) +
+        v('path d="M100 68 C106 94 132 110 132 140 C132 162 118 176 100 176 C82 176 68 162 68 140 C68 118 86 106 92 88 C96 96 98 100 100 100 C102 86 98 80 100 68 Z"', Y, Yd, 6, 6, '', 3.5) +
+        `<path d="M100 122 C108 134 116 142 116 156 C116 166 108 172 100 172 C92 172 84 166 84 156 C84 142 94 134 100 122 Z" fill="#FFF3A0" stroke="none"/>` +
+        D('M40 160 L160 184', 9, Br, 9) + D('M40 184 L160 160', 9, Br, 9) + C(40, 160, 5, Bx, 3) + C(160, 184, 5, Bx, 3) + C(40, 184, 5, Bx, 3) + C(160, 160, 5, Bx, 3) +
+        SP(160, 54, 7, Y) + SP(40, 76, 5, O) + SP(150, 90, 4, Y, 2));
+    },
+    obj_vela: () => {
+      const v = mk();
+      return S(`<circle cx="100" cy="50" r="38" fill="#FFE58A" opacity=".35" stroke="none"/>` + G(100, 190, 62, 6) +
+        L('M100 72 V90', 4.5) +
+        v('path d="M100 14 C106 32 120 42 120 56 C120 67 111 74 100 74 C89 74 80 67 80 56 C80 42 94 32 100 14 Z"', O, Od, 5, 5, '', 4.5) +
+        `<path d="M100 38 C104 48 111 52 111 60 C111 66 106 69 100 69 C94 69 89 66 89 60 C89 52 96 48 100 38 Z" fill="${Y}" stroke="none"/>` +
+        v('rect x="72" y="86" width="56" height="88" rx="10"', '#FFF3D6', '#EBCB98', 10, 0, `<path d="M72 90 V114 Q72 122 78 122 Q84 122 84 114 V94 Z M108 94 V132 Q108 140 114 140 Q120 140 120 132 V94 Z" fill="#fff" opacity=".7"/>` + H(82, 140, 4, 20, 0, .6)) +
+        `<ellipse cx="100" cy="88" rx="28" ry="8" fill="#FFF8E6"/>` +
+        v('path d="M50 172 H150 Q156 188 138 188 H62 Q44 188 50 172 Z"', Y, Yd, 0, 6) + SP(160, 40, 7, W) + SP(40, 110, 5, W, 2));
+    },
+    obj_carta: () => {
+      const v = mk();
+      return S(G(100, 174, 72, 7) + `<g transform="rotate(-6 100 100)">` +
+        v('rect x="26" y="50" width="148" height="106" rx="10"', '#FFF3D6', '#EBCB98', 8, 8, L('M30 152 L84 104 M170 152 L116 104', 3, Bxd) + L('M36 134 H74 M36 144 H62', 3, Gld)) +
+        v('path d="M26 58 Q26 50 34 50 H166 Q174 50 174 58 L100 122 Z"', Bx, Bxd, 0, 8, H(56, 64, 14, 3.5, 12, .6)) +
+        v('rect x="136" y="108" width="26" height="32" rx="3"', Sk, Skd, 4, 4, '', 3.5) + C(149, 122, 6, Y, 2.5) + L('M141 134 H157', 2.5, W) +
+        C(100, 118, 15, R, 4.5) + `<path d="M100 126 C93 120 91 113 96 111 C98 110 100 112 100 114 C100 112 102 110 104 111 C109 113 107 120 100 126 Z" fill="${Rd}" stroke="none"/>` + Cn(94, 112, 2, '#fff') +
+        `</g>` + SP(172, 34, 8) + SP(28, 40, 6, W, 2.5));
+    },
+    obj_nido: () => {
+      const v = mk();
+      const huevo = (x, y, w, h) => `M${x} ${r1(y - h)} C${r1(x + w * .7)} ${r1(y - h)} ${x + w} ${r1(y - h * .1)} ${x + w} ${r1(y + h * .35)} C${x + w} ${r1(y + h * .8)} ${r1(x + w * .55)} ${y + h} ${x} ${y + h} C${r1(x - w * .55)} ${y + h} ${x - w} ${r1(y + h * .8)} ${x - w} ${r1(y + h * .35)} C${x - w} ${r1(y - h * .1)} ${r1(x - w * .7)} ${r1(y - h)} ${x} ${r1(y - h)} Z`;
+      return S(G(100, 184, 72, 7) +
+        L('M26 108 L10 94 M176 106 L192 92 M36 116 L18 128 M168 114 L186 124', 5, Br) +
+        v('ellipse cx="100" cy="110" rx="76" ry="20"', Brd, null) +
+        v(`path d="${huevo(70, 100, 17, 23)}"`, '#E3F4FF', '#B5D9F0', 5, 5, H(62, 88, 4, 8, 20, .7), 4.5) +
+        v(`path d="${huevo(132, 104, 16, 22)}"`, '#E3F4FF', '#B5D9F0', 5, 5, H(125, 92, 4, 8, 20, .7), 4.5) +
+        v(`path d="${huevo(101, 98, 18, 25)}"`, '#FFF3D6', '#EBCB98', 5, 5, [[94, 90, 3], [108, 100, 2.6], [98, 108, 2.2], [110, 84, 2]].map(([a, b, r]) => Cn(a, b, r, '#C98A4B')).join('') + H(93, 84, 4, 9, 20, .7), 4.5) +
+        v('path d="M24 112 Q60 134 100 134 Q140 134 176 112 Q178 168 100 176 Q22 168 24 112 Z"', Br, Brd, 10, 8,
+          `<path d="M34 124 Q100 156 168 122 M32 140 Q100 170 170 138 M48 156 Q100 176 154 154" stroke="#C98A4B" stroke-width="4" fill="none"/><path d="M50 118 L62 146 M90 128 L82 160 M124 130 L136 160 M152 120 L146 148" stroke="${Brd}" stroke-width="3.5" fill="none"/>` + H(50, 140, 4, 14, -30, .35)) +
+        `<path d="M156 114 Q168 100 182 104 Q178 118 160 120 Z" fill="${Gv}" stroke-width="3.5"/>` + L('M158 116 Q168 108 178 106', 2, Grd) + SP(30, 70, 6, W, 2.5));
+    },
+    obj_hojas: () => {
+      const v = mk();
+      const hoja = (x, y, r, s, c, cd) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})" stroke-width="${r1(5 / s)}">` +
+        L('M0 40 Q2 52 10 60', r1(5 / s), K) +
+        v('path d="M0 -46 C26 -32 36 -6 28 18 C22 36 8 44 0 46 C-8 44 -22 36 -28 18 C-36 -6 -26 -32 0 -46 Z"', c, cd, 8, 8,
+          `<path d="M0 -36 V44 M0 -12 L15 -24 M0 6 L18 -6 M0 22 L14 14 M0 -12 L-15 -24 M0 6 L-18 -6 M0 22 L-14 14" stroke="${cd}" stroke-width="3"/>` + H(-12, -14, 5, 15, -12, .5)) + `</g>`;
+      return S(G(100, 180, 74, 7) + hoja(66, 112, -24, 1.15, O, Od) + hoja(140, 124, 30, 1, R, Rd) + hoja(104, 80, 6, .9, Y, Yd) + hoja(40, 56, -52, .55, Bl, Br) +
+        Cn(166, 60, 3, O) + Cn(34, 156, 3, R) + Cn(176, 90, 2.5, Y));
+    },
+    obj_hielo: () => {
+      const v = mk();
+      const gota = (x, y) => `<path d="M${x} ${y} Q${x + 7} ${y + 11} ${x} ${y + 17} Q${x - 7} ${y + 11} ${x} ${y} Z" fill="${Sk}" stroke-width="3"/>`;
+      return S(`<ellipse cx="100" cy="170" rx="70" ry="13" fill="${Sk}" stroke-width="4"/>` + H(66, 168, 10, 2.5, -4, .7) + gota(168, 140) + gota(30, 150) +
+        v('path d="M100 32 L156 62 L100 94 L44 62 Z"', '#E9F8FF', '#CDEEFF', 0, 6, H(86, 54, 17, 4, 28, .9)) +
+        v('path d="M44 62 L100 94 V160 L44 128 Z"', '#B8E6FF', Sk, 8, 0, `<path d="M56 76 V106" stroke="#fff" stroke-width="5" opacity=".7"/>` + Cn(72, 128, 4, '#fff') + Cn(84, 112, 2.6, '#fff')) +
+        v('path d="M156 62 L100 94 V160 L156 128 Z"', Sk, Skd, 8, 0, Cn(128, 118, 3.2, '#fff') + `<path d="M144 76 V96" stroke="#fff" stroke-width="4" opacity=".5"/>`) +
+        SP(166, 34, 10, W, 3) + SP(32, 106, 7, W, 2.5));
+    },
+
     // =============== 2. CONTADORES DE CALCULADORA ===============
     fruta_manzana: () => {
       const v = mk();
@@ -2440,8 +2554,8 @@ Object.assign(ILUS, {
   // ================= DULCE =================
   escena_dulce: () => {
     const u = eUid(), R = eR(61);
-    return eSvg(`<defs>${eLG(u + 's', [[0, '#C8A6F4'], [.55, '#F2B8E2'], [1, '#FFE2EF']])}${eLG(u + 'g', [[0, '#B4F0D2'], [1, '#7FD8AE']])}${eGlow(u + 'l', '#FFF8D0', .8)}<g id="${u}c">${eCloud('#FFE8F5', '#F6B9DA', '#D98BB9')}</g><g id="${u}t">${eCandyTree('#FF9ECF', '#EE77B2')}</g><g id="${u}m">${eCandyTree('#9FEAD2', '#5FCCAA')}</g><g id="${u}l">${eLolly()}</g><g id="${u}a">${eGum()}</g></defs>
-${eRect(`url(#${u}s)`)}<circle cx="840" cy="90" r="160" fill="url(#${u}l)"/><circle cx="840" cy="90" r="40" fill="#FFF1A8" stroke="#F2B84A" stroke-width="3"/><circle cx="828" cy="78" r="12" fill="#fff" opacity=".6"/>
+    return eSvg(`<defs>${eLG(u + 's', [[0, '#C8A6F4'], [.55, '#F2B8E2'], [1, '#FFE2EF']])}${eLG(u + 'g', [[0, '#B4F0D2'], [1, '#7FD8AE']])}${eGlow(u + 'h', '#FFF8D0', .8)}<g id="${u}c">${eCloud('#FFE8F5', '#F6B9DA', '#D98BB9')}</g><g id="${u}t">${eCandyTree('#FF9ECF', '#EE77B2')}</g><g id="${u}m">${eCandyTree('#9FEAD2', '#5FCCAA')}</g><g id="${u}l">${eLolly()}</g><g id="${u}a">${eGum()}</g></defs>
+${eRect(`url(#${u}s)`)}<circle cx="840" cy="90" r="160" fill="url(#${u}h)"/><circle cx="840" cy="90" r="40" fill="#FFF1A8" stroke="#F2B84A" stroke-width="3"/><circle cx="828" cy="78" r="12" fill="#fff" opacity=".6"/>
 ${eUse(u + 'c', 300, 110, 1)}${eUse(u + 'c', 650, 66, 1.1, 1)}${eUse(u + 'c', 930, 190, .65)}${eUse(u + 'c', 80, 210, .6, 1)}
 <path d="${eA([[-40, 330], [110, 300], [260, 322], [430, 292], [600, 318], [780, 296], [1040, 322]])}" fill="#D6C2F5" stroke="#B49CDE" stroke-width="3"/>
 <path d="${eA([[-40, 372], [150, 344], [360, 368], [560, 346], [760, 370], [940, 348], [1040, 360]])}" fill="#FFC2DC" stroke="#E596BC" stroke-width="3"/>
@@ -3762,7 +3876,7 @@ cuento7_5: () => pg(() =>
   `<path d="M120 60L40 196H100Z" fill="${ROSA}" opacity=".18"${N}/><path d="M120 60L150 196H200Z" fill="${AMA}" opacity=".22"${N}/><path d="M120 60L10 120V160Z" fill="${TURQ}" opacity=".18"${N}/>` +
   gs(110, 232, 32, 5) + at(110, 228, 1.08, bip({ b: 'saluda', e: 'feliz', cor: true })) +
   at(172, 234, 1, soldado()) +
-  `<rect x="226" y="44" width="160" height="170" fill="#FFF6D6"/>` + (() => { const i = nid(); return `<defs><clipPath id="${i}"><rect x="226" y="44" width="160" height="170"/></clipPath></defs><g clip-path="url(#${i})">${cielo([CIELO, '#E4F6FF']).replace('<rect ', '<rect x="226" y="44" width="160" height="170" ')}${nube(290, 76, .4)}${tierra('M220 180Q300 170 400 178V220H220Z', HIER2)}${arbol(370, 186, .55, VERDE)}</g>`; })() + `<rect x="226" y="44" width="160" height="170" stroke-width="5"/><path d="M226 44L206 30V232L226 214" fill="#C9C1E2" stroke-width="3"/>` +
+  `<rect x="226" y="44" width="160" height="170" fill="#FFF6D6"/>` + (() => { const i = nid(); return `<defs><clipPath id="${i}"><rect x="226" y="44" width="160" height="170"/></clipPath></defs><g clip-path="url(#${i})">${cielo([CIELO, '#E4F6FF']).replace('<rect width="400" height="260" ', '<rect x="226" y="44" width="160" height="170" ')}${nube(290, 76, .4)}${tierra('M220 180Q300 170 400 178V220H220Z', HIER2)}${arbol(370, 186, .55, VERDE)}</g>`; })() + `<rect x="226" y="44" width="160" height="170" stroke-width="5"/><path d="M226 44L206 30V232L226 214" fill="#C9C1E2" stroke-width="3"/>` +
   gs(258, 232, 16, 3) + at(258, 230, 1, rot(10, 0, -20, osito({ arriba: true, e: 'risa' }))) +
   gs(330, 248, 22, 4) + at(326, 248, 1.12, lucia({ e: 'risa', b: 'arriba' })) + at(370, 250, 1, nino({ pein: 'corto', pelo: '#2B2236', piel: MAR2, ropa: AMA, tipo: 'pantalon', pant: AZUL, e: 'risa', b: 'aplaude' })) +
   nota(180, 80, MOR) + nota2(56, 100, AZUL, .9) + corazon(160, 140, .9, ROJO) + corazon(300, 120, .8, ROSA) +
@@ -5298,7 +5412,7 @@ function dibujoDeEmoji(e) {
   if (v === '') return document.createTextNode('');
   const [n, giro] = v.split('@');
   if (!hayDibujo(n)) return null;
-  const s = el('span', { class: 'dib emo', html: ILUS[n]({}) });
+  const s = el('span', { class: 'dib emo', 'aria-hidden': 'true', html: ILUS[n]({}) });
   if (giro) s.style.transform = `rotate(${giro}deg)`;
   return s;
 }
@@ -5375,7 +5489,7 @@ const Sonido = {
           const t = this.ctx.currentTime;
           this.master.gain.cancelScheduledValues(t); this.master.gain.setValueAtTime(0, t); this.master.gain.linearRampToValueAtTime(0.6, t + 0.25);
         }
-        if (ahora === 'interrupted' || ahora === 'suspended') setTimeout(() => this.ctx.resume().catch(() => {}), 50);
+        if ((ahora === 'interrupted' || ahora === 'suspended') && !document.hidden) setTimeout(() => this.ctx.resume().catch(() => {}), 50);
         antes = ahora;
       };
     }
@@ -5563,9 +5677,8 @@ const Sonido = {
     const q = 0.42, t0 = this.t + 0.05;
     let t = t0;
     [60, 60, 67, 67, 69, 69, 67, 0, 65, 65, 64, 64, 62, 62, 60, 0].forEach((m, i) => {
-      const d = i % 8 === 6 || i % 8 === 7 ? 1 : 1;
       if (m) { this.nota(mtof(m + 12), t, q * 0.95, { onda: 'triangle', vol: 0.2, caida: true }); this.nota(mtof(m + 24), t, q * 0.6, { onda: 0.125, vol: 0.03, caida: true }); }
-      t += d * q;
+      t += q;
     });
     const dur = t - t0 + 0.2;
     setTimeout(() => { this.sonando = false; }, dur * 1000);
@@ -5624,7 +5737,7 @@ const Sonido = {
   setMudo(m) {
     this.mudo = m;
     if (this.master) { const t = this.ctx.currentTime; this.master.gain.cancelScheduledValues(t); this.master.gain.setTargetAtTime(m ? 0 : 0.6, t, 0.03); }
-    if (m) Voz.callar();
+    if (m) { Voz.callar(); if (audioAnimal) audioAnimal.pause(); }
   }
 };
 
@@ -5799,7 +5912,7 @@ function abrirApp(id) {
     el('div', { class: 'titulo', style: { background: app.color, color: app.texto || '#fff' } },
       iconoApp(id),
       el('span', { class: 'txt' }, nombreApp(app)),
-      el('button', { class: 'cerrar', title: 'Cerrar', onclick: () => cerrarApp() }, '✕')),
+      el('button', { class: 'cerrar', title: T('Cerrar', 'Close'), 'aria-label': T('Cerrar', 'Close'), onclick: () => cerrarApp() }, '✕')),
     cuerpo);
   document.body.append(v);
   const inst = app.crear(cuerpo, v) || {};
@@ -5846,7 +5959,7 @@ Apps.navegador = {
       u = (u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
       if (!u || u === 'inicio' || u === 'safarrancho://inicio') return 'safarrancho://inicio';
       if (/luc[ií]a|safarrancho/.test(u)) return 'www.lucia.es';
-      if (/piscina|bolas|ball|pit/.test(u)) return 'www.piscinadebolas.es';
+      if (/piscina|bolas|ball[ -]?pit/.test(u)) return 'www.piscinadebolas.es';
       if (/burbuja|bubble/.test(u)) return 'www.burbujas.es';
       if (!u.includes('.')) u = 'www.' + u.replace(/\s+/g, '') + '.es';
       return u;
@@ -6148,11 +6261,11 @@ function paginaBurbujas(p) {
     Sonido.init();
     const { x, y } = posEnLienzo(e, cv, W, H);
     for (let i = burbujas.length - 1; i >= 0; i--) {
-      const b = burbujas[i];
-      if (Math.hypot(b.x - x, b.y - y) < b.r + 8) {
+      const b = burbujas[i], bx = b.x + Math.sin(b.fase) * 14;
+      if (Math.hypot(bx - x, b.y - y) < b.r + 8) {
         burbujas.splice(i, 1); total++;
         contador.textContent = total + T(' explotadas', ' popped');
-        for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2; trozos.push({ x: b.x, y: b.y, vx: Math.cos(a) * 180, vy: Math.sin(a) * 180, v: 1, h: b.h }); }
+        for (let k = 0; k < 10; k++) { const a = k / 10 * Math.PI * 2; trozos.push({ x: bx, y: b.y, vx: Math.cos(a) * 180, vy: Math.sin(a) * 180, v: 1, h: b.h }); }
         Sonido.barrido(azar(500, 900), 1600, 0.08, { onda: 'triangle', vol: 0.3 });
         if (total % 25 === 0) { lluvia(['🫧', '@estrella', '🎉'], 25); Sonido.exito(); aviso(T(`¡${total} burbujas! 🎉`, `${total} bubbles! 🎉`)); }
         break;
@@ -6228,6 +6341,7 @@ Apps.calculadora = {
     function operar(o) {
       igualRepetido = 0;
       if (res !== null) { a = String(res); b = ''; res = null; }
+      else if (op && b !== '') { a = String(op === '+' ? +a + +b : +a - +b); b = ''; }
       if (a === '') a = '0';
       op = o; pintar();
     }
@@ -6271,19 +6385,23 @@ Apps.calculadora = {
         if (res !== null) dibujo.append(el('span', { class: 'frase' }, T('¡Son números muy grandes para dibujarlos! 🐘', 'These numbers are too big to draw! 🐘')));
         return;
       }
+      if (x < 0 || y < 0) {
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, T(`Es ${op === '+' ? 'una suma' : 'una resta'} con un número negativo: ${x} ${op === '+' ? '+' : '−'} ${y} = ${res}. 🧮`, `This is ${op === '+' ? 'an addition' : 'a subtraction'} with a negative number: ${x} ${op === '+' ? '+' : '−'} ${y} = ${res}. 🧮`)));
+        return;
+      }
       if (op === '+') {
         if (x) dibujo.append(fila(x, '🍎'));
         dibujo.append(el('span', { class: 'signo' }, '+'));
         if (y) dibujo.append(fila(y, '🍌'));
-        if (res !== null) dibujo.append(el('span', { class: 'frase' }, T(`Juntamos ${x} ${x === 1 ? 'manzana' : 'manzanas'} y ${y} ${y === 1 ? 'plátano' : 'plátanos'}: ¡${res} frutas! 😋`, `We put together ${x} ${x === 1 ? 'apple' : 'apples'} and ${y} ${y === 1 ? 'banana' : 'bananas'}: ${res} pieces of fruit! 😋`)));
+        if (res !== null) dibujo.append(el('span', { class: 'frase' }, T(`Juntamos ${x} ${x === 1 ? 'manzana' : 'manzanas'} y ${y} ${y === 1 ? 'plátano' : 'plátanos'}: ¡${res} ${res === 1 ? 'fruta' : 'frutas'}! 😋`, `We put together ${x} ${x === 1 ? 'apple' : 'apples'} and ${y} ${y === 1 ? 'banana' : 'bananas'}: ${res} ${res === 1 ? 'piece' : 'pieces'} of fruit! 😋`)));
       } else {
         if (res === null) { if (x) dibujo.append(fila(x, '🍪')); dibujo.append(el('span', { class: 'signo' }, '−'), y ? fila(y, '😋') : ''); }
         else if (res >= 0) {
           dibujo.append(fila(x, '🍪', y));
-          dibujo.append(el('span', { class: 'frase' }, T(`Tenías ${x} galletas, te comes ${y}... ¡quedan ${res}! 🍪`, `You had ${x} biscuits, you eat ${y}... ${res} left! 🍪`)));
+          dibujo.append(el('span', { class: 'frase' }, T(`Tenías ${x} ${x === 1 ? 'galleta' : 'galletas'}, te comes ${y}... ¡${res === 1 ? 'queda' : 'quedan'} ${res}! 🍪`, `You had ${x} ${x === 1 ? 'biscuit' : 'biscuits'}, you eat ${y}... ${res} left! 🍪`)));
         } else {
           dibujo.append(fila(x, '🍪', x));
-          dibujo.append(el('span', { class: 'frase' }, T(`¡Solo había ${x} galletas! Te faltan ${-res}. Eso es un número negativo: como deber ${-res} ${res === -1 ? 'galleta' : 'galletas'}. 🙈`, `There were only ${x} biscuits! You are ${-res} short. That\'s a negative number: like owing ${-res} ${res === -1 ? 'biscuit' : 'biscuits'}. 🙈`)));
+          dibujo.append(el('span', { class: 'frase' }, T(`¡Solo había ${x} ${x === 1 ? 'galleta' : 'galletas'}! ${res === -1 ? 'Te falta' : 'Te faltan'} ${-res}. Eso es un número negativo: como deber ${-res} ${res === -1 ? 'galleta' : 'galletas'}. 🙈`, `There ${x === 1 ? 'was' : 'were'} only ${x} ${x === 1 ? 'biscuit' : 'biscuits'}! You are ${-res} short. That\'s a negative number: like owing ${-res} ${res === -1 ? 'biscuit' : 'biscuits'}. 🙈`)));
         }
       }
     }
@@ -6364,7 +6482,7 @@ Apps.cuentos = {
       c.replaceChildren(el('div', { class: 'estante-zona' },
         el('h2', { class: 'estante-titulo' }, T('📚 ¿Qué cuento leemos hoy?', '📚 Which story shall we read today?')),
         el('div', { class: 'estante' }, CUENTOS.map((cu, k) =>
-          el('button', { class: 'libro', style: { background: cu.color, color: cu.color.includes('amarillo') ? 'var(--tinta)' : '#fff' }, onclick: () => abrir(cu, k) },
+          el('button', { class: 'libro' + (cu.color.includes('amarillo') ? ' libro-oscuro' : ''), style: { background: cu.color, color: cu.color.includes('amarillo') ? 'var(--tinta)' : '#fff' }, onclick: () => abrir(cu, k) },
             // La portada es el primer dibujo del cuento
             hayDibujo(`cuento${k + 1}_1`) ? dibujo(`cuento${k + 1}_1`, cu.em, 'portada') : el('span', { class: 'em' }, cu.em), T(cu.titulo, cu.en))))));
     }
@@ -6495,8 +6613,8 @@ Apps.musica = {
         letra.append(linea);
       });
       const tocar = el('button', { class: 'btn rojo', style: { fontSize: '28px' } }, T('▶️ ¡Tocar!', '▶️ Play!'));
-      const vel = [['🐢', 70], ['🚶', 100], ['🐇', 140]].map(([em, bpm]) =>
-        el('button', { class: 'btn mini ' + (bpm === tempo ? 'sel' : 'blanco'), onclick: e => { tempo = bpm; vel.forEach(v => v.className = 'btn mini blanco'); e.currentTarget.className = 'btn mini sel'; } }, em));
+      const vel = [['🐢', 70, 'Lento', 'Slow'], ['🚶', 100, 'Normal', 'Normal'], ['🐇', 140, 'Rápido', 'Fast']].map(([em, bpm, nEs, nEn]) =>
+        el('button', { class: 'btn mini ' + (bpm === tempo ? 'sel' : 'blanco'), title: T(nEs, nEn), 'aria-label': T(nEs, nEn), onclick: e => { tempo = bpm; vel.forEach(v => v.className = 'btn mini blanco'); e.currentTarget.className = 'btn mini sel'; } }, em));
       const bat = el('button', { class: 'btn mini blanco', onclick: () => { bateria = !bateria; bat.textContent = bateria ? T('🥁 Batería: sí', '🥁 Drums: on') : T('🥁 Batería: no', '🥁 Drums: off'); } }, bateria ? T('🥁 Batería: sí', '🥁 Drums: on') : T('🥁 Batería: no', '🥁 Drums: off'));
       tocar.onclick = () => {
         Sonido.init();
@@ -6796,7 +6914,9 @@ const MALOS = ['lobo', 'bruja', 'ogro', 'ladrones', 'a_madrastra', 'b_loboAbuela
 const ATREZO_ID = { paja: 'obj_casa_paja', madera: 'obj_casa_madera', ladrillo: 'obj_casa_ladrillo', casita: 'obj_casa_chocolate' };
 const ATREZO_EMOJI = { '🛖': 'obj_casa_paja', '🏚️': 'obj_casa_madera', '🏠': 'obj_casa', '🥣': 'obj_sopa', '🪑': 'obj_silla', '🛏️': 'obj_cama', '🍞': 'obj_migas',
   '🔒': 'obj_jaula', '💎': 'obj_tesoro', '🪨': 'obj_piedras', '👢': 'obj_botas', '🧺': 'obj_cesta', '🧹': 'obj_escoba', '💰': 'obj_moneda', '🎀': 'obj_lazo',
-  '🎸': 'obj_guitarra', '🍗': 'obj_banquete', '🥚': 'obj_huevo', '💐': 'obj_flores', '🌸': 'obj_flores', '🌷': 'obj_flores', '🎂': 'obj_pastel', '🍰': 'obj_pastel', '🪣': 'obj_cubo', '🍲': 'obj_olla' };
+  '🎸': 'obj_guitarra', '🍗': 'obj_banquete', '🥚': 'obj_huevo', '💐': 'obj_flores', '🌸': 'obj_flores', '🌷': 'obj_flores', '🎂': 'obj_pastel', '🍰': 'obj_pastel', '🪣': 'obj_cubo', '🍲': 'obj_olla',
+  '🏡': 'obj_casa', '🪙': 'obj_moneda', '🌕': 'luna', '🎡': 'obj_noria', '🔥': 'obj_fuego', '🕯️': 'obj_vela', '✉️': 'obj_carta', '🪺': 'obj_nido', '🍂': 'obj_hojas', '🧊': 'obj_hielo',
+  '🍎': 'fruta_manzana', '🍭': 'fiesta_piruleta' };
 function atrezoSVG(id, pj) {
   const nombre = pj.i || ATREZO_ID[id] || ATREZO_EMOJI[pj.e];
   return nombre && ILUS[nombre] ? ILUS[nombre]() : `<span class="atrezo-emoji">${pj.e}</span>`;
@@ -7417,7 +7537,7 @@ Apps.guinoles = {
     }
     function pelicula(obra) {
       const mi = ++token; limpiarTimers();
-      let idx = -1, escenaActual = null, W = 0, H = 0;
+      let idx = -1, escenaActual = null, W = 0, H = 0, reciId = 0, terminado = false;
       const fondo = el('div', { class: 'set-fondo' });
       const foco = el('div', { class: 'foco' });
       const fila = el('div', { class: 'fila' });
@@ -7430,10 +7550,10 @@ Apps.guinoles = {
       const cartelInicio = el('div', { class: 'cartel-cine' });
       const pantalla = el('div', { class: 'pantalla-cine' }, camara, el('div', { class: 'vineta' }), bocadillo,
         el('div', { class: 'franja arriba' }), el('div', { class: 'franja abajo' }, subtitulo), negro, cartelInicio);
-      const btnAuto = el('button', { class: 'btn mini verde', onclick: () => { auto = !auto; pintarAuto(); if (auto && idx >= 0) recitar(idx, token); } });
+      const btnAuto = el('button', { class: 'btn mini verde', onclick: () => { if (terminado) return; auto = !auto; pintarAuto(); if (auto && idx >= 0) recitar(idx, token); } });
       const pintarAuto = () => { btnAuto.textContent = auto ? T('⏸️ Pausa', '⏸️ Pause') : T('▶️ Seguir', '▶️ Play'); };
       pintarAuto();
-      const btnMusica = el('button', { class: 'btn mini blanco', onclick: () => {
+      const btnMusica = el('button', { class: 'btn mini blanco', title: T('Música', 'Music'), 'aria-label': T('Música', 'Music'), onclick: () => {
         Musica.activa = !Musica.activa; btnMusica.textContent = Musica.activa ? '🎵' : '🔇';
         if (Musica.activa) { const m = Musica.mood; Musica.mood = null; Musica.poner(m || moodDe(Math.max(idx, 0))); } else Musica.poner(null);
       } }, Musica.activa ? '🎵' : '🔇');
@@ -7441,7 +7561,7 @@ Apps.guinoles = {
         el('button', { class: 'btn mini', onclick: cartelera }, T('🎬 Películas', '🎬 Films')),
         el('button', { class: 'btn mini azul', 'aria-label': T('Anterior', 'Previous'), onclick: () => ir(idx - 1) }, '⏮️'),
         btnAuto,
-        el('button', { class: 'btn mini azul', 'aria-label': T('Siguiente', 'Next'), onclick: () => ir(idx + 1) }, '⏭️'),
+        el('button', { class: 'btn mini azul', 'aria-label': T('Siguiente', 'Next'), onclick: () => { if (!terminado) ir(idx + 1); } }, '⏭️'),
         btnMusica)));
 
       // Medidas: el decorado se recorta por los lados (xMidYMax slice); calculamos dónde queda el suelo
@@ -7580,14 +7700,16 @@ Apps.guinoles = {
         const [, , quien, es, en] = obra.guion[i];
         const pj = quien && quien !== 'todos' ? obra.pj[quien] : null;
         const voz = !quien ? { pitch: 1, rate: 0.92 } : quien === 'todos' ? { pitch: 1.5, rate: 1.05 } : { pitch: pj.p, rate: pj.r };
+        const id = ++reciId;
         Musica.bajar(true);
         await Voz.decir(T(es, en), voz);
+        if (id !== reciId) return;
         Musica.bajar(false);
         if (mio !== token || i !== idx) return;
         vivos.forEach(n => n.classList.remove('habla'));
         if (!auto) return;
         await espera(700);
-        if (mio !== token || i !== idx || !auto) return;
+        if (id !== reciId || mio !== token || i !== idx || !auto) return;
         ir(i + 1);
       }
       // Fundido a negro entre escenas, como en el cine
@@ -7597,6 +7719,7 @@ Apps.guinoles = {
       }
       function ir(i) {
         if (i < 0) return;
+        terminado = false;
         if (i >= obra.guion.length) { terminar(); return; }
         token++; const mio = token;
         Voz.callar();
@@ -7609,6 +7732,7 @@ Apps.guinoles = {
         if (cambia && escenaActual) fundido(seguir); else seguir();
       }
       function terminar() {
+        terminado = true;
         token++;
         bocadillo.classList.remove('ver');
         vivos.forEach(n => n.classList.remove('habla'));
@@ -7654,8 +7778,9 @@ Apps.pintar = {
   crear(c) {
     const COLORES = ['#E63027', '#FFD21F', '#1F5FD6', '#25A84A', '#FF8A1F', '#8B3FD9', '#FF5FA2', '#7A4A1E', '#1B1B2F', '#FFFFFF'];
     // Sellos: dibujos hechos a mano (con su emoji de reserva)
-    const SELLOS = [['⭐', 'estrella'], ['❤️', 'fiesta_corazon'], ['☀️', 'sol'], ['🌸', 'obj_flores'], ['🐶', 'animal_perro'], ['🐱', 'animal_gato'], ['🦄', 'vision_unicornio'],
-      ['🚀', 'cohete'], ['🌈', 'arcoiris'], ['🍓', 'vision_fresas'], ['👑', 'vision_corona']];
+    const SELLOS = [['⭐', 'estrella', 'Estrella', 'Star'], ['❤️', 'fiesta_corazon', 'Corazón', 'Heart'], ['☀️', 'sol', 'Sol', 'Sun'], ['🌸', 'obj_flores', 'Flores', 'Flowers'], ['🐶', 'animal_perro', 'Perro', 'Dog'], ['🐱', 'animal_gato', 'Gato', 'Cat'], ['🦄', 'vision_unicornio', 'Unicornio', 'Unicorn'],
+      ['🚀', 'cohete', 'Cohete', 'Rocket'], ['🌈', 'arcoiris', 'Arcoíris', 'Rainbow'], ['🍓', 'vision_fresas', 'Fresas', 'Strawberries'], ['👑', 'vision_corona', 'Corona', 'Crown']];
+    const NOMBRES_COL = [['rojo', 'red'], ['amarillo', 'yellow'], ['azul', 'blue'], ['verde', 'green'], ['naranja', 'orange'], ['morado', 'purple'], ['rosa', 'pink'], ['marrón', 'brown'], ['negro', 'black'], ['blanco', 'white']];
     SELLOS.forEach(s => s[1] && imagenDe(s[1]));
     let color = COLORES[0], grosor = 16, modo = 'pincel', sello = SELLOS[0], hue = 0;
     const cv = el('canvas');
@@ -7663,14 +7788,14 @@ Apps.pintar = {
     const herr = el('div', { class: 'herramientas' });
     c.append(el('div', { class: 'pintar' }, herr, lienzo));
 
-    const btnColores = COLORES.map(col => el('button', { class: 'color', style: { background: col }, title: col, onclick: () => { color = col; if (modo !== 'pincel') ponerModo('pincel'); marcar(); Sonido.clic(); } }));
+    const btnColores = COLORES.map((col, i) => el('button', { class: 'color', style: { background: col }, title: T(...NOMBRES_COL[i]), 'aria-label': T(...NOMBRES_COL[i]), onclick: () => { color = col; if (modo !== 'pincel') ponerModo('pincel'); marcar(); Sonido.clic(); } }));
     // Grosor del pincel: un punto de pintura de cada tamaño
     const btnGrosor = [[6, 8], [16, 15], [36, 24]].map(([g, d]) => el('button', { class: 'btn mini blanco', 'aria-label': T('Grosor ', 'Size ') + g, onclick: () => { grosor = g; marcar(); Sonido.clic(); } },
       el('span', { class: 'punto-pincel', style: { width: d + 'px', height: d + 'px' } })));
-    const btnPincel = el('button', { class: 'btn mini', onclick: () => ponerModo('pincel') }, '🖌️');
-    const btnArco = el('button', { class: 'btn mini', onclick: () => ponerModo('arcoiris') }, '🌈');
+    const btnPincel = el('button', { class: 'btn mini', title: T('Pincel', 'Brush'), 'aria-label': T('Pincel', 'Brush'), onclick: () => ponerModo('pincel') }, '🖌️');
+    const btnArco = el('button', { class: 'btn mini', title: T('Pincel arcoíris', 'Rainbow brush'), 'aria-label': T('Pincel arcoíris', 'Rainbow brush'), onclick: () => ponerModo('arcoiris') }, '🌈');
     // Los sellos están siempre a la vista: si aparecieran y desaparecieran, el lienzo cambiaría de tamaño
-    const cajaSellos = el('div', { class: 'sellos' }, SELLOS.map(s => el('button', { onclick: () => { sello = s; ponerModo('sello'); } }, s[1] ? dibujo(s[1], s[0]) : s[0])));
+    const cajaSellos = el('div', { class: 'sellos' }, SELLOS.map(s => el('button', { title: T('Sello: ', 'Stamp: ') + T(s[2], s[3]), 'aria-label': T('Sello: ', 'Stamp: ') + T(s[2], s[3]), onclick: () => { sello = s; ponerModo('sello'); } }, s[1] ? dibujo(s[1], s[0]) : s[0])));
     herr.append(...btnColores, el('span', { class: 'separa' }), ...btnGrosor, el('span', { class: 'separa' }), btnPincel, btnArco,
       el('span', { class: 'separa' }), cajaSellos,
       el('span', { class: 'separa' }),
@@ -7703,7 +7828,7 @@ Apps.pintar = {
     });
     ro.observe(lienzo);
 
-    let pintando = false, ultimo = null;
+    const dedos = new Map();
     const pos = e => posEnLienzo(e, cv, W, H);
     cv.addEventListener('pointerdown', e => {
       Sonido.init();
@@ -7720,15 +7845,16 @@ Apps.pintar = {
         Sonido.pop();
         return;
       }
-      pintando = true; ultimo = q;
+      dedos.set(e.pointerId, q);
       trazo(q, q);
     });
     cv.addEventListener('pointermove', e => {
-      if (!pintando) return;
+      const u = dedos.get(e.pointerId);
+      if (!u) return;
       const q = pos(e);
-      trazo(ultimo, q); ultimo = q;
+      trazo(u, q); dedos.set(e.pointerId, q);
     });
-    const parar = () => { pintando = false; };
+    const parar = e => { dedos.delete(e.pointerId); };
     cv.addEventListener('pointerup', parar);
     cv.addEventListener('pointercancel', parar);
     function trazo(a, b) {
@@ -7774,9 +7900,10 @@ Apps.memoria = {
       intentosEl.textContent = T('Intentos: 0', 'Tries: 0');
       const colsN = parejas === 6 ? 4 : 5;
       tablero.style.gridTemplateColumns = `repeat(${colsN},1fr)`;
-      tablero.style.maxWidth = parejas === 6 ? '640px' : '820px';
+      // Tope por altura: que todas las filas quepan sin scroll (4 columnas × 3 filas o 5 × 4)
+      tablero.style.maxWidth = `min(${parejas === 6 ? 640 : 820}px, max(420px, calc((100dvh - var(--barra) - 215px) * ${colsN} / ${parejas === 6 ? 3 : 4})))`;
       tablero.replaceChildren(...cartas.map(em => {
-        const carta = el('button', { class: 'carta' }, el('div', { class: 'int' }, el('div', { class: 'cara-a' }, '?'), el('div', { class: 'cara-b' }, dibujo('animal_' + em[0], em[1]))));
+        const carta = el('button', { class: 'carta', title: T('Carta', 'Card'), 'aria-label': T('Carta', 'Card') }, el('div', { class: 'int' }, el('div', { class: 'cara-a' }, '?'), el('div', { class: 'cara-b' }, dibujo('animal_' + em[0], em[1]))));
         carta.dataset.em = em[0];
         carta.addEventListener('click', () => girar(carta));
         return carta;
@@ -7828,7 +7955,9 @@ function sonidoAnimal(id) {
     const acabar = () => { if (hecho) return; hecho = true; clearTimeout(tope); if (audioAnimal === a) audioAnimal = null; fin(); };
     // Si la grabación es larga, se apaga poco a poco (sin cortes bruscos que hagan «pop»)
     const tope = setTimeout(() => {
-      const paso = setInterval(() => { a.volume = Math.max(0, a.volume - 0.1); if (a.volume <= 0.01) { clearInterval(paso); a.pause(); acabar(); } }, 30);
+      // En iOS el volumen es de solo lectura y nunca baja: tope de 12 pasos y se para
+      let pasos = 0;
+      const paso = setInterval(() => { a.volume = Math.max(0, a.volume - 0.1); if (a.volume <= 0.01 || ++pasos >= 12) { clearInterval(paso); a.pause(); acabar(); } }, 30);
     }, 3500);
     a.addEventListener('ended', acabar);
     a.addEventListener('error', acabar);
@@ -8087,11 +8216,11 @@ Apps.hoja = {
       return null;
     };
     let datos = Array(N).fill(null);
-    try { const g = JSON.parse(leer('hoja') || 'null'); if (Array.isArray(g) && g.length === N) datos = g; } catch (e) {}
+    try { const g = JSON.parse(leer('hoja') || 'null'); if (Array.isArray(g) && g.length === N) datos = g.map(v => v && typeof v === 'object' && Object.prototype.hasOwnProperty.call(TIPOS, v.t) && typeof v.ch === 'string' ? v : null); } catch (e) {}
     let sel = 0, escrito = '', empacho = false;
     const filasCelebradas = new Set();
     // Un carácter invisible dentro del campo permite detectar «borrar» también en el teclado del iPad
-    const CENT = '​';
+    const CENT = '\u200b';
 
     const ref = el('span', { class: 'ref' }, 'A1');
     const valor = el('span', { class: 'valor' });
@@ -8176,7 +8305,7 @@ Apps.hoja = {
     }
     function borrarAtras() { seleccionar(sel - 1); poner(sel, null); seleccionar(sel); Sonido.clic(); }
     function sorpresas(ch, i) {
-      escrito = (escrito + ch.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')).slice(-5);
+      escrito = (escrito + ch.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')).slice(-5);
       if (escrito === 'lucia') {
         escrito = '';
         lluvia(['👑', '@chuche_caramelo', '@chuche_chocolate'], 40);
@@ -8253,14 +8382,15 @@ Apps.etiquetas = {
     const bEst = el('button', { class: 'btn sel', title: T('Estrellas (tecla 1)', 'Stars (key 1)'), onclick: () => elegirMunicion('estrella') }, dibujo('chuche_estrella', '⭐', 'muni'));
     const bCar = el('button', { class: 'btn blanco', title: T('Caramelos (tecla 2)', 'Sweets (key 2)'), onclick: () => elegirMunicion('caramelo') }, dibujo('chuche_caramelo', '🍬', 'muni'));
     let musica = Sonido.metalEstrellita();
-    const bMusica = el('button', { class: 'btn sel', title: T('Música', 'Music'), onclick: () => {
+    const bMusica = el('button', { class: 'btn ' + (musica ? 'sel' : 'blanco'), title: T('Música', 'Music'), 'aria-label': T('Música', 'Music'), onclick: () => {
       if (musica) { musica.parar(); musica = null; } else musica = Sonido.metalEstrellita();
       bMusica.className = 'btn ' + (musica ? 'sel' : 'blanco');
       bMusica.textContent = musica ? '🎸' : '🔇';
-    } }, '🎸');
+    } }, musica ? '🎸' : '🔇');
     // Cruceta táctil: mantener pulsado para andar
     const flecha = (dir, txt, area) => {
-      const b = el('button', { class: 'btn blanco', style: { gridArea: area }, 'aria-label': dir }, txt);
+      const nombre = dir === 'arriba' ? T('Adelante', 'Forward') : T('Atrás', 'Back');
+      const b = el('button', { class: 'btn blanco', style: { gridArea: area }, title: nombre, 'aria-label': nombre }, txt);
       const on = e => { e.preventDefault(); tecla[dir] = true; };
       const off = () => { tecla[dir] = false; };
       b.addEventListener('pointerdown', on);
@@ -8460,7 +8590,7 @@ Apps.etiquetas = {
       ponerCara('😮', 400);
     }
     function actualizar(dt) {
-      // Andar: hacia delante y hacia atrás cambia la distancia; a los lados mueve la cámara
+      // Andar: hacia delante y hacia atrás cambia la distancia (no hay movimiento lateral)
       // Las flechas solo andan hacia delante y hacia atrás: se apunta con el ratón (o tocando)
       const delante = (tecla.arriba ? 1 : 0) - (tecla.abajo ? 1 : 0);
       const vel = delante * 2.6 + 0.35; // las cosas se acercan solas un poquito
@@ -8534,6 +8664,8 @@ Apps.etiquetas = {
     const arribaTecla = e => { const dir = MAPA[e.key.toLowerCase()]; if (dir) tecla[dir] = false; };
     document.addEventListener('keydown', abajoTecla);
     document.addEventListener('keyup', arribaTecla);
+    const sinFoco = () => { tecla.arriba = false; tecla.abajo = false; };
+    window.addEventListener('blur', sinFoco);
 
     let raf = 0, ultimo = performance.now();
     function bucle(t) {
@@ -8547,6 +8679,7 @@ Apps.etiquetas = {
         cancelAnimationFrame(raf); ro.disconnect();
         document.removeEventListener('keydown', abajoTecla);
         document.removeEventListener('keyup', arribaTecla);
+        window.removeEventListener('blur', sinFoco);
         if (musica) musica.parar();
       }
     };
@@ -8644,7 +8777,7 @@ function montarEscritorio() {
     el('button', { onclick: apagar }, el('span', { class: 'em' }, '🌙'), T('Apagar', 'Shut down')));
   $('#logoEscritorio').replaceChildren();
   letrasDeColores($('#logoEscritorio'), "Lucía's World");
-  $('#btnMudo').title = T('Sonido', 'Sound');
+  $('#btnMudo').title = T('Sonido', 'Sound'); $('#btnMudo').setAttribute('aria-label', T('Sonido', 'Sound'));
   $('#btnIdioma').textContent = '🌐 ' + IDIOMA.toUpperCase();
   $('#btnIdioma').title = T('Idioma: español', 'Language: English');
   document.documentElement.lang = IDIOMA;
@@ -8842,10 +8975,15 @@ function reloj() {
 setInterval(reloj, 10000); reloj();
 
 // Sonido on/off
-function pintarMudo() { $('#btnMudo').textContent = Sonido.mudo ? '🔇' : '🔊'; }
+function pintarMudo() { const b = $('#btnMudo'); b.textContent = Sonido.mudo ? '🔇' : '🔊'; b.setAttribute('aria-pressed', Sonido.mudo ? 'true' : 'false'); }
 Sonido.mudo = leer('mudo') === '1';
 pintarMudo();
 $('#btnMudo').addEventListener('click', () => { Sonido.init(); Sonido.setMudo(!Sonido.mudo); guardar('mudo', Sonido.mudo ? '1' : '0'); pintarMudo(); Sonido.clic(); });
+// En segundo plano (pestaña oculta o app minimizada) se calla todo: voz, música de las películas y heavy metal
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { Voz.callar(); if (Sonido.ctx) Sonido.ctx.suspend().catch(() => {}); }
+  else if (Sonido.ctx) Sonido.ctx.resume().catch(() => {});
+});
 
 // Easter egg: pinchar en el escritorio, fuera de las cajas → ¡BOING!
 $('#escritorio').addEventListener('pointerdown', e => {
@@ -8878,7 +9016,7 @@ document.addEventListener('keydown', e => {
   teclas.push(e.key.toLowerCase()); teclas = teclas.slice(-10);
   if (teclas.join() === KONAMI.join()) { teclas = []; modoDisco(); }
   if (e.key.length === 1) {
-    letras = (letras + e.key.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')).slice(-5);
+    letras = (letras + e.key.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')).slice(-5);
     if (letras === 'lucia') { letras = ''; saludoLucia(); }
   }
 });
