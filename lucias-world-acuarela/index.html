@@ -5416,6 +5416,302 @@ function acuarela(svg, ligero) {
 // Dibujos con piezas que se mueven por dentro: sin filtro (solo color y línea)
 const ACUARELA_LIGERA = ['sol', 'avioneta'];
 for (const k of Object.keys(ILUS)) { const f = ILUS[k], lig = ACUARELA_LIGERA.includes(k); ILUS[k] = o => acuarela(f(o), lig); }
+/*AQ-INICIO*/
+/* =========================================================
+   ACUARELA DE VERDAD — caja de técnicas
+   Aquí no se retoca ningún dibujo antiguo: cada ilustración se pinta de cero con manchas de agua.
+   · AQ.agua(d, color)      mancha de color: borde irregular, pigmento cargado en el borde, grano y aguas
+   · AQ.vel(d, color)       veladura: capa transparente encima (sombras, coloretes, segundo color)
+   · AQ.trazo(d, grosor)    línea fina a pincel (pocos detalles: ojos, bocas, briznas)
+   · AQ.mancha(cx,cy,rx,ry) forma orgánica cerrada, nunca un óvalo perfecto
+   · AQ.gotas(...)          salpicaduras
+   · AQ.svg(viewBox, cuerpo) envuelve el dibujo y le pone sus filtros («§» = prefijo único de ids)
+   ========================================================= */
+const AQ = (() => {
+  let cuenta = 0, turno = 0;
+  const f1 = v => Math.round(v * 10) / 10;
+  const LINEA = '#5B4B63', PAPEL = '#FFFCF3';
+  const azar = s => { s = (Math.abs(s) * 9301 + 49297) % 233280 || 7; return () => (s = (s * 9301 + 49297) % 233280) / 233280; };
+  // Curva cerrada y suave que pasa por los puntos
+  const liso = (P, abierta) => {
+    const N = P.length; let d = `M${f1(P[0][0])},${f1(P[0][1])}`;
+    for (let i = 0; i < (abierta ? N - 1 : N); i++) {
+      const g = k => abierta ? P[Math.max(0, Math.min(N - 1, k))] : P[(k + N) % N];
+      const p0 = g(i - 1), p1 = g(i), p2 = g(i + 1), p3 = g(i + 2);
+      d += ` C${f1(p1[0] + (p2[0] - p0[0]) / 6)},${f1(p1[1] + (p2[1] - p0[1]) / 6)} ${f1(p2[0] - (p3[0] - p1[0]) / 6)},${f1(p2[1] - (p3[1] - p1[1]) / 6)} ${f1(p2[0])},${f1(p2[1])}`;
+    }
+    return d + (abierta ? '' : 'Z');
+  };
+  const mancha = (cx, cy, rx, ry, semilla = 1, irr = .07, k = 10, rot = 0) => {
+    const r = azar(semilla), P = [];
+    for (let i = 0; i < k; i++) { const a = rot + i / k * Math.PI * 2, q = 1 + (r() - .5) * 2 * irr; P.push([cx + Math.cos(a) * rx * q, cy + Math.sin(a) * ry * q]); }
+    return liso(P);
+  };
+  // Colores: de un color cualquiera a su pigmento aguado; y tonos más cargados o más lavados
+  const hsl = hex => { let h6 = hex.slice(1); if (h6.length === 3) h6 = [...h6].map(c => c + c).join(''); const [r, g, b] = [0, 2, 4].map(i => parseInt(h6.slice(i, i + 2), 16) / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, s = 0, l = (mx + mn) / 2; if (mx !== mn) { const d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = (mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4) / 6; } return [h, s, l]; };
+  const hex = (h, s, l) => { const q = l < .5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q, f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; }; return '#' + [f(h + 1 / 3), f(h), f(h - 1 / 3)].map(v => Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, '0')).join(''); };
+  const pig = c => { let [h, s, l] = hsl(c); if (l > .96) return PAPEL; if (l < .22 && s < .5) return '#6A5B78'; return hex(h, s * .62, l + (1 - l) * .34); };
+  const carga = (c, k = .8) => { const [h, s, l] = hsl(c); return hex(h, Math.min(1, s * 1.15), l * k); };
+  const lava = (c, k = .5) => { const [h, s, l] = hsl(c); return hex(h, s * .8, l + (1 - l) * k); };
+  const at = o => (o.t ? ` transform="${o.t}"` : '') + (o.cls ? ` class="${o.cls}"` : '') + (o.x || '');
+  const agua = (d, c, o = {}) => `<path d="${d}" fill="${c}" filter="url(#§${o.f || 'w' + (turno++ % 3)})"${o.o != null ? ` opacity="${o.o}"` : ''}${at(o)}/>`;
+  const vel = (d, c, o = {}) => `<path d="${d}" fill="${c}" filter="url(#§s)" opacity="${o.o != null ? o.o : .45}" style="mix-blend-mode:multiply"${at(o)}/>`;
+  const trazo = (d, w = 2.4, c = LINEA, o = {}) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§l)" opacity="${o.o != null ? o.o : .8}"${at(o)}/>`;
+  // Una pincelada gruesa de color (brazos, tallos, arcos)
+  const pincel = (d, w, c, o = {}) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§${o.f || 'w' + (turno++ % 3)})"${o.o != null ? ` opacity="${o.o}"` : ''}${at(o)}/>`;
+  const punto = (x, y, r, c = LINEA, o = .85) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" fill="${c}" filter="url(#§l)" opacity="${o}"/>`;
+  const gotas = (cx, cy, radio, n, c, semilla = 3, tam = 2.2) => { const r = azar(semilla); let s = ''; for (let i = 0; i < n; i++) { const a = r() * 6.283, q = radio * (.4 + r() * .6); s += `<circle cx="${f1(cx + Math.cos(a) * q)}" cy="${f1(cy + Math.sin(a) * q)}" r="${f1(tam * (.4 + r()))}" fill="${c}" opacity="${f1(.35 + r() * .4)}"/>`; } return s; };
+  const filtros = (u, e) => {
+    const n = v => +(v * e).toFixed(2), fr = v => (v / e).toFixed(4);
+    const mojada = (id, semilla, temblor) => `<filter id="${u}${id}" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">`
+      + `<feTurbulence type="fractalNoise" baseFrequency="${fr(.021)}" numOctaves="2" seed="${semilla}" result="n"/>`
+      + `<feDisplacementMap in="SourceGraphic" in2="n" scale="${n(temblor)}" xChannelSelector="R" yChannelSelector="G" result="d"/>`
+      // borde mojado: el pigmento se acumula donde se secó el agua
+      + `<feGaussianBlur in="d" stdDeviation="${n(2.6)}" result="b"/>`
+      + `<feComposite in="d" in2="b" operator="arithmetic" k1="0" k2="1" k3="-1" k4="0" result="r0"/>`
+      + `<feColorMatrix in="r0" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 2.1 0" result="r1"/>`
+      + `<feColorMatrix in="d" type="matrix" values=".66 0 0 0 0  0 .64 0 0 0  0 0 .7 0 0  0 0 0 1 0" result="osc"/>`
+      + `<feComposite in="osc" in2="r1" operator="in" result="borde"/>`
+      // aguas: zonas donde el color se abrió y dejó ver el papel
+      + `<feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 .99  0 0 0 0 .95  0 1.7 0 0 -.78" result="a0"/>`
+      + `<feGaussianBlur in="a0" stdDeviation="${n(3)}" result="a1"/><feComposite in="a1" in2="d" operator="in" result="aguas"/>`
+      // grano del papel a través del pigmento
+      + `<feTurbulence type="fractalNoise" baseFrequency="${fr(.32)}" numOctaves="2" seed="${semilla + 5}" result="g"/>`
+      + `<feColorMatrix in="g" type="matrix" values="0 0 0 0 1  0 0 0 0 .99  0 0 0 0 .95  0 0 0 1.1 -.7" result="g1"/><feComposite in="g1" in2="d" operator="in" result="grano"/>`
+      + `<feMerge><feMergeNode in="d"/><feMergeNode in="aguas"/><feMergeNode in="grano"/><feMergeNode in="borde"/></feMerge></filter>`;
+    return `<defs>${mojada('w0', 3, 7)}${mojada('w1', 11, 8)}${mojada('w2', 23, 6.5)}`
+      // veladura: húmedo sobre húmedo, sin borde
+      + `<filter id="${u}s" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="${n(2.2)}" result="b"/><feTurbulence type="fractalNoise" baseFrequency="${fr(.03)}" numOctaves="2" seed="8" result="n"/><feDisplacementMap in="b" in2="n" scale="${n(9)}" xChannelSelector="G" yChannelSelector="R"/></filter>`
+      // línea de pincel fino
+      + `<filter id="${u}l" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="${fr(.06)}" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${n(2.6)}" xChannelSelector="R" yChannelSelector="G"/></filter></defs>`;
+  };
+  // Pone a un <svg ...>cuerpo</svg> ya escrito sus filtros y su prefijo único
+  const envolver = s => {
+    const u = 'q' + (++cuenta) + '_';
+    const vb = (s.match(/viewBox="([^"]+)"/) || [, '0 0 200 200'])[1].split(/[\s,]+/).map(Number);
+    const i = s.indexOf('>') + 1;
+    return (s.slice(0, i) + filtros(u, Math.max(vb[2], vb[3]) / 200) + s.slice(i)).replace(/§/g, u);
+  };
+  const svg = (vb, cuerpo, extra = '') => envolver(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" class="ilus aq" style="isolation:isolate"${extra}>${cuerpo}</svg>`);
+  return { agua, vel, trazo, pincel, punto, gotas, mancha, liso, pig, carga, lava, svg, envolver, f1, LINEA, PAPEL, azar };
+})();
+
+/* ---------- Marionetas pintadas a la acuarela (mismas fichas, dibujo nuevo) ---------- */
+function partesMuneco(s, semilla, u) {
+  const { agua, vel, trazo, pincel, punto, mancha, pig, carga, lava, LINEA, PAPEL } = AQ;
+  const [rx, ry] = { redonda: [66, 62], alargada: [56, 72], ancha: [76, 58] }[s.forma || 'redonda'];
+  const cx = 100, cy = 100, ex = s.extra || [], sd = semilla * 13 + (s.piel || '').charCodeAt(1) + rx;
+  const blanco = /^#f{6}$/i.test(s.piel);
+  const piel = blanco ? PAPEL : pig(s.piel), pielO = blanco ? '#C9C4D6' : carga(piel, .8);
+  const ropaB = /^#f{6}$/i.test(s.ropa || ''), ropa = ropaB ? '#F1EEF4' : pig(s.ropa || '#1F5FD6'), ropaO = carga(ropa, .76);
+  const sc = pig(s.sombreroColor || '#E63027'), pc = s.pelo && pig(s.pelo.color);
+  const ojos = { tam: 16, sep: 25, parpado: false, ...(s.ojos || {}) }, ey = cy - 20;
+  const espejo = f => f(-1) + f(1);
+  const el = (x, y, a, b, k = 1, irr = .06) => mancha(x, y, a, b, sd + k, irr);
+  let g = '';
+  // --- Detrás de la cabeza ---
+  if (s.sombrero === 'capucha') g += agua(el(cx, cy + 8, rx + 22, ry + 26, 2), sc) + vel(el(cx + 14, cy + 30, rx, ry, 3), carga(sc, .7), { o: .35 });
+  if (s.pelo && s.pelo.tipo === 'trenzas') g += espejo(d => [0, 1, 2].map(i => agua(el(cx + d * (rx + 6), cy + 12 + i * 22, 13, 13, 4 + i + d), pc)).join('') + agua(`M${cx + d * (rx + 6) - 10},${cy + 76} l20,0 l-10,13Z`, '#E58A84'));
+  const o = s.orejas;
+  if (o === 'cerdo') g += espejo(d => agua(`M${cx + d * 38},${cy - 44} Q${cx + d * 60},${cy - 70} ${cx + d * 72},${cy - 86} Q${cx + d * 74},${cy - 54} ${cx + d * 64},${cy - 28}Z`, piel) + vel(`M${cx + d * 50},${cy - 50} L${cx + d * 65},${cy - 72} L${cx + d * 62},${cy - 42}Z`, pielO, { o: .55 }));
+  if (o === 'oso') g += espejo(d => agua(el(cx + d * rx * .72, cy - ry * .78, 22, 22, 5 + d), piel) + vel(el(cx + d * rx * .72, cy - ry * .78, 11, 11, 6), pielO, { o: .6 }));
+  if (o === 'lobo' || o === 'gato') { const alto = o === 'lobo' ? 108 : 92; g += espejo(d => agua(`M${cx + d * 16},${cy - ry + 16} Q${cx + d * 40},${cy - alto + 20} ${cx + d * 53},${cy - alto} Q${cx + d * 60},${cy - 60} ${cx + d * 56},${cy - 28}Z`, piel) + vel(`M${cx + d * 28},${cy - ry + 14} L${cx + d * 48},${cy - alto + 24} L${cx + d * 50},${cy - 40}Z`, o === 'gato' ? '#F3B4C4' : pielO, { o: .6 })); }
+  if (o === 'raton') g += espejo(d => agua(el(cx + d * rx * .82, cy - ry * .7, 32, 32, 7 + d), piel) + vel(el(cx + d * rx * .82, cy - ry * .7, 18, 18, 8), '#F3B4C4', { o: .7 }));
+  if (o === 'burro') g += espejo(d => agua(el(cx + d * 34, cy - ry - 26, 15, 44, 9 + d), piel, { t: `rotate(${d * 18} ${cx + d * 34} ${cy - ry - 26})` }) + vel(el(cx + d * 34, cy - ry - 26, 7, 30, 10), '#F3B4C4', { o: .7, t: `rotate(${d * 18} ${cx + d * 34} ${cy - ry - 26})` }));
+  // --- Brazos: una pincelada de color y una manopla; la varilla, un trazo de pincel fino ---
+  g += espejo(d => `<g transform="translate(${cx + d * 40} 186)"><g class="brazo-m ${d < 0 ? 'bi' : 'bd'}">`
+    + trazo(`M${d * 24},52 L${d * 30},150`, 2.6, LINEA, { o: .55 })
+    + pincel(`M0,0 Q${d * 22},16 ${d * 24},46`, 21, ropa)
+    + agua(mancha(d * 25, 57, 14, 12, sd + 20 + d, .1), piel) + `</g></g>`);
+  // --- Cuerpo: una mancha de tela, más cargada abajo ---
+  g += agua(`M57,181 Q100,163 143,181 Q154,222 162,262 Q100,270 38,262 Q46,222 57,181Z`, ropa)
+    + vel(`M52,214 Q100,232 150,212 L160,262 L40,262Z`, ropaO, { o: .4 })
+    + trazo(`M100,190 Q98,224 101,256`, 1.8, ropaO, { o: .7, x: ' stroke-dasharray="7 6"' })
+    + punto(112, 208, 3.6, ropaO, .8) + punto(112, 230, 3.6, ropaO, .8)
+    + trazo(`M80,176 Q100,193 121,175`, 5, lava(ropa, .55), { o: .9 });
+  // --- Cabeza: una gran mancha de agua ---
+  g += agua(el(cx, cy, rx, ry, 1, .045), piel);
+  g += vel(el(cx + rx * .3, cy + ry * .42, rx * .62, ry * .46, 12, .12), pielO, { o: blanco ? .3 : .34 });
+  if (o === 'perro') g += espejo(d => agua(el(cx + d * (rx - 4), cy + 2, 19, 46, 13 + d), pig(s.orejaColor || s.piel), { t: `rotate(${d * -12} ${cx + d * (rx - 4)} ${cy + 2})` }));
+  // --- Pelo ---
+  const p = s.pelo;
+  if (p && (p.tipo === 'liso' || p.tipo === 'trenzas' || p.tipo === 'moño')) {
+    g += agua(`M${cx - rx - 3},${cy - 4} C${cx - rx},${cy - ry - 36} ${cx + rx},${cy - ry - 36} ${cx + rx + 3},${cy - 4} Q${cx + rx * .55},${cy - ry * .72} ${cx + 6},${cy - ry * .62} Q${cx - rx * .3},${cy - ry * .8} ${cx - rx - 3},${cy - 4}Z`, pc)
+      + trazo(`M${cx - rx * .55},${cy - ry - 2} Q${cx - rx * .1},${cy - ry - 16} ${cx + rx * .35},${cy - ry - 7}`, 2, carga(pc, .7), { o: .6 });
+    if (p.tipo === 'moño') g += agua(el(cx, cy - ry - 16, 22, 21, 14, .1), pc);
+  }
+  if (p && p.tipo === 'rizos') for (let a = 160; a <= 380; a += 22) { const r = a * Math.PI / 180; g += agua(el(cx + (rx + 2) * Math.cos(r), cy + (ry + 2) * Math.sin(r) - 4, 17, 17, a, .12), pc); }
+  if (p && p.tipo === 'pelusa') g += agua(`M${cx - 18},${cy - ry + 8} Q${cx - 27},${cy - ry - 24} ${cx - 8},${cy - ry - 13} Q${cx},${cy - ry - 36} ${cx + 8},${cy - ry - 13} Q${cx + 27},${cy - ry - 24} ${cx + 18},${cy - ry + 8}Z`, pc);
+  if (ex.includes('barba')) g += agua(`M${cx - rx + 10},${cy + 4} Q${cx - rx + 2},${cy + ry + 30} ${cx},${cy + ry + 38} Q${cx + rx - 2},${cy + ry + 30} ${cx + rx - 10},${cy + 4} Q${cx},${cy + 26} ${cx - rx + 10},${cy + 4}Z`, pig(s.barbaColor || '#4A2E15'));
+  // --- Boca (se abre al hablar) ---
+  const hocico = s.nariz === 'hocico', my = hocico ? cy + 40 : cy + 34, mrx = s.forma === 'ancha' ? 44 : s.nariz === 'pico' ? 24 : 36;
+  g += `<g class="boca">` + agua(el(cx, my, mrx, 20, 15, .05), '#9C4A5A') + vel(el(cx, my + 9, mrx * .5, 8, 16), '#F08FA6', { o: .9 }) + `</g>`;
+  if (ex.includes('colmillosArriba')) g += espejo(d => agua(`M${cx + d * mrx * .6 - 6},${my + 16} L${cx + d * mrx * .6 + 6},${my + 16} L${cx + d * mrx * .6},${my - 8}Z`, PAPEL));
+  // --- Ojos: el blanco es el papel; la pupila, una gota de tinta ---
+  if (ex.includes('antifaz')) g += agua(`M${cx - ojos.sep - 30},${ey} Q${cx - ojos.sep - 30},${ey - 18} ${cx},${ey - 15} Q${cx + ojos.sep + 30},${ey - 18} ${cx + ojos.sep + 30},${ey} Q${cx + ojos.sep + 30},${ey + 18} ${cx},${ey + 15} Q${cx - ojos.sep - 30},${ey + 18} ${cx - ojos.sep - 30},${ey}Z`, '#6A5B78');
+  g += espejo(d => {
+    const x = cx + d * ojos.sep, t = ojos.tam, px = x - d * t * .22, py = ey + t * .15;
+    let e = agua(mancha(x, ey, t, t, sd + 30 + d, .04), PAPEL, { f: 'l' }) + trazo(mancha(x, ey, t, t, sd + 30 + d, .04), 1.5, LINEA, { o: .5 })
+      + punto(px, py, t * .44, '#4A3E58', .95) + `<circle cx="${px + 3}" cy="${py - 3.5}" r="2.6" fill="${PAPEL}"/>`;
+    if (ojos.parpado) e += agua(`M${x - t - 1},${ey} A${t + 1},${t + 1} 0 0 1 ${x + t + 1},${ey}Z`, piel) + trazo(`M${x - t - 1},${ey} L${x + t + 1},${ey}`, 1.8, pielO);
+    e += `<circle class="parpado" cx="${x}" cy="${ey}" r="${t + 2}" fill="${piel}" style="--d:${(semilla * 1.3 + (d + 1)) % 4}s"/>`;
+    if (ex.includes('gafas')) e += trazo(mancha(x, ey, t + 7, t + 7, 40 + d, .03), 2.6, LINEA, { o: .75 });
+    if (ex.includes('cejas')) e += trazo(`M${x + d * 18},${ey - t - 14} L${x - d * 12},${ey - t - 3}`, 5, '#5B4B63', { o: .8 });
+    return e;
+  });
+  if (ex.includes('gafas')) g += trazo(`M${cx - ojos.sep + ojos.tam + 7},${ey} L${cx + ojos.sep - ojos.tam - 7},${ey}`, 2.6);
+  // --- Nariz ---
+  const nc = pig(s.narizColor || '#FF8A1F');
+  if (s.nariz === 'bola') g += agua(el(cx, cy + 8, 14, 13.5, 17, .08), nc) + `<circle cx="${cx - 4}" cy="${cy + 3}" r="3.4" fill="${PAPEL}" opacity=".7"/>`;
+  if (s.nariz === 'cerdo') g += agua(el(cx, cy + 6, 24, 17, 18, .06), carga(piel, .86)) + espejo(d => punto(cx + d * 8, cy + 6, 4.2, carga(piel, .55), .85));
+  if (hocico) g += agua(el(cx, cy + 20, 34, 24, 19, .06), pig(s.hocico)) + agua(el(cx, cy + 6, 14, 10, 20, .08), '#5B4B63') + `<circle cx="${cx - 4}" cy="${cy + 3}" r="2.6" fill="${PAPEL}" opacity=".7"/>`;
+  if (s.nariz === 'pico') g += agua(`M${cx - 22},${cy + 4} Q${cx},${cy - 9} ${cx + 22},${cy + 4} Q${cx + 8},${cy + 22} ${cx},${cy + 30} Q${cx - 8},${cy + 22} ${cx - 22},${cy + 4}Z`, '#F2B169');
+  if (s.nariz === 'larga') g += agua(`M${cx - 9},${ey + 12} Q${cx - 8},${cy + 30} ${cx + 20},${cy + 32} Q${cx + 12},${cy + 16} ${cx + 9},${ey + 12}Z`, carga(piel, .88));
+  if (s.nariz === 'raton') g += agua(el(cx, cy + 6, 10, 10, 21, .08), pig(s.narizColor || '#FF5FA2'));
+  if (ex.includes('verruga')) g += punto(cx + 16, cy + 24, 4.5, carga(piel, .6));
+  if (ex.includes('bigotes')) g += espejo(d => [-8, 0, 8].map(dy => trazo(`M${cx + d * 16},${cy + 8 + dy / 2} Q${cx + d * 34},${cy + 3 + dy} ${cx + d * 52},${cy + 2 + dy * 1.4}`, 1.6)).join(''));
+  if (ex.includes('colmillos')) g += espejo(d => agua(`M${cx + d * 16 - 6},${cy + 40} L${cx + d * 16 + 6},${cy + 40} L${cx + d * 16},${cy + 55}Z`, PAPEL, { f: 'l' }) + trazo(`M${cx + d * 16 - 6},${cy + 40} L${cx + d * 16},${cy + 55} L${cx + d * 16 + 6},${cy + 40}`, 1.4));
+  if (ex.includes('mejillas')) g += espejo(d => vel(el(cx + d * rx * .66, cy + 16, 13, 11, 22 + d, .15), '#EE8FA8', { o: .55 }));
+  if (ex.includes('pecas')) g += espejo(d => [[0, 0], [8, 6], [-6, 8]].map(([a, b]) => punto(cx + d * (rx * .5 + a), cy + 8 + b, 1.9, '#B07A56', .8)).join(''));
+  // --- Sombreros y adornos ---
+  const hy = cy - ry;
+  if (s.sombrero === 'bruja') g += agua(el(cx, hy + 12, rx + 28, 13, 23, .06), sc) + agua(`M${cx - 44},${hy + 8} Q${cx - 8},${hy - 60} ${cx + 26},${hy - 104} Q${cx + 40},${hy - 40} ${cx + 44},${hy + 8}Z`, sc) + vel(`M${cx - 40},${hy - 5} L${cx + 41},${hy - 5} L${cx + 39},${hy + 6} L${cx - 42},${hy + 6}Z`, '#8E6CC4', { o: .8 }) + punto(cx + 10, hy - 44, 5, '#F2D06B', .95);
+  if (s.sombrero === 'capucha') g += pincel(`M${cx - rx - 8},${cy + 34} Q${cx - rx - 10},${hy - 30} ${cx},${hy - 26} Q${cx + rx + 10},${hy - 30} ${cx + rx + 8},${cy + 34}`, 16, sc);
+  if (s.sombrero === 'gorro') g += agua(`M${cx - rx + 2},${cy - ry * .42} Q${cx - 30},${hy - 40} ${cx + 4},${hy - 50} Q${cx + 34},${hy - 36} ${cx + rx - 2},${cy - ry * .42} Q${cx},${cy - ry * .62} ${cx - rx + 2},${cy - ry * .42}Z`, sc) + pincel(`M${cx - rx + 4},${cy - ry * .42} Q${cx},${cy - ry * .64} ${cx + rx - 4},${cy - ry * .42}`, 9, AQ.PAPEL) + agua(el(cx + 4, hy - 52, 10, 10, 24, .12), AQ.PAPEL);
+  if (s.sombrero === 'gorra') g += agua(`M${cx - rx + 6},${cy - ry * .45} Q${cx - 26},${hy - 34} ${cx},${hy - 40} Q${cx + 28},${hy - 34} ${cx + rx - 6},${cy - ry * .45} Q${cx},${cy - ry * .66} ${cx - rx + 6},${cy - ry * .45}Z`, sc) + agua(el(cx + 38, cy - ry * .42, 34, 9, 25, .08), carga(sc, .82), { t: `rotate(8 ${cx + 38} ${cy - ry * .42})` });
+  if (s.sombrero === 'corona') g += agua(`M${cx - 40},${hy + 12} L${cx - 41},${hy - 30} L${cx - 20},${hy - 8} L${cx},${hy - 41} L${cx + 20},${hy - 8} L${cx + 41},${hy - 30} L${cx + 40},${hy + 12} Q${cx},${hy + 4} ${cx - 40},${hy + 12}Z`, '#F2D06B') + [-22, 0, 22].map((dx, i) => punto(cx + dx, hy, 4, ['#E58A84', '#8FB4E8', '#E58A84'][i], .95)).join('');
+  if (s.sombrero === 'cresta') g += [[-20, -2], [20, -2], [0, -14]].map(([dx, dy], i) => agua(el(cx + dx, hy + dy, 14, 14, 26 + i, .1), sc)).join('');
+  if (s.sombrero === 'lazo') { const bx = cx + rx * .55, by = cy - ry * .78; g += agua(`M${bx},${by} Q${bx - 16},${by - 22} ${bx - 29},${by - 17} Q${bx - 24},${by} ${bx - 29},${by + 17} Q${bx - 16},${by + 22} ${bx},${by}Z`, sc) + agua(`M${bx},${by} Q${bx + 16},${by - 22} ${bx + 29},${by - 17} Q${bx + 24},${by} ${bx + 29},${by + 17} Q${bx + 16},${by + 22} ${bx},${by}Z`, sc) + agua(el(bx, by, 7, 7, 27, .1), carga(sc, .8)); }
+  return g;
+}
+
+/* ---------- Ilustraciones pintadas de cero ---------- */
+const AQ_ILUS = (() => {
+  const { agua, vel, trazo, pincel, punto, gotas, mancha, liso, carga, lava, svg, LINEA, PAPEL, azar } = AQ;
+  // pigmentos de la caja
+  const C = { rosa: '#F2B3C4', rosaO: '#DE8AA5', cielo: '#BBD9F2', cieloO: '#93BDE6', hoja: '#A7CF8E', hojaO: '#78AE74', prado: '#BFDD9A', pradoO: '#8FC07E',
+    paja: '#F1D58A', pajaO: '#D9AF58', tierra: '#D9B48C', tronco: '#B58A66', troncoO: '#8E6A52', rojo: '#E98E86', rojoO: '#D0655F', sol: '#F6D978', solO: '#EEB45A',
+    gris: '#CFC9D6', grisO: '#A69EB3', negro: '#6A5B78', violeta: '#B9A2DE', naranja: '#F4B77E', azul: '#9CB8EA', crema: '#F7E7C6' };
+  const ojo = (x, y, r = 3.2) => punto(x, y, r, '#4A3E58', .95) + `<circle cx="${x + r * .3}" cy="${y - r * .35}" r="${r * .3}" fill="${PAPEL}"/>`;
+  const sonrisa = (x, y, w) => trazo(`M${x - w / 2},${y} Q${x},${y + w * .55} ${x + w / 2},${y}`, 2);
+  const colorete = (x, y, r = 8) => vel(mancha(x, y, r, r * .8, x + y, .15), '#EE8FA8', { o: .5 });
+  const hierba = (x, y, h, c, s = 1) => trazo(`M${x},${y} q${-3 * s},${-h * .6} ${-5 * s},${-h} M${x + 3},${y} q${2 * s},${-h * .5} ${6 * s},${-h * .85} M${x - 3},${y} q${-5 * s},${-h * .3} ${-9 * s},${-h * .55}`, 1.8, c, { o: .75 });
+  const flor = (x, y, c, r = 5) => [0, 1, 2, 3, 4].map(i => agua(mancha(x + Math.cos(i * 1.257) * r, y + Math.sin(i * 1.257) * r, r * .8, r * .8, i + x, .15), c, { f: 'l' })).join('') + punto(x, y, r * .5, C.solO, .95);
+  const nubeD = (x, y, k, s = 1) => agua(liso([[x - 60 * k, y + 16 * k], [x - 66 * k, y - 4 * k], [x - 40 * k, y - 18 * k], [x - 22 * k, y - 36 * k], [x + 8 * k, y - 40 * k], [x + 30 * k, y - 26 * k], [x + 56 * k, y - 20 * k], [x + 70 * k, y], [x + 58 * k, y + 16 * k], [x, y + 20 * k]]), PAPEL) + vel(mancha(x + 6 * k, y + 8 * k, 52 * k, 12 * k, s, .2), C.cieloO, { o: .32 });
+
+  // La paleta y los ayudantes comunes quedan a mano para todas las pinturas
+  Object.assign(AQ, { C, ojo, sonrisa, colorete, hierba, flor, nubeD });
+  return {
+    // Cerdito: tres manchas rosas (cuerpo, cabeza, hocico), orejas en punta y rabo de un trazo
+    animal_cerdo: () => svg('0 0 200 200',
+      vel(mancha(100, 176, 62, 9, 2, .1), C.grisO, { o: .35 })
+      + pincel('M150,128 q16,-6 14,-18 q-3,-10 -11,-4 q-5,6 4,10', 4.5, C.rosaO)
+      + agua(mancha(104, 134, 52, 42, 3, .06), C.rosa)
+      + agua(mancha(72, 170, 11, 10, 4, .1), C.rosaO) + agua(mancha(132, 170, 11, 10, 5, .1), C.rosaO)
+      + agua('M52,58 Q44,34 60,24 Q72,38 78,56Z', C.rosa) + agua('M148,58 Q156,34 140,24 Q128,38 122,56Z', C.rosa)
+      + vel('M58,52 Q54,38 61,32 Q68,42 70,52Z', C.rosaO, { o: .6 }) + vel('M142,52 Q146,38 139,32 Q132,42 130,52Z', C.rosaO, { o: .6 })
+      + agua(mancha(100, 88, 54, 48, 6, .05), C.rosa)
+      + vel(mancha(118, 112, 34, 22, 7, .15), C.rosaO, { o: .3 })
+      + agua(mancha(100, 104, 24, 17, 8, .06), C.rosaO) + punto(92, 104, 3.6, '#B5647F') + punto(108, 104, 3.6, '#B5647F')
+      + ojo(78, 80, 4.2) + ojo(122, 80, 4.2) + colorete(64, 100, 10) + colorete(136, 100, 10)
+      + sonrisa(100, 124, 16) + gotas(160, 60, 26, 7, C.rosa, 4)),
+
+    // Vaca: papel blanco con manchas de tinta aguada, morro rosa y cuernos ocres
+    animal_vaca: () => svg('0 0 200 200',
+      vel(mancha(100, 178, 60, 9, 2, .1), C.grisO, { o: .35 })
+      + agua(mancha(100, 142, 50, 36, 3, .06), PAPEL) + vel(mancha(124, 150, 22, 16, 9, .2), C.negro, { o: .75 }) + vel(mancha(74, 130, 14, 12, 10, .2), C.negro, { o: .75 })
+      + agua(mancha(76, 174, 9, 8, 4, .1), C.negro) + agua(mancha(124, 174, 9, 8, 5, .1), C.negro)
+      + agua('M66,44 Q54,34 58,20 Q70,28 78,42Z', C.paja) + agua('M134,44 Q146,34 142,20 Q130,28 122,42Z', C.paja)
+      + agua(mancha(40, 70, 20, 11, 11, .1), PAPEL, { t: 'rotate(-22 40 70)' }) + agua(mancha(160, 70, 20, 11, 12, .1), PAPEL, { t: 'rotate(22 160 70)' })
+      + vel(mancha(42, 70, 11, 5, 13, .1), C.rosa, { o: .8, t: 'rotate(-22 42 70)' }) + vel(mancha(158, 70, 11, 5, 14, .1), C.rosa, { o: .8, t: 'rotate(22 158 70)' })
+      + agua(mancha(100, 84, 50, 46, 6, .05), PAPEL)
+      + vel(mancha(66, 62, 22, 24, 15, .2), C.negro, { o: .78 }) + vel(mancha(142, 54, 14, 16, 16, .2), C.negro, { o: .78 })
+      + agua(mancha(100, 112, 36, 24, 8, .06), C.rosa) + punto(88, 110, 4.4, '#C9819A') + punto(112, 110, 4.4, '#C9819A')
+      + ojo(80, 80, 4.4) + ojo(120, 80, 4.4) + sonrisa(100, 122, 16) + colorete(60, 100, 9) + colorete(140, 100, 9)
+      + agua(mancha(100, 150, 9, 10, 17, .1), C.sol) + trazo('M100,138 v4', 2)),
+
+    // Casa de paja: tejado de pinceladas ocres, pared clara, puerta y ventana
+    obj_casa_paja: () => svg('0 0 200 200',
+      vel(mancha(100, 182, 74, 9, 2, .1), C.grisO, { o: .35 })
+      + agua('M46,104 Q48,150 50,178 Q100,184 150,178 Q152,150 154,104Z', C.crema)
+      + vel('M46,104 L154,104 L152,124 Q100,132 48,124Z', C.pajaO, { o: .35 })
+      + agua('M100,20 Q60,56 22,112 Q60,104 100,106 Q140,104 178,112 Q140,56 100,20Z', C.paja)
+      + [[-52, 0], [-34, -22], [-16, -40], [4, -44], [24, -30], [44, -8], [-20, -6], [10, -10]].map(([dx, dy], i) => trazo(`M${100 + dx},${104 + dy} q${-4 + i % 3 * 3},-14 ${2 - i % 2 * 5},-28`, 2.4, C.pajaO, { o: .7 })).join('')
+      + vel('M100,20 Q130,56 178,112 Q140,104 104,106Z', C.pajaO, { o: .28 })
+      + agua('M86,178 L86,140 Q100,124 114,140 L114,178Z', C.tronco) + punto(108, 160, 2.4, C.sol)
+      + agua(mancha(132, 142, 10, 10, 5, .06), C.cielo) + trazo('M132,132 v20 M122,142 h20', 1.6)
+      + agua(mancha(100, 18, 7, 7, 6, .15), C.pajaO)
+      + hierba(40, 180, 14, C.hojaO) + hierba(164, 180, 12, C.hojaO, -1) + flor(60, 174, C.rojo, 3.6) + flor(146, 176, C.violeta, 3.4)),
+
+    // Sol: disco de agua amarilla que se abre en naranja; rayos de una pincelada cada uno
+    sol: () => svg('0 0 200 200',
+      `<g class="rayos">` + Array.from({ length: 12 }, (_, i) => { const a = i * Math.PI / 6, c = Math.cos(a), s = Math.sin(a), l = i % 2 ? 84 : 94; return pincel(`M${AQ.f1(100 + c * 64)},${AQ.f1(100 + s * 64)} L${AQ.f1(100 + c * l)},${AQ.f1(100 + s * l)}`, i % 2 ? 9 : 12, i % 2 ? C.sol : C.solO); }).join('') + `</g>`
+      + `<g class="cara-sol">` + agua(mancha(100, 100, 56, 55, 4, .04), C.sol) + vel(mancha(116, 118, 36, 30, 5, .2), C.solO, { o: .5 })
+      + ojo(82, 92, 5) + ojo(118, 92, 5) + colorete(68, 110, 10) + colorete(132, 110, 10)
+      + agua('M82,112 Q100,134 118,112 Q100,118 82,112Z', '#C9605F') + `</g>`),
+
+    nube: () => svg('0 0 240 140', nubeD(120, 82, 1.35, 3)),
+
+    // Arcoíris: siete pinceladas que se tocan y se mezclan un poco
+    arcoiris: () => svg('0 0 400 230',
+      ['#E98E86', '#F4B77E', '#F6D978', '#A7CF8E', '#9CCBEA', '#9CB8EA', '#B9A2DE'].map((c, i) => { const r = 176 - i * 15; return pincel(`M${200 - r},200 A${r},${r} 0 0 1 ${200 + r},200`, 16.5, c, { o: .92 }); }).join('')
+      + nubeD(52, 200, .62, 2) + nubeD(348, 200, .62, 5)),
+
+    // Colinas: tres aguadas de verde, de más clara (lejos) a más cargada (cerca), y un camino
+    colinas: () => svg('0 0 1200 300',
+      agua('M-20,150 Q160,60 380,120 Q560,170 760,100 Q980,40 1220,130 L1220,320 L-20,320Z', C.prado, { o: .9 })
+      + agua('M-20,210 Q220,120 470,190 Q700,250 920,170 Q1080,120 1220,190 L1220,320 L-20,320Z', C.hoja)
+      + agua('M-20,262 Q260,200 560,250 Q820,290 1220,236 L1220,320 L-20,320Z', C.hojaO)
+      + agua('M560,300 Q610,250 580,214 Q560,190 604,168 Q590,196 626,220 Q670,256 650,300Z', C.tierra)
+      + [[120, 176], [300, 150], [840, 140], [1040, 150], [700, 214], [200, 236]].map(([x, y], i) => agua(mancha(x, y - 16, 15, 17, i + 2, .12), i % 2 ? C.hojaO : C.hoja, { f: 'l' }) + trazo(`M${x},${y - 4} v14`, 2.4, C.troncoO)).join('')
+      + [[80, 270], [330, 256], [470, 280], [760, 270], [900, 258], [1100, 274]].map(([x, y], i) => flor(x, y, [C.rojo, C.sol, C.violeta, PAPEL][i % 4], 5)).join('')
+      + [[160, 282], [420, 268], [820, 284], [1010, 270]].map(([x, y]) => hierba(x, y, 16, carga(C.hojaO, .8))).join('')),
+
+    // Manzano: copa de manchas verdes que se pisan, tronco de una pincelada y manzanas rojas
+    arbol: () => svg('0 0 200 240',
+      vel(mancha(100, 226, 62, 9, 2, .1), C.grisO, { o: .35 })
+      + agua('M86,228 Q92,180 88,140 L114,140 Q110,180 118,228 Q100,222 86,228Z', C.tronco) + vel('M102,142 L114,140 Q110,180 118,228 L104,226Z', C.troncoO, { o: .45 })
+      + agua(mancha(66, 108, 44, 40, 3, .1), C.hoja) + agua(mancha(136, 106, 44, 42, 4, .1), C.hojaO, { o: .92 }) + agua(mancha(100, 66, 50, 44, 5, .1), C.hoja)
+      + vel(mancha(120, 104, 46, 30, 6, .2), carga(C.hojaO, .8), { o: .32 })
+      + [[60, 96], [92, 60], [130, 80], [146, 118], [100, 110], [74, 128], [118, 46]].map(([x, y], i) => agua(mancha(x, y, 8.5, 8.5, i + 7, .08), i % 3 ? C.rojo : C.rojoO, { f: 'l' }) + `<circle cx="${x - 2.5}" cy="${y - 3}" r="1.8" fill="${PAPEL}" opacity=".8"/>`).join('')
+      + hierba(70, 230, 13, C.hojaO) + hierba(132, 230, 12, C.hojaO, -1)),
+
+    // Icono de animales: cabeza de vaca
+    icono_animales: () => svg('0 0 200 200',
+      agua('M66,56 Q52,42 58,24 Q72,34 82,52Z', C.paja) + agua('M134,56 Q148,42 142,24 Q128,34 118,52Z', C.paja)
+      + agua(mancha(36, 90, 25, 13, 11, .1), PAPEL, { t: 'rotate(-24 36 90)' }) + agua(mancha(164, 90, 25, 13, 12, .1), PAPEL, { t: 'rotate(24 164 90)' })
+      + vel(mancha(40, 90, 14, 6, 13, .1), C.rosa, { o: .85, t: 'rotate(-24 40 90)' }) + vel(mancha(160, 90, 14, 6, 14, .1), C.rosa, { o: .85, t: 'rotate(24 160 90)' })
+      + agua(mancha(100, 96, 58, 56, 6, .05), PAPEL)
+      + vel(mancha(62, 72, 26, 28, 15, .2), C.negro, { o: .8 }) + vel(mancha(146, 62, 16, 20, 16, .2), C.negro, { o: .8 })
+      + agua(mancha(100, 142, 50, 34, 8, .05), C.rosa) + punto(82, 138, 6, '#C9819A') + punto(118, 138, 6, '#C9819A')
+      + ojo(80, 94, 6) + ojo(120, 94, 6) + colorete(58, 114, 10) + colorete(142, 114, 10)
+      + agua('M86,154 Q100,168 114,154 Q100,158 86,154Z', '#C9605F')),
+
+    // Decorado del campo: cielo en aguada, colinas, árboles y un camino
+    escena_campo: () => svg('0 0 1000 600',
+      agua('M-20,-20 H1020 V460 H-20Z', C.cielo, { f: 's', o: 1 })
+      + vel('M-20,-20 H1020 V160 Q500,220 -20,150Z', C.cieloO, { o: .5 })
+      + agua(mancha(820, 110, 62, 60, 3, .06), C.sol, { f: 's', o: .95 })
+      + nubeD(200, 120, 1.5, 2) + nubeD(560, 80, 1.1, 4) + nubeD(840, 200, 1.3, 6)
+      + agua('M-20,360 Q200,270 420,330 Q640,390 860,300 Q950,270 1020,300 L1020,620 L-20,620Z', C.prado)
+      + agua('M-20,440 Q260,360 520,420 Q760,470 1020,390 L1020,620 L-20,620Z', C.hoja)
+      + agua('M430,620 Q500,520 470,460 Q450,420 500,388 Q486,430 530,470 Q590,530 570,620Z', C.tierra)
+      + [[120, 330, 1.5], [860, 300, 1.7], [690, 350, 1]].map(([x, y, k], i) => agua(`M${x - 12 * k},${y + 70 * k} Q${x - 6 * k},${y + 30 * k} ${x - 9 * k},${y} L${x + 9 * k},${y} Q${x + 6 * k},${y + 30 * k} ${x + 13 * k},${y + 70 * k}Z`, C.tronco)
+        + agua(mancha(x - 28 * k, y - 16 * k, 40 * k, 36 * k, i + 3, .1), C.hoja) + agua(mancha(x + 30 * k, y - 20 * k, 40 * k, 38 * k, i + 5, .1), C.hojaO, { o: .92 }) + agua(mancha(x, y - 54 * k, 46 * k, 40 * k, i + 7, .1), C.hoja)
+        + [[-30, -20], [8, -58], [34, -24], [-4, -14]].map(([dx, dy], j) => agua(mancha(x + dx * k, y + dy * k, 7 * k, 7 * k, j + i, .08), C.rojo, { f: 'l' })).join('')).join('')
+      + [[60, 500], [240, 470], [360, 520], [640, 500], [780, 470], [930, 510]].map(([x, y], i) => flor(x, y, [C.rojo, C.sol, C.violeta, PAPEL][i % 4], 8)).join(''),
+      ' preserveAspectRatio="xMidYMax slice"'),
+
+    // Primer plano del campo: hierba alta y flores, de pinceladas sueltas
+    escena_campo_frente: () => { const r = azar(9); let s = agua('M-20,560 Q250,528 500,548 Q760,566 1020,536 L1020,620 L-20,620Z', C.hojaO);
+      for (let i = 0; i < 46; i++) { const x = i * 23 + r() * 14 - 10, h = 34 + r() * 50, c = [C.hojaO, carga(C.hojaO, .78), C.hoja][i % 3]; s += pincel(`M${AQ.f1(x)},600 Q${AQ.f1(x + (r() - .5) * 16)},${AQ.f1(585 - h * .5)} ${AQ.f1(x + (r() - .5) * 34)},${AQ.f1(590 - h)}`, 5 + r() * 4, c, { f: 'l', o: .92 }); }
+      [[70, 536], [210, 520], [430, 540], [610, 524], [800, 538], [940, 522]].forEach(([x, y], i) => { s += trazo(`M${x},${y + 50} Q${x + 4},${y + 24} ${x},${y}`, 2.6, carga(C.hojaO, .75)) + flor(x, y, [C.rojo, PAPEL, C.sol, C.violeta, C.rosa][i % 5], 9); });
+      return svg('0 0 1000 600', s, ' preserveAspectRatio="xMidYMax slice"'); }
+  };
+})();
+// Las ilustraciones ya pintadas de cero sustituyen a las antiguas
+Object.assign(ILUS, AQ_ILUS);
+/*AQ-FIN*/
 
 // El dibujo hecho a mano si existe; si no, el emoji de reserva
 const hayDibujo = n => typeof ILUS[n] === 'function';
@@ -6849,9 +7145,9 @@ function munecoSVG(ficha) {
       dentro += `<g transform="translate(${(i * paso).toFixed(1)} ${(250 * (1 - esc)).toFixed(1)}) scale(${esc})">${partesMuneco(una, i, u + 'g' + i)}</g>`;
     }
   } else dentro = partesMuneco(ficha, 0, u);
-  return acuarela(`<svg class="muppet" viewBox="-20 -70 240 320" aria-hidden="true">${dentro}</svg>`, true);
+  return AQ.envolver(`<svg class="muppet aq" viewBox="-20 -70 240 320" aria-hidden="true" style="isolation:isolate">${dentro}</svg>`);
 }
-function partesMuneco(s, semilla, u) {
+function partesMunecoAntigua(s, semilla, u) {
   const [rx, ry] = { redonda: [66, 62], alargada: [56, 72], ancha: [76, 58] }[s.forma || 'redonda'];
   const cx = 100, cy = 100, piel = s.piel, ropa = s.ropa || '#1F5FD6';
   const ojos = { tam: 16, sep: 25, parpado: false, ...(s.ojos || {}) };
