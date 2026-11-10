@@ -23,6 +23,7 @@ This repo is the durable knowledge layer. Every Claude surface reads from it.
 - `templates/` — Reusable document structures.
 - `tools/` — Scripts and utilities.
 - `lucias-world/` — "Lucía's World · Safarrancho OS", a kids' toy operating system demo in a single HTML file (open `index.html`). Easter eggs listed in its README.
+- `lucias-world-acuarela/` — Watercolour-style fork of Lucía's World (proof of concept). Same drawings, repainted at render time by `acuarela()` in its `index.html`.
 - `.claude/skills/` — Claude Code skills.
 - `.claude/scheduled-tasks/` — Automated tasks.
 
