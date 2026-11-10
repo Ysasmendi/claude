@@ -5430,7 +5430,7 @@ for (const k of Object.keys(ILUS)) { const f = ILUS[k], lig = ACUARELA_LIGERA.in
 const AQ = (() => {
   let cuenta = 0, turno = 0;
   const f1 = v => Math.round(v * 10) / 10;
-  const LINEA = '#5B4B63', PAPEL = '#FFFCF3';
+  const LINEA = '#3B3442', PAPEL = '#FFFCF3';
   const azar = s => { s = (Math.abs(s) * 9301 + 49297) % 233280 || 7; return () => (s = (s * 9301 + 49297) % 233280) / 233280; };
   // Curva cerrada y suave que pasa por los puntos
   const liso = (P, abierta) => {
@@ -5450,22 +5450,33 @@ const AQ = (() => {
   // Colores: de un color cualquiera a su pigmento aguado; y tonos más cargados o más lavados
   const hsl = hex => { let h6 = hex.slice(1); if (h6.length === 3) h6 = [...h6].map(c => c + c).join(''); const [r, g, b] = [0, 2, 4].map(i => parseInt(h6.slice(i, i + 2), 16) / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, s = 0, l = (mx + mn) / 2; if (mx !== mn) { const d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = (mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4) / 6; } return [h, s, l]; };
   const hex = (h, s, l) => { const q = l < .5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q, f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; }; return '#' + [f(h + 1 / 3), f(h), f(h - 1 / 3)].map(v => Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, '0')).join(''); };
-  const pig = c => { let [h, s, l] = hsl(c); if (l > .96) return PAPEL; if (l < .22 && s < .5) return '#6A5B78'; return hex(h, s * .62, l + (1 - l) * .34); };
+  const pig = c => { let [h, s, l] = hsl(c); if (l > .96) return PAPEL; if (l < .22 && s < .5) return '#6A5B78'; return hex(h, s * .74, l + (1 - l) * .27); };
   const carga = (c, k = .8) => { const [h, s, l] = hsl(c); return hex(h, Math.min(1, s * 1.15), l * k); };
   const lava = (c, k = .5) => { const [h, s, l] = hsl(c); return hex(h, s * .8, l + (1 - l) * k); };
   const at = o => (o.t ? ` transform="${o.t}"` : '') + (o.cls ? ` class="${o.cls}"` : '') + (o.x || '');
-  const agua = (d, c, o = {}) => `<path d="${d}" fill="${c}" filter="url(#§${o.f || 'w' + (turno++ % 3)})"${o.o != null ? ` opacity="${o.o}"` : ''}${at(o)}/>`;
+  // Estilo «tinta y aguada»: la forma la dibuja una línea de plumilla nerviosa y rota; el color se pone
+  // después, con prisa, y no acaba de encajar con la línea (se sale por un lado y deja papel por el otro).
+  const plumilla = (d, fino) => `<path d="${d}" fill="none" stroke="${LINEA}" stroke-width="${fino ? 1.3 : 2}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§k1)" opacity=".88" stroke-dasharray="${fino ? '30 2 18 1.5 44 2' : '52 3 30 2.5 76 3.5'}"/>`
+    + `<path d="${d}" fill="none" stroke="${LINEA}" stroke-width="${fino ? .8 : 1.2}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§k2)" opacity=".42"/>`;
+  const agua = (d, c, o = {}) => {
+    if (o.f === 's') return `<path d="${d}" fill="${c}" filter="url(#§s)"${o.o != null ? ` opacity="${o.o}"` : ''}${at(o)}/>`;
+    const fino = o.f === 'l';
+    return `<g${at(o)}><path d="${d}" fill="${PAPEL}"/><path d="${d}" fill="${c}" filter="url(#§${fino ? 'w3' : 'w' + (turno++ % 3)})" opacity="${o.o != null ? o.o : .92}"/>${plumilla(d, fino)}</g>`;
+  };
   const vel = (d, c, o = {}) => `<path d="${d}" fill="${c}" filter="url(#§s)" opacity="${o.o != null ? o.o : .45}" style="mix-blend-mode:multiply"${at(o)}/>`;
   const trazo = (d, w = 2.4, c = LINEA, o = {}) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§l)" opacity="${o.o != null ? o.o : .8}"${at(o)}/>`;
   // Una pincelada gruesa de color (brazos, tallos, arcos)
-  const pincel = (d, w, c, o = {}) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§${o.f || 'w' + (turno++ % 3)})"${o.o != null ? ` opacity="${o.o}"` : ''}${at(o)}/>`;
+  const pincel = (d, w, c, o = {}) => `<g${at(o)}><path d="${d}" fill="none" stroke="${LINEA}" stroke-width="${w + 2.6}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§k1)" opacity=".85"/>`
+    + `<path d="${d}" fill="none" stroke="${PAPEL}" stroke-width="${Math.max(.5, w - .6)}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§k1)"/>`
+    + `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#§${o.f === 'l' ? 'w3' : 'w' + (turno++ % 3)})" opacity="${o.o != null ? o.o : .92}"/></g>`;
   const punto = (x, y, r, c = LINEA, o = .85) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" fill="${c}" filter="url(#§l)" opacity="${o}"/>`;
   const gotas = (cx, cy, radio, n, c, semilla = 3, tam = 2.2) => { const r = azar(semilla); let s = ''; for (let i = 0; i < n; i++) { const a = r() * 6.283, q = radio * (.4 + r() * .6); s += `<circle cx="${f1(cx + Math.cos(a) * q)}" cy="${f1(cy + Math.sin(a) * q)}" r="${f1(tam * (.4 + r()))}" fill="${c}" opacity="${f1(.35 + r() * .4)}"/>`; } return s; };
   const filtros = (u, e) => {
     const n = v => +(v * e).toFixed(2), fr = v => (v / e).toFixed(4);
-    const mojada = (id, semilla, temblor) => `<filter id="${u}${id}" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">`
+    const mojada = (id, semilla, temblor, dx = 0, dy = 0) => `<filter id="${u}${id}" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">`
       + `<feTurbulence type="fractalNoise" baseFrequency="${fr(.021)}" numOctaves="2" seed="${semilla}" result="n"/>`
-      + `<feDisplacementMap in="SourceGraphic" in2="n" scale="${n(temblor)}" xChannelSelector="R" yChannelSelector="G" result="d"/>`
+      + `<feDisplacementMap in="SourceGraphic" in2="n" scale="${n(temblor)}" xChannelSelector="R" yChannelSelector="G" result="d0"/>`
+      + `<feOffset in="d0" dx="${(dx * Math.sqrt(e)).toFixed(2)}" dy="${(dy * Math.sqrt(e)).toFixed(2)}" result="d"/>`
       // borde mojado: el pigmento se acumula donde se secó el agua
       + `<feGaussianBlur in="d" stdDeviation="${n(2.6)}" result="b"/>`
       + `<feComposite in="d" in2="b" operator="arithmetic" k1="0" k2="1" k3="-1" k4="0" result="r0"/>`
@@ -5479,7 +5490,8 @@ const AQ = (() => {
       + `<feTurbulence type="fractalNoise" baseFrequency="${fr(.32)}" numOctaves="2" seed="${semilla + 5}" result="g"/>`
       + `<feColorMatrix in="g" type="matrix" values="0 0 0 0 1  0 0 0 0 .99  0 0 0 0 .95  0 0 0 1.1 -.7" result="g1"/><feComposite in="g1" in2="d" operator="in" result="grano"/>`
       + `<feMerge><feMergeNode in="d"/><feMergeNode in="aguas"/><feMergeNode in="grano"/><feMergeNode in="borde"/></feMerge></filter>`;
-    return `<defs>${mojada('w0', 3, 7)}${mojada('w1', 11, 8)}${mojada('w2', 23, 6.5)}`
+    const pluma = (id, semilla, t) => `<filter id="${u}${id}" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="${fr(.045)}" numOctaves="2" seed="${semilla}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${n(t)}" xChannelSelector="R" yChannelSelector="G"/></filter>`;
+    return `<defs>${mojada('w0', 3, 11, 3, 2)}${mojada('w1', 11, 12, -2.6, 2.4)}${mojada('w2', 23, 10, 2, -2.4)}${mojada('w3', 31, 5, 1.2, .9)}${pluma('k1', 14, 3.4)}${pluma('k2', 37, 6)}`
       // veladura: húmedo sobre húmedo, sin borde
       + `<filter id="${u}s" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="${n(2.2)}" result="b"/><feTurbulence type="fractalNoise" baseFrequency="${fr(.03)}" numOctaves="2" seed="8" result="n"/><feDisplacementMap in="b" in2="n" scale="${n(9)}" xChannelSelector="G" yChannelSelector="R"/></filter>`
       // línea de pincel fino
