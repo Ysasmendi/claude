@@ -21,6 +21,8 @@
     + agua(liso([[x - 20 * k, y - 18 * k], [x - 13 * k, y - 34 * k], [x, y - 40 * k], [x + 14 * k, y - 34 * k], [x + 21 * k, y - 18 * k], [x, y - 14 * k]]), c, { f: 'l' })
     + punto(x - 7 * k, y - 28 * k, 2.6 * k, PAPEL, .95) + punto(x + 8 * k, y - 25 * k, 2.2 * k, PAPEL, .95) + punto(x, y - 35 * k, 2 * k, PAPEL, .95);
   const brillo = (x, y, r, c) => vel(mancha(x, y, r, r, x + y, .1), c, { o: .38 });
+  // rectángulo de agua con lados que bailan un poco
+  const rectO = (x, y, w, h, sd = 1, j = 2) => { const q = azar(sd * 7 + 3), t = () => (q() - .5) * 2 * j, k = Math.min(w, h) * .14; return liso([[x + k, y + t()], [x + w - k, y + t()], [x + w + t(), y + k], [x + w + t(), y + h - k], [x + w - k, y + h + t()], [x + k, y + h + t()], [x + t(), y + h - k], [x + t(), y + k]]); };
   const hierbas = (xs, y, h, c, s0 = 1) => xs.map((x, i) => hierba(x, y + (i % 3) * 4, h * (.8 + (i % 4) * .15), c, i % 2 ? 1 : -1)).join('');
 
   Object.assign(ILUS, {
@@ -79,27 +81,45 @@
       for (let i = 0; i < 9; i++) { const x = 40 + i * 118 + r() * 40, y = 500 + r() * 80; s += punto(x, y, 3.2, '#F6E28A', .95) + brillo(x, y, 13, '#F6E28A'); }
       return S(s); },
 
-    // ============================== DULCE ==============================
-    escena_dulce: () => { const rs = ['#E98E86', '#F2D06B', '#8FB4E8', '#F2B3C4'];
+    // Reino de caramelo: casita de jengibre grande con adornos, piruletas y algodones de azúcar, camino de confites
+    escena_dulce: () => { const r = azar(31), rs = ['#E98E86', '#F2D06B', '#8FB4E8', '#B9A2DE', '#A7CF8E'], PAN = pig('#B5733A'), PANO = carga(PAN, .8), GLAS = '#FBE9F1';
+      const baston = (x, y1, y2, w = 9) => pincel(`M${x},${y2} V${y1 + 12} Q${x},${y1} ${x + 12},${y1}`, w, PAPEL) + trazo(`M${x - w * .6},${y2 - 10} l${w * 1.2},-8 M${x - w * .6},${y2 - 50} l${w * 1.2},-8 M${x - w * .6},${y2 - 90} l${w * 1.2},-8`, w * .55, C.rojo, { o: .9 });
+      const gominola = (x, y, k, c, i) => agua(`M${x - 14 * k},${y} Q${x - 14 * k},${y - 24 * k} ${x},${y - 24 * k} Q${x + 14 * k},${y - 24 * k} ${x + 14 * k},${y}Z`, c, { f: 'l' }) + punto(x - 4 * k, y - 15 * k, 2.2 * k, PAPEL, .85);
+      const piruleta = (x, y, k, c, c2, i) => pincel(`M${x},${y + 150 * k} V${y}`, 11 * k, PAPEL) + trazo(`M${x - 6 * k},${y + 140 * k} l${12 * k},-14 M${x - 6 * k},${y + 100 * k} l${12 * k},-14 M${x - 6 * k},${y + 60 * k} l${12 * k},-14`, 5 * k, C.rojo, { o: .85 })
+        + agua(mancha(x, y - 10 * k, 52 * k, 52 * k, 31 + i, .05), c) + pincel(`M${x},${y - 10 * k} q${12 * k},-14 ${22 * k},0 q${-4 * k},${28 * k} ${-32 * k},${22 * k} q${-34 * k},${-8 * k} ${-20 * k},${-44 * k} q${20 * k},${-34 * k} ${56 * k},${-14 * k}`, 7 * k, c2) + brillo(x - 16 * k, y - 28 * k, 8 * k, PAPEL);
+      const algodon = (x, y, k, c, i) => pincel(`M${x},${y + 130 * k} Q${x + 6 * k},${y + 60 * k} ${x},${y}`, 12 * k, PAPEL) + trazo(`M${x - 6 * k},${y + 118 * k} l${12 * k},-14 M${x - 6 * k},${y + 80 * k} l${12 * k},-14 M${x - 6 * k},${y + 42 * k} l${12 * k},-14`, 4.5 * k, c, { o: .9 })
+        + agua(mancha(x - 34 * k, y - 8 * k, 40 * k, 34 * k, 11 + i, .12), c) + agua(mancha(x + 34 * k, y - 4 * k, 42 * k, 36 * k, 12 + i, .12), lava(c, .15)) + agua(mancha(x, y - 36 * k, 46 * k, 40 * k, 13 + i, .12), c) + gotas(x, y - 20 * k, 44 * k, 8, PAPEL, 3 + i, 2.6 * k);
       let s = cielo('#EBDDF2', 470) + vel('M-20,-20 H1020 V220 Q500,290 -20,220Z', '#F4C8DC', { o: .5 }) + vel(mancha(250, 280, 280, 60, 3, .2), C.violeta, { o: .3 })
-        + agua(mancha(780, 70, 54, 52, 2, .05), '#F8E3A3', { f: 's' }) + nubeD(230, 100, 1.3, 2).replace(new RegExp(PAPEL, 'g'), '#FBE9F1') + nubeD(620, 50, 1.1, 4).replace(new RegExp(PAPEL, 'g'), '#FBE9F1') + nubeD(920, 190, .9, 6).replace(new RegExp(PAPEL, 'g'), '#FBE9F1')
+        + agua(mancha(850, 80, 54, 52, 2, .05), '#F8E3A3', { f: 's' }) + [[230, 100, 1.3, 2], [600, 56, 1.1, 4], [900, 190, .9, 6]].map(([x, y, k, q]) => nubeD(x, y, k, q).replace(new RegExp(PAPEL, 'g'), GLAS)).join('')
         + agua('M-20,400 Q200,340 420,380 Q640,420 860,350 Q950,330 1020,350 L1020,620 L-20,620Z', '#D6C6EC', { o: .9 })
-        + suelo(440, '#BFE3D2') + suelo(486, '#F6D3E2', .8);
-      // piruletas y algodones de azúcar lejos
-      [[360, 390, 0.7], [540, 380, .8], [620, 420, .6]].forEach(([x, y, k], i) => { s += trazo(`M${x},${y} V${y + 60 * k}`, 3, '#EAD2DC', { o: .9 }) + agua(mancha(x, y - 8, 22 * k * 1.4, 22 * k * 1.4, i + 3, .08), ['#F2B3C4', '#BFE3D2', '#B9A2DE'][i]); });
-      // caramelo grande rosa (algodón)
-      s += pincel('M770,470 Q776,380 770,330', 16, '#F6F0F0') + trazo('M764,460 l12,-20 M764,420 l12,-20 M764,380 l12,-20', 5, C.rojo, { o: .8 })
-        + agua(mancha(770, 290, 64, 54, 11, .1), '#F4BCD0') + agua(mancha(730, 316, 36, 30, 12, .1), '#F4BCD0') + agua(mancha(812, 312, 38, 30, 13, .1), '#F8CCDB') + vel(mancha(790, 320, 40, 26, 14, .2), '#DE8AA5', { o: .35 });
-      // casita de jengibre
-      s += agua('M158,470 Q160,430 164,400 Q220,388 276,396 Q282,430 284,470Z', '#D9B48C') + vel('M158,440 L284,436 L284,470 L158,470Z', '#B58A66', { o: .3 })
-        + agua('M120,410 Q190,330 214,300 Q250,340 312,404 Q290,408 270,398 Q214,360 160,398 Q140,410 120,410Z', '#B58A66') + agua('M126,404 Q190,336 214,310 Q248,346 304,398 Q270,392 214,350 Q170,392 126,404Z', PAPEL, { o: .95 })
-        + agua('M190,470 L190,430 Q206,414 222,430 L222,470Z', '#F2B3C4') + agua(mancha(172, 420, 11, 12, 6, .1), PAPEL) + agua(mancha(262, 420, 11, 12, 7, .1), PAPEL)
-        + agua(mancha(214, 342, 12, 12, 5, .1), '#E98E86') + trazo('M206,342 h16 M214,334 v16', 2, PAPEL);
-      // piruletas con espirales
-      [[70, 440, 1, '#9FD6D6'], [930, 450, 1.1, '#9FD6D6']].forEach(([x, y, k, c], i) => { s += pincel(`M${x},${y + 90} V${y}`, 12 * k, '#FBF1F5') + agua(mancha(x, y - 24, 46 * k, 46 * k, 31 + i, .06), c) + pincel(`M${x},${y - 24} q10,-12 18,0 q-4,22 -26,18 q-26,-8 -12,-34 q22,-22 44,0`, 6, PAPEL, { o: .9 }); });
-      s += [[330, 484], [440, 504], [700, 498]].map(([x, y], i) => agua(`M${x - 18},${y} Q${x - 18},${y - 28} ${x},${y - 28} Q${x + 18},${y - 28} ${x + 18},${y}Z`, rs[i % 4], { f: 'l' })).join('');
+        + suelo(440, '#BFE3D2') + suelo(490, '#F6D3E2', .8);
+      // piruletas y algodones lejanos
+      s += piruleta(620, 330, .42, '#9FD6D6', '#FBF1F5', 5) + piruleta(700, 350, .36, C.rosa, '#FBF1F5', 6) + algodon(110, 280, .55, '#F2B3C4', 2) + algodon(960, 300, .5, '#BFE3D2', 4);
+      // la casita de jengibre
+      const X = 440;
+      s += vel(mancha(X, 476, 200, 12, 4, .1), C.grisO, { o: .3 })
+        + agua(`M${X - 150},476 L${X - 146},316 H${X + 146} L${X + 150},476Z`, PAN) + vel(`M${X + 40},316 H${X + 146} L${X + 150},476 H${X + 40}Z`, PANO, { o: .35 })
+        + agua(`M${X - 146},316 L${X},176 L${X + 146},316Z`, PAN) + agua(mancha(X, 262, 26, 26, 3, .05), PAPEL) + pincel(`M${X},262 q8,-9 15,0 q-3,18 -20,14 q-22,-6 -14,-30 q14,-22 38,-8`, 5, C.rojo)
+        + agua(`M${X - 200},322 L${X},114 L${X + 200},322 L${X + 168},334 L${X},176 L${X - 168},334Z`, PANO) + vel(`M${X},114 L${X + 200},322 L${X + 168},334 L${X},176Z`, C.troncoO, { o: .35 })
+        // glaseado que gotea del tejado
+        + agua(`M${X - 214},326 L${X},102 L${X + 214},326 L${X + 196},344 q-10,-4 -16,12 q-10,-16 -22,-6 q-6,-12 -18,-2 L${X},170 L${X - 158},346 q-10,-14 -20,0 q-10,-12 -18,6 q-8,-14 -22,-4Z`, PAPEL, { o: .95 })
+        + [[-150, 286], [-100, 242], [-50, 190], [-10, 144], [50, 164], [100, 214], [150, 270]].map(([dx, dy], i) => gominola(X + dx, dy + 10, 1, rs[i % 5], i)).join('')
+        // chimenea de galleta con humo
+        + agua(`M${X + 80},210 L${X + 80},150 H${X + 124} V250Z`, PANO) + agua(`M${X + 72},150 H${X + 132} V166 H${X + 72}Z`, PAPEL, { f: 'l' }) + trazo(`M${X + 100},138 q-14,-20 2,-38 q14,-18 -2,-38`, 4, C.grisO, { o: .4 })
+        // ventanas de azúcar, puerta rosa con pomo y bastones de caramelo en las esquinas
+        + [-92, 92].map((dx, i) => agua(rectO(X + dx - 32, 350, 64, 64, i + 3), C.cielo) + trazo(`M${X + dx},350 V414 M${X + dx - 32},382 H${X + dx + 32}`, 3.4, PAPEL, { o: .95 }) + trazo(rectO(X + dx - 32, 350, 64, 64, i + 3), 5, PAPEL, { o: .9 })).join('')
+        + agua(`M${X - 34},476 V398 Q${X},352 ${X + 34},398 V476Z`, '#F2B3C4') + vel(`M${X + 4},366 Q${X + 34},398 ${X + 34},398 V476 H${X + 4}Z`, C.rosaO, { o: .4 }) + agua(mancha(X + 20, 438, 6, 6, 8, .1), C.sol, { f: 'l' }) + trazo(`M${X - 28},396 Q${X},360 ${X + 28},396`, 4, PAPEL, { o: .95 })
+        + baston(X - 150, 330, 476, 9) + baston(X + 150, 330, 476, 9)
+        + [[-120, 330], [-64, 316], [-36, 460], [64, 460], [120, 322], [136, 456], [-136, 456]].map(([dx, y], i) => punto(X + dx, y, 5, rs[(i + 2) % 5], .95)).join('')
+        + trazo(`M${X - 148},322 q18,12 36,0 q18,12 36,0 q18,12 36,0 q18,12 36,0 q18,12 36,0 q18,12 36,0 q18,12 36,0 q18,12 36,0`, 3.4, PAPEL, { o: .95 });
+      // camino de confites que serpentea hasta el primer plano
+      s += agua(`M${X - 40},476 Q${X - 20},520 ${X + 80},540 Q${X + 220},560 ${X + 280},620 L${X + 470},620 Q${X + 380},520 ${X + 160},496 Q${X + 60},486 ${X + 44},476Z`, '#FBE4EC') + vel(`M${X + 60},500 Q${X + 220},520 ${X + 300},620 L${X + 470},620 Q${X + 380},520 ${X + 160},496Z`, '#E7A8C0', { o: .3 })
+        + [[X, 496, 0], [X + 40, 516, 1], [X + 100, 530, 2], [X + 170, 546, 3], [X + 250, 580, 4], [X + 330, 560, 1], [X + 410, 596, 2], [X + 220, 520, 3], [X + 300, 604, 0]].map(([x, y, i]) => agua(mancha(x, y, 9, 7, i + x, .15), rs[i % 5], { f: 'l' })).join('');
+      // piruletas gigantes, algodones y gominolas en primer término
+      s += piruleta(800, 150, 1.25, '#F4A6B8', '#FBF1F5', 1) + piruleta(90, 190, 1, '#9FD6D6', '#FBF1F5', 2) + algodon(920, 330, .8, '#F4BCD0', 6) + algodon(240, 350, .5, '#BFE3D2', 8);
+      s += [[640, 492, 1], [720, 520, 1.2], [80, 520, 1.1], [190, 500, .9], [780, 560, 1], [960, 500, .9]].map(([x, y, k], i) => gominola(x, y, k, rs[i % 5], i)).join('')
+        + gotas(500, 540, 460, 40, '#E98E86', 7, 2.4) + gotas(500, 540, 460, 30, '#8FB4E8', 8, 2.4) + gotas(500, 540, 460, 30, '#F2D06B', 9, 2.4);
       return S(s); },
-
     escena_dulce_frente: () => { const r = azar(31), col = ['#E98E86', '#8FB4E8', '#F2D06B', '#B9A2DE', '#A7CF8E'];
       // base rosa y crema blanca que gotea
       let s = agua('M-20,540 Q300,526 600,538 Q820,546 1020,530 L1020,620 L-20,620Z', '#F2B3C4') + vel('M-20,590 L1020,584 L1020,620 L-20,620Z', '#DE8AA5', { o: .4 });
@@ -114,30 +134,42 @@
       s += pincel('M240,560 V500 Q240,470 266,478', 12, PAPEL) + trazo('M236,550 l10,-14 M238,520 l10,-14', 4, C.rojo, { o: .85 }) + pincel('M660,566 V506 Q660,478 686,486', 12, PAPEL) + trazo('M656,556 l10,-14 M658,526 l10,-14', 4, C.rojo, { o: .85 });
       return S(s); },
 
-    // ============================== OSOS ==============================
-    escena_osos: () => {
-      let s = agua('M-20,-20 H1020 V500 H-20Z', '#F6E1B0', { f: 's', o: 1 }) + vel('M-20,-20 H1020 V120 Q500,170 -20,120Z', C.paja, { o: .5 });
-      // papel pintado: florecitas sueltas
-      const r = azar(3); for (let i = 0; i < 34; i++) { const x = 20 + (i % 9) * 120 + (Math.floor(i / 9) % 2) * 60 + r() * 12, y = 40 + Math.floor(i / 9) * 76; if (y < 330) s += vel(mancha(x, y, 9, 9, i + 2, .2), C.naranja, { o: .55 }) + punto(x, y, 2, C.rojoO, .5); }
-      // friso de madera y suelo
-      s += agua('M-20,330 Q300,318 560,328 Q820,338 1020,322 L1020,500 L-20,500Z', C.tierra) + vel('M-20,330 Q500,324 1020,322 L1020,346 Q500,350 -20,348Z', C.troncoO, { o: .35 })
-        + [[60, 130], [260, 130], [460, 130], [660, 130], [860, 130]].map(([x], i) => trazo(`M${x},362 Q${x + 60},356 ${x + 120},362 V470 Q${x + 60},474 ${x},470Z`, 2.4, C.troncoO, { o: .5 })).join('')
-        + agua('M-20,486 Q300,470 560,482 Q820,494 1020,476 L1020,620 L-20,620Z', C.tronco, { o: .9 });
-      // ventana redonda con cortinas
-      s += agua('M150,70 Q146,200 156,330 L210,326 Q198,190 206,70Z', C.rojo, { o: .85 }) + agua('M370,70 Q374,200 364,330 L316,326 Q330,190 322,70Z', C.rojo, { o: .85 })
-        + agua(mancha(260, 200, 106, 106, 6, .04), C.troncoO) + agua(mancha(260, 200, 90, 90, 7, .04), C.cielo) + agua('M200,270 Q214,206 236,170 Q260,240 300,270 Q270,290 230,284Z', C.hoja, { f: 'l' }) + agua('M276,260 Q290,214 304,196 Q324,232 330,260Z', C.hojaO, { f: 'l' })
-        + trazo('M170,200 H350 M260,110 V290', 4, C.troncoO, { o: .75 });
-      // estante con tarros y reloj de cuco
-      s += agua('M410,260 L520,258 L522,270 L412,272Z', C.tronco) + agua(mancha(440, 240, 14, 16, 8, .1), C.naranja, { f: 'l' }) + agua(mancha(472, 244, 11, 13, 9, .1), C.naranja, { f: 'l' }) + agua('M434,224 h12 v5 h-12Z', C.rojo, { f: 'l' })
-        + agua('M570,66 Q620,24 664,66 L670,100 L566,100Z', C.tronco) + agua(mancha(618, 160, 50, 58, 10, .06), C.tierra) + agua(mancha(618, 160, 38, 42, 11, .05), PAPEL) + trazo('M618,160 V140 M618,160 L634,168', 2.6) + vel(mancha(626, 180, 34, 30, 12, .2), C.pajaO, { o: .4 })
-        + trazo('M606,214 V250 M630,214 V256', 2, C.troncoO) + agua(mancha(606, 258, 7, 10, 13, .1), C.sol, { f: 'l' }) + agua(mancha(630, 264, 7, 10, 14, .1), C.sol, { f: 'l' });
-      // chimenea con fuego
-      s += agua('M796,350 Q800,300 800,262 L970,262 Q972,300 976,350Z', C.gris) + [[820, 296], [880, 292], [930, 300], [846, 330], [912, 332]].map(([x, y], i) => vel(mancha(x, y, 20, 12, 20 + i, .2), C.grisO, { o: .4 })).join('')
-        + agua('M780,262 L990,262 L992,282 L778,282Z', C.tronco) + agua('M826,500 L826,372 Q886,330 944,372 L944,500Z', C.troncoO)
-        + agua('M846,500 Q842,450 868,420 Q870,452 884,440 Q890,410 902,396 Q930,440 920,500Z', C.naranja) + agua('M866,500 Q864,466 886,448 Q900,470 906,500Z', C.sol)
-        + agua(mancha(840, 244, 14, 16, 15, .1), C.naranja, { f: 'l' }) + agua(mancha(872, 248, 12, 14, 16, .1), C.naranja, { f: 'l' }) + agua('M928,230 q4,-12 8,0 v24 h-8z', PAPEL, { f: 'l' }) + punto(932, 224, 3, C.sol, .95);
+    // Casita de los tres osos por dentro: chimenea con fuego vivo en el centro, mesa con tres cuencos y tres sillas
+    escena_osos: () => { const r = azar(3), MAD = C.tronco, MADO = C.troncoO, PIE = '#B9AFC4';
+      let s = cielo('#F6E1B0', 470) + vel('M-20,-20 H1020 V130 Q500,180 -20,130Z', C.paja, { o: .5 });
+      for (let j = 0; j < 4; j++) for (let i = 0; i < 9; i++) { const x = 20 + i * 120 + (j % 2) * 60 + r() * 10, y = 40 + j * 66; s += vel(mancha(x, y, 9, 9, i + j * 9, .2), C.naranja, { o: .35 }); }
+      // friso de madera, suelo de tablas y alfombra
+      s += agua('M-20,318 Q300,306 560,316 Q820,326 1020,310 L1020,470 L-20,470Z', C.tierra) + vel('M-20,318 Q500,312 1020,310 L1020,334 Q500,338 -20,336Z', MADO, { o: .35 })
+        + [60, 260, 460, 660, 860].map(x => trazo(`M${x},352 Q${x + 60},346 ${x + 120},352 V450 Q${x + 60},455 ${x},450Z`, 2.4, MADO, { o: .45 })).join('')
+        + agua('M-20,466 Q300,452 560,464 Q820,476 1020,458 L1020,620 L-20,620Z', pig('#C98A4B'), { o: .95 }) + [500, 540, 580].map((y, i) => trazo(`M-10,${y} Q500,${y + (i - 1) * 6} 1010,${y}`, 2, MADO, { o: .35 })).join('')
+        + agua(mancha(500, 546, 250, 52, 5, .05), C.rojo) + trazo(mancha(500, 546, 206, 38, 6, .05), 3.4, C.paja, { o: .9, x: ' stroke-dasharray="14 9"' });
+      // ventana redonda con cortinas y estante con tarros (a la derecha, encima de la mesa)
+      s += agua('M690,70 Q686,160 694,250 L738,248 Q728,150 734,70Z', C.rojo, { o: .85 }) + agua('M906,70 Q910,160 902,250 L858,248 Q870,150 864,70Z', C.rojo, { o: .85 })
+        + agua(mancha(798, 150, 80, 80, 6, .04), MADO) + agua(mancha(798, 150, 66, 66, 7, .04), C.cielo) + agua('M742,200 Q756,150 776,120 Q800,180 840,200 Q810,214 770,212Z', C.hoja, { f: 'l' }) + trazo('M740,150 H858 M798,86 V214', 4, MADO, { o: .8 })
+        + agua('M120,214 L270,212 L272,226 L122,228Z', MAD) + [[150, 196, 14], [190, 198, 12], [232, 200, 11]].map(([x, y, k], i) => agua(`M${x - k},${y + 14} v-${k + 8} Q${x},${y - k - 14} ${x + k},${y - k - 6} v${k + 20}Z`, C.naranja, { f: 'l' }) + agua(`M${x - k},${y - k - 4} h${2 * k} v6 h-${2 * k}Z`, C.rojo, { f: 'l' })).join('');
+      // chimenea de piedra en el centro, con repisa y fuego vivo
+      s += vel(mancha(500, 380, 220, 150, 9, .1), C.naranja, { o: .28 })
+        + agua('M372,470 Q368,300 376,250 L624,250 Q632,300 628,470Z', PIE) + vel('M560,250 L624,250 Q632,300 628,470 H560Z', C.grisO, { o: .35 })
+        + [[396, 290], [460, 282], [536, 286], [600, 290], [412, 330], [490, 322], [572, 328], [398, 372], [470, 366], [556, 370], [606, 364], [404, 420], [610, 418]].map(([x, y], i) => trazo(`M${x - 24},${y} q24,-8 48,0 v22 q-24,6 -48,0Z`, 2, C.grisO, { o: .5 })).join('')
+        + agua('M340,226 H660 V256 H340Z', MAD) + vel('M340,246 H660 V256 H340Z', MADO, { o: .4 })
+        + [[392, 214, 14], [430, 218, 11], [570, 218, 12]].map(([x, y, k], i) => agua(`M${x - k},${y + 8} v-${k} Q${x},${y - k - 10} ${x + k},${y - k + 2} v${k + 6}Z`, [C.naranja, C.sol, C.azul][i], { f: 'l' })).join('') + agua('M512,226 V190 H526 V226Z', PAPEL, { f: 'l' }) + agua('M514,190 Q519,172 524,190Z', C.naranja, { f: 'l' })
+        + agua('M420,470 V330 Q420,292 500,288 Q580,292 580,330 V470Z', '#5B3E30')
+        + vel(mancha(500, 430, 80, 60, 4, .2), C.naranja, { o: .7 })
+        + pincel('M436,466 L548,444', 12, MADO) + pincel('M456,444 L564,468', 11, MAD)
+        + agua('M446,448 Q430,404 462,364 Q468,402 486,392 Q484,350 508,314 Q540,372 536,410 Q556,392 550,372 Q580,404 556,448Z', carga(C.rojo, .85))
+        + agua('M464,448 Q454,414 480,384 Q486,414 500,404 Q504,376 520,356 Q544,400 540,448Z', C.naranja)
+        + agua('M486,448 Q480,424 498,404 Q508,424 516,418 Q526,432 518,448Z', C.sol)
+        + trazo('M448,360 q-6,-16 4,-28 M560,350 q10,-12 4,-30 M508,300 q-4,-16 4,-26', 2.4, C.naranja, { o: .85 }) + punto(452, 330, 2.6, C.sol, .95) + punto(566, 318, 2.4, C.sol, .95) + punto(480, 290, 2.2, C.naranja, .95) + punto(534, 284, 2, C.sol, .95)
+        + agua('M372,470 H628 V484 H372Z', PIE, { f: 'l' });
+      // mesa con tres cuencos de gachas (grande, mediano y pequeño)
+      s += agua('M672,396 Q800,384 940,396 L942,414 Q800,424 670,414Z', MAD) + pincel('M690,414 V500 M920,414 V500', 11, MAD) + trazo('M700,420 L910,420', 2, MADO, { o: .5 });
+      [[730, 30, 22, C.azul], [810, 24, 18, C.hoja], [880, 18, 14, C.rojo]].forEach(([x, rx, h, c], i) => { s += agua(`M${x - rx},${392 - h * .5} Q${x - rx + 4},${392 + 8} ${x},${392 + 10} Q${x + rx - 4},${392 + 8} ${x + rx},${392 - h * .5}Z`, c) + agua(mancha(x, 392 - h * .5, rx, 6, i + 4, .08), PAPEL) + vel(mancha(x, 392 - h * .5, rx - 6, 4, i + 8, .1), C.paja, { o: .7 }) + trazo(`M${x - 6},${392 - h - 4} q-6,-12 0,-22 M${x + 6},${392 - h - 4} q6,-12 0,-22`, 2, C.grisO, { o: .5 }); });
+      // tres sillas de madera: grande, mediana y pequeña
+      [[130, 1, C.rojo], [236, .78, C.azul], [316, .58, C.hoja]].forEach(([x, k, c], i) => { const y = 468, sy = y - 78 * k, w = 46 * k;
+        s += pincel(`M${x - w + 4},${sy} V${y} M${x + w - 4},${sy} V${y}`, 9 * k, MAD) + pincel(`M${x - w + 4},${sy} V${sy - 120 * k} M${x + w - 4},${sy} V${sy - 120 * k}`, 9 * k, MAD)
+          + agua(`M${x - w},${sy - 118 * k} Q${x},${sy - 134 * k} ${x + w},${sy - 118 * k} V${sy - 62 * k} Q${x},${sy - 72 * k} ${x - w},${sy - 62 * k}Z`, MAD) + agua(mancha(x, sy - 94 * k, 12 * k, 12 * k, i + 3, .15), c, { f: 'l' }) + trazo(`M${x - w * .6},${sy - 70 * k} V${sy - 10 * k} M${x + w * .6},${sy - 70 * k} V${sy - 10 * k}`, 3 * k, MADO, { o: .5 })
+          + agua(`M${x - w - 8 * k},${sy - 6 * k} Q${x},${sy - 16 * k} ${x + w + 8 * k},${sy - 6 * k} V${sy + 14 * k} Q${x},${sy + 6 * k} ${x - w - 8 * k},${sy + 14 * k}Z`, c); });
       return S(s); },
-
     escena_osos_frente: () => { const r = azar(41);
       let s = agua('M-20,486 Q250,470 500,482 Q760,494 1020,474 L1020,620 L-20,620Z', '#F4E8EA') + vel('M-20,486 Q250,470 500,482 Q760,494 1020,474 L1020,500 Q760,520 500,508 Q250,498 -20,512Z', C.rosa, { o: .35 });
       for (let j = 0; j < 4; j++) for (let i = 0; i < 18; i++) if ((i + j) % 2 === 0) s += vel(mancha(30 + i * 58 + j * 8, 512 + j * 34, 26, 15, i + j * 20 + 1, .2, 4, .78), C.rojoO, { o: .42 });
@@ -182,35 +214,42 @@
         + agua('M730,584 q10,14 24,0 M880,586 q12,16 26,0', C.naranja, { o: 0 }) + agua('M740,592 Q770,570 790,596 Z M860,596 Q890,572 920,592 Z', C.naranja, { f: 'l' });
       return S(s); },
 
-    // ============================== ABUELA ==============================
-    escena_abuela: () => { const r = azar(8);
-      let s = agua('M-20,-20 H1020 V470 H-20Z', '#F8E5EA', { f: 's', o: 1 });
-      for (let i = 0; i < 40; i++) { const x = 30 + (i % 10) * 100 + Math.floor(i / 10) % 2 * 50 + r() * 14, y = 40 + Math.floor(i / 10) * 70; s += agua(mancha(x, y, 8, 8, i + 3, .2), C.rosa, { f: 'l', o: .85 }) + trazo(`M${x},${y + 8} v12`, 2, C.hojaO, { o: .6 }); }
-      // friso verde
-      s += agua('M-20,300 Q300,290 560,298 Q820,306 1020,292 L1020,470 L-20,470Z', '#CDE6C6') + vel('M-20,300 Q500,294 1020,292 L1020,316 Q500,320 -20,318Z', C.hojaO, { o: .4 })
-        + [[40], [300], [560], [800]].map(([x]) => trazo(`M${x},330 Q${x + 80},324 ${x + 160},330 V430 Q${x + 80},436 ${x},430Z`, 2, C.hojaO, { o: .45 })).join('');
-      // cuadro oval
-      s += agua(mancha(225, 90, 50, 60, 5, .05), C.paja) + agua(mancha(225, 90, 40, 50, 6, .05), PAPEL) + agua(mancha(225, 82, 14, 14, 7, .1), C.rosaO) + trazo('M225,98 V126', 2.4, C.hojaO) + agua('M205,128 h40 l-4,14 h-32Z', C.violeta, { f: 'l' });
-      // ventana con cortinas
-      s += agua('M470,70 L640,70 L644,250 L466,250Z', C.troncoO) + agua('M482,82 L630,82 L632,238 L480,238Z', C.cielo) + agua('M480,200 Q540,176 632,196 L632,238 L480,238Z', C.hoja, { f: 'l' }) + trazo('M556,82 V238 M480,160 H632', 3.4, PAPEL, { o: .95 })
-        + agua('M456,56 Q452,150 466,250 L520,240 Q500,150 508,60Z', '#FBF1F1') + agua('M654,56 Q660,150 646,250 L594,240 Q614,150 604,60Z', '#FBF1F1') + [[480, 110], [490, 170], [630, 120], [622, 180]].map(([x, y], i) => punto(x, y, 3, C.rosa, .8)).join('')
-        + trazo('M440,52 Q550,40 670,52', 5, C.tronco, { o: .85 }) + pincel('M510,160 Q530,168 552,160 M606,160 Q586,168 568,160', 5, C.rosa, { f: 'l' });
-      // cuadro cuadrado
-      s += agua('M744,50 L910,46 L914,150 L748,154Z', C.tronco) + agua('M756,62 L900,58 L902,142 L758,146Z', C.cielo) + agua('M756,112 Q820,90 902,112 L902,142 L758,146Z', C.prado, { f: 'l' }) + punto(790, 84, 8, C.sol, .95);
-      // cama a la derecha
-      s += agua('M840,150 Q850,100 900,102 Q960,100 1020,130 L1020,380 L840,380Z', C.tronco) + agua('M860,290 Q930,270 1020,284 L1020,380 L858,380Z', '#F1EEF4') + vel('M860,310 Q940,298 1020,312 L1020,380 L858,380Z', C.cieloO, { o: .3 })
-        + agua('M870,248 Q930,226 1010,240 L1010,284 Q930,274 870,290Z', '#FBF6F3') + trazo('M880,320 q40,-10 80,0 M880,346 q40,-10 80,0', 2.4, C.rosaO, { o: .6 });
-      // mesilla y lámpara
-      s += agua('M770,320 L840,320 L840,400 L770,400Z', C.tierra) + trazo('M780,350 h50', 2.4, C.troncoO, { o: .6 }) + agua('M790,260 L818,260 L824,296 L784,296Z', C.rosa) + trazo('M804,296 V320', 2.6, C.troncoO);
-      // mecedora a la izquierda
-      s += trazo('M70,130 V300', 8, C.tronco, { o: .9 }) + agua('M90,300 Q130,200 210,210 Q250,230 240,330 L108,334Z', C.rosa, { o: 0 }) + agua('M70,260 Q160,210 250,260 L240,318 Q160,282 90,320Z', '#E98E86') + trazo('M86,206 Q170,170 250,214 V310', 7, C.tronco, { o: .9 }) + trazo('M60,350 Q140,390 280,350', 7, C.tronco, { o: .9 })
-        + agua('M52,150 L94,150 L88,230 Q70,242 56,230Z', C.cielo) + trazo('M56,170 h36 M56,190 h34', 3, C.rosa, { o: .8 }) + pincel('M72,130 V150', 6, C.tronco);
-      // cesto de lana
-      s += agua('M330,340 Q330,300 380,300 Q430,300 430,340 L424,380 L338,380Z', C.paja) + agua(mancha(360, 292, 18, 18, 3, .1), C.rosa, { f: 'l' }) + agua(mancha(396, 288, 16, 16, 4, .1), C.azul, { f: 'l' }) + trazo('M338,320 h86 M342,350 h80', 2, C.pajaO, { o: .7 });
-      // suelo: alfombra rosa
-      s += agua('M-20,452 Q300,432 560,446 Q820,460 1020,438 L1020,620 L-20,620Z', '#E6B2C0') + vel('M-20,452 Q300,432 560,446 Q820,460 1020,438 L1020,474 Q500,486 -20,474Z', C.rosaO, { o: .3 });
+    // Dormitorio de la abuela: papel de flores, ventana con cortinas, mecedora, cama con colcha de retales y alfombra
+    escena_abuela: () => { const r = azar(8), MAD = C.tronco, MADO = C.troncoO;
+      let s = cielo('#F8E5EA', 470);
+      // papel pintado de flores y hojitas, en filas desencajadas
+      for (let j = 0; j < 4; j++) for (let i = 0; i < 9; i++) { const x = 40 + i * 118 + (j % 2) * 59 + r() * 12, y = 44 + j * 68 + r() * 8; s += flor(x, y, [C.rosa, C.rosaO, PAPEL, C.rosa][(i + j) % 4], 7) + trazo(`M${x + 12},${y + 10} q8,6 14,-2 M${x - 12},${y + 10} q-8,6 -14,-2`, 1.8, C.hojaO, { o: .6 }); }
+      // friso verde de madera
+      s += agua('M-20,306 Q300,296 560,304 Q820,312 1020,298 L1020,470 L-20,470Z', '#CDE6C6') + vel('M-20,306 Q500,300 1020,298 L1020,324 Q500,328 -20,326Z', C.hojaO, { o: .4 })
+        + [60, 300, 540, 780].map(x => trazo(`M${x},350 Q${x + 90},344 ${x + 180},350 V440 Q${x + 90},446 ${x},440Z`, 2.4, C.hojaO, { o: .45 })).join('');
+      // suelo de tablas y alfombra ovalada rosa
+      s += agua('M-20,466 Q300,452 560,464 Q820,476 1020,458 L1020,620 L-20,620Z', '#E6C79E') + [500, 540, 580].map((y, i) => trazo(`M-10,${y} Q500,${y + (i - 1) * 6} 1010,${y}`, 2, MADO, { o: .3 })).join('')
+        + agua(mancha(420, 548, 250, 54, 5, .05), C.rosa) + agua(mancha(420, 548, 196, 38, 6, .05), PAPEL, { o: .8 }) + trazo(mancha(420, 548, 150, 26, 7, .05), 4, C.rosaO, { o: .6 }) + agua(mancha(420, 548, 86, 15, 8, .06), C.rosaO, { o: .6 });
+      // ventana con cortinas de encaje atadas
+      s += agua(rectO(332, 70, 190, 220, 3, 3), MADO) + agua(rectO(344, 82, 166, 196, 4, 2), C.cielo) + vel('M344,82 H510 V150 Q430,170 344,150Z', PAPEL, { o: .5 })
+        + agua(mancha(470, 236, 34, 28, 3, .1), C.hoja, { f: 'l' }) + agua(mancha(380, 250, 40, 24, 5, .1), C.hojaO, { f: 'l' }) + agua(mancha(380, 124, 15, 15, 2, .05), C.sol, { f: 's' })
+        + pincel('M427,82 V278 M344,180 H510', 6, PAPEL) + agua(rectO(320, 280, 214, 18, 6, 2), MAD)
+        + pincel('M300,70 H554', 6, C.sol)
+        + agua('M310,70 Q360,76 352,160 Q346,230 326,300 L296,300 Q312,200 310,70Z', C.rosa) + agua('M544,70 Q494,76 502,160 Q508,230 528,300 L558,300 Q542,200 544,70Z', C.rosa)
+        + vel('M310,70 Q330,74 352,100 L326,300 L296,300Z', C.rosaO, { o: .3 }) + pincel('M310,168 Q330,176 352,166 M544,168 Q524,176 502,166', 6, PAPEL)
+        + trazo('M316,90 q4,60 -2,120 M338,90 q4,60 -2,120 M538,90 q-4,60 2,120 M516,90 q-4,60 2,120', 1.6, C.rosaO, { o: .5 });
+      // cuadros: un óvalo con flores y un paisaje
+      s += agua(mancha(210, 150, 46, 60, 3, .04), MAD) + agua(mancha(210, 150, 36, 50, 4, .04), '#FBEFD8') + flor(210, 138, C.rosaO, 9) + trazo('M210,150 V186 M192,172 q18,-8 36,0', 2.4, C.hojaO, { o: .9 }) + agua('M198,186 h24 v10 h-24Z', C.azul, { f: 'l' })
+        + agua(rectO(620, 92, 150, 100, 7, 2), MADO) + agua(rectO(630, 102, 130, 80, 8, 2), C.cielo) + agua('M630,160 Q680,128 760,152 V182 H630Z', C.prado) + agua(mancha(742, 124, 9, 9, 3, .1), C.sol, { f: 'l' }) + agua('M676,162 l12,-14 l12,14Z', C.rojo, { f: 'l' });
+      // mecedora con cojín, mantita y cesta de lana
+      s += pincel('M104,490 Q210,522 322,486', 9, MAD) + pincel('M150,416 L136,488 M296,412 L304,484', 8, MAD)
+        + pincel('M156,420 L126,238 M196,420 L172,236', 9, MAD) + pincel('M118,238 Q150,226 184,234', 8, MAD) + pincel('M142,286 H190 M148,330 H198 M152,372 H202', 5, MAD)
+        + agua('M138,410 Q220,396 306,408 L300,428 Q214,438 144,432Z', MAD) + agua('M150,398 Q222,384 296,398 L292,414 Q220,424 154,416Z', C.rojo) + punto(184, 404, 3.5, PAPEL, .9) + punto(226, 400, 3.5, PAPEL, .9) + punto(268, 402, 3.5, PAPEL, .9)
+        + pincel('M300,414 Q320,440 304,470', 7, MAD) + agua('M150,300 Q176,330 186,380 Q160,392 140,370Z', C.cielo, { o: .9 }) + trazo('M156,320 q14,10 22,40', 2, PAPEL, { o: .8 })
+        + agua('M356,470 Q344,438 368,432 H432 Q456,438 444,470Z', C.paja) + trazo('M360,448 H442 M362,460 H440', 2, C.pajaO, { o: .6 }) + agua(mancha(380, 430, 15, 14, 4, .1), C.rosaO, { f: 'l' }) + agua(mancha(416, 428, 14, 13, 5, .1), C.azul, { f: 'l' }) + trazo('M396,432 L420,388 M406,432 L440,392', 2.4, C.grisO, { o: .9 }) + trazo('M380,428 q10,-26 30,-26', 1.6, C.rosaO, { o: .7 });
+      // cama: cabecero, almohada, colcha de retales
+      s += pincel('M640,456 V396 M860,456 V396', 10, MAD) + agua('M852,470 V282 Q852,250 888,246 Q926,250 926,282 V470Z', MAD) + vel('M900,252 Q926,256 926,282 V470 H900Z', MADO, { o: .4 })
+        + agua('M620,404 H880 V456 H620Z', C.crema) + agua(mancha(842, 380, 54, 24, 3, .06), PAPEL) + vel(mancha(852, 388, 38, 12, 4, .1), C.cieloO, { o: .4 })
+        + agua('M616,390 Q740,372 864,390 L872,470 Q740,482 612,470Z', C.sol, { o: .9 });
+      const col = [C.rosa, C.cielo, C.sol, C.hoja, C.violeta, C.naranja]; for (let j = 0; j < 2; j++) for (let i = 0; i < 6; i++) s += agua(rectO(626 + i * 40, 396 + j * 36, 38, 34, i + j * 6 + 3, 1.6), col[(i + j * 2) % 6], { f: 'l', o: .95 });
+      s += trazo('M618,470 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0 q10,10 20,0', 2.6, C.rosaO, { o: .8 }) + pincel('M622,470 V500 M850,470 V500', 8, MAD)
+        + agua(rectO(930, 410, 60, 60, 9, 2), MAD) + pincel('M940,470 V500 M980,470 V500', 6, MAD) + trazo('M936,436 h48', 2, MADO, { o: .6 }) + punto(960, 424, 3, C.sol, .95) + pincel('M962,410 V372', 5, C.rosaO) + agua('M934,372 Q962,330 990,372Z', C.rosa);
       return S(s); },
-
     escena_abuela_frente: () => { const r = azar(61);
       let s = agua('M-20,490 Q250,470 500,484 Q760,498 1020,474 L1020,620 L-20,620Z', '#F0C3CF') + vel('M-20,560 Q500,548 1020,556 L1020,620 L-20,620Z', C.rosaO, { o: .4 });
       for (let i = 0; i < 20; i++) { const x = 20 + i * 52 + (i % 2) * 14, y = 520 + (i % 3) * 30; s += flor(x, y, i % 2 ? C.rojo : PAPEL, 7); }
@@ -307,24 +346,38 @@
       s += [[300, 556], [560, 560], [740, 552]].map(([x, y], i) => trazo(`M${x},${y + 40} Q${x + 4},${y + 20} ${x},${y}`, 2.6, carga(C.hojaO, .7)) + flor(x, y, [PAPEL, C.rojo, C.violeta][i], 8)).join('');
       return S(s); },
 
-    // ============================== CASTILLO ==============================
-    escena_castillo: () => { const r = azar(33);
-      let s = agua('M-20,-20 H1020 V480 H-20Z', '#F2E6C9', { f: 's', o: 1 }) + vel('M-20,-20 H1020 V140 Q500,190 -20,140Z', C.paja, { o: .35 });
-      for (let j = 0; j < 7; j++) { const y = 40 + j * 66; s += trazo(`M-10,${y} Q250,${y - 6} 500,${y + 4} T1010,${y - 4}`, 2, C.pajaO, { o: .4 }); for (let i = 0; i < 8; i++) s += trazo(`M${f1(i * 130 + (j % 2) * 65 + r() * 20)},${y} v62`, 2, C.pajaO, { o: .35 }); }
-      // ventanas altas con arco
-      [[170], [830]].forEach(([x], i) => { s += agua(`M${x - 70},330 L${x - 70},130 Q${x - 66},40 ${x},30 Q${x + 66},40 ${x + 70},130 L${x + 70},330Z`, C.gris) + agua(`M${x - 54},320 L${x - 54},136 Q${x - 50},60 ${x},50 Q${x + 50},60 ${x + 54},136 L${x + 54},320Z`, C.cielo) + trazo(`M${x},50 V320 M${x - 54},150 H${x + 54} M${x - 54},230 H${x + 54}`, 3, C.grisO, { o: .8 }) + trazo(`M${x - 50},160 l100,70 M${x + 50},160 l-100,70`, 1.8, C.grisO, { o: .5 }); });
-      // cortina roja y trono
-      s += agua('M380,-10 L620,-10 Q630,200 640,430 L360,430 Q372,200 380,-10Z', C.rojo) + vel('M520,-10 L620,-10 Q630,200 640,430 L540,430 Q560,200 520,-10Z', C.rojoO, { o: .35 }) + trazo('M420,0 Q430,200 420,420 M580,0 Q570,200 580,420', 2.6, C.rojoO, { o: .6 })
-        + agua('M440,380 L444,250 Q500,200 556,250 L560,380Z', C.sol) + agua('M458,380 L460,266 Q500,230 540,266 L542,380Z', C.rojo) + agua(liso([[470, 200], [480, 170], [492, 196], [500, 164], [508, 196], [520, 170], [530, 200]]), C.sol) + agua('M420,380 h160 v22 h-160Z', C.sol) + agua('M440,402 h120 v22 h-120Z', PAPEL)
-        + agua(mancha(500, 296, 8, 8, 3, .1), C.azul, { f: 'l' });
-      // lámpara
-      s += trazo('M500,-10 V40', 2.4, C.pajaO) + pincel('M420,60 Q500,100 580,60', 8, C.sol) + [440, 480, 520, 560].map(x => agua(`M${x - 5},60 h10 v-22 h-10Z`, PAPEL, { f: 'l' }) + punto(x, 34, 4, C.naranja, .95)).join('');
-      // columnas con estandarte
-      [[300], [700]].forEach(([x]) => { s += agua(`M${x - 22},-10 L${x + 22},-10 L${x + 20},400 L${x - 20},400Z`, PAPEL) + vel(`M${x + 4},-10 L${x + 22},-10 L${x + 20},400 L${x + 4},400Z`, C.grisO, { o: .35 }) + agua(`M${x - 34},60 L${x + 34},60 L${x + 30},190 L${x},170 L${x - 30},190Z`, C.rojo) + agua(`M${x - 12},100 l6,-12 l6,8 l6,-8 l6,12Z`, C.sol, { f: 'l' }) + agua(`M${x - 30},392 h60 v24 h-60Z`, C.sol); });
-      // suelo ajedrezado
-      s += agua('M-20,466 Q300,450 560,462 Q820,476 1020,452 L1020,620 L-20,620Z', '#F4EFE3') + [0, 1, 2].map(j => [...Array(11)].map((_, i) => (i + j) % 2 ? vel(mancha(i * 100 + j * 20, 490 + j * 36, 46, 17, i + j * 11 + 4, .12, 4, .78), C.gris, { o: .5 }) : '').join('')).join('');
+    // Sala del trono: piedra cálida, vidrieras altas, estandartes, alfombra roja hasta una tarima con un trono dorado
+    escena_castillo: () => { const r = azar(33), ORO = pig('#E2B63E'), OROO = carga(ORO, .8), TRONO = '#E9C45A';
+      let s = cielo('#EFE3C8', 470) + vel('M-20,-20 H1020 V150 Q500,200 -20,150Z', C.paja, { o: .3 });
+      for (let j = 0; j < 7; j++) { const y = 40 + j * 64; s += trazo(`M-10,${y} Q250,${y - 6} 500,${y + 4} T1010,${y - 4}`, 2, C.pajaO, { o: .35 }); for (let i = 0; i < 8; i++) s += trazo(`M${f1(i * 130 + (j % 2) * 65 + r() * 20)},${y} v60`, 2, C.pajaO, { o: .3 }); }
+      // suelo de losas lila, con la alfombra roja al centro
+      s += agua('M-20,466 Q300,452 560,462 Q820,474 1020,456 L1020,620 L-20,620Z', '#E7DFEC')
+        + [0, 1, 2].map(j => [...Array(11)].map((_, i) => (i + j) % 2 ? vel(mancha(i * 100 + j * 24, 494 + j * 38, 48, 15 + j * 3, i + j * 11 + 4, .12, 4, .78), C.violeta, { o: .3 }) : '').join('')).join('');
+      // ventanas altas con arco: vidrieras y rayos de luz sobre las losas
+      [190, 810].forEach((x, i) => { const w = 54, d = (a, b) => `M${x - w - b},${a + 300} V${a + 90} Q${x - w - b},${a - 10 - b} ${x},${a - 14 - b} Q${x + w + b},${a - 10 - b} ${x + w + b},${a + 90} V${a + 300}Z`;
+        s += vel(`M${x - w},330 L${x + w},330 L${x + (i ? -150 : 150) + w * 1.6},520 L${x + (i ? -150 : 150) - w * 1.6},520Z`, C.sol, { o: .22 })
+          + agua(d(60, 14), C.gris) + agua(d(60, 0), C.cielo) + vel(d(60, -10), C.azul, { o: .25 })
+          + trazo(`M${x},48 V360 M${x - w},140 H${x + w} M${x - w},230 H${x + w}`, 3.4, C.grisO, { o: .85 }) + trazo(`M${x - w + 6},150 l${w * 2 - 12},70 M${x + w - 6},150 l${-w * 2 + 12},70`, 1.8, C.grisO, { o: .5 })
+          + agua(`M${x - w - 26},358 H${x + w + 26} V384 H${x - w - 26}Z`, C.gris); });
+      // estandartes rojos con corona, colgados de una barra dorada
+      [330, 670].forEach((x, i) => { s += pincel(`M${x - 40},22 H${x + 40}`, 7, ORO) + agua(`M${x - 34},30 L${x + 34},30 L${x + 32},262 L${x},228 L${x - 32},262Z`, C.rojo) + vel(`M${x + 6},30 L${x + 34},30 L${x + 32},262 L${x},228Z`, C.rojoO, { o: .4 })
+        + trazo(`M${x - 28},40 V240 M${x + 28},40 V240`, 3, ORO, { o: .85 }) + agua(`M${x - 16},120 L${x - 20},92 L${x - 8},106 L${x},84 L${x + 8},106 L${x + 20},92 L${x + 16},120Z`, TRONO, { f: 'l' }) + punto(x, 100, 3, C.azul, .9); });
+      // tarima de dos escalones y alfombra
+      s += agua('M330,500 L352,466 H648 L670,500Z', '#D5C7B3') + agua('M330,500 H670 V520 H330Z', '#BFAF9A')
+        + agua('M372,466 L388,436 H612 L628,466Z', '#E4D8C6') + agua('M372,466 H628 V478 H372Z', '#C9BAA4')
+        + agua('M452,466 L448,436 H552 L548,466Z', C.rojo) + agua('M440,520 L452,466 H548 L560,520Z', C.rojo) + agua('M410,620 L440,520 H560 L590,620Z', C.rojo) + vel('M500,466 L548,466 L560,520 L590,620 L520,620Z', C.rojoO, { o: .35 })
+        + trazo('M452,466 L440,520 L410,620 M548,466 L560,520 L590,620', 4, ORO, { o: .9 }) + trazo('M440,520 H560', 2.4, ORO, { o: .6 });
+      // trono dorado
+      s += agua('M434,430 V232 Q436,172 500,166 Q564,172 566,232 V430Z', TRONO) + vel('M520,170 Q564,176 566,232 V430 H520Z', OROO, { o: .4 })
+        + agua('M456,420 V250 Q458,206 500,202 Q542,206 544,250 V420Z', C.rojo) + vel('M500,206 Q542,208 544,250 V420 H500Z', C.rojoO, { o: .4 })
+        + [[470, 222], [500, 210], [530, 222], [462, 290], [538, 290], [462, 360], [538, 360]].map(([x, y]) => punto(x, y, 3.2, TRONO, .95)).join('') + agua(mancha(500, 262, 11, 11, 3, .1), C.azul, { f: 'l' })
+        + agua(`M474,170 L468,138 L486,154 L500,128 L514,154 L532,138 L526,170Z`, TRONO) + punto(500, 152, 3, C.rojo, .95)
+        + agua('M426,336 Q424,312 442,312 Q460,312 458,336 V430 H428Z', TRONO) + agua('M574,336 Q576,312 558,312 Q540,312 542,336 V430 H572Z', TRONO)
+        + agua('M440,376 Q500,362 560,376 L564,408 Q500,424 436,408Z', C.rojo) + vel('M500,370 Q540,372 562,378 L564,408 Q530,418 500,418Z', C.rojoO, { o: .4 })
+        + agua('M432,408 H568 V432 H432Z', TRONO) + agua(mancha(444, 436, 12, 7, 5, .1), ORO, { f: 'l' }) + agua(mancha(556, 436, 12, 7, 6, .1), ORO, { f: 'l' });
+      // luz de las velas: un par de candelabros bajos junto a la tarima
+      [296, 704].forEach((x, i) => { s += pincel(`M${x},500 V440`, 7, ORO) + agua(`M${x - 14},506 H${x + 14} L${x + 8},494 H${x - 8}Z`, ORO, { f: 'l' }) + agua(`M${x - 8},446 H${x + 8} V420 H${x - 8}Z`, PAPEL, { f: 'l' }) + agua(`M${x - 5},420 Q${x},398 ${x + 5},420Z`, C.naranja, { f: 'l' }) + vel(mancha(x, 420, 34, 34, 7 + i, .1), C.sol, { o: .4 }); });
       return S(s); },
-
     escena_castillo_frente: () => { const r = azar(101);
       let s = agua('M-20,494 Q250,478 500,490 Q760,502 1020,482 L1020,620 L-20,620Z', '#F6F0E4') + vel('M-20,540 Q500,528 1020,536 L1020,620 L-20,620Z', C.gris, { o: .35 });
       for (let j = 0; j < 3; j++) for (let i = 0; i < 12; i++) if ((i + j) % 2) s += vel(mancha(i * 90 + j * 25, 520 + j * 30, 40, 15, i + j * 13 + 2, .15, 4, .78), C.grisO, { o: .35 });
