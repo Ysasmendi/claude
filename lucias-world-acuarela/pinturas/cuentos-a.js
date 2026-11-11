@@ -4,7 +4,35 @@
   const VB = '0 0 400 260';
 
   // ---------- ayudantes comunes ----------
-  const G = (x, y, k, s, rot = 0, fl = 1) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${f1(k * fl * 100) / 100} ${k})">${s}</g>`;
+  // Los filtros de línea del kit usan como zona el lienzo entero: un personaje dibujado en coordenadas locales
+  // dentro de un <g transform> se recortaría. Por eso cada personaje transforma sus propias trayectorias a coordenadas del lienzo.
+  const pen = (x0, y0, k = 1, rot = 0, fl = 1) => {
+    const r = rot * Math.PI / 180, cs = Math.cos(r), sn = Math.sin(r), A = k * fl * cs, B = k * fl * sn, Cc = -k * sn, D = k * cs;
+    const P = (x, y) => [A * x + Cc * y + x0, B * x + D * y + y0];
+    const N = { M: 2, L: 2, T: 2, Q: 4, S: 4, C: 6, H: 1, V: 1, Z: 0 };
+    const td = d => {
+      const tk = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e-?\d+)?/g) || []; let out = '', i = 0, cx = 0, cy = 0, sx = 0, sy = 0, cmd = '';
+      while (i < tk.length) {
+        if (/[a-zA-Z]/.test(tk[i])) { cmd = tk[i++]; if (/z/i.test(cmd)) { out += 'Z'; cx = sx; cy = sy; continue; } }
+        const up = cmd.toUpperCase(), rel = cmd !== up, n = N[up]; const a = tk.slice(i, i + n).map(Number); i += n;
+        if (up === 'H') { const nx = rel ? cx + a[0] : a[0]; const q = P(nx, cy); out += `L${f1(q[0])},${f1(q[1])}`; cx = nx; continue; }
+        if (up === 'V') { const ny = rel ? cy + a[0] : a[0]; const q = P(cx, ny); out += `L${f1(q[0])},${f1(q[1])}`; cy = ny; continue; }
+        out += (rel && up === 'M' && i > n) ? 'M' : up;
+        for (let j = 0; j < n; j += 2) { const lx = rel ? cx + a[j] : a[j], ly = rel ? cy + a[j + 1] : a[j + 1]; const q = P(lx, ly); out += (j ? ' ' : '') + f1(q[0]) + ',' + f1(q[1]); if (j === n - 2) { cx = lx; cy = ly; } }
+        if (up === 'M') { sx = cx; sy = cy; cmd = rel ? 'l' : 'L'; }
+      }
+      return out;
+    };
+    const W = k;
+    const ag = (d, c, o) => agua(td(d), c, o), ve = (d, c, o) => vel(td(d), c, o);
+    const tr = (d, w, c, o) => trazo(td(d), (w == null ? 2.4 : w) * W, c, o), pi = (d, w, c, o) => pincel(td(d), w * W, c, o);
+    const pu = (x, y, r, c, o) => { const q = P(x, y); return punto(q[0], q[1], f1(r * W * 100) / 100, c, o); };
+    const oj = (x, y, r = 3.2) => { const q = P(x + r * .3, y - r * .35); return pu(x, y, r, '#4A3E58', .95) + `<circle cx="${f1(q[0])}" cy="${f1(q[1])}" r="${f1(r * .3 * W)}" fill="${PAPEL}"/>`; };
+    const so = (x, y, w) => tr(`M${x - w / 2},${y} Q${x},${y + w * .55} ${x + w / 2},${y}`, 2);
+    const co = (x, y, r = 8) => ve(mancha(x, y, r, r * .8, x + y, .15), '#EE8FA8', { o: .5 });
+    const sh = (x, y, rx, o = .35) => ve(mancha(x, y, rx, rx * .13, Math.round(rx * 3 + x), .1), C.grisO, { o });
+    return { agua: ag, vel: ve, trazo: tr, pincel: pi, punto: pu, ojo: oj, sonrisa: so, colorete: co, sh };
+  };
   const sh = (x, y, rx, o = .35) => vel(mancha(x, y, rx, rx * .13, Math.round(rx * 3 + x), .1), C.grisO, { o });
   const lienzo = (c, c2, o2 = .5) => agua('M-14,-14H414V272H-14Z', c, { f: 's', o: 1 }) + (c2 ? vel('M-14,-14H414V120Q200,150 -14,108Z', c2, { o: o2 }) : '');
   const suelo = (d, c, c2) => agua(d, c) + (c2 ? vel(d, c2, { o: .25 }) : '');
@@ -25,6 +53,7 @@
   // ---------- personajes ----------
   // Fermín el dragón: origen en el suelo, entre los pies; mide unos 115 de alto
   const dragon = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const v = C.hoja, vo = C.hojaO, e = o.e || 'risa', b = o.b || 'abajo';
     let s = o.rot ? '' : sh(0, 2, 44);
     s += pincel('M26,-14 Q64,-6 66,-34 Q67,-44 58,-44', 13, v)
@@ -57,11 +86,12 @@
     else s += sonrisa(0, -75, 14);
     if (o.gorro === 'fiesta') s += agua('M-13,-111 Q-6,-128 0,-146 Q8,-128 14,-111Z', C.rojo) + trazo('M-9,-122 q9,5 18,0', 2, C.sol, { o: .9 }) + punto(0, -147, 3.4, C.sol);
     if (o.gorro === 'noche') s += agua('M-22,-104 Q-24,-132 6,-134 Q24,-134 36,-112 Q28,-120 20,-114 Q0,-108 -22,-104Z', C.violeta) + punto(36, -111, 5, PAPEL, .95) + trazo('M-22,-105 Q0,-110 20,-114', 4, PAPEL, { o: .8 });
-    return G(x, y, k, s, o.rot || 0);
+    return s;
   };
 
   // Niña / niño: origen en el suelo; mide unos 105 de alto. o.l / o.r = posición de las manos
   const nina = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const piel = pig('#F1C7A0'), pelo = pig(o.pelo || '#7A4A30'), vest = o.vest || C.azul, e = o.e || 'contento', chico = o.chico;
     const L = o.l || [-24, -36], R = o.r || [24, -36];
     let s = o.sit ? '' : sh(0, 2, 22);
@@ -84,10 +114,11 @@
     else if (e === 'asombro') s += agua(mancha(0, -69, 3.4, 4.2, 38, .1), '#B5647F', { f: 'l' }) + trazo('M-11,-87 q4,-3 8,0 M3,-87 q4,-3 8,0', 1.5, LINEA, { o: .6 });
     else s += sonrisa(0, -71, 9);
     if (o.hat) s += agua('M-9,-97 Q-3,-114 2,-128 Q8,-112 12,-96Z', o.hat) + punto(2, -129, 3, C.sol);
-    return G(x, y, k, s, o.rot || 0, o.fl || 1);
+    return s;
   };
 
   const gato = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const c = C.naranja, e = o.e || 'contento';
     let s = sh(0, 2, 26) + pincel('M20,-8 Q44,-6 42,-30 Q41,-40 34,-36', 7, c)
       + agua(mancha(0, -22, 22, 20, 41, .07), c) + vel(mancha(8, -14, 14, 12, 42, .15), carga(c, .8), { o: .35 }) + agua(mancha(0, -16, 11, 14, 43, .1), lava(C.crema, .2), { f: 'l' })
@@ -98,11 +129,12 @@
     s += e === 'sorpresa' ? ojo(-8, -53, 3.8) + ojo(8, -53, 3.8) + agua(mancha(0, -41, 2.6, 3.4, 48, .1), '#B5647F', { f: 'l' })
       : ojo(-8, -53, 2.8) + ojo(8, -53, 2.8) + sonrisa(0, -43, 8);
     s += trazo('M-10,-46 q-14,-2 -20,-6 M-10,-44 q-14,2 -20,3 M10,-46 q14,-2 20,-6 M10,-44 q14,2 20,3', 1.3, LINEA, { o: .55 }) + colorete(-14, -45, 4) + colorete(14, -45, 4);
-    return G(x, y, k, s, o.rot || 0, o.fl || 1);
+    return s;
   };
 
   // El calcetín: origen en la base; ~62 de alto y 50 de ancho
   const calcetin = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const c = pig(o.c || '#6F9BE0'), e = o.e || 'risa';
     let s = sh(4, 2, 30) + agua('M-14,-60 Q-17,-30 -14,-16 Q-20,-2 -2,0 Q24,2 36,-5 Q41,-16 27,-19 Q14,-22 14,-30 L15,-60Z', c)
       + vel('M2,-34 Q8,-20 30,-18 Q40,-14 34,-6 Q16,0 0,-2Z', carga(c, .8), { o: .38 })
@@ -113,10 +145,11 @@
     else if (e === 'pillo') s += ojo(-3, -38, 3) + ojo(8, -38, 3) + trazo('M-5,-28 Q2,-24 9,-30', 1.8);
     else s += ojo(-5, -38, 3) + ojo(6, -38, 3) + sonrisa(0, -30, 10);
     s += colorete(-10, -31, 4) + colorete(12, -31, 4);
-    return G(x, y, k, s, o.rot || 0, o.fl || 1);
+    return s;
   };
 
   const luna = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const e = o.e || 'contento', base = o.pale ? lava(pig('#F2E3A0'), .55) : pig('#F5E49A');
     let s = o.pale ? '' : agua(mancha(0, 0, 60, 60, 61, .05), C.sol, { f: 's', o: .5 });
     s += agua(mancha(0, 0, 42, 42, 62, .045), base) + (o.pale ? vel(mancha(10, 12, 30, 26, 63, .12), C.cieloO, { o: .3 }) : vel(mancha(12, 14, 30, 26, 63, .12), C.solO, { o: .4 }))
@@ -127,18 +160,20 @@
     else s += ojo(-13, -6, 4) + ojo(13, -6, 4) + sonrisa(0, 11, 18);
     s += colorete(-24, 8, 7) + colorete(24, 8, 7);
     if (o.gorro) s += agua('M-34,-22 Q-36,-58 -6,-60 Q20,-60 34,-34 Q30,-40 24,-34 Q4,-28 -34,-22Z', C.violeta) + trazo('M-34,-23 Q0,-30 26,-35', 5, PAPEL, { o: .85 }) + agua(mancha(36, -32, 7, 7, 69, .12), PAPEL, { f: 'l' });
-    return G(x, y, k, s);
+    return s;
   };
 
   const solc = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     let s = Array.from({ length: 10 }, (_, i) => { const a = i * Math.PI / 5 + .15, c = Math.cos(a), si = Math.sin(a); return pincel(`M${f1(c * 48)},${f1(si * 48)} L${f1(c * (i % 2 ? 60 : 68))},${f1(si * (i % 2 ? 60 : 68))}`, i % 2 ? 6 : 8, i % 2 ? C.sol : C.solO); }).join('')
       + agua(mancha(0, 0, 42, 41, 71, .04), C.sol) + vel(mancha(12, 14, 28, 22, 72, .2), C.solO, { o: .5 })
       + ojo(-13, -6, 3.6) + ojo(13, -6, 3.6) + colorete(-24, 8, 7) + colorete(24, 8, 7);
     s += o.e === 'habla' ? agua('M-11,8 Q0,28 11,8 Q0,12 -11,8Z', '#C9605F', { f: 'l' }) : sonrisa(0, 9, 18);
-    return G(x, y, k, s);
+    return s;
   };
 
   const jirafa = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const N = o.N || 100, lx = o.lx || 0, e = o.e || 'feliz', c = C.paja, m = carga(C.pajaO, .8);
     const hx = 34 + lx + 8, hy = -96 - N;
     let s = sh(4, 2, 52);
@@ -159,10 +194,11 @@
     else if (e === 'grita') s += agua(mancha(hx + 13, hy + 7, 5, 4, 97, .1), '#B5647F', { f: 'l' });
     else s += trazo(`M${hx + 7},${hy + 6} q5,4 10,0`, 1.8);
     s += colorete(hx + 5, hy + 4, 3.6);
-    return G(x, y, k, s, 0, o.fl || 1);
+    return s;
   };
 
   const mono = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const c = pig('#A8754F'), cl = lava(pig('#D9B48C'), .1), e = o.e || 'risa';
     let s = sh(0, 2, 22) + pincel('M12,-10 Q40,-8 34,-34 Q30,-44 24,-38', 5, c)
       + agua(mancha(0, -22, 15, 18, 101, .07), c) + agua(mancha(0, -19, 9, 12, 102, .1), cl, { f: 'l' })
@@ -175,11 +211,12 @@
     else if (e === 'pillo') s += ojo(-3, -50, 2.6) + ojo(7, -50, 2.6) + trazo('M-4,-41 Q2,-38 7,-42', 1.6);
     else s += ojo(-5, -50, 2.6) + ojo(5, -50, 2.6) + agua('M-5,-43 Q0,-35 5,-43Z', '#C9605F', { f: 'l' });
     s += colorete(-10, -44, 3.4) + colorete(10, -44, 3.4);
-    return G(x, y, k, s, o.rot || 0, o.fl || 1);
+    return s;
   };
 
   // Elefante: mira a la izquierda (fl=-1 lo gira)
   const elefante = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     const c = pig('#A7A3C4'), co = carga(c, .85), e = o.e || 'risa', up = o.trompa === 'arriba';
     let s = sh(0, 2, 50) + agua(mancha(14, -48, 42, 32, 121, .06), c) + vel(mancha(26, -36, 28, 18, 122, .2), co, { o: .35 })
       + agua(mancha(-12, -8, 10, 9, 123, .1), co, { f: 'l' }) + agua(mancha(36, -8, 10, 9, 124, .1), co, { f: 'l' }) + pincel('M54,-52 Q62,-44 58,-30', 3.5, c, { f: 'l' })
@@ -189,10 +226,11 @@
     s += e === 'preocupa' ? ojo(-48, -66, 3) + trazo('M-54,-73 l9,3 M-34,-73 l-8,3', 1.5, LINEA, { o: .6 }) + ojo(-34, -66, 3) : ojo(-48, -66, 3) + ojo(-34, -66, 3);
     s += e === 'preocupa' ? trazo('M-54,-52 Q-48,-56 -42,-52', 1.6) : sonrisa(-47, -52, 10);
     s += colorete(-54, -58, 4.5);
-    return G(x, y, k, s, 0, o.fl || 1);
+    return s;
   };
 
-  const castillo = (x, y, k = 1) => {
+  const castillo = (x, y, k = 1, o = {}) => {
+    const { agua, vel, trazo, pincel, punto, ojo, sonrisa, colorete, sh } = pen(x, y, k, o.rot || 0, o.fl || 1);
     let s = sh(0, 2, 70, .3)
       + agua('M-48,0 Q-50,-30 -47,-56 L-44,-66 L-36,-66 L-34,-58 L-26,-58 L-24,-66 L-16,-66 L-14,-58 L14,-58 L16,-66 L24,-66 L26,-58 L34,-58 L36,-66 L44,-66 L47,-56 Q50,-30 48,0Z', C.gris)
       + vel('M20,-56 L47,-56 Q50,-30 48,0 L20,0Z', C.grisO, { o: .4 })
@@ -203,10 +241,10 @@
       + agua('M-1.4,-128 L1.4,-128 L1.4,-146 L-1.4,-146Z', C.grisO, { f: 'l' }) + agua('M0,-146 L16,-141 L0,-136Z', C.rojoO, { f: 'l' })
       + agua('M-11,0 L-11,-24 Q0,-38 11,-24 L11,0Z', C.tronco) + punto(6, -14, 2, C.sol)
       + agua(mancha(-49, -64, 4, 6, 130, .1), C.cieloO, { f: 'l' }) + agua(mancha(49, -64, 4, 6, 131, .1), C.cieloO, { f: 'l' }) + agua(mancha(0, -78, 4, 7, 132, .1), C.cieloO, { f: 'l' });
-    return G(x, y, k, s);
+    return s;
   };
 
-  const fuego = (x, y, k = 1) => G(x, y, k, agua('M0,0 Q16,-16 38,-8 Q54,-4 72,-14 Q62,2 76,12 Q52,18 32,14 Q10,14 0,6Z', C.naranja) + agua('M4,3 Q18,-6 34,-2 Q50,0 62,-4 Q52,6 58,10 Q38,12 22,10 Q10,10 4,3Z', C.sol, { f: 'l' }));
+  const fuego = (x, y, k = 1) => { const { agua } = pen(x, y, k); return agua('M0,0 Q16,-16 38,-8 Q54,-4 72,-14 Q62,2 76,12 Q52,18 32,14 Q10,14 0,6Z', C.naranja) + agua('M4,3 Q18,-6 34,-2 Q50,0 62,-4 Q52,6 58,10 Q38,12 22,10 Q10,10 4,3Z', C.sol, { f: 'l' }); };
 
   // ================= CUENTO 1: el dragón con hipo =================
   const hip1 = []; // (sin estado)
@@ -294,8 +332,9 @@
 
   // ================= CUENTO 2: la luna que no quería dormir =================
   const casita = (x, y, k, pared, tejado, luz) => {
-    return G(x, y, k, agua('M-24,0 Q-26,-16 -23,-32 Q0,-30 24,-33 Q26,-16 24,0Z', pared) + agua('M-31,-30 Q-12,-48 0,-60 Q14,-48 31,-31Z', tejado)
-      + agua(mancha(-8, -16, 5, 5.5, 180, .1), luz || C.sol, { f: 'l' }) + agua('M8,0 L8,-17 Q14,-22 19,-17 L19,0Z', C.tronco, { f: 'l' }));
+    const { agua } = pen(x, y, k);
+    return agua('M-24,0 Q-26,-16 -23,-32 Q0,-30 24,-33 Q26,-16 24,0Z', pared) + agua('M-31,-30 Q-12,-48 0,-60 Q14,-48 31,-31Z', tejado)
+      + agua(mancha(-8, -16, 5, 5.5, 180, .1), luz || C.sol, { f: 'l' }) + agua('M8,0 L8,-17 Q14,-22 19,-17 L19,0Z', C.tronco, { f: 'l' });
   };
   const estrellas = (arr, c = C.sol) => arr.map(([x, y, r], i) => est(x, y, r || 4 + i % 3, c)).join('');
   Object.assign(ILUS, {

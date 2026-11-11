@@ -5472,8 +5472,9 @@ const AQ = (() => {
   const punto = (x, y, r, c = LINEA, o = .85) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" fill="${c}" filter="url(#§l)" opacity="${o}"/>`;
   const gotas = (cx, cy, radio, n, c, semilla = 3, tam = 2.2) => { const r = azar(semilla); let s = ''; for (let i = 0; i < n; i++) { const a = r() * 6.283, q = radio * (.4 + r() * .6); s += `<circle cx="${f1(cx + Math.cos(a) * q)}" cy="${f1(cy + Math.sin(a) * q)}" r="${f1(tam * (.4 + r()))}" fill="${c}" opacity="${f1(.35 + r() * .4)}"/>`; } return s; };
   const filtros = (u, e, vb) => {
-    // Los trazos usan como zona del filtro el lienzo entero: una línea recta tiene una caja de ancho cero y se recortaba
-    const todo = `filterUnits="userSpaceOnUse" x="${vb[0] - vb[2] * .1}" y="${vb[1] - vb[3] * .1}" width="${vb[2] * 1.2}" height="${vb[3] * 1.2}"`, caja = 'x="-20%" y="-20%" width="140%" height="140%"';
+    // Los trazos usan como zona del filtro el lienzo entero y de sobra (una línea recta tiene una caja de ancho cero y se
+    // recortaba; y dentro de un grupo movido o encogido las coordenadas son otras, por eso el margen es tan amplio)
+    const todo = `filterUnits="userSpaceOnUse" x="${vb[0] - vb[2] * 2}" y="${vb[1] - vb[3] * 2}" width="${vb[2] * 5}" height="${vb[3] * 5}"`, caja = 'x="-20%" y="-20%" width="140%" height="140%"';
     const n = v => +(v * e).toFixed(2), fr = v => (v / e).toFixed(4);
     const mojada = (id, semilla, temblor, dx = 0, dy = 0, zona = caja) => `<filter id="${u}${id}" ${zona} color-interpolation-filters="sRGB">`
       + `<feTurbulence type="fractalNoise" baseFrequency="${fr(.021)}" numOctaves="2" seed="${semilla}" result="n"/>`
