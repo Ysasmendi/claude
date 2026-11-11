@@ -70,12 +70,12 @@
     // cabeza
     s += agua('M-16,-108 L-20,-124 L-8,-112Z', C.paja, { f: 'l' }) + agua('M16,-108 L20,-124 L8,-112Z', C.paja, { f: 'l' })
       + agua(mancha(0, -88, 29, 25, 8, .05), v) + vel(mancha(10, -78, 20, 14, 10, .2), vo, { o: .35 })
-      + agua(mancha(0, -80, 17, 11, 11, .08), lava(C.paja, .3), { f: 'l' }) + punto(-6, -83, 1.7, vo) + punto(6, -83, 1.7, vo)
+      + agua(mancha(0, -77, 15, 9, 11, .08), lava(C.paja, .3), { f: 'l' }) + punto(-5, -80, 1.7, vo) + punto(5, -80, 1.7, vo)
       + agua(mancha(0, -114, 7, 5, 12, .15), C.violeta, { f: 'l' }) + agua(mancha(-12, -111, 5, 4, 13, .15), C.violeta, { f: 'l' }) + agua(mancha(12, -111, 5, 4, 14, .15), C.violeta, { f: 'l' });
     const cerr = e === 'hip' || e === 'esfuerzo';
     if (e === 'esfuerzo') s += trazo('M-18,-97 l8,3 l-8,3 M18,-97 l-8,3 l8,3', 2, LINEA, { o: .8 });
     else if (cerr) s += trazo('M-17,-92 q5,-5 10,0 M7,-92 q5,-5 10,0', 2, LINEA, { o: .8 });
-    else s += ojo(-12, -92, e === 'sorpresa' ? 4.4 : 3.4) + ojo(12, -92, e === 'sorpresa' ? 4.4 : 3.4);
+    else s += ojo(-12, -95, e === 'sorpresa' ? 4.8 : 4) + ojo(12, -95, e === 'sorpresa' ? 4.8 : 4);
     if (e === 'sorpresa') s += trazo('M-18,-102 q6,-4 12,-1 M18,-102 q-6,-4 -12,-1', 1.8, LINEA, { o: .7 });
     s += colorete(-22, -80, 6) + colorete(22, -80, 6);
     if (e === 'risa' || e === 'feliz' || e === 'contento') s += agua('M-10,-75 Q0,-62 10,-75Z', '#C9605F', { f: 'l' });
