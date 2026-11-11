@@ -69,14 +69,14 @@
       + `<g transform="rotate(${sp ? 14 : 0} 70 96)">` + agua('M74,90 C50,80 26,98 30,124 C32,140 46,146 52,138 C44,124 50,106 70,106Z', pelo) + trazo('M60,98 C48,102 40,114 42,128 M66,102 C54,108 48,118 49,130', 2, peloOs, { o: .8 }) + agua(mancha(69, 97, 6, 9, 3, .1), C.rosa, { f: 'l' }) + `</g>`
       + agua('M80,138 C64,168 52,202 40,236 C70,247 130,247 160,236 C148,202 136,168 120,138Z', C.violeta) + vel('M110,150 Q140,200 160,236 Q130,247 100,244Z', T.moradoO, { o: .4 })
       + estrella(51, 226, 6, AMA, .2) + estrella(149, 224, 5.5, AMA, -.15) + estrella(140, 196, 4, AMA)
-      + pincel('M89,210 V238', 11, PAPEL) + pincel('M111,210 V238', 11, PAPEL) + trazo('M89,212 V240 M111,212 V240', 9, C.rosa, { o: .8, x: ' stroke-dasharray="3.5 3.5" stroke-linecap="butt"' })
+      + pincel('M89,210 V238', 11, PAPEL) + pincel('M111,210 V238', 11, PAPEL) + trazo('M89,212 V240 M111,212 V240', 9, C.rosa, { o: .8, x: ' stroke-dasharray="3.5 3.5"' })
       + agua('M72,247 C70,238 84,234 94,237 C100,239 100,248 96,251 H78 C74,251 72,250 72,247Z', zap, { f: 'l' }) + agua('M128,247 C130,238 116,234 106,237 C100,239 100,248 104,251 H122 C126,251 128,250 128,247Z', zap, { f: 'l' })
       + agua('M84,138 H116 C126,160 134,188 140,214 C122,224 78,224 60,214 C66,188 74,160 84,138Z', T.turq) + vel('M104,140 Q130,180 140,214 Q120,224 100,222Z', T.turqO, { o: .4 })
       + trazo('M64,206 C82,214 118,214 136,206', 3, PAPEL, { o: .9, x: ' stroke-dasharray=".1 8"' })
       + pincel('M78,156 Q70,174 66,192', 10, piel);
     const [arm, hx, hy, w1, w2, sx, sy, sr] = sp ? ['M121,152 Q143,152 152,135', 153, 131, [144, 147], [170, 88], 172, 80, 19] : ['M122,156 Q136,168 142,178', 143, 181, [133, 197], [164, 128], 166, 120, 17];
     if (sp) s += agua(mancha(sx, sy, 27, 27, 3, .08), C.sol, { f: 's', o: .4 }) + estrella(146, 50, 8, C.rosa) + estrella(186, 46, 6, T.turq) + estrella(188, 112, 6, PAPEL) + estrella(150, 94, 4, AMA) + estrella(176, 28, 4, AMA);
-    s += pincel(`M${w1[0]},${w1[1]} L${w2[0]},${w2[1]}`, 5, PAPEL) + trazo(`M${w1[0]},${w1[1]} L${w2[0]},${w2[1]}`, 4, C.rosa, { o: .85, x: ' stroke-dasharray="3.5 4" stroke-linecap="butt"' })
+    s += pincel(`M${w1[0]},${w1[1]} L${w2[0]},${w2[1]}`, 5, PAPEL) + trazo(`M${w1[0]},${w1[1]} L${w2[0]},${w2[1]}`, 4, C.rosa, { o: .85, x: ' stroke-dasharray="3.5 4"' })
       + estrella(sx, sy, sr, AMA, sp ? .3 : .1);
     if (!sp) s += estrella(184, 102, 4, PAPEL) + estrella(150, 104, 3.5, AMA);
     s += pincel(arm, 10, piel) + agua(mancha(65, 196, 8, 8, 4, .1), piel, { f: 'l' }) + agua(mancha(hx, hy, 8.5, 8.5, 5, .1), piel, { f: 'l' })

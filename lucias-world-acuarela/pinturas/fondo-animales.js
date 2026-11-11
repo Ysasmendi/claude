@@ -249,16 +249,17 @@
     // Gallo de cola larga y colorida
     animal_gallo: () => svg('0 0 200 200',
       suelo(100, 184, 54, 3)
-      + pincel('M122,128 Q164,110 168,58', 12, C.azul) + pincel('M126,138 Q176,134 176,92', 11, C.hoja) + pincel('M126,150 Q170,164 178,126', 10, C.violeta)
+      + pincel('M126,128 Q168,112 170,56', 14, C.azul) + pincel('M130,140 Q180,136 180,92', 13, C.hoja) + pincel('M128,152 Q172,168 182,126', 12, C.violeta)
       + trazo('M86,170 v12 M112,170 v12 M78,184 h14 M104,184 h14', 3, C.naranja, { o: .9 })
-      + agua(liso([[64, 112], [78, 96], [104, 98], [128, 114], [130, 144], [112, 168], [86, 170], [70, 150]]), C.naranja)
-      + vel(mancha(112, 152, 20, 14, 5, .2), C.rojoO, { o: .4 })
-      + agua(mancha(100, 134, 20, 14, 6, .1, 10, .4), C.pajaO) + trazo('M88,132 Q100,142 114,130', 1.8, C.rojoO, { o: .8 })
-      + agua('M78,62 L78,102 L100,104 L100,60Z', C.sol) + vel('M82,64 L82,100 L98,102Z', C.naranja, { o: .4 })
-      + agua(mancha(88, 62, 24, 24, 7, .06), C.sol)
-      + agua(liso([[72, 44], [74, 28], [82, 36], [88, 22], [96, 34], [104, 28], [102, 46]]), C.rojo)
-      + agua('M64,64 L50,70 L64,76Z', C.naranja, { f: 'l' }) + agua(mancha(70, 82, 5, 9, 8, .1), C.rojo, { f: 'l' })
-      + ojo(82, 58, 4) + colorete(96, 70, 6)),
+      + agua(liso([[56, 118], [70, 94], [100, 90], [128, 110], [134, 146], [114, 170], [84, 170], [64, 150]]), C.naranja)
+      + vel(mancha(114, 152, 20, 14, 5, .2), C.rojoO, { o: .4 })
+      + agua(mancha(102, 132, 22, 16, 6, .1, 10, .4), C.pajaO) + trazo('M88,130 Q102,142 116,128', 1.8, C.rojoO, { o: .8 })
+      + agua(mancha(80, 92, 24, 18, 7, .08), C.naranja)
+      + agua(mancha(84, 64, 26, 26, 8, .06), C.sol)
+      + agua(liso([[68, 44], [70, 26], [80, 36], [86, 20], [94, 34], [104, 28], [102, 46]]), C.rojo)
+      + agua('M60,62 L44,70 L60,78Z', C.naranja, { f: 'l' }) + agua(mancha(68, 86, 5, 9, 8, .1), C.rojo, { f: 'l' })
+      + ojo(76, 60, 4.2) + colorete(92, 74, 6)
+      + trazo('M78,96 q6,6 4,14 M92,98 q6,6 4,14', 1.6, C.pajaO, { o: .8 })),
 
     // Gallina marrón con su pollito
     animal_gallina: () => svg('0 0 200 200',
@@ -382,15 +383,14 @@
     // Serpiente verde enroscada con la cabeza en alto
     animal_serpiente: () => svg('0 0 200 200',
       suelo(100, 180, 74, 3)
-      + pincel('M170,172 Q150,186 100,184 Q40,182 34,164 Q32,148 76,148 Q120,148 140,160 Q160,170 120,170', 20, C.hoja)
-      + pincel('M110,164 Q60,170 50,162', 8, lava(C.prado, .3), { o: .9 })
-      + pincel('M122,156 Q70,146 80,126 Q94,110 100,92', 20, C.hoja)
-      + vel(mancha(60, 168, 20, 8, 3, .2), C.hojaO, { o: .5 }) + vel(mancha(140, 176, 14, 6, 4, .2), C.hojaO, { o: .5 })
-      + agua(mancha(52, 168, 5, 4, 5, .1), C.hojaO, { f: 'l' }) + agua(mancha(110, 180, 5, 4, 6, .1), C.hojaO, { f: 'l' }) + agua(mancha(148, 160, 4.5, 4, 7, .1), C.hojaO, { f: 'l' }) + agua(mancha(84, 130, 4.5, 4, 8, .1), C.hojaO, { f: 'l' })
-      + agua(mancha(100, 66, 30, 26, 9, .06), C.hoja) + vel(mancha(112, 74, 16, 12, 10, .2), C.hojaO, { o: .45 })
-      + ojoB(88, 60, 6.5) + ojoB(112, 60, 6.5) + colorete(78, 76, 6) + colorete(122, 76, 6)
-      + trazo('M88,80 Q100,88 112,80', 1.8) + trazo('M100,88 Q98,98 94,102 M98,96 Q104,100 108,98', 2, C.rojoO)
-      + trazo('M86,50 q4,-4 8,0 M106,50 q4,-4 8,0', 1.4, C.hojaO, { o: .7 })),
+      + pincel('M168,168 Q150,184 100,184 Q48,184 42,166 Q40,150 84,150 Q130,150 140,134 Q146,120 110,112 Q86,106 96,92', 22, C.hoja)
+      + pincel('M70,180 Q104,186 140,176 M72,152 Q110,150 128,142', 6, lava(C.prado, .35), { o: .9 })
+      + vel(mancha(70, 172, 26, 8, 3, .2), C.hojaO, { o: .5 }) + vel(mancha(134, 124, 10, 10, 4, .2), C.hojaO, { o: .5 })
+      + [[56, 166], [112, 182], [136, 156], [128, 118], [150, 174]].map(([x, y], i) => agua(mancha(x, y, 4.5, 4, i + 5, .1), C.hojaO, { f: 'l' })).join('')
+      + agua(mancha(100, 66, 34, 28, 9, .06), C.hoja) + vel(mancha(114, 76, 18, 12, 10, .2), C.hojaO, { o: .45 })
+      + ojoB(86, 60, 7) + ojoB(114, 60, 7) + colorete(76, 76, 6) + colorete(124, 76, 6)
+      + trazo('M88,80 Q100,88 112,80', 1.8) + trazo('M100,88 Q98,98 94,104 M98,96 Q104,102 110,100', 2, C.rojoO)
+      + trazo('M86,48 q4,-5 9,0 M106,48 q4,-5 9,0', 1.4, C.hojaO, { o: .7 })),
 
     // Abeja rayada, alas azuladas
     animal_abeja: () => svg('0 0 200 200',
