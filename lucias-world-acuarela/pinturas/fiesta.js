@@ -26,8 +26,13 @@
     for (let i = 0; i < 10; i++) { const a = (rot + i * 36) * Math.PI / 180, rr = (i % 2 ? r2 : R) * (1 + (q() - .5) * .08); P.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]); }
     return liso(P);
   };
-  const brillo = (x, y, rx, ry, rot = -35, o = .8) => agua(mancha(x, y, rx, ry, x + y, .12, 8, rot * Math.PI / 180), PAPEL, { f: 'l', o });
+  const brillo = (x, y, rx, ry, rot = -35, o = .8) => agua(mancha(x, y, rx, ry, x + y, .12, 8, rot * Math.PI / 180), PAPEL, { f: 's', o: Math.min(.7, o) });
   // pieza redonda de color con sombra cargada y brillo
+  // palo: tallo relleno entre dos puntos (evita pinceladas rectas de caja nula)
+  const palo = (x1, y1, x2, y2, w, c, sd = 1) => { const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1, nx = -dy / L * w / 2, ny = dx / L * w / 2, q = azar(sd);
+    return agua(liso([[x1 + nx, y1 + ny], [(x1 + x2) / 2 + nx * (1 + q() * .3), (y1 + y2) / 2 + ny], [x2 + nx, y2 + ny], [x2 - nx, y2 - ny], [(x1 + x2) / 2 - nx, (y1 + y2) / 2 - ny * (1 + q() * .3)], [x1 - nx, y1 - ny]]), c, { f: 'l' }); };
+  const grano = (x, y, c, rot, sd = 1, k = 3.4) => agua(mancha(x, y, k, k * .48, sd, .1, 8, rot * Math.PI / 180), c, { f: 'l' });
+  const onda = (x, y, c, rot, sd) => agua(liso([[-8, 1], [-4, -4.5], [0, 0], [4, 4.5], [8, -1], [8, 2.5], [4, 8], [0, 3.5], [-4, -1], [-8, 4]].map(([a, b]) => [a, b])), c, { f: 'l', t: `translate(${x} ${y}) rotate(${rot})` });
   const girar = (g, a, x, y) => `<g transform="rotate(${a} ${x} ${y})">${g}</g>`;
 
   Object.assign(ILUS, {
@@ -50,9 +55,9 @@
 
     // Latido: corazón y tres pinceladas de eco a cada lado
     fiesta_corazon_latido: () => svg('0 0 100 100',
-      pincel('M14,36 Q7,52 14,68', 4.5, ROSAO, { f: 'l' }) + pincel('M86,36 Q93,52 86,68', 4.5, ROSAO, { f: 'l' })
-      + pincel('M6,45 Q3,52 6,59', 3.2, ROSA, { f: 'l' }) + pincel('M94,45 Q97,52 94,59', 3.2, ROSA, { f: 'l' })
-      + pincel('M28,15 L31,22 M50,9 V17 M72,15 L69,22', 3.6, ROSAO, { f: 'l' })
+      agua('M16,34 Q5,52 16,70 Q11,52 16,34Z', ROSAO, { f: 'l' }) + agua('M84,34 Q95,52 84,70 Q89,52 84,34Z', ROSAO, { f: 'l' })
+      + trazo('M6,44 Q3,52 6,60 M94,44 Q97,52 94,60', 2.4, ROSAO, { o: .7 })
+      + palo(27, 14, 31, 22, 4, ROSAO, 2) + palo(51, 8, 50, 17, 4, ROSAO, 3) + palo(73, 14, 69, 22, 4, ROSAO, 4)
       + agua(corazonD(50, 55, 33, 11), ROJO) + vel(mancha(60, 66, 19, 15, 12, .15), ROJOO, { o: .5 })
       + brillo(34, 44, 6.5, 4)),
 
@@ -69,26 +74,26 @@
     fiesta_confeti: () => svg('0 0 100 100',
       agua('M20,20 Q30,17 39,20 Q40,27 38,32 Q29,33 21,31Z', ROJO, { t: 'rotate(-25 30 26)' })
       + agua(mancha(60, 17, 6.5, 6, 3, .12), AMA, { f: 'l' })
-      + pincel('M70,36 q3,-7 7,-2 t7,-2', 4.2, CIELO, { f: 'l' })
+      + onda(77, 34, CIELO, -10, 1)
       + agua('M41,44 Q50,42 59,45 Q60,52 58,56 Q50,57 42,55Z', VIO, { t: 'rotate(25 50 50)' })
       + agua('M14,64 Q20,58 26,52 Q29,60 30,68 Q22,67 14,64Z', HOJA)
       + agua('M71,59 Q80,57 89,60 Q90,65 88,69 Q80,70 72,68Z', AMA, { t: 'rotate(-40 80 64)' })
       + agua(mancha(40, 80, 6.5, 6, 4, .12), ROSA, { f: 'l' })
-      + pincel('M58,86 q3,-7 7,-2 t7,-2', 4.2, HOJAO, { f: 'l' })
+      + onda(65, 84, HOJA, 8, 2)
       + agua(mancha(18, 38, 4.2, 4, 5, .12), CIELO, { f: 'l' }) + agua(mancha(86, 44, 3.8, 3.6, 6, .12), ROSA, { f: 'l' })
       + agua('M18,81 Q24,79 30,81 Q30,85 29,87 Q23,88 18,87Z', NAR, { t: 'rotate(30 24 84)', f: 'l' })),
 
     // Serpentina: espiral de papel, tramos de detrás más oscuros
     fiesta_serpentina: () => {
-      const N = 60, q = [];
+      const N = 40, q = [];
       for (let i = 0; i <= N; i++) { const t = i / N, a = t * 2 * Math.PI * 3.5; q.push([22 * t + 17 * Math.cos(a), 74 * t + 7.5 * Math.sin(a), Math.sin(a) > 0]); }
       const xs = q.map(p => p[0]), ys = q.map(p => p[1]), mx = Math.min(...xs), Mx = Math.max(...xs), my = Math.min(...ys), My = Math.max(...ys), k = 78 / Math.max(Mx - mx, My - my);
       const P = q.map(p => [50 + (p[0] - (mx + Mx) / 2) * k, 50 + (p[1] - (my + My) / 2) * k, p[2]]);
-      const runs = []; let cur = [P[0]];
-      for (let i = 1; i < P.length; i++) { cur.push(P[i]); if (P[i][2] !== P[i - 1][2] || i === P.length - 1) { runs.push(cur); cur = [P[i]]; } }
-      let atras = '', delante = '';
-      runs.forEach(r => { if (r.length < 2) return; const front = r[Math.floor(r.length / 2)][2], d = liso(r.map(p => [p[0], p[1]]), true); if (front) delante += pincel(d, 7, ROSA, { f: 'l' }); else atras += pincel(d, 6.5, carga(ROSA, .82), { f: 'l' }); });
-      return svg('0 0 100 100', atras + delante + pincel(liso(runs.find(r => r[Math.floor(r.length / 2)][2]).map(p => [p[0] - 1, p[1] - 1]), true), 1.8, PAPEL, { f: 'l', o: .6 }));
+      let d = liso(P.map(p => [p[0], p[1]]), true), delante = '';
+      for (let i = 1; i < P.length - 1; i++) if (P[i][2] && P[i - 1][2] && P[i + 1][2]) delante += (delante ? '' : '') + '';
+      const fr = []; let cur = [];
+      P.forEach(p => { if (p[2]) cur.push([p[0], p[1]]); else { if (cur.length > 2) fr.push(cur); cur = []; } }); if (cur.length > 2) fr.push(cur);
+      return svg('0 0 100 100', pincel(d, 7, carga(ROSA, .85), { f: 'l' }) + fr.map(r => pincel(liso(r, true), 7, ROSA, { f: 'l' })).join(''));
     },
 
     // Petardo: cucurucho amarillo con rayas rojas y confeti saliendo
@@ -100,7 +105,8 @@
       + agua(destello(68, 36, 6, 5), AMA, { f: 'l' }) + agua(destello(88, 70, 5, 6), ROSA, { f: 'l' })
       + suelo(40, 92, 28, 1)
       + agua('M14,88 Q22,66 34,44 Q50,44 60,68 Q40,84 14,88Z', AMA)
-      + pincel('M20,72 L36,90 M26,58 L48,80 M34,48 L58,70', 5, ROJO, { f: 'l' })
+      + agua('M21,75 L24,68 L35,79 L28,82Z', ROJO, { f: 'l' })
+      + agua('M28,59 L31,53 L51,72 L44,75Z', ROJO, { f: 'l' })
       + vel('M40,60 Q52,62 60,68 Q42,84 20,88Z', AMAO, { o: .4 })
       + agua(mancha(46, 56, 16, 6.5, 6, .08, 10, .78), ROJOO, { o: .85 })),
 
@@ -129,7 +135,7 @@
 
     // Nota: corchea violeta, cabeza, plica y bandera
     fiesta_nota: () => svg('0 0 100 100',
-      pincel('M50,18 L50,70', 7, VIO, { f: 'l' })
+      palo(50, 16, 52, 72, 7, VIO, 5)
       + agua('M48,14 C50,30 74,30 74,48 C74,56 70,60 66,64 C70,50 62,42 50,40Z', VIO)
       + agua(mancha(36, 74, 16, 11.5, 3, .07, 10, -.35), VIOO)
       + vel(mancha(42, 78, 9, 6, 4, .15), carga(VIO, .65), { o: .4 })
@@ -137,7 +143,7 @@
 
     // Dos corcheas unidas por una barra
     fiesta_notas: () => svg('0 0 100 100',
-      pincel('M36,32 L36,72 M82,22 L82,62', 6.5, CIELOO, { f: 'l' })
+      palo(35, 30, 37, 74, 6.5, CIELOO, 5) + palo(81, 20, 83, 64, 6.5, CIELOO, 6)
       + agua('M31,29 L88,15 L88,31 L31,44Z', CIELOO)
       + agua(mancha(26, 76, 14.5, 10.5, 3, .07, 10, -.35), ROSAO)
       + agua(mancha(72, 66, 14.5, 10.5, 4, .07, 10, -.35), VIO)
@@ -174,7 +180,7 @@
     // Piruleta: disco con espiral rosa y palo
     fiesta_piruleta: () => svg('0 0 100 100',
       suelo(52, 94, 12, 6)
-      + pincel('M50,64 V92', 5, PAPEL, { f: 'l' }) + trazo('M47,66 V90', 2, C.grisO, { o: .6 })
+      + palo(50, 62, 51, 93, 5.5, C.crema, 7)
       + agua(mancha(50, 40, 31, 30, 3, .04), AMA)
       + vel(mancha(58, 50, 20, 18, 4, .15), AMAO, { o: .5 })
       + pincel('M50,40 Q56,34 60,40 Q60,50 50,52 Q38,52 36,40 Q38,26 52,24 Q70,26 72,42', 6, ROSA, { f: 'l', o: .95 })
@@ -188,7 +194,7 @@
       + agua(mancha(50, 49, 33, 30, 6, .1, 14) + mancha(50, 50, 14, 12, 7, .08, 8), ROSA, { x: ' fill-rule="evenodd"' })
       + vel(mancha(60, 62, 24, 14, 8, .15), ROSAO, { o: .4 })
       + [[50, 24, 0, AMA], [68, 31, 50, CIELO], [76, 50, 100, VIO], [66, 69, 20, HOJA], [48, 76, 80, AMA], [31, 68, 140, CIELO], [24, 49, 70, VIO], [34, 31, 120, ROJO]]
-        .map(([x, y, r, c]) => girar(pincel(`M${x - 3.5},${y} H${x + 3.5}`, 3.2, c, { f: 'l', o: .95 }), r, x, y)).join('')
+        .map(([x, y, r, c]) => grano(x, y, c, r, x, 3.8)).join('')
       + brillo(36, 36, 6, 2.6, -35, .6)),
 
     // Magdalena: papel rayado, tres vueltas de crema rosa y una cereza
@@ -199,7 +205,7 @@
       + agua(mancha(50, 55, 32, 9, 3, .05), ROSA) + agua(mancha(50, 45, 25, 8.5, 4, .05), ROSA) + agua(mancha(50, 34, 16, 8, 5, .06), ROSA)
       + vel(mancha(58, 56, 22, 6, 6, .1), ROSAO, { o: .5 }) + vel(mancha(56, 46, 16, 5, 7, .1), ROSAO, { o: .45 })
       + [[30, 54, 20, AMA], [66, 53, 40, CIELO], [44, 47, 60, HOJA], [60, 44, 130, VIO], [52, 33, 20, AMA], [38, 56, 100, VIO]]
-        .map(([x, y, r, c]) => girar(pincel(`M${x - 2.6},${y} H${x + 2.6}`, 2.8, c, { f: 'l' }), r, x, y)).join('')
+        .map(([x, y, r, c]) => grano(x, y, c, r, x, 3)).join('')
       + pincel('M51,26 Q54,17 62,16', 2.6, HOJAO, { f: 'l' })
       + agua(mancha(50, 24, 7, 6.6, 8, .08), ROJO, { f: 'l' }) + brillo(47.5, 21.5, 1.9, 1.5, -30, .8)),
 
