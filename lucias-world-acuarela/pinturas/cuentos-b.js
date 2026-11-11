@@ -6,7 +6,7 @@
   // ---------- ayudantes comunes ----------
   const en = (x, y, k, inner, fl, rot) => `<g transform="translate(${f1(x)} ${f1(y)})${rot ? ` rotate(${rot})` : ''} scale(${fl ? -k : k} ${k})">${inner}</g>`;
   const fondo = (c, c2) => agua('M-20,-20 H420 V280 H-20Z', c, { f: 's', o: 1 }) + (c2 ? vel('M-20,-20 H420 V100 Q200,130 -20,92Z', c2, { o: .4 }) : '');
-  const suelo = (y, c, c2) => agua(`M-20,${y} Q100,${y - 12} 200,${y - 2} Q300,${y + 9} 420,${y - 8} L420,280 L-20,280Z`, c) + (c2 ? vel(`M-20,${y + 30} Q150,${y + 14} 420,${y + 24} L420,280 L-20,280Z`, c2, { o: .35 }) : '');
+  const suelo = (y, c, c2) => agua(`M-20,${y} Q100,${y - 12} 200,${y - 2} Q300,${y + 9} 420,${y - 8} L420,280 L-20,280Z`, c) + (c2 ? vel(mancha(200, y + 62, 260, 34, y, .08), c2, { o: .3 }) : '');
   const sombra = (x, y, rx) => vel(mancha(x, y, rx, 5, x, .1), C.grisO, { o: .38 });
   const gota = (x, y, s = 1, c = '#9CCBEA') => agua(`M${f1(x)},${f1(y)} q${-3 * s},${6 * s} 0,${9 * s} q${3 * s},${-3 * s} 0,${-9 * s}Z`, c, { f: 'l' });
   const arbol = (x, y, k, c = C.hoja, c2 = C.hojaO, s = 1) =>
