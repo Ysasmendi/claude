@@ -4,7 +4,7 @@
 >
 > - **Caja de técnicas** (`AQ`, en `index.html` entre `/*AQ-INICIO*/` y `/*AQ-FIN*/`): manchas de agua con borde cargado, veladuras, pinceladas, línea de plumilla y paleta. Cambiar ahí el temblor, el desencaje del color o el grosor de la línea cambia todos los dibujos a la vez.
 > - **Pinturas** (`pinturas/*.js`): una familia de dibujos por archivo. Tras editarlas, `python3 montar.py` las vuelve a meter en `index.html`, que sigue siendo un único archivo.
-> - **Pendiente de pintar**: lo que se dibuja sobre lienzo (bolas de la piscina, pasillo y pistola de la Etiquetadora, estrella de píxeles de Música) y la bola de cristal.
+> - **Lienzos**: las bolas de la piscina y la bola de cristal son también pinturas (`pinturas/lienzos.js`); el pasillo de la Etiquetadora se dibuja en un lienzo con paleta aguada, líneas de plumilla y el filtro de la interfaz por encima.
 >
 > El resto de este documento describe el funcionamiento, que es el mismo de la versión original.
 
