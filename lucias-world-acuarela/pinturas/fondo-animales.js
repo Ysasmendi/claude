@@ -182,4 +182,243 @@
         + agua(mancha(38, 38, 5, 3, 5, .15), PAPEL, { f: 'l', o: .7 })
         + ojo(41, 55, 3.6) + ojo(59, 55, 3.6) + colorete(33, 64, 4.5) + colorete(67, 64, 4.5) + sonrisa(50, 64, 9)); }
   });
+
+  // ---- Animales: gorditos y sentados, como el cerdito y la vaca ----
+  const ojoB = (x, y, r = 6.5) => agua(mancha(x, y, r, r, x + y, .06), PAPEL, { f: 'l' }) + punto(x + 1, y + 1, r * .52, '#4A3E58', .95) + punto(x + 2.2, y - .6, r * .17, PAPEL, 1);
+  const bigotes = (x, y, w, s = 1) => [-6, 2, 10].map(d => trazo(`M${x + s * 8},${y + d * .4} Q${x + s * w * .6},${y + d * .5 - 3} ${x + s * w},${y + d}`, 1.4, LINEA, { o: .6 })).join('');
+  const MARRON = pig('#B5733A'), MARRONO = carga(MARRON, .8);
+  Object.assign(ILUS, {
+    // Perrito crema con orejas caídas marrones y collar azul
+    animal_perro: () => svg('0 0 200 200',
+      suelo(100, 178, 60, 3)
+      + pincel('M146,150 Q168,144 162,118', 8, C.tierra)
+      + agua(mancha(100, 142, 46, 38, 3, .06), C.crema)
+      + agua(mancha(76, 174, 12, 9, 4, .1), C.crema) + agua(mancha(124, 174, 12, 9, 5, .1), C.crema)
+      + trazo('M76,160 v14 M124,160 v14 M100,152 v18', 1.6, C.tierra, { o: .7 })
+      + agua('M60,50 Q36,58 42,102 Q64,104 72,72Z', C.tronco) + agua('M140,50 Q164,58 158,102 Q136,104 128,72Z', C.tronco)
+      + agua(mancha(100, 88, 46, 42, 6, .05), C.crema)
+      + vel(mancha(80, 76, 22, 22, 7, .15), C.tierra, { o: .6 })
+      + agua(mancha(100, 108, 22, 15, 8, .08), PAPEL) + agua(mancha(100, 98, 8, 6, 9, .1), C.negro, { f: 'l' })
+      + agua('M92,114 Q100,134 108,114Z', C.rosaO, { f: 'l' }) + trazo('M100,106 v8 M88,112 Q94,118 100,114 Q106,118 112,112', 1.8)
+      + ojo(80, 82, 4.2) + ojo(120, 82, 4.2) + colorete(64, 100, 9) + colorete(136, 100, 9)
+      + pincel('M66,128 Q100,148 134,128', 7, C.azul) + agua(mancha(100, 142, 5, 5, 10, .1), C.sol, { f: 'l' })
+      + trazo('M110,56 q6,-6 12,-2 M78,60 q-4,-6 -10,-4', 1.6, C.tronco, { o: .8 })),
+
+    // Gatito naranja de rayas, cola enroscada
+    animal_gato: () => svg('0 0 200 200',
+      suelo(100, 178, 58, 3)
+      + pincel('M148,160 Q184,160 176,124 Q172,106 160,112', 9, C.naranja)
+      + agua(mancha(100, 142, 44, 38, 3, .06), C.naranja)
+      + agua(mancha(78, 174, 12, 9, 4, .1), C.naranja) + agua(mancha(122, 174, 12, 9, 5, .1), C.naranja)
+      + agua(mancha(100, 150, 22, 26, 11, .1), PAPEL, { o: .9 })
+      + trazo('M62,128 q8,4 10,12 M64,148 q8,2 10,8 M138,128 q-8,4 -10,12 M136,148 q-8,2 -10,8', 2.2, C.pajaO, { o: .85 })
+      + agua('M54,60 Q50,28 62,22 Q80,34 84,54Z', C.naranja) + agua('M146,60 Q150,28 138,22 Q120,34 116,54Z', C.naranja)
+      + vel('M60,54 Q58,36 64,30 Q74,38 76,52Z', C.rosa, { o: .8 }) + vel('M140,54 Q142,36 136,30 Q126,38 124,52Z', C.rosa, { o: .8 })
+      + agua(mancha(100, 90, 50, 44, 6, .05), C.naranja)
+      + trazo('M100,48 v14 M88,50 l3,12 M112,50 l-3,12 M54,84 q10,2 14,8 M146,84 q-10,2 -14,8', 2.2, C.pajaO, { o: .9 })
+      + agua(mancha(100, 108, 24, 15, 8, .08), PAPEL)
+      + ojo(78, 82, 4.8) + ojo(122, 82, 4.8) + colorete(62, 102, 9) + colorete(138, 102, 9)
+      + agua('M94,98 L106,98 L100,106Z', C.rosaO, { f: 'l' }) + trazo('M100,106 v6 M90,114 Q100,118 100,112 Q100,118 110,114', 1.6)
+      + bigotes(100, 106, 52, 1) + bigotes(100, 106, 52, -1)),
+
+    // Patito amarillo que saluda con el ala
+    animal_pato: () => svg('0 0 200 200',
+      suelo(100, 178, 56, 3)
+      + agua(mancha(106, 142, 48, 38, 3, .06), C.sol)
+      + agua('M76,176 Q66,184 82,186 Q96,184 90,176Z', C.naranja, { f: 'l' }) + agua('M118,176 Q108,184 124,186 Q138,184 132,176Z', C.naranja, { f: 'l' })
+      + agua('M60,132 Q40,110 48,92 Q60,92 64,108 Q72,120 74,132Z', C.sol) + vel('M52,108 Q56,120 70,130', C.solO, { o: .6 })
+      + vel(mancha(124, 152, 26, 18, 6, .15), C.solO, { o: .4 })
+      + agua(mancha(100, 82, 42, 40, 7, .05), C.sol)
+      + trazo('M96,44 Q92,34 100,32 M102,44 Q108,36 104,30', 1.8, C.solO)
+      + agua(mancha(100, 104, 26, 11, 8, .08), C.naranja) + trazo('M82,104 Q100,110 118,104 M94,100 h.5 M106,100 h.5', 1.6, C.rojoO)
+      + ojo(78, 78, 4.4) + ojo(122, 78, 4.4) + colorete(62, 98, 9) + colorete(138, 98, 9)),
+
+    // Ovejita de lana en nubes, cara gris
+    animal_oveja: () => svg('0 0 200 200',
+      suelo(100, 180, 56, 3)
+      + agua(mancha(76, 170, 8, 14, 4, .1), C.negro) + agua(mancha(124, 170, 8, 14, 5, .1), C.negro)
+      + agua(liso([[52, 128], [58, 108], [80, 100], [104, 96], [128, 102], [146, 114], [150, 138], [138, 160], [112, 168], [84, 168], [60, 156]]), PAPEL)
+      + vel(mancha(124, 148, 28, 18, 6, .2), C.cieloO, { o: .5 }) + vel(mancha(66, 134, 12, 16, 7, .2), C.cieloO, { o: .35 })
+      + trazo('M70,128 q6,-8 12,0 M104,140 q6,-8 12,0 M120,116 q6,-8 12,0', 1.6, C.grisO, { o: .7 })
+      + agua('M60,84 Q34,74 42,92 Q50,100 66,98Z', C.rosa) + agua('M140,84 Q166,74 158,92 Q150,100 134,98Z', C.rosa)
+      + agua(mancha(100, 88, 34, 34, 8, .05), '#9A93A8')
+      + agua(liso([[70, 62], [76, 44], [92, 38], [108, 38], [124, 46], [132, 62], [112, 58], [92, 60]]), PAPEL)
+      + ojoB(86, 86, 7) + ojoB(114, 86, 7) + agua(mancha(100, 100, 7, 5, 9, .1), C.rosaO, { f: 'l' }) + colorete(70, 100, 7) + colorete(130, 100, 7)
+      + sonrisa(100, 110, 14) + trazo('M82,40 q6,-8 12,-2 M110,40 q6,-8 12,0', 1.6, C.grisO, { o: .7 })),
+
+    // Gallo de cola larga y colorida
+    animal_gallo: () => svg('0 0 200 200',
+      suelo(100, 184, 54, 3)
+      + pincel('M122,128 Q164,110 168,58', 12, C.azul) + pincel('M126,138 Q176,134 176,92', 11, C.hoja) + pincel('M126,150 Q170,164 178,126', 10, C.violeta)
+      + trazo('M86,170 v12 M112,170 v12 M78,184 h14 M104,184 h14', 3, C.naranja, { o: .9 })
+      + agua(liso([[64, 112], [78, 96], [104, 98], [128, 114], [130, 144], [112, 168], [86, 170], [70, 150]]), C.naranja)
+      + vel(mancha(112, 152, 20, 14, 5, .2), C.rojoO, { o: .4 })
+      + agua(mancha(100, 134, 20, 14, 6, .1, 10, .4), C.pajaO) + trazo('M88,132 Q100,142 114,130', 1.8, C.rojoO, { o: .8 })
+      + agua('M78,62 L78,102 L100,104 L100,60Z', C.sol) + vel('M82,64 L82,100 L98,102Z', C.naranja, { o: .4 })
+      + agua(mancha(88, 62, 24, 24, 7, .06), C.sol)
+      + agua(liso([[72, 44], [74, 28], [82, 36], [88, 22], [96, 34], [104, 28], [102, 46]]), C.rojo)
+      + agua('M64,64 L50,70 L64,76Z', C.naranja, { f: 'l' }) + agua(mancha(70, 82, 5, 9, 8, .1), C.rojo, { f: 'l' })
+      + ojo(82, 58, 4) + colorete(96, 70, 6)),
+
+    // Gallina marrón con su pollito
+    animal_gallina: () => svg('0 0 200 200',
+      suelo(104, 182, 60, 3)
+      + agua(liso([[56, 112], [60, 80], [82, 62], [112, 64], [136, 82], [142, 114], [132, 150], [106, 172], [78, 172], [58, 150]]), C.tierra)
+      + agua(mancha(94, 138, 26, 28, 4, .08), C.crema)
+      + trazo('M82,128 q6,6 12,0 q6,6 12,0 M80,142 q6,6 12,0 q6,6 12,0', 1.6, C.tronco, { o: .8 })
+      + agua('M138,86 L164,66 L156,92 L170,96 L140,112Z', C.tronco)
+      + agua(mancha(116, 126, 20, 26, 5, .1, 10, .4), C.tronco) + trazo('M106,120 Q120,132 124,144', 1.8, C.troncoO, { o: .8 })
+      + agua(liso([[86, 66], [88, 48], [96, 56], [102, 42], [108, 56], [116, 50], [114, 68]]), C.rojo)
+      + ojo(86, 84, 4.4) + ojo(112, 84, 4.4) + agua('M92,92 L106,92 L99,104Z', C.sol, { f: 'l' }) + agua(mancha(99, 108, 4, 6, 6, .1), C.rojo, { f: 'l' })
+      + colorete(74, 98, 7) + colorete(124, 98, 7)
+      + trazo('M88,170 v10 M112,170 v10 M82,180 h12 M106,180 h12', 2.8, C.naranja, { o: .9 })
+      + agua(mancha(168, 176, 13, 12, 8, .08), C.sol) + agua('M156,174 L148,178 L156,181Z', C.naranja, { f: 'l' }) + punto(162, 172, 2.2, '#4A3E58', .95)),
+
+    // Caballito marrón de crines claras
+    animal_caballo: () => svg('0 0 200 200',
+      suelo(100, 184, 54, 3)
+      + pincel('M144,128 Q176,150 164,180', 10, C.paja)
+      + pincel('M70,150 L70,176', 12, C.tronco) + pincel('M92,152 L92,176', 12, C.tronco) + pincel('M122,152 L122,176', 12, C.tronco) + pincel('M144,148 L146,176', 12, C.tronco)
+      + agua(mancha(70, 178, 9, 5, 3, .1), C.negro, { f: 'l' }) + agua(mancha(122, 178, 9, 5, 4, .1), C.negro, { f: 'l' }) + agua(mancha(92, 178, 9, 5, 5, .1), C.negro, { f: 'l' }) + agua(mancha(146, 178, 9, 5, 6, .1), C.negro, { f: 'l' })
+      + agua(liso([[54, 124], [62, 108], [96, 102], [136, 108], [152, 128], [146, 152], [100, 158], [62, 152]]), C.tronco)
+      + vel(mancha(124, 142, 26, 14, 7, .2), C.troncoO, { o: .4 })
+      + agua('M72,56 Q64,22 76,14 Q86,28 90,46Z', C.tronco) + agua('M128,56 Q136,22 124,14 Q114,28 110,46Z', C.tronco)
+      + agua('M92,28 Q124,24 130,60 Q136,100 118,112 Q132,76 92,28Z', C.paja)
+      + agua(liso([[74, 50], [80, 32], [100, 28], [120, 34], [124, 56], [120, 80], [100, 88], [80, 80]]), C.tronco)
+      + agua(mancha(100, 86, 22, 15, 8, .08), C.crema) + punto(92, 88, 2.6, C.troncoO, .9) + punto(108, 88, 2.6, C.troncoO, .9)
+      + trazo('M92,42 Q100,36 108,42', 2, C.paja)
+      + ojo(86, 62, 4) + ojo(114, 62, 4) + colorete(78, 78, 6) + colorete(122, 78, 6)),
+
+    // León con melena de manchas naranjas
+    animal_leon: () => svg('0 0 200 200',
+      suelo(100, 182, 58, 3)
+      + pincel('M148,150 Q174,148 170,116', 7, C.sol) + agua(mancha(170, 112, 8, 10, 3, .1), C.naranja, { f: 'l' })
+      + agua(mancha(100, 142, 42, 36, 4, .06), C.sol)
+      + agua(mancha(78, 174, 12, 9, 5, .1), C.sol) + agua(mancha(122, 174, 12, 9, 6, .1), C.sol)
+      + agua(liso([[100, 22], [128, 30], [152, 48], [162, 80], [154, 112], [132, 128], [100, 134], [68, 128], [46, 112], [38, 80], [48, 48], [72, 30]]), C.naranja)
+      + trazo('M60,46 q8,10 4,22 M140,46 q-8,10 -4,22 M48,90 q10,2 14,12 M152,90 q-10,2 -14,12 M100,30 q4,8 0,16', 2, C.pajaO, { o: .9 })
+      + agua(mancha(66, 62, 12, 12, 7, .1), C.sol) + agua(mancha(134, 62, 12, 12, 8, .1), C.sol)
+      + agua(mancha(100, 90, 34, 32, 9, .05), C.sol)
+      + agua(mancha(100, 108, 22, 14, 10, .08), PAPEL) + agua('M93,98 L107,98 L100,106Z', C.rosaO, { f: 'l' }) + trazo('M100,106 v6 M90,114 Q100,120 100,112 Q100,120 110,114', 1.6)
+      + ojo(82, 84, 4.2) + ojo(118, 84, 4.2) + colorete(68, 102, 8) + colorete(132, 102, 8)),
+
+    // Elefantito gris con orejas rosas y trompa enroscada
+    animal_elefante: () => svg('0 0 200 200',
+      suelo(100, 180, 58, 3)
+      + agua(mancha(100, 142, 44, 38, 3, .06), C.gris)
+      + agua(mancha(76, 174, 13, 9, 4, .1), C.gris) + agua(mancha(124, 174, 13, 9, 5, .1), C.gris)
+      + trazo('M72,174 v-3 M80,174 v-3 M120,174 v-3 M128,174 v-3', 2, C.grisO)
+      + agua(mancha(48, 84, 30, 38, 6, .08), C.gris) + agua(mancha(152, 84, 30, 38, 7, .08), C.gris)
+      + vel(mancha(50, 86, 18, 26, 8, .1), C.rosa, { o: .8 }) + vel(mancha(150, 86, 18, 26, 9, .1), C.rosa, { o: .8 })
+      + agua(mancha(100, 84, 40, 36, 10, .05), C.gris)
+      + pincel('M100,96 Q96,126 118,130 Q130,128 126,118', 15, C.gris)
+      + vel(mancha(86, 100, 14, 8, 11, .2), C.grisO, { o: .4 })
+      + trazo('M96,110 q8,2 10,0 M98,120 q8,2 10,0', 1.4, C.grisO, { o: .7 })
+      + ojo(82, 78, 4.2) + ojo(118, 78, 4.2) + colorete(70, 98, 8) + colorete(130, 98, 8)),
+
+    // Monito con plátano y cola enroscada
+    animal_mono: () => svg('0 0 200 200',
+      suelo(100, 182, 56, 3)
+      + pincel('M70,160 Q30,170 30,134 Q30,108 52,114', 9, MARRON)
+      + agua(mancha(100, 140, 38, 36, 3, .06), MARRON)
+      + agua(mancha(100, 148, 22, 24, 4, .1), C.crema)
+      + agua(mancha(76, 174, 13, 9, 5, .1), MARRON) + agua(mancha(126, 174, 13, 9, 6, .1), MARRON)
+      + pincel('M130,134 Q150,126 154,104', 9, MARRON) + agua('M152,112 Q160,92 170,90 Q172,100 164,118Z', C.sol)
+      + agua(mancha(56, 82, 15, 15, 7, .1), MARRON) + agua(mancha(144, 82, 15, 15, 8, .1), MARRON)
+      + vel(mancha(56, 82, 8, 8, 9, .1), C.crema, { o: .8 }) + vel(mancha(144, 82, 8, 8, 10, .1), C.crema, { o: .8 })
+      + agua(mancha(100, 82, 42, 38, 11, .05), MARRON)
+      + agua(liso([[74, 76], [86, 70], [100, 78], [114, 70], [126, 76], [128, 98], [114, 112], [100, 116], [86, 112], [72, 98]]), C.crema)
+      + trazo('M96,98 h.5 M104,98 h.5 M90,106 Q100,112 110,106', 2.2)
+      + ojo(86, 80, 4) + ojo(114, 80, 4) + colorete(72, 98, 6) + colorete(128, 98, 6)
+      + trazo('M88,50 q8,-8 14,0 q4,-6 10,0', 1.6, MARRONO, { o: .8 })),
+
+    // Ranita verde de ojos saltones
+    animal_rana: () => svg('0 0 200 200',
+      suelo(100, 180, 62, 3)
+      + agua(liso([[40, 150], [38, 126], [60, 102], [100, 96], [140, 102], [162, 126], [160, 150], [140, 170], [100, 174], [60, 170]]), C.hoja)
+      + agua(mancha(100, 150, 24, 22, 4, .1), lava(C.prado, .3))
+      + agua(mancha(48, 168, 22, 9, 5, .1), C.hoja) + agua(mancha(152, 168, 22, 9, 6, .1), C.hoja)
+      + trazo('M62,170 v-8 M72,170 v-8 M128,170 v-8 M138,170 v-8', 2, C.hojaO, { o: .8 })
+      + agua('M52,142 Q44,120 62,106 Q70,128 74,150Z', C.hojaO) + agua('M148,142 Q156,120 138,106 Q130,128 126,150Z', C.hojaO)
+      + agua(liso([[50, 96], [56, 78], [76, 72], [100, 74], [124, 72], [144, 78], [150, 96], [138, 114], [100, 122], [62, 114]]), C.hoja)
+      + agua(mancha(70, 66, 20, 20, 7, .06), C.hoja) + agua(mancha(130, 66, 20, 20, 8, .06), C.hoja)
+      + ojoB(70, 64, 12) + ojoB(130, 64, 12)
+      + vel(mancha(122, 108, 30, 14, 9, .2), C.hojaO, { o: .4 })
+      + punto(94, 92, 1.8, C.hojaO, .9) + punto(106, 92, 1.8, C.hojaO, .9)
+      + trazo('M66,104 Q100,126 134,104', 2.2) + agua('M92,114 Q100,126 108,114Z', C.rosaO, { f: 'l' })
+      + colorete(54, 100, 7) + colorete(146, 100, 7)),
+
+    // Búho en su rama, ojos enormes
+    animal_buho: () => svg('0 0 200 200',
+      suelo(100, 186, 66, 3)
+      + pincel('M26,170 Q100,160 176,168', 12, C.tronco) + pincel('M170,167 Q184,160 188,150', 6, C.tronco) + agua('M178,160 Q190,150 192,160 Q186,166 178,160Z', C.hoja, { f: 'l' })
+      + trazo('M36,172 Q80,166 130,170', 1.6, C.troncoO, { o: .7 })
+      + agua(liso([[54, 110], [58, 76], [80, 54], [120, 54], [142, 76], [146, 110], [136, 146], [108, 166], [92, 166], [64, 146]]), MARRON)
+      + agua(mancha(100, 126, 28, 32, 4, .08), C.crema)
+      + trazo('M88,114 l6,6 l6,-6 M100,126 l6,6 l6,-6 M82,128 l6,6 l6,-6 M92,142 l6,6 l6,-6', 1.6, C.tronco, { o: .8 })
+      + agua('M56,92 Q44,112 54,140 Q64,126 68,100Z', MARRONO) + agua('M144,92 Q156,112 146,140 Q136,126 132,100Z', MARRONO)
+      + agua('M60,66 Q54,38 62,28 Q80,38 90,56Z', MARRON) + agua('M140,66 Q146,38 138,28 Q120,38 110,56Z', MARRON)
+      + agua(mancha(80, 82, 20, 20, 6, .06), C.crema) + agua(mancha(120, 82, 20, 20, 7, .06), C.crema)
+      + agua(mancha(80, 82, 12, 12, 8, .06), C.sol, { f: 'l' }) + agua(mancha(120, 82, 12, 12, 9, .06), C.sol, { f: 'l' })
+      + punto(80, 83, 6, '#4A3E58', .95) + punto(120, 83, 6, '#4A3E58', .95) + punto(83, 79, 2, PAPEL, 1) + punto(123, 79, 2, PAPEL, 1)
+      + agua('M94,96 L106,96 L100,110Z', C.naranja, { f: 'l' }) + colorete(62, 106, 7) + colorete(138, 106, 7)
+      + trazo('M84,166 v6 M92,166 v6 M108,166 v6 M116,166 v6', 2.4, C.naranja)),
+
+    // Lobito gris de pecho blanco
+    animal_lobo: () => svg('0 0 200 200',
+      suelo(100, 180, 60, 3)
+      + pincel('M146,152 Q184,150 178,112', 14, C.grisO)
+      + agua(mancha(100, 142, 44, 38, 3, .06), C.gris)
+      + agua(mancha(100, 142, 18, 30, 4, .1), PAPEL)
+      + agua(mancha(76, 174, 12, 9, 5, .1), C.gris) + agua(mancha(124, 174, 12, 9, 6, .1), C.gris)
+      + agua('M52,64 Q42,26 54,14 Q76,30 84,56Z', C.grisO) + agua('M148,64 Q158,26 146,14 Q124,30 116,56Z', C.grisO)
+      + vel('M58,56 Q52,34 58,26 Q70,38 74,54Z', C.rosa, { o: .8 }) + vel('M142,56 Q148,34 142,26 Q130,38 126,54Z', C.rosa, { o: .8 })
+      + agua(liso([[52, 88], [58, 68], [78, 58], [100, 62], [122, 58], [142, 68], [148, 88], [138, 110], [100, 120], [62, 110]]), C.gris)
+      + trazo('M52,92 l10,4 M148,92 l-10,4 M54,102 l10,0 M146,102 l-10,0', 1.8, C.grisO, { o: .8 })
+      + agua(mancha(100, 106, 24, 16, 7, .08), PAPEL) + agua(mancha(100, 98, 9, 6, 8, .1), C.negro, { f: 'l' })
+      + agua('M94,112 Q100,128 106,112Z', C.rosaO, { f: 'l' }) + trazo('M100,104 v8', 1.6)
+      + ojo(82, 82, 4.4) + ojo(118, 82, 4.4) + colorete(66, 100, 8) + colorete(134, 100, 8)),
+
+    // Serpiente verde enroscada con la cabeza en alto
+    animal_serpiente: () => svg('0 0 200 200',
+      suelo(100, 180, 74, 3)
+      + pincel('M170,172 Q150,186 100,184 Q40,182 34,164 Q32,148 76,148 Q120,148 140,160 Q160,170 120,170', 20, C.hoja)
+      + pincel('M110,164 Q60,170 50,162', 8, lava(C.prado, .3), { o: .9 })
+      + pincel('M122,156 Q70,146 80,126 Q94,110 100,92', 20, C.hoja)
+      + vel(mancha(60, 168, 20, 8, 3, .2), C.hojaO, { o: .5 }) + vel(mancha(140, 176, 14, 6, 4, .2), C.hojaO, { o: .5 })
+      + agua(mancha(52, 168, 5, 4, 5, .1), C.hojaO, { f: 'l' }) + agua(mancha(110, 180, 5, 4, 6, .1), C.hojaO, { f: 'l' }) + agua(mancha(148, 160, 4.5, 4, 7, .1), C.hojaO, { f: 'l' }) + agua(mancha(84, 130, 4.5, 4, 8, .1), C.hojaO, { f: 'l' })
+      + agua(mancha(100, 66, 30, 26, 9, .06), C.hoja) + vel(mancha(112, 74, 16, 12, 10, .2), C.hojaO, { o: .45 })
+      + ojoB(88, 60, 6.5) + ojoB(112, 60, 6.5) + colorete(78, 76, 6) + colorete(122, 76, 6)
+      + trazo('M88,80 Q100,88 112,80', 1.8) + trazo('M100,88 Q98,98 94,102 M98,96 Q104,100 108,98', 2, C.rojoO)
+      + trazo('M86,50 q4,-4 8,0 M106,50 q4,-4 8,0', 1.4, C.hojaO, { o: .7 })),
+
+    // Abeja rayada, alas azuladas
+    animal_abeja: () => svg('0 0 200 200',
+      suelo(100, 184, 36, 3)
+      + trazo('M82,52 Q76,32 66,28 M118,52 Q124,32 134,28', 2.2) + punto(65, 27, 5, C.negro, .95) + punto(135, 27, 5, C.negro, .95)
+      + agua(liso([[34, 100], [34, 78], [56, 72], [78, 90], [78, 118], [54, 122]]), PAPEL) + vel(mancha(52, 98, 14, 20, 3, .15), C.cieloO, { o: .55 })
+      + agua(liso([[166, 100], [166, 78], [144, 72], [122, 90], [122, 118], [146, 122]]), PAPEL) + vel(mancha(148, 98, 14, 20, 4, .15), C.cieloO, { o: .55 })
+      + trazo('M44,84 Q54,96 52,112 M156,84 Q146,96 148,112', 1.3, C.cieloO, { o: .8 })
+      + agua(liso([[72, 138], [76, 116], [100, 108], [124, 116], [130, 140], [118, 164], [100, 176], [84, 164]]), C.sol)
+      + pincel('M76,136 Q100,146 126,134', 12, C.negro) + pincel('M82,156 Q100,164 120,154', 11, C.negro)
+      + agua('M100,174 L96,184 L104,184Z', C.negro, { f: 'l' })
+      + pincel('M72,128 Q58,140 66,148', 6, C.sol) + pincel('M128,128 Q142,140 134,148', 6, C.sol)
+      + agua(mancha(100, 84, 36, 34, 5, .05), C.sol) + vel(mancha(114, 96, 20, 14, 6, .2), C.solO, { o: .5 })
+      + ojo(86, 78, 4.4) + ojo(114, 78, 4.4) + colorete(72, 94, 7) + colorete(128, 94, 7) + sonrisa(100, 92, 12)),
+
+    // Ratoncito de orejas enormes
+    animal_raton: () => svg('0 0 200 200',
+      suelo(100, 182, 52, 3)
+      + pincel('M126,166 Q170,176 176,146 Q178,130 164,128', 5, C.rosaO)
+      + agua(mancha(100, 148, 34, 32, 3, .06), C.gris)
+      + agua(mancha(100, 154, 18, 20, 4, .1), PAPEL)
+      + agua(mancha(78, 176, 11, 7, 5, .1), C.rosa) + agua(mancha(122, 176, 11, 7, 6, .1), C.rosa)
+      + agua(mancha(56, 66, 34, 34, 7, .06), C.gris) + agua(mancha(144, 66, 34, 34, 8, .06), C.gris)
+      + vel(mancha(58, 68, 22, 22, 9, .1), C.rosa, { o: .85 }) + vel(mancha(142, 68, 22, 22, 10, .1), C.rosa, { o: .85 })
+      + agua(mancha(100, 100, 42, 38, 11, .05), C.gris)
+      + agua(mancha(100, 112, 20, 14, 12, .08), PAPEL)
+      + agua(mancha(100, 106, 7, 6, 13, .1), C.rosaO, { f: 'l' }) + trazo('M100,112 v6 M92,120 Q100,124 100,118 Q100,124 108,120', 1.6)
+      + ojo(82, 92, 4.2) + ojo(118, 92, 4.2) + colorete(66, 108, 7) + colorete(134, 108, 7)
+      + bigotes(100, 114, 46, 1) + bigotes(100, 114, 46, -1)),
+  });
 })();
