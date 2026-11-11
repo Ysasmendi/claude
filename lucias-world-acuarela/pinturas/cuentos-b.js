@@ -2,9 +2,18 @@
 (() => {
   const { agua, vel, trazo, pincel, punto, gotas, mancha, liso, pig, carga, lava, svg, C, ojo, sonrisa, colorete, hierba, flor, nubeD, LINEA, PAPEL, azar, f1 } = AQ;
   const VB = '0 0 400 260';
+  // Los filtros de trazo del kit tienen la zona fijada al lienzo: dentro de un grupo con coordenadas locales
+  // (personajes) se recortarían. Estas copias usan una zona enorme y valen en cualquier sistema local.
+  const zn = 'filterUnits="userSpaceOnUse" x="-800" y="-800" width="2000" height="2000"';
+  const DEF = `<defs><filter id="§L" ${zn}><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>`
+    + `<filter id="§K1" ${zn}><feTurbulence type="fractalNoise" baseFrequency=".0225" numOctaves="2" seed="14" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6.8" xChannelSelector="R" yChannelSelector="G"/></filter>`
+    + `<filter id="§K2" ${zn}><feTurbulence type="fractalNoise" baseFrequency=".0225" numOctaves="2" seed="37" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/></filter>`
+    + `<filter id="§P" ${zn}><feTurbulence type="fractalNoise" baseFrequency=".0105" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/></filter></defs>`;
+  const fx = t => t.replace(/#§l\)/g, '#§L)').replace(/#§k1\)/g, '#§K1)').replace(/#§k2\)/g, '#§K2)').replace(/#§p\d\)/g, '#§P)');
+  const svgL = (vb, cuerpo, extra) => svg(vb, DEF + cuerpo, extra);
 
   // ---------- ayudantes comunes ----------
-  const en = (x, y, k, inner, fl, rot) => `<g transform="translate(${f1(x)} ${f1(y)})${rot ? ` rotate(${rot})` : ''} scale(${fl ? -k : k} ${k})">${inner}</g>`;
+  const en = (x, y, k, inner, fl, rot) => `<g transform="translate(${f1(x)} ${f1(y)})${rot ? ` rotate(${rot})` : ''} scale(${fl ? -k : k} ${k})">${fx(inner)}</g>`;
   const fondo = (c, c2) => agua('M-20,-20 H420 V280 H-20Z', c, { f: 's', o: 1 }) + (c2 ? vel('M-20,-20 H420 V100 Q200,130 -20,92Z', c2, { o: .4 }) : '');
   const suelo = (y, c, c2) => agua(`M-20,${y} Q100,${y - 12} 200,${y - 2} Q300,${y + 9} 420,${y - 8} L420,280 L-20,280Z`, c) + (c2 ? vel(mancha(200, y + 62, 260, 34, y, .08), c2, { o: .3 }) : '');
   const sombra = (x, y, rx) => vel(mancha(x, y, rx, 5, x, .1), C.grisO, { o: .38 });
@@ -36,7 +45,7 @@
     const oj = o.ojos || 'abiertos';
     if (o.gafas) s += agua(mancha(-9.5, -74, 10, 8, 13, .05), '#6A5B78', { f: 'l' }) + agua(mancha(9.5, -74, 10, 8, 14, .05), '#6A5B78', { f: 'l' }) + trazo('M-2,-76 Q0,-78 2,-76', 2, '#6A5B78') + vel(mancha(-12, -77, 3, 1.6, 15, .1), PAPEL, { o: .9 }) + vel(mancha(7, -77, 3, 1.6, 16, .1), PAPEL, { o: .9 });
     else if (oj === 'cerrados') s += trazo('M-14,-73 Q-9,-68 -4,-73', 2.2) + trazo('M4,-73 Q9,-68 14,-73', 2.2);
-    else s += ojo(-8, -73, 3.4) + ojo(8, -73, 3.4);
+    else s += punto(-7.5, -73, 4.6, '#3A2F48', 1) + punto(7.5, -73, 4.6, '#3A2F48', 1) + punto(-6, -74.6, 1.4, PAPEL, 1) + punto(9, -74.6, 1.4, PAPEL, 1);
     if (!o.gafas && oj === 'pena') s += trazo('M-15,-84 L-4,-81', 2, LINEA, { o: .7 }) + trazo('M15,-84 L4,-81', 2, LINEA, { o: .7 });
     s += agua(o.boca === 'abierta' ? 'M-8,-67 Q0,-73 8,-67 Q6,-52 0,-50 Q-6,-52 -8,-67Z' : 'M-7,-67 Q0,-72 7,-67 Q3,-57 0,-56 Q-3,-57 -7,-67Z', C.naranja, { f: 'l' });
     if (o.boca === 'abierta') s += agua(mancha(0, -58, 4, 4, 17, .1), '#C9605F', { f: 'l' });
@@ -47,7 +56,7 @@
 
   // ---------- la niña ----------
   const nino = (x, y, k, o = {}) => {
-    const ropa = pig(o.ropa || '#E8777F'), piel = o.piel || '#F4CDB4', pelo = pig(o.pelo || '#7A4B2E');
+    const ropa = pig(o.ropa || '#E8777F'), piel = o.piel || '#F8DCC8', pelo = pig(o.pelo || '#7A4B2E');
     const arr = o.brazos === 'arriba';
     let s = sombra(0, 1, 16);
     s += pincel('M-4,-16 L-4,-1', 5.5, carga(piel, .9), { f: 'l' }) + pincel('M4,-16 L4,-1', 5.5, carga(piel, .9), { f: 'l' });
@@ -60,7 +69,7 @@
     if (o.pelo !== false && o.trenzas) s += agua(mancha(-12, -48, 5, 8, 24, .1), pelo, { f: 'l' }) + agua(mancha(12, -48, 5, 8, 25, .1), pelo, { f: 'l' });
     s += agua(mancha(0, -53, 11, 10.5, 26, .05), piel);
     s += agua(`M-12,-54 Q-11,-68 0,-66 Q11,-68 12,-54 Q6,-60 0,-59 Q-6,-60 -12,-54Z`, pelo);
-    s += punto(-4, -52, 1.6) + punto(4, -52, 1.6) + trazo(`M-3,-47 Q0,${o.boca === 'o' ? -45 : -44.5} 3,-47`, 1.5) + colorete(-8, -48, 3.4) + colorete(8, -48, 3.4);
+    s += punto(-4, -52, 2.2) + punto(4, -52, 2.2) + trazo(`M-3,-47 Q0,${o.boca === 'o' ? -45 : -44.5} 3,-47`, 1.5) + colorete(-8, -48, 3.4) + colorete(8, -48, 3.4);
     return en(x, y, k, s, o.flip);
   };
 
@@ -71,8 +80,8 @@
       + vel(mancha(6, 8, 46, 10, 3, .2), o.sombra || C.cieloO, { o: .35 });
     const e = o.cara || 'feliz';
     if (e === 'esfuerzo') s += trazo('M-24,-14 L-14,-10 L-24,-6', 2.6) + trazo('M24,-14 L14,-10 L24,-6', 2.6) + agua(mancha(0, 2, 8, 5, 4, .1), '#C9605F', { f: 'l' });
-    else if (e === 'triste') s += ojo(-16, -10, 3.6) + ojo(16, -10, 3.6) + trazo('M-24,-20 L-10,-16', 2, LINEA, { o: .7 }) + trazo('M24,-20 L10,-16', 2, LINEA, { o: .7 }) + trazo('M-8,4 Q0,-2 8,4', 2) + gota(-24, 0, .9);
-    else if (e === 'preocupada') s += ojo(-16, -10, 3.6) + ojo(16, -10, 3.6) + trazo('M-24,-21 L-10,-17', 2, LINEA, { o: .7 }) + trazo('M24,-21 L10,-17', 2, LINEA, { o: .7 }) + trazo('M-9,4 Q-4,0 0,4 Q4,8 9,4', 2);
+    else if (e === 'triste') s += ojo(-16, -10, 3.6) + ojo(16, -10, 3.6) + trazo('M-24,-16 L-10,-21', 2, LINEA, { o: .7 }) + trazo('M24,-16 L10,-21', 2, LINEA, { o: .7 }) + trazo('M-8,4 Q0,-2 8,4', 2) + gota(-24, 0, .9);
+    else if (e === 'preocupada') s += ojo(-16, -10, 3.6) + ojo(16, -10, 3.6) + trazo('M-24,-17 L-10,-22', 2, LINEA, { o: .7 }) + trazo('M24,-17 L10,-22', 2, LINEA, { o: .7 }) + trazo('M-9,4 Q-4,0 0,4 Q4,8 9,4', 2);
     else s += ojo(-16, -10, 3.6) + ojo(16, -10, 3.6) + sonrisa(0, 0, 14);
     s += colorete(-27, -1, 7) + colorete(27, -1, 7);
     return en(x, y, k, s);
@@ -84,7 +93,7 @@
     if (tipo === 'env') s = agua(mancha(0, 0, 9, 6, x, .1), c, { f: 'l' }) + agua('M8,0 L17,-6 L17,6Z', c, { f: 'l' }) + agua('M-8,0 L-17,-6 L-17,6Z', c, { f: 'l' }) + trazo('M-3,-4 L-1,4', 1.6, PAPEL, { o: .9 });
     else if (tipo === 'pir') s = trazo('M0,8 L0,28', 2.2, '#B9A99A', { o: .8 }) + agua(mancha(0, 0, 9, 9, x, .06), c, { f: 'l' }) + trazo('M0,0 m-1,0 a2,2 0 1,1 3,1 a5,5 0 1,1 -6,-3', 1.6, PAPEL, { o: .9 });
     else s = agua(mancha(0, 0, 6, 6, x + y, .08), c, { f: 'l' }) + punto(-2, -2, 1.4, PAPEL, .85);
-    return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${rot}) scale(${k})">${s}</g>`;
+    return `<g transform="translate(${f1(x)} ${f1(y)}) rotate(${rot}) scale(${k})">${fx(s)}</g>`;
   };
   const DC = [C.rojo, C.sol, C.violeta, C.hoja, C.rosa, C.cieloO, C.naranja];
 
@@ -188,7 +197,7 @@
   Object.assign(ILUS, {
     // ===== Cuento 5: el pingüino que tenía calor =====
     // Pepe en el zoo, bajo un sol enorme
-    cuento5_1: () => svg(VB,
+    cuento5_1: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + sol(335, 52, 30)
       + suelo(176, C.paja, C.pajaO)
       + pincel('M-10,154 L410,148', 4.4, C.troncoO, { o: .85 }) + [24, 72, 126, 180, 236, 292, 348, 396].map((x, i) => pincel(`M${x},${176 - (i % 2) * 2} L${x},${142 + (i % 3)}`, 6, C.tronco)).join('')
@@ -199,7 +208,7 @@
       + hierba(30, 240, 14, C.pajaO) + hierba(370, 244, 12, C.pajaO, -1)),
 
     // Intenta de todo: sombra, abanicarse, charquito
-    cuento5_2: () => svg(VB,
+    cuento5_2: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + sol(344, 44, 24)
       + suelo(170, C.paja, C.pajaO)
       + vel('M-10,236 Q60,214 150,226 Q190,240 130,258 L-10,258Z', C.grisO, { o: .4 })
@@ -211,7 +220,7 @@
       + hierba(180, 250, 12, C.pajaO) + hierba(390, 246, 12, C.pajaO, -1)),
 
     // El puesto de helados: el de hielo se derrite
-    cuento5_3: () => svg(VB,
+    cuento5_3: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + sol(46, 48, 24)
       + suelo(176, C.paja, C.pajaO)
       + agua('M-10,222 Q100,212 200,220 Q300,228 410,216 L410,270 L-10,270Z', C.crema, { o: .85 })
@@ -231,7 +240,7 @@
       + agua(mancha(176, 240, 26, 5, 19, .1), '#BFE4F3', { o: .8 })),
 
     // La niña lo lleva al cuarto de las neveras, donde guardan el pescado
-    cuento5_4: () => svg(VB,
+    cuento5_4: () => svgL(VB,
       fondo(lava(C.cielo, .35), C.cieloO)
       + agua('M-20,210 Q100,200 200,206 Q320,212 420,200 L420,280 L-20,280Z', '#D8E8F2')
       + vel('M-20,236 Q200,224 420,234 L420,280 L-20,280Z', C.cieloO, { o: .35 })
@@ -246,17 +255,17 @@
       + `<g opacity=".7">${gotas(256, 170, 30, 7, PAPEL, 5, 2)}</g>`),
 
     // Pepe duerme la siesta entre cubitos de hielo
-    cuento5_5: () => svg(VB,
+    cuento5_5: () => svgL(VB,
       fondo(lava(C.cielo, .3), C.cieloO)
       + agua('M-20,196 Q100,184 200,192 Q320,200 420,186 L420,280 L-20,280Z', '#D8E8F2')
       + [[70, 190, 26, -8], [118, 176, 22, 10], [300, 180, 24, 6], [340, 196, 28, -10]].map(([x, y, r, a], i) => cubo(x, y, r, a, i + 151)).join('')
-      + pinguino(206, 232, 1.2, { gafas: true, rot: -82, alaD: 'fuera' })
-      + [[158, 244, 26, 6], [214, 250, 24, -8], [262, 244, 26, 8], [300, 236, 22, -6], [110, 238, 24, -6]].map(([x, y, r, a], i) => cubo(x, y, r, a, i + 161)).join('')
+      + pinguino(206, 226, 1.25, { gafas: true, rot: -6, alaD: 'frente', alaI: 'baja' })
+      + [[150, 236, 24, 6], [194, 246, 24, -8], [244, 240, 26, 8], [288, 238, 22, -6], [108, 232, 22, -6], [172, 214, 18, 12], [232, 214, 18, -10]].map(([x, y, r, a], i) => cubo(x, y, r, a, i + 161)).join('')
       + trazo('M284,70 h12 l-12,14 h12', 2.6, C.violeta) + trazo('M306,46 h9 l-9,11 h9', 2.2, C.violeta) + trazo('M324,26 h7 l-7,8 h7', 1.9, C.violeta)
       + copo(60, 60, 7) + copo(150, 36, 6) + copo(354, 120, 7) + copo(36, 130, 5)),
 
     // ===== Cuento 6: la nube que llovía caramelos =====
-    cuento6_1: () => svg(VB,
+    cuento6_1: () => svgL(VB,
       fondo(C.cielo, C.cieloO)
       + nubeG(70, 66, 1, 3) + nubeG(338, 60, 1, 5)
       + [[30, 96], [52, 100], [74, 94], [96, 100], [318, 92], [342, 98], [364, 90], [386, 98]].map(([x, y], i) => pincel(`M${x},${y} l-5,${24 + (i % 3) * 8}`, 2.8, C.cieloO, { f: 'l', o: .85 })).join('')
@@ -266,7 +275,7 @@
       + nubeP(200, 124, 1.15, { cara: 'triste' }) + trazo('M190,172 q-4,6 0,10', 1.4, C.cieloO, { o: .5 })),
 
     // La nube aprieta con todas sus fuerzas y caen caramelos
-    cuento6_2: () => svg(VB,
+    cuento6_2: () => svgL(VB,
       fondo(lava(C.rosa, .5), C.violeta)
       + nubeP(200, 76, 1.5, { cara: 'esfuerzo', sombra: C.rosaO })
       + gota(106, 56, .9) + gota(296, 50, .9)
@@ -275,16 +284,16 @@
       + trazo('M150,106 l0,12 M232,104 l0,12 M190,138 l0,12', 2, C.rosaO, { o: .4 })),
 
     // Los niños salen con los paraguas al revés
-    cuento6_3: () => svg(VB,
+    cuento6_3: () => svgL(VB,
       fondo(C.cielo, C.cieloO)
       + nubeP(200, 56, 1.1, { cara: 'feliz' })
       + [[120, 100, 'env', 20], [160, 124, 'bol', 0], [210, 110, 'pir', -10], [262, 128, 'env', -20], [296, 102, 'bol', 0], [80, 130, 'pir', 10], [340, 120, 'env', 14], [188, 150, 'bol', 0]].map(([x, y, t, r], i) => dulce(x, y, t, DC[(i + 2) % DC.length], r, 1.1)).join('')
       + agua('M-20,200 Q100,172 220,196 Q320,214 420,184 L420,280 L-20,280Z', C.prado) + agua('M-20,236 Q150,214 420,232 L420,280 L-20,280Z', C.hoja)
       + casa(48, 200, .6, C.paja) + casa(356, 196, .6, C.rojo)
-      + [[90, 'rosa', C.rojo, '#7A4B2E', true], [170, 'azul', C.azul, '#2F2F3F', false], [250, 'amarillo', C.sol, '#B0703C', true], [322, 'verde', C.hoja, '#7A4B2E', false]].map(([x, , ropa, pelo, v], i) => nino(x, 250 - (i % 2) * 6, 1.45, { brazos: 'arriba', ropa, pelo, vestido: v, trenzas: v, boca: 'o' }) + paraguas(x, 250 - (i % 2) * 6 - 90, 1.45, [C.violeta, C.naranja, C.cieloO, C.rosa][i])).join('')),
+      + [[90, 'rosa', C.rojo, '#7A4B2E', true], [170, 'azul', C.azul, '#2F2F3F', false], [250, 'amarillo', C.sol, '#B0703C', true], [322, 'verde', C.hoja, '#7A4B2E', false]].map(([x, , ropa, pelo, v], i) => nino(x, 250 - (i % 2) * 6, 1.45, { brazos: 'arriba', ropa, pelo, vestido: v, trenzas: v, boca: 'o' }) + trazo(`M${x - 8},${250 - (i % 2) * 6 - 90} L${x - 2},${250 - (i % 2) * 6 - 112} M${x + 8},${250 - (i % 2) * 6 - 90} L${x + 2},${250 - (i % 2) * 6 - 112}`, 2, C.troncoO) + paraguas(x, 250 - (i % 2) * 6 - 122, 1.45, [C.violeta, C.naranja, C.cieloO, C.rosa][i])).join('')),
 
     // La nube se preocupa por los dientes
-    cuento6_4: () => svg(VB,
+    cuento6_4: () => svgL(VB,
       fondo(lava(C.violeta, .55), C.violeta)
       + nubeP(120, 160, 1.4, { cara: 'preocupada' }) + gota(66, 112, .9)
       + agua(mancha(206, 96, 4, 4, 171, .1), PAPEL, { f: 'l' }) + agua(mancha(232, 70, 6, 6, 172, .1), PAPEL, { f: 'l' })
@@ -299,7 +308,7 @@
       + trazo('M150,98 Q200,106 210,100', 2, C.violeta, { o: .4 }) ),
 
     // El resto de la semana llueve agua; el domingo, caramelos
-    cuento6_5: () => svg(VB,
+    cuento6_5: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + sol(364, 40, 20, true)
       + ['#E98E86', '#F4B77E', '#F6D978', '#A7CF8E', '#9CCBEA', '#9CB8EA', '#B9A2DE'].map((c, i) => { const r = 150 - i * 11; return pincel(`M${200 - r},218 A${r},${r} 0 0 1 ${200 + r},218`, 12, c, { o: .88 }); }).join('')
       + agua('M-20,208 Q100,184 220,206 Q320,220 420,196 L420,280 L-20,280Z', C.prado) + agua('M-20,240 Q150,224 420,240 L420,280 L-20,280Z', C.hoja)
@@ -309,7 +318,7 @@
       + gotas(200, 160, 70, 10, C.cieloO, 6, 2)),
 
     // ===== Cuento 7: el robot que aprendió a bailar =====
-    cuento7_1: () => svg(VB,
+    cuento7_1: () => svgL(VB,
       fondo(lava(C.violeta, .6), C.violeta)
       + agua('M30,30 L120,30 L120,104 L30,104Z', C.cielo) + trazo('M75,30 V104 M30,67 H120', 2, C.grisO, { o: .6 }) + agua(mancha(98, 52, 9, 9, 181, .1), C.sol, { f: 'l' })
       + agua('M-20,186 Q200,176 420,186 L420,280 L-20,280Z', lava(C.grisO, .45))
@@ -320,7 +329,7 @@
       + agua(mancha(244, 164, 4, 9, 192, .1), C.gris, { f: 'l' }) + trazo('M244,152 L244,176', 1.8, C.grisO)),
 
     // Suena la radio y a Bip se le mueve un pie
-    cuento7_2: () => svg(VB,
+    cuento7_2: () => svgL(VB,
       fondo(lava(C.violeta, .6), C.violeta)
       + agua('M-20,196 Q200,186 420,196 L420,280 L-20,280Z', lava(C.grisO, .45))
       + pincel('M236,150 L396,150', 7, C.tronco) + pincel('M252,152 L248,176 M380,152 L384,176', 4, C.troncoO, { o: .8 })
@@ -333,7 +342,7 @@
       + trazo('M52,222 l-8,-4 M52,232 l-10,0 M58,212 l-6,-8', 2, C.naranja, { o: .8 })),
 
     // ¡Bip está bailando! Hasta la cabeza da una vuelta entera
-    cuento7_3: () => svg(VB,
+    cuento7_3: () => svgL(VB,
       fondo(lava(C.rosa, .55), C.violeta)
       + agua('M-20,208 Q200,198 420,208 L420,280 L-20,280Z', lava(C.grisO, .4))
       + robot(200, 232, 1.5, { rot: -5, pie: 'der', boca: 'abierta', brazos: [[-46, -88], [46, -66]], giro: true, cab: 14 })
@@ -341,7 +350,7 @@
       + [[100, 50, C.sol], [300, 40, C.rojo], [60, 150, C.azul], [346, 160, C.hoja], [130, 110, C.rojo]].map(([x, y, c], i) => agua(mancha(x, y, 3.4, 2.2, i + 211, .1), c, { f: 'l', t: `rotate(${i * 40} ${x} ${y})` })).join('')),
 
     // Los juguetes se despiertan y bailan con él
-    cuento7_4: () => svg(VB,
+    cuento7_4: () => svgL(VB,
       fondo(lava(C.violeta, .6), C.cielo)
       + agua('M-20,206 Q200,196 420,206 L420,280 L-20,280Z', lava(C.grisO, .45))
       + trazo('M-10,26 Q100,60 200,34 Q300,10 410,44', 2, C.grisO, { o: .7 }) + [[30, 40, C.rojo], [76, 52, C.sol], [124, 54, C.azul], [172, 44, C.hoja], [232, 28, C.rosa], [286, 22, C.violeta], [346, 32, C.rojo]].map(([x, y, c], i) => agua(`M${x - 9},${y} L${x + 9},${y} L${x},${y + 18}Z`, c, { f: 'l' })).join('')
@@ -351,7 +360,7 @@
       + [[108, 156], [276, 150]].map(([x, y], i) => trazo(`M${x},${y} q8,-6 16,0`, 1.8, C.naranja, { o: .7 })).join('')),
 
     // Cada viernes hay baile en la fábrica
-    cuento7_5: () => svg(VB,
+    cuento7_5: () => svgL(VB,
       fondo(lava(C.sol, .55), C.rosa)
       + agua('M-20,208 Q200,198 420,208 L420,280 L-20,280Z', lava(C.grisO, .45))
       + agua('M312,98 L312,218 L392,218 L392,98 Q352,70 312,98Z', C.paja) + agua('M322,108 L322,218 L382,218 L382,108 Q352,88 322,108Z', lava(C.cielo, .4))
@@ -363,7 +372,7 @@
 
     // ===== Cuento 8: la tortuga más rápida del mundo =====
     // Tula, lentísima, y el conejo ya lejos
-    cuento8_1: () => svg(VB,
+    cuento8_1: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + nubeD(100, 50, .7, 2) + nubeD(300, 40, .6, 5)
       + agua('M-20,150 Q140,120 300,146 Q380,158 420,140 L420,280 L-20,280Z', C.prado) + agua('M-20,214 Q200,194 420,208 L420,280 L-20,280Z', C.hoja)
       + agua('M-20,222 Q200,208 420,220 L420,252 Q200,240 -20,254Z', C.tierra, { o: .85 })
@@ -375,30 +384,30 @@
       + gotas(96, 200, 20, 3, C.cieloO, 4, 1.6) + hierba(168, 252, 12, C.hojaO)),
 
     // Tula se sube al monopatín y sale disparada
-    cuento8_2: () => svg(VB,
+    cuento8_2: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + nubeD(300, 50, .7, 3)
       + agua('M-20,150 Q140,120 300,146 Q380,158 420,140 L420,280 L-20,280Z', C.prado) + agua('M-20,214 Q200,194 420,208 L420,280 L-20,280Z', C.hoja)
       + agua('M-20,224 Q200,210 420,222 L420,254 Q200,242 -20,256Z', C.tierra, { o: .85 })
       + arbol(40, 172, .7, C.hoja, C.hojaO, 11) + arbol(350, 168, .75, C.hoja, C.hojaO, 13)
       + lineasVel(20, 170, [196, 212, 228, 244], C.grisO)
       + agua(mancha(70, 244, 10, 6, 231, .2), C.tierra, { o: .6, f: 'l' }) + agua(mancha(48, 248, 7, 4, 232, .2), C.tierra, { o: .6, f: 'l' })
-      + monopatin(230, 244, 1.5) + tortuga(230, 232, 1.5, { sorpresa: true, boca: 'o', sinSombra: true, rot: -4 })
+      + monopatin(230, 232, 1.5) + tortuga(230, 221, 1.5, { sorpresa: true, boca: 'o', sinSombra: true, rot: -4 })
       + trazo('M170,170 l-14,0 M174,188 l-20,0', 2, C.cieloO, { o: .6 })),
 
     // ¡Zuuum! Adelanta al conejo, a la ardilla y a una bicicleta
-    cuento8_3: () => svg(VB,
+    cuento8_3: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + nubeD(120, 46, .6, 4) + nubeD(320, 40, .6, 6)
       + agua('M-20,148 Q140,118 300,142 Q380,154 420,138 L420,280 L-20,280Z', C.prado) + agua('M-20,206 Q200,188 420,202 L420,280 L-20,280Z', C.hoja)
       + agua('M-20,214 Q200,200 420,212 L420,254 Q200,244 -20,258Z', C.tierra, { o: .85 })
       + arbol(374, 164, .6, C.hoja, C.hojaO, 15)
-      + bici(70, 226, .85, { jinete: true }) + ardilla(142, 236, 1.2, { boca: 'o' }) + conejo(228, 246, 1.05, { boca: 'o', corre: true })
-      + lineasVel(100, 300, [196, 206, 218, 230], C.grisO)
-      + monopatin(330, 244, 1.4) + tortuga(330, 232, 1.4, { boca: 'sonrisa', sinSombra: true, rot: -3 })
+      + bici(58, 224, .85, { jinete: true }) + ardilla(128, 234, 1.2, { boca: 'o' }) + conejo(206, 242, 1.05, { boca: 'o', corre: true })
+      + lineasVel(90, 230, [196, 206, 218, 230], C.grisO)
+      + monopatin(318, 236, 1.15) + tortuga(318, 226, 1.15, { boca: 'sonrisa', sinSombra: true, rot: -3 })
       + trazo('M276,206 l-30,0 M280,224 l-38,0 M284,238 l-30,0', 2.2, C.cieloO, { o: .6 })),
 
     // Gana la gran carrera del bosque; lo mejor es el viento en la cara
-    cuento8_4: () => svg(VB,
-      fondo(C.cielo, C.cieloO) + sol(60, 50, 22, false)
+    cuento8_4: () => svgL(VB,
+      fondo(C.cielo, C.cieloO) + sol(360, 54, 20, false)
       + agua('M-20,148 Q140,118 300,142 Q380,154 420,138 L420,280 L-20,280Z', C.prado) + agua('M-20,208 Q200,190 420,204 L420,280 L-20,280Z', C.hoja)
       + agua('M-20,216 Q200,202 420,214 L420,254 Q200,244 -20,258Z', C.tierra, { o: .85 })
       + trazo('M-10,34 Q100,70 200,44 Q300,20 410,54', 2, C.grisO, { o: .7 }) + [[40, 50, C.rojo], [96, 64, C.sol], [160, 62, C.azul], [226, 44, C.hoja], [290, 34, C.rosa], [350, 40, C.violeta]].map(([x, y, c]) => agua(`M${x - 9},${y} L${x + 9},${y} L${x},${y + 18}Z`, c, { f: 'l' })).join('')
@@ -407,28 +416,28 @@
       + pincel('M246,112 Q226,126 214,150', 6, C.rojo, { f: 'l' }) + pincel('M326,112 Q346,124 360,148', 6, C.rojo, { f: 'l' })
       + trazo('M300,122 q10,6 4,16', 2, C.rojoO, { o: .7 })
       + lineasVel(30, 180, [208, 222, 236], C.grisO) + trazo('M120,170 q16,-8 34,0 q10,6 22,-2 M140,150 q14,-6 28,0 M110,190 q18,-6 40,2', 2.2, C.cieloO, { o: .7 })
-      + monopatin(190, 244, 1.5) + tortuga(190, 232, 1.5, { boca: 'sonrisa', sinSombra: true, rot: -3 })
+      + monopatin(190, 234, 1.4) + tortuga(190, 223, 1.4, { boca: 'sonrisa', sinSombra: true, rot: -3 })
       + agua('M326,246 L384,246 L384,214 L326,214Z', C.paja) + vel('M360,214 L384,214 L384,246 L360,246Z', C.pajaO, { o: .4 })
       + agua('M342,214 Q338,184 350,174 L366,174 Q378,184 372,214Z', C.sol) + vel('M360,176 L366,174 Q378,184 372,214 L362,214Z', C.solO, { o: .5 }) + trazo('M342,184 Q330,184 332,196 Q336,204 342,200 M372,184 Q384,184 382,196 Q378,204 372,200', 2.4, C.solO) + agua('M352,214 L362,214 L360,222 L354,222Z', C.solO, { f: 'l' }) + punto(354, 188, 2.4, PAPEL, .9)),
 
     // Tula y el conejo, juntos en el mismo monopatín
-    cuento8_5: () => svg(VB,
+    cuento8_5: () => svgL(VB,
       fondo(C.cielo, C.cieloO) + nubeD(90, 50, .6, 7) + nubeD(320, 44, .6, 8)
       + agua('M-20,148 Q140,118 300,142 Q380,154 420,138 L420,280 L-20,280Z', C.prado) + agua('M-20,208 Q200,190 420,204 L420,280 L-20,280Z', C.hoja)
       + agua('M-20,216 Q200,202 420,214 L420,254 Q200,244 -20,258Z', C.tierra, { o: .85 })
       + arbol(40, 168, .7, C.hoja, C.hojaO, 17) + arbol(362, 164, .65, C.hoja, C.hojaO, 19)
       + lineasVel(10, 130, [200, 214, 228, 242], C.grisO)
-      + monopatin(214, 246, 1.9) + tortuga(180, 233, 1.15, { boca: 'sonrisa', sinSombra: true }) + conejo(258, 233, 1.1, { boca: 'risa', sinSombra: true })
+      + monopatin(214, 238, 1.9) + tortuga(158, 223, 1.1, { boca: 'sonrisa', sinSombra: true }) + conejo(282, 223, 1.1, { boca: 'risa', sinSombra: true })
       + corazon(214, 108, 8) + corazon(256, 90, 5, C.rosaO) + trazo('M310,190 l-20,0 M316,208 l-26,0', 2.2, C.cieloO, { o: .6 })),
   });
 
   // ---------- piezas sueltas usadas por varias escenas ----------
   function cubo(x, y, r, a, s) {
-    return `<g transform="translate(${x} ${y}) rotate(${a})">` + agua(liso([[-r, -r + 3], [-r + 4, -r - 2], [r - 3, -r], [r + 1, -r + 6], [r, r - 4], [r - 4, r + 1], [-r + 3, r], [-r - 1, r - 5]]), '#BFE4F3')
-      + vel(mancha(r * .3, r * .3, r * .6, r * .5, s, .15), C.cieloO, { o: .5 }) + agua(mancha(-r * .35, -r * .35, r * .28, r * .18, s + 1, .15), PAPEL, { f: 'l' }) + trazo(`M${-r * .1},${r * .5} L${r * .4},${r * .1}`, 1.4, PAPEL, { o: .9 }) + `</g>`;
+    return `<g transform="translate(${x} ${y}) rotate(${a})">` + fx(agua(liso([[-r, -r + 3], [-r + 4, -r - 2], [r - 3, -r], [r + 1, -r + 6], [r, r - 4], [r - 4, r + 1], [-r + 3, r], [-r - 1, r - 5]]), '#BFE4F3')
+      + vel(mancha(r * .3, r * .3, r * .6, r * .5, s, .15), C.cieloO, { o: .5 }) + trazo(`M${-r * .5},${-r * .4} L${-r * .1},${-r * .6} M${-r * .1},${r * .5} L${r * .4},${r * .1}`, 1.6, PAPEL, { o: .95 })) + `</g>`;
   }
   function nina5() {
-    return nino(116, 238, 1.5, { brazos: 'mano', ropa: C.rosa, vestido: true, trenzas: true, pelo: '#7A4B2E' });
+    return nino(110, 238, 1.7, { brazos: 'mano', ropa: C.rosa, vestido: true, trenzas: true, pelo: '#7A4B2E' });
   }
   function casa(x, y, k, c) {
     return en(x, y, k, agua('M-24,0 L-24,-30 Q0,-36 24,-30 L24,0Z', C.crema) + agua('M-30,-28 Q0,-62 30,-28 Q0,-36 -30,-28Z', c) + vel('M0,-50 L30,-28 Q10,-34 0,-34Z', carga(c, .8), { o: .4 }) + agua('M-6,0 L-6,-14 Q0,-20 6,-14 L6,0Z', C.tronco) + agua(mancha(14, -18, 4.5, 4.5, 7, .08), C.cielo, { f: 'l' }));
