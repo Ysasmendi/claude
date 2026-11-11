@@ -21,6 +21,26 @@
   const gota = (x, y, k = 1) => agua(`M${x},${y - 6 * k} Q${x + 5 * k},${y + 1 * k} ${x + 3.6 * k},${y + 5 * k} Q${x},${y + 8 * k} ${x - 3.6 * k},${y + 5 * k} Q${x - 5 * k},${y + 1 * k} ${x},${y - 6 * k}Z`, C.cielo, { f: 'l' });
   const ojoBlanco = (x, y, rx, ry, s) => agua(M(x, y, rx, ry, s, .05), PAPEL, { f: 'l' });
 
+  // brillo de cristal: una gota de papel
+  const brilloV = (x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${PAPEL}" opacity=".85"/>`;
+  // Unicornio de perfil (caja 200); k = escala, ox/oy = desplazamiento
+  const unicornio = (k, ox, oy) => {
+    const S = pts => pts.map(([x, y]) => [x * k + ox, y * k + oy]), K = (pts, c, op) => agua(liso(S(pts)), c, op), t = (x, y) => `${f1(x * k + ox)},${f1(y * k + oy)}`;
+    return K([[84, 50], [52, 60], [38, 94], [42, 134], [56, 168], [66, 132], [72, 100], [88, 76]], C.azul)
+      + K([[90, 62], [62, 82], [54, 122], [64, 172], [82, 138], [88, 106], [100, 84]], C.violeta)
+      + K([[90, 56], [112, 48], [138, 56], [160, 72], [174, 92], [178, 114], [170, 132], [148, 140], [132, 150], [122, 172], [104, 188], [70, 192], [66, 150], [72, 108], [78, 76]], PAPEL)
+      + vel(liso(S([[118, 120], [150, 100], [178, 114], [170, 132], [148, 140], [132, 150], [122, 172], [104, 188], [112, 150]])), C.grisO, { o: .25 })
+      + trazo(`M${t(100, 100)} Q${t(108, 134)} ${t(140, 142)}`, 1.6 * Math.max(.6, k), C.grisO, { o: .5 })
+      + K([[86, 60], [72, 88], [74, 128], [86, 160], [98, 142], [94, 112], [100, 82]], C.rosa) + K([[80, 96], [70, 118], [76, 150], [84, 128]], C.violeta, { o: .85 })
+      + vel(liso(S([[150, 120], [174, 112], [176, 126], [164, 138], [150, 134]])), C.rosa, { o: .7 })
+      + K([[96, 56], [112, 40], [134, 46], [128, 58], [118, 72], [110, 90], [98, 78]], C.rosa)
+      + K([[98, 54], [102, 22], [118, 48]], PAPEL) + vel(liso(S([[103, 46], [105, 32], [111, 46]])), C.rosa, { o: .85 })
+      + K([[120, 50], [137, 2], [148, 56]], C.sol) + trazo(`M${t(124, 40)} L${t(142, 34)} M${t(127, 28)} L${t(141, 22)} M${t(131, 16)} L${t(139, 13)}`, 1.8 * Math.max(.6, k), C.solO, { o: .8 })
+      + ojo(140 * k + ox, 90 * k + oy, 5.2 * k + .8) + trazo(`M${t(131, 82)} Q${t(138, 76)} ${t(147, 80)}`, 2 * Math.max(.6, k), LINEA, { o: .8 })
+      + punto(172 * k + ox, 112 * k + oy, 2.6 * k + .5, '#B5647F', .9) + colorete(150 * k + ox, 114 * k + oy, 9 * k + 1)
+      + trazo(`M${t(166, 134)} Q${t(158, 140)} ${t(150, 134)}`, 1.8 * Math.max(.6, k));
+  };
+
   Object.assign(ILUS, {
     cara_contenta: (o = {}) => svg('0 0 100 100',
       cara(50, 50, 40, C.sol, 3)
@@ -230,17 +250,25 @@
       + agua(M(102, 40, 8.5, 8.5, 6, .08), C.rojo, { f: 'l' }) + trazo('M102,32 Q106,22 114,18', 2, C.troncoO) + punto(99, 37, 1.8, PAPEL, .8)
       + trazo('M86,60 l5,3 M110,56 l-4,5 M122,70 l5,-2 M94,78 l4,4', 2.2, C.solO, { o: .85 }) + trazo('M104,70 l5,2 M78,72 l3,-4', 2.2, C.azul, { o: .85 })),
 
-    // Macarrones en cuenco azul con salsa de tomate
-    vision_macarrones: (o = {}) => svg('0 0 200 200',
-      SOMB(100, 180, 62, 2)
-      + agua('M40,116 Q38,84 70,78 Q100,66 134,78 Q164,86 160,116Z', C.sol) + vel(M(118, 98, 34, 14, 3, .15), C.pajaO, { o: .35 })
-      + trazo('M56,96 q8,-8 16,0 M84,86 q8,-8 16,0 M116,90 q8,-8 16,0 M70,108 q8,-8 16,0 M104,104 q8,-8 16,0 M138,104 q6,-6 12,0', 2.4, C.pajaO, { o: .8 })
-      + agua(M(100, 96, 24, 11, 3, .1), C.rojo) + vel(M(104, 98, 12, 5, 4, .1), C.rojoO, { o: .5 })
-      + agua('M94,84 Q100,70 112,78 Q108,90 94,84Z', C.hoja, { f: 'l' })
-      + agua('M30,112 Q34,166 100,176 Q166,166 170,112 Q100,124 30,112Z', C.azul) + vel('M110,120 Q166,114 170,112 Q166,166 100,176Z', carga(C.azul, .75), { o: .35 })
-      + [[56, 138], [78, 152], [102, 156], [126, 152], [148, 138]].map(([x, y], i) => agua(M(x, y, 4.2, 4.2, i + 3, .12), PAPEL, { f: 'l' })).join('')
-      + chis(34, 56, 4) + chis(170, 62, 4)),
-
+    // Macarrones: un montón de tubitos amarillos con tomate y albahaca, en cuenco azul
+    vision_macarrones: (o = {}) => {
+      const r = azar(5); let tubos = '';
+      [[52, 108], [78, 112], [104, 114], [130, 112], [152, 106], [64, 90], [92, 94], [118, 94], [144, 90], [76, 74], [104, 76], [130, 74], [92, 58], [116, 58]].forEach(([x, y, k], i) => {
+        const a = (r() - .5) * 1.6, c = Math.cos(a), s = Math.sin(a), q = (u, v) => `${f1(x + u * c - v * s)},${f1(y + u * s + v * c)}`;
+        tubos += pincel(`M${q(-13, 5)} Q${q(-4, -12)} ${q(12, -4)}`, 12, i % 3 ? C.paja : lava(C.pajaO, .15), { f: 'l' }) + agua(mancha(x + 12 * c + 4 * s, y + 12 * s - 4 * c, 3.6, 4.6, i + 3, .15, 8, a), C.pajaO, { f: 'l' });
+      });
+      return svg('0 0 200 200',
+        SOMB(100, 182, 64, 2)
+        + tubos
+        + vel(M(100, 100, 56, 22, 4, .2), C.pajaO, { o: .3 })
+        + agua(liso([[70, 72], [88, 62], [112, 62], [130, 74], [122, 90], [96, 96], [76, 90]]), C.rojo) + vel(M(112, 80, 16, 8, 4, .1), C.rojoO, { o: .5 })
+        + agua('M92,60 Q98,42 114,50 Q108,66 92,60Z', C.hoja, { f: 'l' }) + trazo('M96,58 L108,52', 1.6, C.hojaO, { o: .8 })
+        + gotas(100, 76, 40, 8, C.sol, 9, 2.2)
+        + agua('M26,112 Q30,168 100,180 Q170,168 174,112 Q100,128 26,112Z', C.azul) + vel('M112,122 Q170,114 174,112 Q170,168 100,180Z', carga(C.azul, .75), { o: .35 })
+        + trazo('M30,114 Q100,130 170,114', 3, carga(C.azul, .8), { o: .8 })
+        + [[54, 144], [76, 158], [102, 163], [128, 158], [150, 144]].map(([x, y], i) => agua(M(x, y, 4.6, 4.6, i + 3, .12), PAPEL, { f: 'l' })).join('')
+        + trazo('M64,42 q-6,-8 0,-16 M100,34 q6,-8 0,-16 M136,42 q-6,-8 0,-16', 2.2, C.grisO, { o: .5 })
+        + chis(32, 70, 4) + chis(172, 74, 4)); },
     // Fresas: tres, la grande en medio
     vision_fresas: (o = {}) => {
       const fresa = (x, y, k, s) => agua(`M${x - 28 * k},${y - 16 * k} Q${x},${y - 30 * k} ${x + 28 * k},${y - 16 * k} Q${x + 30 * k},${y + 16 * k} ${x + 4 * k},${y + 42 * k} Q${x - 4 * k},${y + 44 * k} ${x - 12 * k},${y + 32 * k} Q${x - 32 * k},${y + 8 * k} ${x - 28 * k},${y - 16 * k}Z`, C.rojo)
@@ -262,18 +290,20 @@
       + vel(M(110, 88, 30, 6, 9, .15), C.troncoO, { o: .4 })
       + agua(M(100, 58, 11, 12, 10, .1), C.rojo, { f: 'l' }) + agua('M90,50 Q100,42 110,50 Q100,52 90,50Z', C.hoja, { f: 'l' })),
 
-    // Cohete en diagonal, con luna y estrellas
+    // Cohete en diagonal con llamarada, humo, luna y estrellas
     vision_cohete: (o = {}) => svg('0 0 200 200',
-      agua(M(158, 46, 20, 20, 3, .06), C.crema) + vel(M(165, 52, 12, 12, 4, .1), C.pajaO, { o: .3 }) + punto(152, 42, 3, C.pajaO, .5) + punto(166, 56, 2.4, C.pajaO, .5)
-      + `<g transform="rotate(40 94 110)">`
-      + agua('M94,168 Q80,190 94,200 Q108,190 94,168Z', C.naranja)
-      + agua('M72,112 Q54,128 56,152 Q72,146 80,136Z', C.rojo) + agua('M116,112 Q134,128 132,152 Q116,146 108,136Z', C.rojo)
-      + agua('M94,36 Q122,62 118,128 Q116,164 94,170 Q72,164 70,128 Q66,62 94,36Z', PAPEL) + vel('M104,50 Q122,70 118,128 Q116,164 94,170Z', C.grisO, { o: .3 })
-      + agua('M94,36 Q108,48 114,66 Q94,72 74,66 Q80,48 94,36Z', C.rojo)
-      + agua(M(94, 98, 12, 12, 5, .06), C.cielo)
+      agua(M(44, 44, 18, 18, 3, .06), C.crema) + vel(M(50, 50, 11, 11, 4, .1), C.pajaO, { o: .3 }) + punto(38, 40, 3, C.pajaO, .5) + punto(52, 54, 2.4, C.pajaO, .5)
+      + agua(M(34, 170, 12, 10, 6, .15), PAPEL, { f: 'l' }) + agua(M(52, 186, 9, 8, 7, .15), PAPEL, { f: 'l' }) + agua(M(22, 150, 8, 7, 8, .15), PAPEL, { f: 'l' })
+      + `<g transform="rotate(40 100 110)">`
+      + agua('M86,156 Q74,190 100,214 Q126,190 114,156Z', C.naranja) + agua('M92,158 Q88,182 100,198 Q112,182 108,158Z', C.sol) + vel('M96,170 Q100,190 104,170Z', PAPEL, { o: .8 })
+      + agua('M82,112 Q54,126 52,166 Q74,160 84,144Z', C.rojo) + agua('M118,112 Q146,126 148,166 Q126,160 116,144Z', C.rojo)
+      + agua('M100,16 C132,44 130,118 122,154 L78,154 C70,118 68,44 100,16Z', PAPEL) + vel('M112,36 C132,60 130,118 122,154 L100,154Z', C.grisO, { o: .3 })
+      + agua('M100,16 C114,30 120,44 122,62 Q100,70 78,62 Q80,44 100,16Z', C.rojo)
+      + agua(M(100, 94, 15, 15, 5, .05), C.cielo) + trazo(M(100, 94, 15, 15, 5, .05), 3, C.grisO, { o: .8 }) + brilloV(95, 89, 4)
+      + agua('M82,152 L118,152 L114,164 L86,164Z', C.grisO, { f: 'l' })
       + `</g>`
-      + chis(40, 36, 5) + chis(176, 120, 4) + chis(36, 150, 3.5)),
-
+      + [[160, 44, 12, 1], [176, 112, 9, 2], [150, 160, 8, 3], [100, 24, 7, 4]].map(([x, y, R, s]) => agua(estrella(x, y, R, R * .42, s), C.sol, { f: 'l' })).join('')
+      + chis(30, 100, 4) + chis(178, 150, 4) + chis(120, 190, 3.5)),
     // Tarta de tres pisos con velas
     vision_tarta: (o = {}) => svg('0 0 200 200',
       agua(M(100, 180, 70, 11, 3, .05), PAPEL) + vel(M(104, 184, 60, 6, 4, .1), C.grisO, { o: .35 })
@@ -315,20 +345,21 @@
       + agua(cor(100, 128, 8), C.rosa, { f: 'l' })
       + chis(26, 44, 4) + chis(176, 44, 4)),
 
-    // Dino explorador con sombrero y lupa
+    // Dino explorador de pie: sombrero de safari, lupa en la mano y un hueso
     vision_dinosaurio: (o = {}) => svg('0 0 200 200',
-      SOMB(104, 184, 62, 2)
-      + agua('M60,142 Q38,150 28,170 Q58,166 78,160Z', VERDE)
-      + [[70, 96], [86, 84], [104, 82], [122, 90]].map(([x, y], i) => agua(`M${x - 8},${y + 6} L${x},${y - 12} L${x + 8},${y + 6}Z`, C.naranja, { f: 'l' })).join('')
-      + agua(M(104, 130, 44, 38, 3, .06), VERDE) + vel(M(116, 146, 28, 20, 4, .12), VERDEO, { o: .35 }) + agua(M(112, 142, 26, 26, 5, .08), C.crema)
-      + agua(M(92, 170, 12, 12, 6, .1), VERDE) + agua(M(128, 170, 12, 12, 7, .1), VERDE)
-      + pincel('M122,106 Q132,92 136,84', 22, VERDE)
-      + agua(M(140, 74, 28, 22, 8, .06), VERDE) + vel(M(146, 82, 18, 10, 9, .12), VERDEO, { o: .3 })
-      + agua(M(134, 52, 28, 7, 10, .08), C.paja) + agua(M(134, 44, 14, 11, 11, .1), C.paja) + trazo('M122,50 Q134,56 148,50', 2, C.pajaO, { o: .7 })
-      + ojo(138, 72, 4.2) + trazo('M146,86 Q158,88 164,82', 2) + colorete(130, 84, 5)
-      + pincel('M134,134 Q148,142 150,152', 6, VERDE)
-      + `<path d="${M(160, 158, 15, 15, 12, .05)}" fill="none" stroke="${TURQ}" stroke-width="5" stroke-linecap="round" filter="url(#§l)" opacity=".85"/>` + vel(M(160, 158, 12, 12, 13, .05), C.cielo, { o: .5 }) + trazo('M171,169 L184,182', 5, C.tronco, { o: .85 })
-      + agua(M(34, 150, 14, 5, 14, .1), PAPEL, { f: 'l' })),
+      SOMB(104, 186, 66, 2)
+      + agua('M74,146 C50,148 28,160 12,186 C42,178 72,176 92,168Z', VERDE)
+      + [[78, 100, -30], [68, 118, -40], [60, 138, -48], [42, 160, -60]].map(([x, y, a]) => agua(`M${x - 9},${y + 5} L${x},${y - 13} L${x + 9},${y + 5}Z`, C.naranja, { f: 'l', t: `rotate(${a} ${x} ${y})` })).join('')
+      + agua(liso([[72, 104], [96, 90], [128, 98], [144, 128], [140, 160], [118, 178], [84, 178], [66, 154], [64, 124]]), VERDE)
+      + vel(M(128, 146, 20, 28, 4, .12), VERDEO, { o: .35 })
+      + agua(M(110, 140, 22, 32, 5, .08), C.crema) + trazo('M94,128 q16,5 32,0 M94,142 q16,5 32,0 M96,156 q14,5 28,0', 1.8, C.pajaO, { o: .7 })
+      + agua(M(90, 180, 17, 9, 6, .1), VERDE) + agua(M(128, 180, 17, 9, 7, .1), VERDE) + trazo('M80,184 v-4 M89,186 v-4 M118,186 v-4 M128,186 v-4', 2, PAPEL, { o: .95 })
+      + agua(liso([[92, 62], [100, 40], [124, 30], [152, 36], [170, 54], [170, 76], [150, 90], [122, 94], [98, 86]]), VERDE) + vel(M(150, 80, 22, 10, 9, .12), VERDEO, { o: .3 })
+      + agua(M(120, 34, 38, 8, 10, .08), C.paja) + agua(liso([[104, 32], [106, 14], [120, 8], [136, 14], [138, 32]]), C.paja) + trazo('M105,28 Q121,34 137,28', 3, C.pajaO, { o: .8 })
+      + ojo(140, 56, 5) + trazo('M130,46 q8,-5 16,-1', 2, LINEA, { o: .75 }) + punto(167, 60, 2, LINEA, .8) + trazo('M144,80 Q158,84 166,74', 2) + colorete(128, 74, 6)
+      + pincel('M130,118 Q148,126 152,112', 9, VERDE)
+      + `<path d="${M(160, 108, 16, 16, 12, .05)}" fill="none" stroke="${TURQ}" stroke-width="5.5" stroke-linecap="round" filter="url(#§l)" opacity=".9"/>` + vel(M(160, 108, 13, 13, 13, .05), C.cielo, { o: .5 }) + trazo('M172,120 L186,136', 5.5, C.tronco, { o: .9 })
+      + agua(liso([[148, 170], [152, 164], [176, 168], [182, 164], [190, 170], [184, 178], [176, 176], [152, 178]]), PAPEL, { f: 'l' }) + trazo('M154,172 L180,172', 1.4, C.grisO, { o: .6 })),
 
     // Dragón de frente: alas naranjas, vientre crema y cuernos
     vision_dragon: (o = {}) => svg('0 0 200 200',
@@ -350,18 +381,8 @@
       + ojo(86, 106, 5) + ojo(114, 106, 5) + colorete(72, 124, 8) + colorete(128, 124, 8) + sonrisa(100, 124, 16)
       + chis(34, 38, 5) + chis(172, 38, 5) + chis(30, 168, 4) + chis(172, 164, 5)),
 
-    // Unicornio: cabeza blanca de perfil, melena de colores y cuerno dorado
-    vision_unicornio: (o = {}) => svg('0 0 200 200',
-      agua('M70,114 Q54,150 62,182 Q86,178 98,160 Q110,138 112,118Z', C.rosa)
-      + agua('M64,76 Q36,98 44,134 Q54,118 62,112 Q58,94 72,84Z', C.violeta) + agua('M58,56 Q42,66 40,86 Q56,78 64,80Z', C.azul)
-      + agua('M74,118 Q64,76 94,56 Q124,48 144,66 Q178,70 178,98 Q176,120 150,120 Q138,134 120,148 Q98,166 80,156 Q72,140 74,118Z', PAPEL)
-      + vel('M120,76 Q164,76 178,98 Q176,120 150,120 Q138,134 120,148 Q108,150 106,128Z', C.grisO, { o: .22 })
-      + agua('M104,56 Q108,34 120,26 Q124,40 126,60Z', PAPEL) + vel('M110,52 Q114,40 118,36 Q120,46 120,56Z', C.rosa, { o: .8 })
-      + agua('M110,56 Q114,30 134,6 Q132,30 134,60Z', C.sol) + trazo('M114,44 L130,40 M114,32 L130,28', 1.8, C.solO, { o: .7 })
-      + agua('M82,66 Q96,60 104,58 Q100,72 90,78Z', C.violeta)
-      + ojo(120, 92, 4.4) + punto(166, 108, 2.4, C.rosaO, .9) + colorete(136, 108, 8)
-      + trazo('M156,124 Q164,124 168,118', 1.8) + chis(34, 34, 4) + chis(172, 40, 4) + chis(40, 172, 4)),
-
+    // Unicornio de perfil: cabeza blanca, melena de colores y cuerno dorado
+    vision_unicornio: (o = {}) => { const U = unicornio(1, 0, 0); return svg('0 0 200 200', U + chis(30, 34, 4) + chis(176, 34, 4) + chis(30, 172, 4)); },
     // Caramelos de envoltorio y un cepillo de dientes
     vision_caramelos: (o = {}) => {
       const car = (x, y, r, c, s) => `<g transform="rotate(${r} ${x} ${y})">` + agua(`M${x - 40},${y - 12} L${x - 22},${y} L${x - 40},${y + 12}Z`, lava(c, .3)) + agua(`M${x + 40},${y - 12} L${x + 22},${y} L${x + 40},${y + 12}Z`, lava(c, .3))
