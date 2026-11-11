@@ -161,22 +161,26 @@
       + estrella(112, 114, 22, 10.5, C.sol) + ojo(106, 113, 2.6) + ojo(118, 113, 2.6) + sonrisa(112, 119, 8) + colorete(102, 119, 3.5) + colorete(122, 119, 3.5)
       + `<g transform="rotate(-12 154 154)">` + agua('M139,133 Q154,130 169,133 L168,172 Q154,175 140,172Z', C.tronco) + trazo('M154,135 V171 M141,152 H167', 2, C.troncoO, { o: .7 }) + agua('M138,156 L144,152 L150,157 L156,152 L162,157 L168,152 L170,156 L170,174 Q154,178 138,174Z', C.rojo) + trazo('M144,166 H164', 3, C.sol, { o: .9 }) + `</g>`),
 
-    // Etiquetas: pistola de etiquetar roja con una pegatina de lunares y una estrella con cara
+    // Etiquetas: pistola de etiquetar roja con gatillo, rollo de etiquetas encima y una estrella pegatina que sale volando
     icono_etiquetas: (o = {}) => svg('0 0 200 200',
-      sombra(84, 186, 52)
-      + pincel('M146,92 C166,94 172,80 164,66', 8, C.crema)
-      + agua('M30,84 C30,66 46,58 62,58 L128,60 C142,60 148,70 148,82 L148,100 C148,110 140,116 128,116 L98,116 L88,170 C86,178 76,182 66,180 L54,178 C46,176 42,168 44,160 L54,116 L50,116 C38,116 30,108 30,98Z', C.rojo)
-      + vel('M100,116 L88,170 C86,178 76,182 66,180 L60,176 C80,176 88,150 92,116Z', C.rojoO, { o: .45 })
-      + brillo(56, 70, 14, 5, -5, .5)
-      + agua('M146,82 Q154,80 160,82 L160,100 Q154,102 146,100Z', C.grisO, { f: 'l' })
-      + agua(mancha(80, 88, 21, 20, 4, .06), PAPEL)
-      + Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return punto(80 + 14 * Math.cos(a), 88 + 14 * Math.sin(a), 3, [C.azul, C.sol, C.hoja, C.rosaO][i % 4], .9); }).join('')
-      + agua(mancha(80, 88, 6, 6, 5, .1), C.sol, { f: 'l' })
-      + estrella(152, 42, 28, 13, C.sol, -78) + brillo(144, 34, 5, 3, -30, .7)
-      + ojo(146, 42, 2.8) + ojo(158, 42, 2.8) + sonrisa(152, 49, 8) + colorete(141, 48, 3.5) + colorete(163, 48, 3.5)
-      + trazo('M112,30 H96 M116,46 H104 M118,18 L108,12', 2.6, C.grisO, { o: .7 })
-      + chispa(184, 72, 7, C.sol) + chispa(126, 10, 5, PAPEL)),
-
+      sombra(80, 188, 46)
+      + agua('M30,100 Q28,82 46,78 L118,78 Q136,78 142,90 L152,102 L152,118 L124,120 Q114,122 110,130 L102,172 Q100,184 86,184 L66,182 Q52,180 56,166 L66,126 L46,126 Q30,124 30,100Z', C.rojo)
+      + vel('M104,126 L96,172 Q94,182 84,182 L70,181 Q92,176 96,150 L100,126Z', C.rojoO, { o: .5 })
+      + vel('M32,112 Q60,124 150,114 L150,120 L124,120 L66,126 L46,126 Q32,124 32,112Z', C.rojoO, { o: .4 })
+      + brillo(52, 90, 12, 4, -4, .6)
+      + agua('M142,88 L158,92 L158,112 L146,114Z', C.grisO, { f: 'l' }) + trazo('M148,98 H156 M148,106 H156', 1.6, LINEA, { o: .6 })
+      + agua('M104,124 Q120,126 124,142 Q126,158 116,158 Q106,156 102,142Z', C.rojoO)
+      + pincel('M140,118 Q142,160 104,166', 4, C.rojoO)
+      + agua(mancha(70, 54, 30, 28, 4, .05), PAPEL) + vel(mancha(80, 64, 24, 20, 5, .1), C.pajaO, { o: .3 })
+      + agua(mancha(70, 54, 11, 10, 6, .1), C.grisO, { f: 'l' })
+      + trazo('M70,54 m-18,2 a18,17 0 0 1 30,-14 M70,54 m-24,2 a24,22 0 0 1 36,-22', 1.4, C.pajaO, { o: .8 })
+      + pincel('M98,50 Q124,50 138,76 Q144,86 150,92', 12, PAPEL) + pincel('M98,50 Q124,50 138,76 Q144,86 150,92', 12, C.crema, { o: .6 })
+      + trazo('M112,44 v10 M124,50 v10 M133,64 l-8,5', 1.6, C.pajaO, { o: .75 })
+      + estrella(160, 52, 31, 15, PAPEL, -78) + estrella(160, 52, 26, 12, C.sol, -78) + brillo(151, 43, 6, 3, -30, .7)
+      + ojo(154, 52, 3) + ojo(167, 52, 3) + sonrisa(160, 60, 9) + colorete(148, 59, 4) + colorete(173, 59, 4)
+      + trazo('M150,90 Q154,80 150,72', 1.8, C.grisO, { o: .6, x: ' stroke-dasharray="3 4"' })
+      + trazo('M132,20 H112 M138,34 H122 M180,8 L170,4 M110,36 H100', 2.6, C.grisO, { o: .7 })
+      + chispa(190, 90, 8, C.sol) + chispa(128, 12, 6, PAPEL) + chispa(30, 40, 5, C.rosaO)),
     // Papelera: cubo azul con cara, tapa torcida, papeles arrugados y un folio que asoma
     icono_papelera: (o = {}) => svg('0 0 200 200',
       sombra(100, 188, 60)
@@ -356,46 +360,51 @@
       + trazo('M26,24 V32 M34,25 V32 M42,26 V33', 1.4, C.pajaO, { o: .8 })
       + agua('M21,47 Q34,44 47,48 L46,56 Q34,58 22,56Z', C.azul)),
 
-    // Bola de discoteca: esfera plateada de facetas con cuerda y destellos
+    // Bola de discoteca: esfera plateada de espejitos de colores colgada de una cuerda, con destellos
     disco_bola: (o = {}) => {
-      const r = azar(7); let fac = '';
-      const tonos = [C.grisO, C.gris, PAPEL, C.cielo, C.violeta, C.rosa, C.sol];
-      for (let i = 0; i < 12; i++) { const a = r() * 6.28, q = Math.sqrt(r()) * 34; fac += vel(mancha(60 + Math.cos(a) * q, 88 + Math.sin(a) * q, 9 + r() * 5, 8 + r() * 5, i + 2, .15, 6), tonos[2 + Math.floor(r() * 5)], { o: .55 }); }
+      const cx = 60, cy = 88, R = 43, tilt = .22;
+      const P = (lat, lon) => { const la = lat * Math.PI / 180, lo = lon * Math.PI / 180; return [cx + R * Math.cos(la) * Math.sin(lo), cy - R * (Math.sin(la) * Math.cos(tilt) + Math.cos(la) * Math.cos(lo) * Math.sin(tilt))]; };
+      const col = [C.cielo, C.rosa, PAPEL, C.violeta, C.sol, C.cielo, PAPEL, C.hoja], r = azar(11); let fac = '', k = 0;
+      for (let la = -70; la < 70; la += 28) for (let lo = -80; lo < 80; lo += 30) {
+        k++; if (r() < .3) continue;
+        const q = [P(la + 2, lo + 2), P(la + 2, lo + 28), P(la + 26, lo + 28), P(la + 26, lo + 2)];
+        fac += agua(`M${f1(q[0][0])},${f1(q[0][1])} L${f1(q[1][0])},${f1(q[1][1])} L${f1(q[2][0])},${f1(q[2][1])} L${f1(q[3][0])},${f1(q[3][1])}Z`, col[k % col.length], { f: 'l', o: .85 });
+      }
       return svg('0 0 120 140',
         sombra(60, 136, 28, .3)
-        + trazo('M60,2 V30', 3, C.grisO, { o: .9 }) + agua(mancha(60, 9, 3.4, 5.5, 2, .1), C.gris, { f: 'l' }) + agua(mancha(60, 23, 3.4, 5.5, 3, .1), C.gris, { f: 'l' })
-        + agua('M51,32 L69,32 L72,44 L48,44Z', C.grisO, { f: 'l' })
-        + agua(mancha(60, 88, 44, 44, 3, .03), '#DCE5F2')
-        + vel(mancha(74, 104, 36, 32, 4, .1), C.grisO, { o: .6 })
+        + trazo('M60,1 V30', 2.6, C.grisO, { o: .9 }) + trazo('M56,8 q4,3 8,0', 1.6, C.grisO, { o: .7 })
+        + agua('M52,30 L68,30 L71,43 L49,43Z', C.grisO, { f: 'l' })
+        + agua(mancha(cx, cy, R, R, 3, .03), '#CFD8EA')
+        + vel(mancha(76, 106, 34, 30, 4, .1), C.grisO, { o: .7 })
         + fac
-        + trazo('M30,80 Q60,92 90,80 M24,98 Q60,112 96,98 M60,48 Q50,88 60,130 M60,48 Q74,88 60,130', 1.4, C.grisO, { o: .5 })
-        + brillo(44, 66, 12, 7, -40, .85)
-        + chispa(41, 64, 7, PAPEL) + chispa(86, 80, 4, PAPEL) + chispa(78, 108, 4.5, PAPEL) + chispa(14, 58, 6, C.sol) + chispa(108, 48, 5, C.rosaO) + chispa(110, 118, 4, C.azul) + chispa(10, 112, 3.5, C.sol));
+        + trazo('M20,84 Q60,98 100,84 M26,106 Q60,120 94,106 M60,46 Q44,88 60,132 M60,46 Q76,88 60,132', 1.2, C.grisO, { o: .45 })
+        + brillo(42, 66, 12, 6, -40, .9)
+        + chispa(40, 64, 8, PAPEL) + chispa(84, 78, 4.5, PAPEL) + chispa(76, 112, 4, PAPEL) + chispa(12, 58, 7, C.sol) + chispa(108, 46, 6, C.rosaO) + chispa(110, 116, 5, C.azul) + chispa(10, 112, 4, C.sol)
+        + trazo('M100,66 l8,-6 M104,76 l9,-2 M8,80 l-5,-5', 1.6, C.pajaO, { o: .8 }));
     },
 
-    // Dino que corre con la boca abierta: cuerpo verde, barriga lima, espinas naranjas
+    // Dino que corre con la boca abierta: patas grandes en zancada, bracitos, cola al aire
     dino_corre: (o = {}) => {
       const V = pig('#3DA84A'), VO = carga(V, .78), BL = '#E3F0A8';
       return svg('0 0 220 160',
-        sombra(108, 150, 70, .3)
-        + trazo('M10,38 H30 M4,48 H20 M2,100 H22', 3.4, C.grisO, { o: .7 })
-        + agua('M78,92 L60,116 L46,124 C40,128 42,136 48,135 L66,131 C70,130 72,127 70,123 L94,102Z', VO)
-        + [[38, 61, -4], [60, 60, -10], [84, 52, -18], [108, 44, -14], [130, 41, -4]].map(([x, y, a]) => agua(`M${x - 8},${y + 4} Q${x},${y - 15} ${x + 8},${y + 4}Z`, C.naranja, { f: 'l', t: `rotate(${a} ${x} ${y})` })).join('')
-        + agua('M8,60 C30,64 52,66 70,62 C92,54 118,42 146,44 C162,46 170,58 170,72 C170,94 156,108 132,112 C110,116 86,112 72,98 C56,84 32,72 10,68 C4,67 3,61 8,60Z', V)
-        + agua('M60,88 C80,108 110,116 140,108 C156,102 166,90 170,76 C168,98 154,112 130,114 C100,118 74,110 60,88Z', BL, { o: .85 })
-        + punto(100, 64, 4.5, VO, .6) + punto(118, 55, 3.2, VO, .6) + punto(82, 72, 3.2, VO, .6)
-        + trazo('M82,102 q4,3 8,4 M100,110 q4,2 8,2.4 M120,112 q4,0 8,-1', 1.8, C.pajaO, { o: .7 })
-        + agua('M86,86 C92,68 124,70 126,92 C127,102 122,110 116,112 L132,128 L148,130 C154,131 154,140 148,141 H126 C121,141 119,137 121,133 L104,116 C90,114 82,100 86,86Z', V)
-        + trazo('M135,141 v-5 M141,141 v-5', 2, LINEA, { o: .7 })
-        + agua('M154,58 L208,54 L200,84 C184,80 168,72 154,66Z', C.rojoO)
-        + agua('M162,72 C176,72 190,78 198,84 C184,84 170,80 162,72Z', C.rosaO, { f: 'l' })
-        + agua('M152,64 C166,72 184,80 198,82 C206,83 206,92 198,94 C178,96 160,88 148,76Z', V)
-        + agua('M150,74 C166,84 184,90 204,90 L204,96 C180,96 160,90 150,78Z', BL, { f: 'l', o: .8 })
-        + agua('M170,72 L173,66 L176,73Z M184,78 L187,72 L190,79Z M172,58 L175,64 L178,58Z M186,57 L189,63 L192,56Z', PAPEL, { f: 'l' })
-        + agua('M146,54 C144,30 162,14 186,14 C204,14 216,24 216,40 C216,50 212,56 206,58 C188,60 170,60 152,62Z', V)
-        + brillo(166, 26, 9, 4, -20, .6)
-        + ojo(184, 33, 4.4) + trazo('M172,20 q10,-6 21,-1', 3, LINEA, { o: .85 }) + punto(208, 30, 2, LINEA, .8) + colorete(165, 50, 6)
-        + agua('M154,92 Q160,102 170,100 L168,106 Q158,106 150,96Z', V, { f: 'l' }) + trazo('M170,100 l4,-4 M170,100 l5,1', 1.8, LINEA, { o: .8 }));
+        sombra(108, 152, 72, .3)
+        + trazo('M6,100 H28 M12,112 H34 M4,124 H22', 3, C.grisO, { o: .65 })
+        + agua(mancha(40, 142, 8, 6, 3, .2), PAPEL, { f: 'l', o: .9 }) + agua(mancha(30, 134, 6, 5, 4, .2), PAPEL, { f: 'l', o: .9 })
+        + pincel('M110,112 L118,138', 14, VO) + pincel('M118,140 L138,143', 9, VO) + trazo('M138,143 l5,-2 M138,143 l5,3', 2, LINEA)
+        + agua('M72,66 C48,64 26,56 4,42 C12,66 40,88 74,98Z', V)
+        + agua('M62,70 C86,52 124,40 150,48 C172,56 178,80 166,98 C154,116 118,124 92,116 C74,110 62,92 62,70Z', V)
+        + vel('M78,106 C100,122 142,120 164,98 C152,124 110,130 82,114Z', BL, { o: .9 })
+        + vel(mancha(124, 64, 30, 12, 5, .15), VO, { o: .4 })
+        + [[80, 60, -14], [98, 52, -10], [116, 46, -6], [134, 44, 0]].map(([x, y, a]) => agua(`M${x - 8},${y + 5} Q${x},${y - 14} ${x + 8},${y + 5}Z`, C.naranja, { f: 'l', t: `rotate(${a} ${x} ${y})` })).join('')
+        + agua(mancha(130, 108, 22, 17, 6, .1), V) + pincel('M134,116 L154,134', 15, V) + pincel('M152,136 L174,140', 9, V) + trazo('M174,140 l5,-2 M174,140 l5,3', 2, LINEA)
+        + agua(mancha(92, 108, 20, 17, 7, .1), V) + pincel('M90,116 L68,132', 15, V) + pincel('M68,133 L46,131', 9, V) + trazo('M46,131 l-5,-3 M46,131 l-5,3', 2, LINEA)
+        + pincel('M152,84 Q160,98 174,92', 6, V) + trazo('M174,92 l5,-3 M174,92 l5,3', 1.8, LINEA)
+        + agua('M154,70 L202,60 C209,62 207,78 198,82 C184,86 166,82 156,76Z', C.rojoO)
+        + agua('M158,76 L200,66 C207,68 204,82 194,85 C182,88 166,85 158,80Z', V)
+        + agua('M142,58 C140,32 160,14 186,14 C204,14 213,26 212,38 C211,46 208,48 202,50 L160,62Z', V)
+        + agua('M172,62 l3,7 l4,-8 M186,58 l3,7 l4,-8 M199,54 l2,6 l4,-7', PAPEL, { f: 'l' })
+        + brillo(166, 28, 9, 4, -20, .6)
+        + ojo(184, 33, 4.6) + trazo('M172,20 q10,-6 22,-1', 3, LINEA, { o: .85 }) + punto(205, 30, 2, LINEA, .8) + colorete(168, 50, 6));
     },
 /*FIN*/
   });

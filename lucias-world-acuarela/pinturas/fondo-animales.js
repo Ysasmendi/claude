@@ -43,21 +43,24 @@
   };
 
   Object.assign(ILUS, {
-    // Luna dormida con gorro de dormir azul; las zetas suben
+    // Luna dormida: disco pálido de cráteres grises, gorro de dormir azul con borla y zetas que suben
     luna: () => svg('0 0 200 200', `<g class="cara-luna">`
-      + agua(mancha(98, 110, 67, 65, 3, .035), '#F7E8A8')
-      + vel(mancha(122, 134, 46, 36, 4, .15), C.solO, { o: .38 })
-      + [[58, 140, 9], [140, 142, 7], [46, 106, 5], [148, 114, 4.5], [100, 166, 5.5]].map(([x, y, r], i) => vel(mancha(x, y, r, r * .85, i + 5, .15), C.solO, { o: .55 })).join('')
-      + trazo('M66,106 Q76,116 87,106', 2.6) + trazo('M110,106 Q120,116 130,106', 2.6)
-      + colorete(64, 128, 9) + colorete(132, 128, 9) + sonrisa(98, 132, 18)
-      + agua('M38,84 Q34,44 80,24 Q122,12 156,34 Q176,48 182,70 Q164,58 150,70 Q110,62 38,84Z', C.azul)
-      + vel('M110,30 Q160,34 180,68 Q164,58 150,70 Q130,50 110,30Z', carga(C.azul, .75), { o: .4 })
-      + brillo(80, 46, 6, C.sol) + brillo(118, 38, 5, C.sol) + brillo(146, 52, 4.5, C.sol) + brillo(62, 64, 4, C.sol)
-      + agua('M34,88 Q28,74 44,68 Q92,56 154,70 Q170,74 162,90 Q100,74 34,88Z', PAPEL) + vel('M44,80 Q100,68 156,80 L162,90 Q100,74 34,88Z', C.cieloO, { o: .4 })
-      + agua(mancha(178, 78, 11, 11, 7, .1), PAPEL) + vel(mancha(180, 82, 8, 6, 8, .2), C.cieloO, { o: .4 })
-      + trazo('M150,140 h12 l-12,12 h12', 3.2, C.violeta, { o: .9 }) + trazo('M170,124 h8 l-8,8 h8', 3, C.violeta, { o: .9 })
+      + agua(mancha(100, 116, 84, 78, 9, .04), '#F8EDB8', { f: 's', o: .5 })
+      + agua(mancha(98, 112, 67, 65, 3, .035), '#F3E6AC')
+      + vel(mancha(124, 140, 46, 36, 4, .15), C.solO, { o: .3 })
+      + vel('M152,92 Q168,128 142,166 Q164,150 168,118Z', C.grisO, { o: .5 })
+      + [[56, 142, 11], [138, 148, 8], [46, 108, 6], [150, 118, 6], [102, 168, 7]].map(([x, y, r], i) => agua(mancha(x, y, r, r * .8, i + 5, .15), lava(C.grisO, .35), { f: 'l', o: .85 }) + trazo(`M${x - r * .6},${y + r * .5} Q${x},${y + r * .9} ${x + r * .7},${y + r * .4}`, 1.4, C.grisO, { o: .8 })).join('')
+      + trazo('M64,108 Q74,118 86,108 M63,106 l-4,-3 M70,114 l-2,4', 2.6) + trazo('M110,108 Q121,118 132,108 M133,106 l4,-3 M127,114 l2,4', 2.6)
+      + trazo('M96,112 q3,6 6,0', 1.8, C.grisO)
+      + colorete(62, 128, 9) + colorete(136, 128, 9) + sonrisa(99, 134, 16)
+      + agua('M36,90 Q30,48 74,26 Q118,10 158,32 Q180,46 186,72 Q166,58 150,72 Q108,62 36,90Z', C.azul)
+      + vel('M108,26 Q162,30 184,68 Q166,58 150,72 Q128,50 108,26Z', carga(C.azul, .75), { o: .4 })
+      + brillo(80, 46, 7, C.sol) + brillo(118, 36, 6, C.sol) + brillo(148, 54, 5, C.sol) + brillo(60, 66, 4.5, C.sol)
+      + agua('M30,92 Q24,76 42,70 Q92,56 154,72 Q172,78 164,94 Q100,76 30,92Z', PAPEL) + vel('M42,82 Q100,68 158,82 L164,94 Q100,76 30,92Z', C.cieloO, { o: .4 })
+      + trazo('M44,78 q6,-3 10,0 M70,70 q6,-2 10,0 M110,72 q6,0 10,2', 1.4, C.cieloO, { o: .8 })
+      + agua(mancha(180, 82, 12, 12, 7, .1), PAPEL) + vel(mancha(182, 86, 8, 6, 8, .2), C.cieloO, { o: .4 })
+      + trazo('M150,146 h14 l-14,14 h14', 3.4, C.violeta, { o: .9 }) + trazo('M174,126 h9 l-9,9 h9', 3, C.violeta, { o: .9 })
       + `</g>`),
-
     // Duende de pie: sombrero verde, barba naranja, un brazo saluda
     duende: () => svg('0 0 160 220',
       suelo(80, 212, 44, 3)
@@ -261,34 +264,47 @@
       + ojo(76, 60, 4.2) + colorete(92, 74, 6)
       + trazo('M78,96 q6,6 4,14 M92,98 q6,6 4,14', 1.6, C.pajaO, { o: .8 })),
 
-    // Gallina marrón con su pollito
+    // Gallina marrón de frente, con la cola levantada, y su pollito
     animal_gallina: () => svg('0 0 200 200',
-      suelo(104, 182, 60, 3)
-      + agua(liso([[56, 112], [60, 80], [82, 62], [112, 64], [136, 82], [142, 114], [132, 150], [106, 172], [78, 172], [58, 150]]), C.tierra)
-      + agua(mancha(94, 138, 26, 28, 4, .08), C.crema)
-      + trazo('M82,128 q6,6 12,0 q6,6 12,0 M80,142 q6,6 12,0 q6,6 12,0', 1.6, C.tronco, { o: .8 })
-      + agua('M138,86 L164,66 L156,92 L170,96 L140,112Z', C.tronco)
-      + agua(mancha(116, 126, 20, 26, 5, .1, 10, .4), C.tronco) + trazo('M106,120 Q120,132 124,144', 1.8, C.troncoO, { o: .8 })
-      + agua(liso([[86, 66], [88, 48], [96, 56], [102, 42], [108, 56], [116, 50], [114, 68]]), C.rojo)
-      + ojo(86, 84, 4.4) + ojo(112, 84, 4.4) + agua('M92,92 L106,92 L99,104Z', C.sol, { f: 'l' }) + agua(mancha(99, 108, 4, 6, 6, .1), C.rojo, { f: 'l' })
-      + colorete(74, 98, 7) + colorete(124, 98, 7)
-      + trazo('M88,170 v10 M112,170 v10 M82,180 h12 M106,180 h12', 2.8, C.naranja, { o: .9 })
-      + agua(mancha(168, 176, 13, 12, 8, .08), C.sol) + agua('M156,174 L148,178 L156,181Z', C.naranja, { f: 'l' }) + punto(162, 172, 2.2, '#4A3E58', .95)),
+      suelo(100, 182, 62, 3)
+      + trazo('M82,160 v20 M118,160 v20', 3.6, C.naranja, { o: .95 })
+      + trazo('M70,182 l12,-3 l10,3 M108,182 l12,-3 l10,3 M72,180 l-5,-6 M128,180 l5,-6', 2.6, C.naranja, { o: .95 })
+      + agua('M138,112 Q168,104 176,66 Q150,70 140,96Z', C.troncoO) + agua('M142,120 Q176,118 192,90 Q160,88 144,108Z', C.tronco) + agua('M140,130 Q170,138 190,120 Q164,110 142,122Z', C.tierra)
+      + agua(liso([[50, 124], [58, 96], [80, 82], [108, 80], [138, 94], [152, 122], [144, 154], [112, 172], [80, 172], [54, 152]]), C.tierra)
+      + vel(mancha(124, 148, 30, 20, 4, .2), C.troncoO, { o: .35 })
+      + agua(mancha(100, 142, 28, 28, 5, .08), C.crema)
+      + trazo('M88,134 q6,6 12,0 q6,6 12,0 M86,148 q6,6 12,0 q6,6 12,0 M92,160 q6,5 12,0', 1.6, C.tronco, { o: .8 })
+      + agua('M54,112 Q34,134 48,160 Q68,154 76,128Z', C.tronco) + agua('M146,112 Q166,134 152,160 Q132,154 124,128Z', C.tronco)
+      + trazo('M52,126 q6,10 2,24 M60,120 q5,10 2,24 M148,126 q-6,10 -2,24 M140,120 q-5,10 -2,24', 1.6, C.troncoO, { o: .7 })
+      + agua(mancha(100, 66, 32, 30, 6, .06), C.tierra)
+      + agua(liso([[80, 44], [80, 26], [90, 36], [98, 20], [106, 36], [116, 26], [118, 46]]), C.rojo)
+      + ojo(86, 62, 4.6) + ojo(114, 62, 4.6)
+      + agua('M91,70 L109,70 L100,84Z', C.sol, { f: 'l' }) + agua(mancha(100, 90, 5, 8, 7, .1), C.rojo, { f: 'l' })
+      + colorete(74, 76, 7) + colorete(126, 76, 7)
+      + trazo('M70,40 q-6,-8 -2,-14 M130,40 q6,-8 3,-14', 1.6, C.pajaO, { o: .6 })
+      + agua(mancha(168, 176, 13, 12, 8, .08), C.sol) + agua('M156,174 L146,178 L156,182Z', C.naranja, { f: 'l' }) + ojo(164, 172, 2.4) + trazo('M164,188 v-4 M170,188 v-4', 1.6, C.naranja, { o: .9 })),
 
-    // Caballito marrón de crines claras
+    // Caballito marrón de perfil, cabezón, con crin clara, cola al aire y cuatro patas con casco
     animal_caballo: () => svg('0 0 200 200',
-      suelo(100, 184, 54, 3)
-      + pincel('M144,128 Q176,150 164,180', 10, C.paja)
-      + pincel('M70,150 L70,176', 12, C.tronco) + pincel('M92,152 L92,176', 12, C.tronco) + pincel('M122,152 L122,176', 12, C.tronco) + pincel('M144,148 L146,176', 12, C.tronco)
-      + agua(mancha(70, 178, 9, 5, 3, .1), C.negro, { f: 'l' }) + agua(mancha(122, 178, 9, 5, 4, .1), C.negro, { f: 'l' }) + agua(mancha(92, 178, 9, 5, 5, .1), C.negro, { f: 'l' }) + agua(mancha(146, 178, 9, 5, 6, .1), C.negro, { f: 'l' })
-      + agua(liso([[54, 124], [62, 108], [96, 102], [136, 108], [152, 128], [146, 152], [100, 158], [62, 152]]), C.tronco)
-      + vel(mancha(124, 142, 26, 14, 7, .2), C.troncoO, { o: .4 })
-      + agua('M72,56 Q64,22 76,14 Q86,28 90,46Z', C.tronco) + agua('M128,56 Q136,22 124,14 Q114,28 110,46Z', C.tronco)
-      + agua('M92,28 Q124,24 130,60 Q136,100 118,112 Q132,76 92,28Z', C.paja)
-      + agua(liso([[74, 50], [80, 32], [100, 28], [120, 34], [124, 56], [120, 80], [100, 88], [80, 80]]), C.tronco)
-      + agua(mancha(100, 86, 22, 15, 8, .08), C.crema) + punto(92, 88, 2.6, C.troncoO, .9) + punto(108, 88, 2.6, C.troncoO, .9)
-      + trazo('M92,42 Q100,36 108,42', 2, C.paja)
-      + ojo(86, 62, 4) + ojo(114, 62, 4) + colorete(78, 78, 6) + colorete(122, 78, 6)),
+      suelo(104, 184, 62, 3)
+      + pincel('M156,104 Q186,114 178,140 Q174,156 180,166', 15, C.paja) + trazo('M164,112 q12,6 10,20 M170,108 q16,10 8,28', 1.6, C.pajaO, { o: .7 })
+      + agua('M138,134 Q150,146 148,160 L148,178 L136,178 L134,160 Q128,148 128,136Z', C.troncoO)
+      + agua('M96,132 Q106,146 104,160 L104,178 L92,178 L90,160 Q84,148 84,134Z', C.troncoO)
+      + agua('M84,92 C110,84 148,88 160,112 C168,132 156,148 126,150 C100,152 74,148 70,126 C68,110 72,98 84,92Z', C.tronco)
+      + vel(mancha(130, 142, 34, 12, 7, .2), C.troncoO, { o: .45 })
+      + agua('M124,130 Q142,134 146,152 Q148,166 144,178 L130,178 L130,160 Q120,150 114,138Z', C.tronco)
+      + agua('M76,130 Q94,132 96,150 Q98,166 94,178 L80,178 L80,160 Q68,150 66,136Z', C.tronco)
+      + agua(mancha(137, 180, 9, 5, 3, .1), C.negro, { f: 'l' }) + agua(mancha(87, 180, 9, 5, 4, .1), C.negro, { f: 'l' }) + agua(mancha(141, 180, 8, 4, 5, .1), carga(C.negro, .8), { f: 'l' }) + agua(mancha(99, 180, 8, 4, 6, .1), carga(C.negro, .8), { f: 'l' })
+      + agua('M64,98 C58,70 66,44 86,36 C100,34 108,50 108,70 C108,92 112,102 100,114 C84,118 68,112 64,98Z', C.tronco)
+      + agua('M82,34 L84,12 L96,32Z', C.troncoO) + agua('M94,36 L104,16 L108,40Z', C.tronco)
+      + agua('M100,40 Q118,56 112,78 Q108,98 114,110 Q96,90 92,62 Q90,50 100,40Z', C.paja)
+      + agua('M82,30 Q64,34 66,56 Q80,48 90,30Z', C.paja)
+      + agua(liso([[66, 56], [74, 36], [92, 34], [100, 54], [94, 78], [80, 86], [66, 82]]), C.tronco)
+      + agua('M44,70 C40,58 52,50 66,56 C76,66 76,86 62,98 C50,100 42,90 44,70Z', C.crema)
+      + vel('M74,40 Q68,60 62,76', PAPEL, { o: .6 }) + punto(48, 84, 2.4, C.troncoO, .9) + punto(52, 70, 2, C.troncoO, .8)
+      + trazo('M50,96 Q58,98 64,90', 1.8)
+      + ojo(78, 58, 4.8) + trazo('M70,50 q8,-5 15,0', 2, LINEA, { o: .7 }) + colorete(80, 78, 7)
+      + trazo('M110,68 q-6,8 -2,18 M100,52 q-6,4 -4,12', 1.6, C.pajaO, { o: .7 })),
 
     // León con melena de manchas naranjas
     animal_leon: () => svg('0 0 200 200',
@@ -303,20 +319,25 @@
       + agua(mancha(100, 108, 22, 14, 10, .08), PAPEL) + agua('M93,98 L107,98 L100,106Z', C.rosaO, { f: 'l' }) + trazo('M100,106 v6 M90,114 Q100,120 100,112 Q100,120 110,114', 1.6)
       + ojo(82, 84, 4.2) + ojo(118, 84, 4.2) + colorete(68, 102, 8) + colorete(132, 102, 8)),
 
-    // Elefantito gris con orejas rosas y trompa enroscada
+    // Elefantito gris de frente, con patas anchas, orejotas rosas y trompa enroscada
     animal_elefante: () => svg('0 0 200 200',
-      suelo(100, 180, 58, 3)
-      + agua(mancha(100, 142, 44, 38, 3, .06), C.gris)
-      + agua(mancha(76, 174, 13, 9, 4, .1), C.gris) + agua(mancha(124, 174, 13, 9, 5, .1), C.gris)
-      + trazo('M72,174 v-3 M80,174 v-3 M120,174 v-3 M128,174 v-3', 2, C.grisO)
-      + agua(mancha(48, 84, 30, 38, 6, .08), C.gris) + agua(mancha(152, 84, 30, 38, 7, .08), C.gris)
-      + vel(mancha(50, 86, 18, 26, 8, .1), C.rosa, { o: .8 }) + vel(mancha(150, 86, 18, 26, 9, .1), C.rosa, { o: .8 })
-      + agua(mancha(100, 84, 40, 36, 10, .05), C.gris)
-      + pincel('M100,96 Q96,126 118,130 Q130,128 126,118', 15, C.gris)
-      + vel(mancha(86, 100, 14, 8, 11, .2), C.grisO, { o: .4 })
-      + trazo('M96,110 q8,2 10,0 M98,120 q8,2 10,0', 1.4, C.grisO, { o: .7 })
-      + ojo(82, 78, 4.2) + ojo(118, 78, 4.2) + colorete(70, 98, 8) + colorete(130, 98, 8)),
-
+      suelo(100, 184, 66, 3)
+      + agua('M38,138 Q30,156 36,174 L58,176 Q62,158 62,142Z', C.grisO) + agua('M162,138 Q170,156 164,174 L142,176 Q138,158 138,142Z', C.grisO)
+      + trazo('M176,128 Q192,138 186,162 M186,162 l-5,6 M186,162 l5,5', 2, C.grisO, { o: .9 })
+      + agua(mancha(100, 134, 62, 42, 3, .06), C.gris)
+      + vel(mancha(120, 150, 44, 22, 4, .15), C.grisO, { o: .4 })
+      + agua('M60,140 Q54,160 60,180 L90,182 Q94,160 90,142Z', C.gris) + agua('M110,142 Q106,160 110,182 L140,180 Q146,160 140,140Z', C.gris)
+      + trazo('M66,178 v-6 M76,179 v-6 M86,179 v-6 M118,179 v-6 M128,179 v-6 M136,178 v-6', 2.2, PAPEL, { o: .95 }) + trazo('M70,162 q6,3 14,0 M118,162 q6,3 14,0', 1.4, C.grisO, { o: .7 })
+      + agua(mancha(40, 78, 33, 42, 6, .08, 10, .3), C.gris) + agua(mancha(160, 78, 33, 42, 7, .08, 10, -.3), C.gris)
+      + vel(mancha(42, 82, 20, 30, 8, .1), C.rosa, { o: .85 }) + vel(mancha(158, 82, 20, 30, 9, .1), C.rosa, { o: .85 })
+      + trazo('M34,60 q-8,14 -2,32 M166,60 q8,14 2,32', 1.4, C.grisO, { o: .7 })
+      + agua(mancha(100, 84, 42, 38, 10, .05), C.gris)
+      + vel(mancha(112, 98, 24, 18, 11, .15), C.grisO, { o: .4 })
+      + pincel('M100,96 Q94,128 116,132 Q134,130 130,114', 17, C.gris)
+      + trazo('M96,108 q9,2 12,0 M98,118 q9,2 12,0 M104,126 q8,1 12,-1', 1.4, C.grisO, { o: .7 })
+      + agua('M78,100 Q70,114 78,122 Q82,112 84,102Z', PAPEL, { f: 'l' }) + agua('M122,100 Q130,114 122,122 Q118,112 116,102Z', PAPEL, { f: 'l' })
+      + ojo(84, 76, 4.6) + ojo(118, 76, 4.6) + colorete(70, 96, 8) + colorete(132, 96, 8)
+      + trazo('M82,66 q4,-5 9,-3 M115,63 q5,-2 9,3', 1.8, C.grisO, { o: .8 })),
     // Monito con plátano y cola enroscada
     animal_mono: () => svg('0 0 200 200',
       suelo(100, 182, 56, 3)

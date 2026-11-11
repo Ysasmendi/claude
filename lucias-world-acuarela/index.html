@@ -262,7 +262,7 @@ body.disco #escritorio{animation:disco 1.2s linear infinite}
 .musica{display:flex;flex-direction:column;height:100%}
 .pestanas{flex:none;display:flex;gap:10px;padding:14px;border-bottom:var(--borde);background:#E9FBE5;flex-wrap:wrap}
 .musica .zona{flex:1;min-height:0;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:center;gap:18px}
-.estrella8{width:120px;height:120px;image-rendering:pixelated;transition:transform .08s}
+.estrella8{width:140px;height:140px;transition:transform .08s}
 .estrella8.bote{transform:scale(1.25) rotate(-8deg)}
 .letra{font-size:clamp(24px,3.6vw,38px);font-weight:700;text-align:center;line-height:1.5}
 .letra .linea{opacity:.35;transition:opacity .2s}
@@ -747,6 +747,21 @@ button,.btn,.icono .nombre,#reloj,.chip{font-weight:700}
 .hoja-tabla{border:2.4px solid var(--tinta);box-shadow:var(--sombra)}
 .puntos i{border-width:2px}
 .piscina-caja{background:linear-gradient(rgba(255,252,243,.72),rgba(255,252,243,.72)),repeating-linear-gradient(90deg,var(--azul) 0 40px,var(--amarillo) 40px 80px)}
+/* Lo que se pinta sobre lienzo: borde tembloroso, pigmento cargado y grano de papel por encima */
+.doom-escena canvas{filter:url(#aqui-u)}
+.doom-escena::after,.piscina-caja::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:var(--grano);opacity:.9;mix-blend-mode:multiply}
+.doom{background:#D9D2DE}
+.doom-hud{background:#CFC7D6;background-image:var(--grano)}
+.hud-caja{background:#FFFCF3;color:var(--tinta)}.hud-caja small{color:#B5647F}.hud-caja b{color:#D0655F;text-shadow:none}
+.hud-cara{background:#F4DFC4}
+.bola{background:none;box-shadow:none;border-color:transparent;overflow:visible}
+.bola::after{content:none}
+.bola-pintada{position:absolute;inset:-4%}.bola-pintada>svg{width:100%;height:100%;display:block}
+.niebla{inset:8%;border-radius:50%;mix-blend-mode:soft-light}
+.peana{background:#F2D06B;background-image:var(--grano);box-shadow:none;outline:2.2px solid var(--tinta);outline-offset:-4px;border-color:transparent;filter:url(#aqui-u)}
+.bola-app{background:var(--grano),radial-gradient(circle at 50% 35%,#8E7BD0,#4B3C8C 72%)}
+.cartelera{background:var(--grano),radial-gradient(ellipse at 50% -10%,#6D5AA8 0,#40336F 60%,#2F2552 100%)}
+.teatro{background:#40336F}
 </style>
 </head>
 <body>
@@ -3652,6 +3667,24 @@ document.body.insertAdjacentHTML('afterbegin', `<svg width="0" height="0" style=
 /*FIN*/
   });
 })();
+// Pinturas: piezas que antes se dibujaban a mano sobre lienzo o con degradados (bolas de la piscina, bola de cristal)
+(() => {
+  const { agua, vel, trazo, punto, mancha, pig, carga, svg, PAPEL } = AQ;
+  const COLORES = ['#E63027', '#FFD21F', '#1F5FD6', '#25A84A', '#FF8A1F', '#FF5FA2', '#8B3FD9', '#FFFFFF'];
+  const bola = (c, i) => { const p = c === '#FFFFFF' ? '#EDEAF2' : pig(c);
+    return svg('0 0 100 100', agua(mancha(50, 50, 43, 43, i + 3, .035, 12), p) + vel(mancha(60, 64, 28, 24, i + 9, .2), carga(p, .78), { o: .4 })
+      + `<path d="${mancha(35, 32, 9, 6, i + 5, .2)}" fill="${PAPEL}" opacity=".85" transform="rotate(-30 35 32)"/>` + trazo('M22,62 q6,14 20,18', 1.6, carga(p, .6), { o: .5 })); };
+  const pinturas = {};
+  COLORES.forEach((c, i) => { pinturas['bola_' + i] = () => bola(c, i); });
+  // La bola de cristal: una gran aguada violeta con aguas claras, remolino y destellos
+  pinturas.bola_cristal = () => svg('0 0 200 200',
+    agua(mancha(100, 100, 92, 92, 4, .025, 14), '#C3AEE8')
+    + vel(mancha(118, 124, 62, 56, 6, .2), '#8E6CC4', { o: .5 }) + vel(mancha(70, 70, 44, 36, 8, .25), '#F3B4D0', { o: .35 })
+    + trazo('M58,112 C60,70 116,58 136,88 C150,110 124,128 106,116 C94,108 102,92 114,98', 3, PAPEL, { o: .75 })
+    + `<path d="${mancha(64, 56, 20, 11, 9, .2)}" fill="${PAPEL}" opacity=".8" transform="rotate(-32 64 56)"/>`
+    + punto(140, 60, 3, PAPEL, .9) + punto(150, 134, 2.4, PAPEL, .8) + punto(60, 140, 2, PAPEL, .8));
+  Object.assign(ILUS, pinturas);
+})();
 // Pinturas: objetos
 (() => {
   const { agua, vel, trazo, pincel, punto, gotas, mancha, liso, pig, carga, lava, svg, C, ojo, sonrisa, colorete, hierba, flor, nubeD, LINEA, PAPEL, azar, f1 } = AQ;
@@ -6123,7 +6156,7 @@ function paginaPiscina(p) {
           ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.fillText('🦆', b.x, b.y + b.r * 0.1);
         }
-      } else ctx.drawImage(SPR[b.c], b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+      } else { const im = imagenDe('bola_' + b.c); if (im) ctx.drawImage(im, b.x - b.r * 1.12, b.y - b.r * 1.12, b.r * 2.24, b.r * 2.24); else ctx.drawImage(SPR[b.c], b.x - b.r, b.y - b.r, b.r * 2, b.r * 2); }
     }
     contador.textContent = (bolas.length - 1) + T(' bolas', ' balls');
   }
@@ -6546,8 +6579,7 @@ Apps.musica = {
     }
 
     function vistaEstrellita() {
-      const estrella = el('canvas', { class: 'estrella8' });
-      dibujarPixelArt(estrella, PIXEL_ESTRELLA, { Y: '#FFD21F', K: '#1B1B2F', R: '#E63027' });
+      const estrella = dibujo('estrella', '⭐', 'estrella8');
       const letra = el('div', { class: 'letra' });
       const sils = [];
       ESTRELLITA.lineas.forEach((l, li) => {
@@ -7954,7 +7986,7 @@ Apps.bola = {
     const verVision = em => vision.replaceChildren(dibujo('vision_' + VISION[em], em));
 
     const vision = el('div', { class: 'vision' });
-    const bola = el('button', { class: 'bola', 'aria-label': T('Bola de cristal', 'Crystal ball') }, el('div', { class: 'niebla' }), vision);
+    const bola = el('button', { class: 'bola', 'aria-label': T('Bola de cristal', 'Crystal ball') }, el('div', { class: 'bola-pintada', html: ILUS.bola_cristal() }), el('div', { class: 'niebla' }), vision);
     const caraBruja = (hechizo) => dibujo(hechizo ? 'bruja_lucia_hechizo' : 'bruja_lucia', '🧙‍♀️', 'em');
     let imgBruja = caraBruja(false);
     const bruja = el('button', { class: 'bruja' }, imgBruja, el('span', { class: 'nombre-bruja' }, T('Brujita Lucía', 'Lucía the Little Witch')));
@@ -8302,33 +8334,37 @@ Apps.etiquetas = {
     function dibujarPasillo() {
       // zc muy cerca: así las paredes llegan siempre hasta el borde de la pantalla
       const zc = 0.08, zl = 40;
-      ctx.fillStyle = '#D9D9E0'; ctx.fillRect(0, 0, W, hz());
-      ctx.fillStyle = '#5B6B8C'; ctx.fillRect(0, hz(), W, H - hz());
+      ctx.fillStyle = '#EEE9F0'; ctx.fillRect(0, 0, W, hz());
+      ctx.fillStyle = '#B9C6E2'; ctx.fillRect(0, hz(), W, H - hz());
       // Moqueta: franjas que se mueven al andar
-      ctx.strokeStyle = 'rgba(255,255,255,.13)'; ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(59,52,66,.16)'; ctx.lineWidth = 1.6;
       for (let k = 0; k < 30; k++) {
         const z = k + 1 - modulo(avance, 1); if (z < zc) continue;
         const y = py(0, z); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       }
       for (let k = 0; k < 14; k++) {
         const z1 = k * 3 + 1.5 - modulo(avance, 3), z2 = z1 + 0.9; if (z1 < 0.35) continue;
-        cuad([px(-0.35, z1), py(TECHO, z1), px(0.35, z1), py(TECHO, z1), px(0.35, z2), py(TECHO, z2), px(-0.35, z2), py(TECHO, z2)], '#FFFDE7');
+        cuad([px(-0.35, z1), py(TECHO, z1), px(0.35, z1), py(TECHO, z1), px(0.35, z2), py(TECHO, z2), px(-0.35, z2), py(TECHO, z2)], '#FBEFB4');
       }
       for (const lado of [-1, 1]) {
         const X = lado * PARED;
-        cuad([px(X, zc), py(TECHO, zc), px(X, zl), py(TECHO, zl), px(X, zl), py(0, zl), px(X, zc), py(0, zc)], lado < 0 ? '#EDE6D3' : '#E3DBC4');
+        cuad([px(X, zc), py(TECHO, zc), px(X, zl), py(TECHO, zl), px(X, zl), py(0, zl), px(X, zc), py(0, zc)], lado < 0 ? '#F6ECD6' : '#EFE2C8');
+        // el canto de la pared con el techo y con el suelo, a plumilla
+        ctx.strokeStyle = 'rgba(59,52,66,.7)'; ctx.lineWidth = 2;
+        for (const alto of [TECHO, 0]) { ctx.beginPath(); ctx.moveTo(px(X, zc), py(alto, zc)); ctx.lineTo(px(X, zl), py(alto, zl)); ctx.stroke(); }
         for (let k = 0; k < 9; k++) {
           const z1 = k * 5 + (lado < 0 ? 2 : 4.5) - modulo(avance, 5), z2 = z1 + 0.9; if (z1 < zc) continue;
-          cuad([px(X, z1), py(0, z1), px(X, z1), py(1.05, z1), px(X, z2), py(1.05, z2), px(X, z2), py(0, z2)], '#1F5FD6');
+          cuad([px(X, z1), py(0, z1), px(X, z1), py(1.05, z1), px(X, z2), py(1.05, z2), px(X, z2), py(0, z2)], '#8FB0E6');
+          ctx.strokeStyle = 'rgba(59,52,66,.75)'; ctx.lineWidth = Math.max(1, 4 / z1); ctx.beginPath(); ctx.moveTo(px(X, z1), py(0, z1)); ctx.lineTo(px(X, z1), py(1.05, z1)); ctx.lineTo(px(X, z2), py(1.05, z2)); ctx.lineTo(px(X, z2), py(0, z2)); ctx.stroke();
         }
-        ctx.strokeStyle = 'rgba(27,27,47,.25)';
+        ctx.strokeStyle = 'rgba(59,52,66,.3)';
         for (let k = 0; k < 20; k++) {
           const z = k * 2 + 1 - modulo(avance, 2); if (z < zc) continue;
           ctx.lineWidth = Math.max(1, 6 / z);
           ctx.beginPath(); ctx.moveTo(px(X, z), py(TECHO, z)); ctx.lineTo(px(X, z), py(0, z)); ctx.stroke();
         }
       }
-      ctx.fillStyle = '#C9BFA3';
+      ctx.fillStyle = '#E3D3B4';
       ctx.fillRect(px(-PARED, zl), py(TECHO, zl), px(PARED, zl) - px(-PARED, zl), py(0, zl) - py(TECHO, zl));
     }
     function dibujarCosa(o) {
@@ -8358,12 +8394,12 @@ Apps.etiquetas = {
       const gx = W * 0.62 + (mira.ver && !mira.fija ? (mira.x - W / 2) * 0.1 : 0) + Math.sin(pasos * 4.5) * 10 * andando;
       const gy = H + 20 * u + retro * 16 * u + Math.abs(Math.cos(pasos * 4.5)) * 8 * andando;
       ctx.save(); ctx.translate(gx, gy); ctx.scale(u, u);
-      ctx.lineWidth = 4; ctx.strokeStyle = '#1B1B2F';
-      ctx.fillStyle = '#1F5FD6'; rr(-22, -95, 44, 100, 12); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#E63027'; rr(-62, -178, 124, 92, 22); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, -134, 30, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#FFD21F'; ctx.beginPath(); ctx.arc(0, -134, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = '#FFD21F'; rr(-30, -204, 60, 30, 8); ctx.fill(); ctx.stroke();
+      ctx.lineWidth = 2.6; ctx.strokeStyle = '#3B3442';
+      ctx.fillStyle = '#8FB0E6'; rr(-22, -95, 44, 100, 12); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#E8837B'; rr(-62, -178, 124, 92, 22); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#FFFCF3'; ctx.beginPath(); ctx.arc(0, -134, 30, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#F6D978'; ctx.beginPath(); ctx.arc(0, -134, 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#F6D978'; rr(-30, -204, 60, 30, 8); ctx.fill(); ctx.stroke();
       ctx.restore();
       pegatina(gx, gy - 212 * u, 20 * u, dios ? (Math.floor(reloj * 4) % 2 ? 'estrella' : 'caramelo') : municion);
       boca = { x: gx, y: gy - 212 * u };
