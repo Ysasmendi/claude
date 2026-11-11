@@ -88,8 +88,8 @@
       + agua('M60,120 Q56,70 62,48 Q78,34 100,34 Q124,34 138,50 Q144,76 140,120Z', C.tronco)
       + vel('M112,42 Q142,56 140,120 L114,118Z', C.troncoO, { o: .35 })
       + agua('M100,92 Q84,80 82,68 Q84,56 93,58 Q100,60 100,68 Q102,60 108,58 Q118,56 118,68 Q116,80 100,92Z', C.rojo)
-      + pincel('M62,148 Q60,168 64,184', 11, C.troncoO) + pincel('M138,148 Q142,168 140,184', 11, C.troncoO)
-      + pincel('M84,150 Q84,168 86,182', 11, C.tronco) + pincel('M118,150 Q118,168 118,182', 11, C.tronco)
+      + agua('M56,144 L72,148 L72,186 L58,186Z', C.troncoO) + agua('M130,148 L146,144 L144,186 L130,186Z', C.troncoO)
+      + agua('M80,150 L96,150 L96,188 L82,188Z', C.tronco) + agua('M106,150 L122,150 L120,188 L106,188Z', C.tronco)
       + agua('M42,142 Q38,124 48,118 Q100,112 154,118 Q164,126 158,144 Q100,156 42,142Z', C.rojo)
       + vel('M44,142 Q100,156 158,144 L156,132 Q100,144 44,130Z', C.rojoO, { o: .4 })
       + [[58, 132], [78, 136], [100, 134], [122, 136], [142, 132]].map(([x, y]) => punto(x, y, 3, PAPEL, .95)).join('')),
@@ -183,7 +183,7 @@
     // Escoba: mango de madera, tira roja y cerdas de paja abiertas
     obj_escoba: () => svg('0 0 200 200',
       sombra(100, 186, 62, 15)
-      + pincel('M138,32 L108,132', 8, C.tronco) + agua(mancha(138, 30, 6, 6, 3, .1), C.troncoO, { f: 'l' })
+      + pincel('M138,32 L108,132', 11, C.tronco) + agua(mancha(138, 30, 6, 6, 3, .1), C.troncoO, { f: 'l' })
       + agua('M100,128 Q112,122 124,128 L168,184 Q130,190 98,184 Q62,190 50,184 Q80,160 100,128Z', C.paja)
       + vel('M118,126 L168,184 Q140,188 112,184 Q124,150 118,126Z', C.pajaO, { o: .4 })
       + trazo('M98,150 Q84,168 70,182 M108,150 L104,182 M116,146 L132,182 M120,140 L152,182', 2, C.pajaO, { o: .7 })
@@ -214,8 +214,8 @@
     obj_guitarra: () => svg('0 0 200 200',
       sombra(100, 186, 50, 18)
       + `<g transform="rotate(24 100 100)">`
-      + pincel('M100,104 L100,22', 11, C.tronco)
-      + agua('M90,18 Q92,6 102,6 Q112,8 110,22 L108,32 L92,32Z', C.troncoO) + punto(86, 18, 3, C.crema, .9) + punto(114, 14, 3, C.crema, .9) + punto(86, 28, 3, C.crema, .9)
+      + agua('M92,104 L108,104 L106,26 L94,26Z', C.tronco)
+      + agua('M86,28 Q86,4 100,2 Q114,4 114,28Z', C.troncoO) + punto(86, 18, 3, C.crema, .9) + punto(114, 14, 3, C.crema, .9) + punto(86, 28, 3, C.crema, .9)
       + agua('M100,92 Q132,86 134,116 Q136,134 126,146 Q146,162 140,184 Q120,204 98,200 Q70,204 58,184 Q54,162 74,146 Q64,134 66,116 Q68,86 100,92Z', C.naranja)
       + vel('M110,130 Q138,160 140,184 Q120,204 100,200 Q122,176 110,130Z', C.rojoO, { o: .35 })
       + agua(mancha(100, 146, 14, 14, 4, .06), carga(C.troncoO, .6)) + trazo(mancha(100, 146, 18, 18, 5, .05), 2.6, C.sol, { o: .8 })
@@ -262,6 +262,185 @@
       + [0, 1, 2, 3, 4].map(i => agua(mancha(164 + Math.cos(i * 1.257) * 8, 122 + Math.sin(i * 1.257) * 8, 7, 7, i + 41, .12), C.sol, { f: 'l' })).join('') + punto(164, 122, 3, C.naranja)
       + agua('M98,162 Q76,150 74,168 Q86,176 100,168Z', C.rosa) + agua('M102,162 Q124,150 126,168 Q114,176 100,168Z', C.rosa)
       + agua(mancha(100, 166, 7, 7, 5, .1), C.rosaO) + agua('M96,170 L88,190 L98,186Z', C.rosa, { f: 'l' }) + agua('M104,170 L114,190 L104,186Z', C.rosa, { f: 'l' })),
+    // Pastel: dos pisos rosas con nata, fresas y fideítos de colores
+    obj_pastel: () => svg('0 0 200 200',
+      sombra(100, 184, 80, 22)
+      + agua('M18,176 Q18,164 40,162 Q100,168 160,162 Q184,164 184,176 Q100,190 18,176Z', PAPEL) + vel('M24,178 Q100,190 180,176 L182,180 Q100,194 20,180Z', C.grisO, { o: .5 })
+      + agua('M34,164 Q30,136 40,124 Q100,116 162,124 Q172,136 168,164 Q100,174 34,164Z', C.rosa)
+      + vel('M120,128 Q170,134 168,164 Q130,172 100,170 Q130,150 120,128Z', C.rosaO, { o: .4 })
+      + agua('M34,128 Q40,116 100,114 Q160,116 168,128 Q160,138 154,128 Q150,146 140,130 Q130,140 120,128 Q104,142 96,128 Q84,140 74,128 Q62,146 54,130 Q44,140 34,128Z', PAPEL)
+      + agua('M58,116 Q54,92 66,84 Q104,78 142,84 Q152,94 148,116 Q100,124 58,116Z', C.rosa)
+      + agua('M58,90 Q64,80 104,78 Q144,80 150,92 Q144,102 138,92 Q132,108 124,92 Q114,102 104,92 Q92,106 84,92 Q72,104 66,92 Q60,98 58,90Z', PAPEL)
+      + [[78, 72], [102, 62], [128, 72]].map(([x, y], i) => agua(mancha(x, y, 9, 10, i + 2, .12), C.rojo, { f: 'l' }) + agua(`M${x - 5},${y - 8} q5,-6 10,0Z`, C.hoja, { f: 'l' })).join('')
+      + trazo('M50,150 l5,-3 M70,155 l4,3 M96,152 l5,-2 M124,154 l5,3 M148,148 l4,-3', 2.4, C.azul, { o: .9 }) + trazo('M60,146 l-3,4 M110,157 l-4,-3 M138,150 l-3,4', 2.4, C.sol, { o: .9 })),
+
+    // Cubo de madera lleno de agua, con aros de hierro y dos gotas
+    obj_cubo: () => svg('0 0 200 200',
+      sombra(100, 186, 70, 23)
+      + pincel('M50,102 Q44,18 100,18 Q158,18 150,102', 9, C.gris)
+      + agua('M46,98 L56,176 Q100,186 144,176 L154,98Z', C.tronco)
+      + trazo('M72,104 L76,176 M100,106 L100,182 M128,104 L124,176', 1.8, C.troncoO, { o: .6 })
+      + vel('M120,100 L154,98 L144,176 Q126,182 112,182Z', C.troncoO, { o: .4 })
+      + agua('M44,92 Q100,84 156,92 Q156,114 100,118 Q44,114 44,92Z', C.cielo) + vel(mancha(110, 100, 36, 6, 4, .1), C.cieloO, { o: .5 })
+      + pincel('M48,118 Q100,128 152,118', 7, C.gris) + pincel('M52,160 Q100,172 148,160', 7, C.gris)
+      + punto(60, 142, 2.6, C.negro) + punto(140, 142, 2.6, C.negro)
+      + agua('M176,76 Q172,86 176,92 Q182,86 176,76Z', C.cieloO, { f: 'l' }) + agua('M166,102 Q163,108 166,112 Q170,108 166,102Z', C.cieloO, { f: 'l' })),
+
+    // Olla: cacerola roja de lunares con caldo, cucharón y vapor
+    obj_olla: () => svg('0 0 200 200',
+      sombra(100, 186, 70, 24)
+      + trazo('M66,66 Q58,52 68,40 M96,60 Q88,46 98,32 M126,66 Q118,52 128,40', 2.8, C.grisO, { o: .55 })
+      + pincel('M122,100 L162,54', 8, C.gris)
+      + agua('M14,126 Q10,116 22,114 L34,116 L34,130 L20,134Z', C.rojoO) + agua('M186,126 Q190,116 178,114 L166,116 L166,130 L180,134Z', C.rojoO)
+      + agua('M30,100 Q28,150 46,174 Q100,186 154,174 Q172,150 170,100Z', C.rojo)
+      + vel('M130,104 Q172,110 170,100 Q172,150 154,174 Q120,180 104,176 Q140,150 130,104Z', C.rojoO, { o: .4 })
+      + agua(mancha(100, 100, 72, 16, 5, .04), C.paja) + vel(mancha(106, 102, 52, 9, 6, .1), C.naranja, { o: .5 })
+      + punto(66, 98, 3.6, C.hoja) + punto(94, 104, 3, C.rojo) + punto(130, 96, 3.6, C.hoja)
+      + [[54, 130], [88, 140], [124, 134], [70, 158], [110, 160], [148, 140]].map(([x, y], i) => punto(x, y, 5 - (i % 2), PAPEL, .95)).join('')),
+
+    // Noria: rueda de radios con ocho cabinas de colores sobre un caballete
+    obj_noria: () => svg('0 0 200 200',
+      sombra(100, 188, 66, 25)
+      + pincel('M100,100 L58,182 M100,100 L142,182', 7, C.grisO)
+      + agua('M46,176 Q100,170 154,176 L158,184 Q100,192 42,184Z', C.gris)
+      + pincel(mancha(100, 96, 70, 68, 4, .03, 12), 7, C.rosaO)
+      + trazo('M100,28 L100,164 M32,96 L168,96 M52,48 L148,144 M148,48 L52,144', 2, C.grisO, { o: .7 })
+      + pincel(mancha(100, 96, 40, 38, 5, .03, 10), 3, C.gris, { f: 'l', o: .8 })
+      + [[100, 26, C.rojo], [149, 47, C.sol], [170, 96, C.azul], [149, 145, C.hoja], [100, 166, C.naranja], [51, 145, C.violeta], [30, 96, C.rosa], [51, 47, C.cielo]].map(([x, y, c], i) => agua(mancha(x, y + 5, 9, 8, i + 3, .12), c, { f: 'l' }) + trazo(`M${x},${y - 4} v6`, 1.6, C.grisO)).join('')
+      + agua(mancha(100, 96, 10, 10, 8, .1), C.rosa) + chispa(176, 30, 9, C.solO) + chispa(24, 40, 6, C.sol)),
+
+    // Fuego: llamarada naranja con corazón amarillo sobre dos troncos cruzados
+    obj_fuego: () => svg('0 0 200 200',
+      sombra(100, 188, 64, 26)
+      + agua('M100,14 Q108,50 132,72 Q156,96 150,132 Q142,170 100,174 Q56,170 50,132 Q46,98 72,76 Q84,96 96,88 Q92,50 100,14Z', C.naranja)
+      + vel('M110,60 Q156,96 150,132 Q142,170 100,174 Q130,140 110,60Z', C.rojoO, { o: .35 })
+      + agua('M100,92 Q108,112 122,126 Q128,150 100,164 Q72,152 78,128 Q92,118 100,92Z', C.sol)
+      + trazo('M96,40 Q90,70 84,86 M60,110 Q54,128 62,148 M138,100 Q146,120 140,142', 2.4, C.rojoO, { o: .6 })
+      + agua('M30,170 L168,192 L172,180 L36,160Z', C.tronco) + agua('M172,168 L32,190 L28,178 L166,158Z', C.troncoO)
+      + chispa(40, 90, 5, C.solO) + chispa(168, 66, 6, C.solO) + punto(152, 44, 2.4, C.naranja) + punto(54, 54, 2, C.naranja)),
+
+    // Vela: cilindro de cera crema sobre palmatoria dorada, con llama y resplandor
+    obj_vela: () => svg('0 0 200 200',
+      sombra(100, 188, 62, 27)
+      + vel(mancha(100, 52, 36, 36, 3, .06), C.sol, { o: .55 })
+      + agua('M100,28 Q114,50 110,66 Q100,76 90,66 Q86,50 100,28Z', C.naranja) + agua('M100,46 Q106,58 103,66 Q98,70 96,64 Q94,56 100,46Z', C.sol, { f: 'l' })
+      + trazo('M100,72 v10', 2, C.negro, { o: .8 })
+      + agua('M76,90 Q76,80 100,80 Q124,80 124,90 L122,170 Q100,178 78,170Z', C.crema)
+      + vel('M108,84 Q126,86 122,170 Q108,176 100,174 Q114,130 108,84Z', C.tierra, { o: .45 })
+      + agua('M74,86 Q76,78 100,78 Q124,78 126,86 Q118,96 112,86 Q108,100 102,88 Q96,94 88,86 Q82,98 74,86Z', PAPEL)
+      + agua('M40,168 Q100,160 160,168 Q166,186 150,190 Q100,196 50,190 Q34,184 40,168Z', C.sol) + vel('M50,184 Q100,194 156,180 L150,190 Q100,196 50,190Z', C.solO, { o: .6 })
+      + chispa(158, 52, 8, C.solO) + chispa(40, 82, 5, C.sol)),
+
+    // Carta: sobre crema ladeado con sello de corazón y sello de correos
+    obj_carta: () => svg('0 0 200 200',
+      sombra(100, 186, 70, 28)
+      + `<g transform="rotate(-6 100 100)">`
+      + agua('M22,56 Q100,48 178,58 L182,148 Q100,160 20,150Z', C.crema)
+      + vel('M20,120 Q100,132 182,120 L182,148 Q100,160 20,150Z', C.tierra, { o: .35 })
+      + trazo('M24,58 Q60,100 100,106 Q140,100 178,60', 2.4, C.tierra, { o: .8 }) + trazo('M22,148 L70,98 M180,146 L132,98', 1.8, C.tierra, { o: .6 })
+      + agua('M24,56 Q100,48 176,56 Q140,100 100,110 Q60,100 24,56Z', C.paja, { o: .5 })
+      + agua(mancha(100, 104, 14, 13, 4, .1), C.rojo) + agua('M100,112 Q92,106 92,101 Q94,96 100,100 Q106,96 108,101 Q108,106 100,112Z', PAPEL, { f: 'l' })
+      + agua('M142,114 L166,114 L166,142 L142,142Z', C.azul, { f: 'l' }) + punto(154, 128, 5, C.sol)
+      + trazo('M30,128 L66,126 M30,138 L56,137', 2, C.grisO, { o: .6 })
+      + `</g>` + chispa(32, 40, 6, C.grisO) + chispa(172, 34, 9, C.solO)),
+
+    // Nido: cuenco de ramitas con tres huevos y una hojita
+    obj_nido: () => svg('0 0 200 200',
+      sombra(100, 188, 66, 29)
+      + trazo('M22,86 L56,112 M178,82 L146,112 M30,76 L62,106', 3, C.troncoO, { o: .8 })
+      + agua('M122,90 Q122,62 140,62 Q156,66 154,92 Q140,102 122,90Z', C.cielo) + agua('M48,92 Q48,66 66,62 Q82,68 80,94 Q64,104 48,92Z', C.cielo)
+      + agua('M84,86 Q80,52 102,48 Q122,54 118,88 Q100,100 84,86Z', C.crema) + punto(96, 70, 2.4, C.tierra, .8) + punto(106, 80, 2, C.tierra, .8) + punto(100, 62, 1.8, C.tierra, .8)
+      + agua('M24,106 Q36,100 100,104 Q164,100 176,106 Q176,150 140,168 Q100,176 60,168 Q22,150 24,106Z', C.tronco)
+      + trazo('M34,122 Q70,134 108,126 M50,146 Q100,158 150,140 M44,110 Q90,120 160,112 M70,162 Q110,166 140,160', 2.2, C.troncoO, { o: .7 })
+      + vel('M120,106 Q176,106 176,106 Q176,150 140,168 Q110,172 100,170 Q140,150 120,106Z', C.troncoO, { o: .45 })
+      + agua('M158,92 q12,-8 22,-2 q-8,12 -22,2Z', C.hoja, { f: 'l' }) + chispa(30, 54, 6, C.grisO)),
+
+    // Hojas: tres hojas de otoño (naranja, amarilla, roja) en un solo tallo
+    obj_hojas: () => svg('0 0 200 200',
+      sombra(100, 186, 62, 30)
+      + pincel('M100,178 Q98,150 94,116 M96,150 Q70,140 58,112 M104,150 Q132,134 140,104', 4, C.troncoO)
+      + agua('M42,62 Q60,50 80,70 Q92,96 84,128 Q64,138 50,120 Q36,94 42,62Z', C.naranja)
+      + vel('M70,64 Q92,96 84,128 Q68,134 60,126 Q78,100 70,64Z', C.rojoO, { o: .35 })
+      + trazo('M52,70 Q66,100 76,128 M64,92 l-8,2 M70,106 l-8,2', 1.8, C.rojoO, { o: .7 })
+      + agua('M112,22 Q132,38 130,66 Q124,92 104,104 Q86,86 86,60 Q92,34 112,22Z', C.sol)
+      + trazo('M108,34 Q104,70 100,100 M104,56 l10,-6 M102,74 l-10,-6', 1.8, C.pajaO, { o: .7 })
+      + agua('M126,70 Q150,64 160,86 Q166,110 150,128 Q130,128 120,108 Q116,84 126,70Z', C.rojo)
+      + trazo('M130,80 Q142,104 148,124 M138,98 l-10,-2 M142,108 l10,-4', 1.8, C.rojoO, { o: .7 })
+      + punto(30, 100, 2.4, C.troncoO, .8) + punto(168, 54, 2.4, C.rojoO, .8) + punto(32, 36, 2.4, C.pajaO, .8)),
+
+    // Hielo: un cubo de hielo celeste que se derrite en un charquito
+    obj_hielo: () => svg('0 0 200 200',
+      agua('M38,168 Q36,156 100,152 Q166,154 168,168 Q160,184 100,184 Q44,182 38,168Z', C.cielo) + vel(mancha(110, 168, 40, 5, 3, .1), PAPEL, { o: .6 })
+      + agua('M100,30 L162,62 L100,92 L38,62Z', lava(C.cielo, .5))
+      + agua('M38,64 L100,94 L100,164 Q66,150 40,132Z', C.cielo)
+      + agua('M102,94 L162,64 L160,134 Q130,150 102,164Z', C.cieloO)
+      + trazo('M44,62 L100,92 L156,64 M100,94 L100,160', 2.6, C.cieloO, { o: .7 })
+      + brillo(78, 50, 14, 5, 24) + punto(60, 96, 3, PAPEL, .9) + punto(132, 100, 3.6, PAPEL, .9) + punto(120, 124, 2.4, PAPEL, .9)
+      + agua('M30,142 Q26,152 30,158 Q36,152 30,142Z', C.cieloO, { f: 'l' }) + agua('M172,130 Q168,140 172,146 Q178,140 172,130Z', C.cieloO, { f: 'l' })
+      + chispa(170, 36, 9, C.cieloO) + chispa(28, 68, 6, C.cieloO)),
+
+    // Manzana roja con rabito y hoja
+    fruta_manzana: () => svg('0 0 200 200',
+      sombra(100, 188, 54, 31)
+      + agua('M100,58 Q130,36 156,52 Q182,78 172,122 Q160,170 122,176 Q108,178 100,172 Q92,178 78,176 Q40,170 28,122 Q18,78 44,52 Q70,36 100,58Z', C.rojo)
+      + vel('M128,66 Q178,86 170,128 Q160,170 122,176 Q108,178 100,172 Q150,150 128,66Z', C.rojoO, { o: .5 })
+      + brillo(56, 84, 8, 16, -22) + trazo('M52,72 Q40,96 46,116', 2.6, PAPEL, { o: .8 })
+      + pincel('M100,60 Q98,40 108,22', 5, C.troncoO) + agua('M108,34 Q128,16 156,24 Q146,48 112,42Z', C.hoja)
+      + trazo('M114,36 Q130,32 148,28', 1.6, C.hojaO, { o: .8 })),
+
+    // Plátano: una luna amarilla con rabito verde y punta parda
+    fruta_platano: () => svg('0 0 200 200',
+      sombra(104, 186, 56, 32)
+      + agua('M54,54 Q50,112 88,146 Q130,176 180,138 Q186,146 176,152 Q124,196 70,152 Q30,112 44,56Z', C.sol)
+      + vel('M54,100 Q80,150 130,160 Q160,160 180,138 Q186,146 176,152 Q124,196 70,152 Q50,128 54,100Z', C.solO, { o: .5 })
+      + trazo('M62,66 Q62,108 92,136 Q120,156 160,142', 2, C.pajaO, { o: .6 })
+      + agua('M42,60 Q42,36 48,34 Q58,34 58,58Z', C.hoja) + agua(mancha(178, 144, 7, 6, 3, .1), C.troncoO, { f: 'l' })
+      + brillo(66, 86, 4, 14, -18)),
+
+    // Galleta con pepitas de chocolate
+    galleta: () => svg('0 0 200 200',
+      sombra(100, 186, 66, 33)
+      + agua(mancha(100, 100, 78, 76, 3, .05, 12), C.paja) + vel(mancha(116, 116, 60, 56, 4, .1), C.tierra, { o: .6 })
+      + [[66, 66], [112, 56], [146, 92], [88, 98], [56, 112], [118, 130], [80, 144], [146, 134]].map(([x, y], i) => agua(mancha(x, y, 9, 8, i + 5, .15), C.tronco, { f: 'l' })).join('')
+      + brillo(60, 60, 14, 5, -30) + punto(104, 80, 1.8, C.pajaO) + punto(130, 112, 1.8, C.pajaO) + punto(70, 128, 1.8, C.pajaO) + punto(100, 150, 1.8, C.pajaO)),
+
+    // Galleta mordida: igual, con tres mordiscos arriba a la derecha
+    galleta_mordida: () => {
+      const P = []; for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; let r = 78; const b = ((a * 180 / Math.PI) - 285 + 360) % 360; if (b < 80) r = [78, 56, 74, 58, 74, 66, 78][Math.round(b / 80 * 6)]; P.push([100 + Math.cos(a) * r, 104 + Math.sin(a) * r * .97]); }
+      return svg('0 0 200 200',
+        sombra(100, 186, 66, 34)
+        + agua(liso(P), C.paja) + vel(mancha(112, 120, 58, 52, 4, .1), C.tierra, { o: .6 })
+        + [[62, 76], [104, 70], [88, 108], [52, 120], [118, 134], [78, 148], [142, 124]].map(([x, y], i) => agua(mancha(x, y, 9, 8, i + 5, .15), C.tronco, { f: 'l' })).join('')
+        + brillo(58, 74, 12, 5, -30) + punto(170, 60, 3, C.tronco, .85) + punto(180, 74, 2, C.tronco, .85) + punto(100, 146, 1.8, C.pajaO) + punto(128, 100, 1.8, C.pajaO));
+    },
+
+    // Caramelo: bola de menta roja y blanca con el envoltorio retorcido a cada lado
+    chuche_caramelo: () => svg('0 0 200 200',
+      agua('M70,100 L22,66 Q18,100 22,134 Z', C.sol) + agua('M130,100 L178,64 Q184,100 178,136 Z', C.sol)
+      + trazo('M62,98 L30,80 M62,102 L30,120 M138,98 L170,80 M138,102 L170,122', 2, C.pajaO, { o: .7 })
+      + agua(mancha(100, 100, 40, 40, 3, .04), PAPEL)
+      + [0, 1, 2, 3, 4].map(i => vel(`M100,100 L${f1(100 + Math.cos(i * 1.2566) * 46)},${f1(100 + Math.sin(i * 1.2566) * 46)} Q${f1(100 + Math.cos(i * 1.2566 + .6) * 56)},${f1(100 + Math.sin(i * 1.2566 + .6) * 56)} ${f1(100 + Math.cos(i * 1.2566 + .62) * 40)},${f1(100 + Math.sin(i * 1.2566 + .62) * 40)}Z`, C.rojo, { o: .85 })).join('')
+      + brillo(84, 82, 8, 4, -30)),
+
+    // Estrella con cara: cinco puntas torcidas de aguada amarilla
+    chuche_estrella: () => svg('0 0 200 200',
+      sombra(100, 184, 54, 35)
+      + agua('M100,22 Q112,56 118,68 Q148,70 182,74 Q156,96 146,110 Q154,140 160,170 Q130,152 100,138 Q70,154 40,170 Q48,140 54,110 Q44,96 18,74 Q52,70 82,68 Q90,52 100,22Z', C.sol)
+      + vel('M118,68 Q148,70 182,74 Q156,96 146,110 Q154,140 160,170 Q130,152 112,142 Q130,110 118,68Z', C.solO, { o: .5 })
+      + ojo(84, 92, 5) + ojo(116, 92, 5) + colorete(70, 108, 9) + colorete(130, 108, 9) + sonrisa(100, 108, 18)
+      + chispa(168, 34, 8, C.solO) + chispa(26, 150, 6, C.sol)),
+
+    // Tableta de chocolate, ladeada, con papel rojo y corazón
+    chuche_chocolate: () => svg('0 0 200 200',
+      sombra(100, 188, 60, 36)
+      + `<g transform="rotate(-12 100 100)">`
+      + agua('M54,26 Q100,20 146,28 L150,98 Q100,106 52,98Z', C.tronco)
+      + trazo('M100,22 L101,102 M54,62 Q100,64 150,60', 2.4, C.troncoO, { o: .7 }) + vel('M104,26 L148,30 L150,98 L104,100Z', C.troncoO, { o: .4 })
+      + agua('M146,28 L158,20 L150,34Z', C.tronco, { f: 'l' })
+      + agua('M50,98 L62,106 L70,96 L80,108 L90,98 L102,108 L112,98 L122,108 L132,98 L142,108 L152,98 L152,104 Q100,112 50,106Z', PAPEL)
+      + agua('M50,104 Q100,110 152,102 L156,176 Q100,186 48,178Z', C.rojo) + vel('M110,108 L156,102 L156,176 Q130,182 108,182Z', C.rojoO, { o: .45 })
+      + agua('M102,160 Q80,142 82,128 Q88,118 102,128 Q116,118 122,128 Q122,142 102,160Z', PAPEL)
+      + `</g>`),
     // FIN
   });
 })();

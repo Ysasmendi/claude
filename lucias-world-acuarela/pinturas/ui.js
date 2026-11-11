@@ -11,15 +11,19 @@
   const head = (tx, ty, ang, L, W, c, o) => {
     const dx = Math.cos(ang), dy = Math.sin(ang), nx = -dy, ny = dx, bx = tx - dx * L, by = ty - dy * L;
     const P = (u, v) => [tx - dx * L * u + nx * W * v, ty - dy * L * u + ny * W * v];
-    return K([P(0, 0), P(.5, .26), P(1, .5), P(.88, 0), P(1, -.5), P(.5, -.26)], c, o);
+    return K([P(0, 0), P(.5, .3), P(1, .5), P(1.04, 0), P(1, -.5), P(.5, -.3)], c, o);
   };
   const est = (cx, cy, R, r, rt = -90) => { const P = []; for (let i = 0; i < 10; i++) { const a = (rt + i * 36) * Math.PI / 180, q = i % 2 ? r : R; P.push([cx + Math.cos(a) * q, cy + Math.sin(a) * q]); } return liso(P); };
   const chispa = (x, y, r, c) => agua(est(x, y, r, r * .38, -90), c, { f: 'l' });
+  // cinta: pincelada gruesa hecha mancha cerrada (así el filtro no recorta las líneas casi rectas)
+  const cinta = (pts, w, c, o) => { const N = pts.length, L = [], R = []; for (let i = 0; i < N; i++) { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(N - 1, i + 1)]; let dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l; L.push([pts[i][0] - dy * w / 2, pts[i][1] + dx * w / 2]); R.push([pts[i][0] + dy * w / 2, pts[i][1] - dx * w / 2]); }
+    const p = pts[0], q = pts[N - 1], a = pts[1], b = pts[N - 2]; let d1 = [p[0] - a[0], p[1] - a[1]], d2 = [q[0] - b[0], q[1] - b[1]]; const n1 = Math.hypot(...d1) || 1, n2 = Math.hypot(...d2) || 1;
+    return agua(liso([...L, [q[0] + d2[0] / n2 * w * .45, q[1] + d2[1] / n2 * w * .45], ...R.reverse(), [p[0] + d1[0] / n1 * w * .45, p[1] + d1[1] / n1 * w * .45]]), c, o); };
   const AZ = C.azul, AZO = carga(C.azul, .8), TEAL = pig('#27B5A8'), TEALO = carga(TEAL, .8), PIEL = pig('#F0B48C'), PIELO = carga(PIEL, .85), CREMA = C.crema;
   const cara = (x, y, r) => ojo(x - r * .36, y - r * .1, r * .13 + 1.6) + ojo(x + r * .36, y - r * .1, r * .13 + 1.6);
 
   // Flecha a la derecha: un trazo de pincel y una punta cargada
-  const flechaD = c => pincel('M15,50 Q36,48 58,50', 15, c) + head(91, 50, 0, 42, 64, c) + vel('M24,58 Q56,62 84,56 L90,52 Q60,60 22,56Z', carga(c, .8), { o: .35 });
+  const flechaD = c => cinta([[14,50],[36,48],[62,50]], 15, c) + head(91, 50, 0, 42, 64, c) + vel('M24,58 Q56,62 84,56 L90,52 Q60,60 22,56Z', carga(c, .8), { o: .35 });
 
   Object.assign(ILUS, {
     ui_casa: () => svg(V,
@@ -46,8 +50,8 @@
       + trazo('M26,34 Q30,24 40,22', 3.4, PAPEL, { o: .9 })),
 
     ui_mas: () => svg(V,
-      pincel('M50,14 Q52,50 50,86', 25, C.hoja)
-      + pincel('M14,50 Q50,48 86,50', 25, C.hoja)
+      cinta([[50,14],[52,50],[50,86]], 25, C.hoja)
+      + cinta([[14,50],[50,48],[86,50]], 25, C.hoja)
       + vel('M54,56 Q70,60 86,60 L86,70 Q60,68 54,70Z', C.hojaO, { o: .4 })),
 
     ui_luna: () => svg(V,
@@ -86,16 +90,16 @@
       + vel('M8,22 L92,20 L92,30 L10,40Z', C.grisO, { o: .3 })),
 
     ui_siguiente: () => svg(V,
-      pincel('M86,22 Q88,50 86,78', 10, AZO)
+      cinta([[86,22],[88,50],[86,78]], 10, AZO)
       + head(46, 50, 0, 38, 62, AZ) + head(78, 50, 0, 38, 62, AZ)
       + vel('M12,60 L46,62 L36,74 L12,76Z', AZO, { o: .35 })),
     ui_anterior: () => svg(V, flip(
-      pincel('M86,22 Q88,50 86,78', 10, AZO)
+      cinta([[86,22],[88,50],[86,78]], 10, AZO)
       + head(46, 50, 0, 38, 62, AZ) + head(78, 50, 0, 38, 62, AZ)
       + vel('M12,60 L46,62 L36,74 L12,76Z', AZO, { o: .35 }))),
 
     ui_pausa: () => svg(V,
-      pincel('M33,18 Q35,50 33,82', 20, C.naranja) + pincel('M68,18 Q66,50 68,82', 20, C.naranja)
+      cinta([[33,18],[35,50],[33,82]], 20, C.naranja) + cinta([[68,18],[66,50],[68,82]], 20, C.naranja)
       + vel('M38,22 Q40,50 38,80 L42,80 Q43,50 42,22Z', C.rojoO, { o: .25 })),
 
     ui_play: () => svg(V,
@@ -112,7 +116,7 @@
       + vel('M16,34 Q40,38 50,34 L50,38 Q30,42 16,42Z', carga(C.violeta, .75), { o: .3 })),
 
     ui_nota: () => svg(V,
-      pincel('M47,70 Q48,44 46,16', 8, AZO)
+      cinta([[47,70],[48,44],[46,16]], 8, AZO)
       + agua('M46,16 Q70,22 76,42 Q74,52 70,56 Q64,38 46,38Z', AZ)
       + agua(mancha(34, 74, 17, 13, 3, .06, 10, -.3), AZ)
       + vel(mancha(36, 78, 12, 7, 4, .12), AZO, { o: .45 })),
@@ -120,7 +124,7 @@
     ui_altavoz: () => svg(V,
       agua('M8,38 Q18,36 28,38 Q36,28 46,18 Q50,18 50,24 Q51,50 50,76 Q50,82 46,80 Q36,70 28,62 Q18,64 8,62Z', C.naranja)
       + vel('M26,60 Q40,70 48,78 L50,60Z', C.rojoO, { o: .35 })
-      + pincel('M62,36 Q70,50 62,64', 7, C.sol) + pincel('M74,24 Q92,50 74,76', 7, C.solO)),
+      + cinta([[62,36],[69,50],[62,64]], 7, C.sol) + cinta([[74,24],[88,50],[74,76]], 7, C.solO)),
     ui_mudo: () => svg(V,
       agua('M6,38 Q16,36 26,38 Q34,28 44,18 Q48,18 48,24 Q49,50 48,76 Q48,82 44,80 Q34,70 26,62 Q16,64 6,62Z', C.naranja)
       + vel('M24,60 Q38,70 46,78 L48,60Z', C.rojoO, { o: .35 })
@@ -138,7 +142,7 @@
       + agua('M56,50 Q58,70 58,88 L68,78 Q74,88 80,92 L88,86 Q80,78 76,70 L90,68Z', C.negro)),
 
     ui_sol: () => svg(V,
-      Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4 + .2, c = Math.cos(a), s = Math.sin(a); return pincel(`M${f1(50 + c * 36)},${f1(50 + s * 36)} L${f1(50 + c * 47)},${f1(50 + s * 47)}`, 9, i % 2 ? C.sol : C.solO, { f: 'l' }); }).join('')
+      Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4 + .2, c = Math.cos(a), s = Math.sin(a); return cinta([[50 + c * 35, 50 + s * 35], [50 + c * 47, 50 + s * 47]], 8, i % 2 ? C.sol : C.solO, { f: 'l' }); }).join('')
       + agua(mancha(50, 50, 32, 32, 8, .04), C.sol)
       + vel(mancha(58, 58, 22, 20, 9, .15), C.solO, { o: .5 })
       + ojo(40, 45, 3.6) + ojo(60, 45, 3.6) + colorete(32, 58, 6) + colorete(68, 58, 6) + sonrisa(50, 56, 16)),
@@ -155,8 +159,8 @@
       agua('M24,60 L38,60 L42,88 Q34,92 28,88Z', C.grisO)
       + agua('M10,40 Q22,38 36,36 Q54,26 72,12 Q76,40 72,76 Q54,60 36,56 Q22,60 10,58Z', C.rojo)
       + vel('M20,52 Q42,54 70,70 L72,76 Q54,60 36,56 Q22,60 10,58Z', C.rojoO, { o: .5 })
-      + pincel('M72,14 Q78,44 72,74', 9, C.sol)
-      + pincel('M84,26 L94,18', 5, C.solO, { f: 'l' }) + pincel('M86,44 L96,44', 5, C.solO, { f: 'l' }) + pincel('M84,62 L94,70', 5, C.solO, { f: 'l' })),
+      + cinta([[72,14],[77,44],[72,74]], 9, C.sol)
+      + cinta([[84,26],[94,18]], 5, C.solO, { f: 'l' }) + cinta([[86,44],[96,45]], 5, C.solO, { f: 'l' }) + cinta([[84,62],[94,70]], 5, C.solO, { f: 'l' })),
 
     ui_silencio: () => svg(V,
       agua(mancha(50, 50, 42, 42, 10, .035), C.sol)
@@ -174,10 +178,10 @@
       + ojo(84, 45, 2.6)),
 
     ui_caminante: () => svg(V,
-      pincel('M10,44 L26,44', 5, C.grisO, { f: 'l' }) + pincel('M6,58 L24,58', 5, C.grisO, { f: 'l' }) + pincel('M12,72 L26,72', 5, C.grisO, { f: 'l' })
+      cinta([[10,44],[26,43]], 5, C.grisO, { f: 'l' }) + cinta([[6,58],[24,58]], 5, C.grisO, { f: 'l' }) + cinta([[12,72],[26,73]], 5, C.grisO, { f: 'l' })
       + agua('M32,26 Q46,24 50,38 Q64,48 84,54 Q94,58 92,72 L30,74 Q26,50 32,26Z', C.rojo)
       + vel('M30,60 Q60,62 92,66 L92,74 L30,74Z', C.rojoO, { o: .4 })
-      + pincel('M28,82 Q60,84 92,80', 8, C.gris)
+      + cinta([[28,82],[60,84],[92,80]], 8, C.gris)
       + trazo('M52,48 L60,40 M62,54 L70,46', 3, PAPEL, { o: .9 })),
 
     ui_conejo: () => svg(V,
@@ -211,15 +215,15 @@
     ui_disquete: () => svg(V,
       agua('M14,12 L74,12 L88,26 L88,88 L14,88Z', AZ)
       + vel('M16,64 L88,60 L88,88 L14,88Z', AZO, { o: .4 })
-      + agua('M30,12 L68,12 L68,38 L30,38Z', C.gris) + pincel('M58,17 L58,32', 6, AZO, { f: 'l' })
+      + agua('M30,12 L68,12 L68,38 L30,38Z', C.gris) + cinta([[58,17],[59,25],[58,32]], 6, AZO, { f: 'l' })
       + agua('M24,54 Q50,52 76,54 L76,86 Q50,88 24,86Z', PAPEL)
       + trazo('M32,66 L68,66 M32,77 L56,77', 3.4, C.rosaO, { o: .9 })),
 
     ui_papelera: () => svg(V,
-      pincel('M40,13 Q50,10 60,13', 6, TEALO, { f: 'l' })
+      cinta([[40,13],[50,10],[60,13]], 6, TEALO, { f: 'l' })
       + agua('M24,30 Q50,26 76,30 Q74,62 70,90 Q50,94 30,90 Q26,62 24,30Z', TEAL)
       + vel('M54,32 Q74,32 76,30 Q74,62 70,90 Q58,92 56,90Z', TEALO, { o: .4 })
-      + pincel('M14,22 Q50,18 86,22', 10, TEAL)
+      + cinta([[14,22],[50,19],[86,22]], 10, TEAL)
       + trazo('M38,40 L40,80 M50,40 L50,80 M62,40 L60,80', 3.4, PAPEL, { o: .85 })),
 
     ui_teclado: () => svg(V,
@@ -252,7 +256,7 @@
       + chispa(86, 76, 7, C.violeta) + chispa(32, 20, 7, C.rosaO) + chispa(88, 8, 5, C.azul)),
 
     ui_xilofono: () => svg(V,
-      [C.rojo, C.naranja, C.sol, C.hoja, AZ, C.violeta].map((c, i) => pincel(`M${15 + i * 14},${14 + i * 4} Q${16 + i * 14},50 ${15 + i * 14},${86 - i * 4}`, 11, c)).join('')
+      [C.rojo, C.naranja, C.sol, C.hoja, AZ, C.violeta].map((c, i) => cinta([[15 + i * 14, 14 + i * 4], [16 + i * 14, 50], [15 + i * 14, 86 - i * 4]], 11, c)).join('')
       + trazo('M10,40 Q50,44 90,50', 2.4, LINEA, { o: .35 })),
 
     ui_estrella: () => svg(V,
@@ -293,14 +297,14 @@
     ui_aviso: () => svg(V,
       agua('M50,10 Q56,10 60,18 L90,74 Q96,86 84,86 L16,86 Q4,86 10,74 L40,18 Q44,10 50,10Z', C.sol)
       + vel('M60,40 L90,74 Q96,86 84,86 L50,86Z', C.solO, { o: .5 })
-      + pincel('M50,36 Q51,48 50,58', 9, C.negro) + punto(50, 73, 5.2, C.negro, .9)),
+      + cinta([[50,36],[51,47],[50,58]], 9, C.negro) + punto(50, 73, 5.2, C.negro, .9)),
 
     ui_nube: () => svg(V,
       agua('M14,70 Q6,58 16,48 Q26,38 36,42 Q40,22 58,24 Q74,26 76,42 Q92,42 94,58 Q94,72 80,72 Q48,76 14,70Z', lava(C.cielo, .4))
       + vel('M16,62 Q50,70 90,62 Q94,72 80,72 Q48,76 14,70Z', C.cieloO, { o: .5 })),
 
     ui_amanecer: () => svg(V,
-      Array.from({ length: 7 }, (_, i) => { const a = Math.PI + (i + .5) * Math.PI / 7, c = Math.cos(a), s = Math.sin(a); return pincel(`M${f1(50 + c * 34)},${f1(66 + s * 34)} L${f1(50 + c * 46)},${f1(66 + s * 46)}`, 7, C.solO, { f: 'l' }); }).join('')
+      Array.from({ length: 7 }, (_, i) => { const a = Math.PI + (i + .5) * Math.PI / 7, c = Math.cos(a), s = Math.sin(a); return cinta([[50 + c * 34, 66 + s * 34], [50 + c * 46, 66 + s * 46]], 7, C.solO, { f: 'l' }); }).join('')
       + agua(mancha(50, 66, 28, 28, 4, .04), C.sol)
       + agua('M4,70 Q28,56 50,62 Q74,56 96,70 L96,90 Q50,94 4,90Z', C.hoja)
       + vel('M4,80 Q50,74 96,80 L96,90 Q50,94 4,90Z', C.hojaO, { o: .5 })),
@@ -321,7 +325,7 @@
       + agua(mancha(60, 80, 15, 10, 7, .1), C.rosa) + ojo(52, 58, 3.6) + punto(56, 80, 1.8, '#B5647F') + punto(65, 80, 1.8, '#B5647F')),
 
     ui_guitarra: () => svg(V, rot(
-      pincel('M50,56 Q51,30 50,10', 8, C.tronco)
+      cinta([[50,56],[51,30],[50,10]], 8, C.tronco)
       + agua('M44,2 Q50,0 56,2 L56,16 L44,16Z', C.troncoO)
       + K([[50, 50], [62, 52], [70, 60], [64, 70], [72, 80], [72, 92], [60, 98], [50, 96], [40, 98], [28, 92], [28, 80], [36, 70], [30, 60], [38, 52]], C.rojo)
       + vel('M54,76 Q72,76 72,90 Q64,98 52,96Z', C.rojoO, { o: .5 })
@@ -365,7 +369,7 @@
       + pincel(mancha(82, 20, 9, 9, 5, .08), 3.6, C.cieloO, { f: 'l', o: .85 })),
 
     ui_carpa: () => svg(V,
-      pincel('M50,18 L50,6', 3, C.troncoO, { f: 'l' }) + agua('M50,4 L70,8 L50,14Z', C.rojo, { f: 'l' })
+      cinta([[50,18],[51,6]], 3.4, C.troncoO, { f: 'l' }) + agua('M50,4 L70,8 L50,14Z', C.rojo, { f: 'l' })
       + agua('M12,56 Q10,74 12,90 Q50,94 88,90 Q90,74 88,56Z', C.crema)
       + agua('M24,56 L36,56 L34,90 L22,90Z', C.rojo) + agua('M64,56 L76,56 L78,90 L66,90Z', C.rojo)
       + agua('M40,90 Q42,66 50,60 Q58,66 60,90Z', C.negro)
@@ -376,7 +380,7 @@
       pincel('M32,46 L32,32 Q32,12 50,12 Q68,12 68,32 L68,46', 10, C.grisO)
       + K([[18, 44], [50, 40], [82, 44], [84, 66], [82, 90], [50, 94], [18, 90], [16, 66]], C.sol)
       + vel('M50,70 Q80,60 84,66 L82,90 Q66,92 50,94Z', C.solO, { o: .55 })
-      + agua(mancha(50, 62, 7, 7, 4, .08), C.negro) + pincel('M50,64 L50,78', 5, C.negro, { f: 'l' })),
+      + agua(mancha(50, 62, 7, 7, 4, .08), C.negro) + cinta([[50,64],[51,78]], 5, C.negro, { f: 'l' })),
 
     ui_lapiz: () => svg(V, rot(
       agua('M40,6 Q50,2 60,6 L60,18 L40,18Z', C.rosaO)
