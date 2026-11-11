@@ -180,14 +180,14 @@
     s += [[-32, -60, -34], [-18, -58, -18], [26, -58, 24], [40, -62, 40]].map(([x0, y0, x1], i) => agua(`M${x0 - 5},${y0} Q${x0 - 4},${y0 / 2} ${x1 - 4},-4 L${x1 + 4},-4 Q${x0 + 5},${y0 / 2} ${x0 + 5},${y0}Z`, i % 2 ? C.paja : lava(C.pajaO, .1), { f: 'l' }) + agua(mancha(x1, -2, 6, 3.6, 80 + i, .1), C.troncoO, { f: 'l' })).join('');
     s += pincel('M-44,-84 Q-56,-76 -52,-52', 3.5, C.pajaO, { f: 'l' }) + punto(-52, -50, 3.6, C.troncoO);
     s += agua(mancha(0, -76, 47, 23, 85, .06), c) + vel(mancha(12, -66, 34, 12, 86, .2), C.pajaO, { o: .4 });
-    s += agua(`M22,-72 Q${f1(22 + lx * .3)},${f1(-86 - N * .55)} ${25 + lx},${-94 - N} L${43 + lx},${-94 - N} Q${f1(44 + lx * .3)},${f1(-86 - N * .55)} 48,-80 Z`, c) + vel(`M38,-80 Q${f1(38 + lx * .3)},${f1(-86 - N * .55)} ${41 + lx},${-92 - N} L${43 + lx},${-92 - N} Q${f1(44 + lx * .3)},${f1(-86 - N * .55)} 48,-80Z`, C.pajaO, { o: .4 });
+    s += agua(`M14,-70 Q${f1(18 + lx * .3)},${f1(-86 - N * .55)} ${22 + lx},${-94 - N} L${44 + lx},${-94 - N} Q${f1(48 + lx * .3)},${f1(-86 - N * .55)} 54,-78 Z`, c) + vel(`M42,-78 Q${f1(42 + lx * .3)},${f1(-86 - N * .55)} ${36 + lx},${-92 - N} L${44 + lx},${-92 - N} Q${f1(48 + lx * .3)},${f1(-86 - N * .55)} 54,-78Z`, C.pajaO, { o: .4 });
     // manchas
-    [[-24, -80, 9], [-4, -86, 7], [12, -72, 8], [-14, -64, 6], [34, -82, 6]].forEach(([px, py, r], i) => { s += vel(mancha(px, py, r, r * .85, 87 + i, .2), m, { o: .6 }); });
-    for (let i = 0; i < 4; i++) { const t = (i + .5) / 4; s += vel(mancha(33 + lx * .3 * t + (i % 2 ? 4 : -3), -86 - N * t * .95, 5.5, 4.5, 90 + i, .2), m, { o: .6 }); }
+    [[-24, -80, 9], [-4, -86, 7], [12, -72, 8], [-14, -64, 6], [34, -82, 6]].forEach(([px, py, r], i) => { s += vel(mancha(px, py, r * 1.2, r, 87 + i, .2), m, { o: .85 }); });
+    for (let i = 0; i < 4; i++) { const t = (i + .5) / 4; s += vel(mancha(34 + lx * t + (i % 2 ? 5 : -4), -84 - N * t * .95, 7, 5.5, 90 + i, .2), m, { o: .85 }); }
     // cabeza
     s += agua(`M${hx - 8},${hy} L${hx - 2},${hy - 2} L${hx - 7},${hy - 16}Z`, C.pajaO, { f: 'l' }) + punto(hx - 7, hy - 17, 3.2, C.troncoO) + agua(`M${hx + 1},${hy - 4} L${hx + 7},${hy - 4} L${hx + 4},${hy - 18}Z`, C.pajaO, { f: 'l' }) + punto(hx + 4, hy - 19, 3.2, C.troncoO);
     s += agua(`M${hx - 16},${hy - 1} Q${hx - 22},${hy - 8} ${hx - 12},${hy - 8} Q${hx - 10},${hy - 2} ${hx - 10},${hy + 3}Z`, C.pajaO, { f: 'l' });
-    s += agua(mancha(hx + 3, hy, 14, 10, 94, .06, 10, -.15), c) + agua(mancha(hx + 14, hy + 3, 8, 6.5, 95, .08), lava(C.crema, .1), { f: 'l' }) + punto(hx + 17, hy + 1, 1.6, m);
+    s += agua(mancha(hx + 3, hy, 16, 11.5, 94, .06, 10, -.15), c) + agua(mancha(hx + 16, hy + 3, 9, 7.5, 95, .08), lava(C.crema, .1), { f: 'l' }) + punto(hx + 17, hy + 1, 1.6, m);
     if (e === 'orgullo') s += trazo(`M${hx - 3},${hy - 3} q4,-4 8,0`, 1.8, LINEA, { o: .85 });
     else s += ojo(hx + 1, hy - 3, e === 'grita' ? 3.2 : 2.8);
     if (e === 'triste') s += trazo(`M${hx + 17},${hy + 7} q-5,-3 -10,0`, 1.8) + trazo(`M${hx - 4},${hy - 9} l7,2`, 1.5, LINEA, { o: .6 }) + agua(mancha(hx + 1, hy + 4, 1.6, 3, 96, .1), C.cieloO, { f: 'l' });
@@ -351,7 +351,7 @@
       + trazo('M164,66 q10,4 14,14 M170,52 q12,4 18,16', 2.8, PAPEL, { o: .8 })),
 
     cuento2_2: () => svg(VB,
-      lienzo(carga(C.azul, .8), carga(C.violeta, .7), .35)
+      lienzo('#7F88C8', '#8E7CC3', .35)
       + estrellas([[20, 20], [210, 22], [380, 24], [250, 170], [160, 170], [14, 176], [390, 160]], C.sol)
       // pensamiento: el parque
       + agua(mancha(120, 100, 100, 74, 200, .05), PAPEL)
@@ -364,11 +364,11 @@
       + flor(92, 148, C.rojo, 3.4) + flor(190, 146, C.sol, 3.4)
       + agua(mancha(238, 124, 8, 8, 205, .1), PAPEL, { f: 'l' }) + agua(mancha(256, 106, 5, 5, 206, .1), PAPEL, { f: 'l' })
       + luna(322, 118, 1.25, { e: 'enfado' }) + trazo('M280,70 l-8,-8 M272,92 l-10,-2 M286,52 l-4,-10', 3, C.sol, { o: .9 })
-      + agua('M-14,232 Q200,220 414,230 V272 H-14Z', carga(C.azul, .6))
+      + agua('M-14,232 Q200,220 414,230 V272 H-14Z', '#5F6BA8')
       + casita(60, 250, .5, C.azul, carga(C.violeta, .8), C.sol) + casita(354, 248, .5, C.azul, carga(C.violeta, .8), C.sol)),
 
     cuento2_3: () => svg(VB,
-      lienzo(lava(C.naranja, .55), C.cielo, .55) + nubes([58, 152, .5, 3], [362, 140, .45, 5])
+      lienzo(lava(C.cielo, .3), null) + vel('M-14,130 Q200,100 414,140 V272 H-14Z', C.naranja, { o: .4 }) + nubes([58, 152, .5, 3], [362, 140, .45, 5])
       + estrellas([[206, 60, 5]], C.sol) + est(196, 150, 4, PAPEL)
       + solc(276, 94, 1.15, { e: 'habla' })
       + luna(132, 106, 1.1, { e: 'asombro' })
@@ -376,7 +376,7 @@
       + casita(50, 238, .6, C.rosa, C.azul, C.sol) + casita(112, 242, .5, C.paja, C.rojo, C.sol) + casita(340, 234, .6, C.cielo, C.naranja, C.sol)
       + arbolito(290, 246, .6, C.hojaO, 2) + arbolito(172, 248, .5, C.hoja, 4)
       + agua('M-14,244 Q200,232 414,246 V272 H-14Z', C.hojaO)
-      + trazo('M206,244 L214,212 L246,212 L254,244 M214,212 H246', 3, C.rojoO, { o: .8 })),
+      ),
 
     cuento2_4: () => svg(VB,
       lienzo(C.cielo, C.cieloO, .35) + nubes([226, 46, .5, 3], [372, 82, .4, 5])
@@ -391,12 +391,12 @@
       + flor(110, 248, C.rosa, 5) + flor(350, 252, C.sol, 5) + flor(80, 238, C.violeta, 4) + hierba(30, 252, 12, C.hojaO) + hierba(382, 242, 12, C.hojaO, -1)),
 
     cuento2_5: () => svg(VB,
-      lienzo(carga(C.azul, .72), carga(C.violeta, .7), .3)
+      lienzo('#7A84C6', '#8E7CC3', .3)
       + estrellas([[30, 30], [120, 22], [330, 30], [372, 122], [20, 122], [160, 72], [300, 176]], C.sol)
       + nubeD(250, 126, 1.1, 4)
       + luna(250, 90, 1.05, { e: 'dormido', gorro: true })
       + zeta(322, 62, 1) + zeta(338, 42, .8) + zeta(352, 26, .6)
-      + agua('M-14,222 Q200,206 414,224 V272 H-14Z', carga(C.azul, .6))
+      + agua('M-14,222 Q200,206 414,224 V272 H-14Z', '#6670AE')
       + agua('M-14,240 Q200,230 414,242 V272 H-14Z', carga(C.hojaO, .7))
       + agua('M52,240 Q50,200 54,180 L128,180 Q130,200 128,240Z', C.crema) + agua('M44,184 L90,138 L136,184Z', C.rojo)
       + agua('M66,222 Q80,204 92,206 L92,226Z', C.tronco, { f: 'l' }) + agua('M70,208 L98,208 L98,170 L70,170Z', C.sol, { f: 'l' })
@@ -419,9 +419,9 @@
       lienzo(C.cielo, C.cieloO, .35) + nubes([334, 42, .48, 3])
       + agua('M-14,188 Q200,172 414,190 V272 H-14Z', C.hoja)
       + palmera(40, 222, 1.05)
-      + jirafa(214, 244, .88, { N: 78, lx: -4, e: 'triste' })
+      + jirafa(204, 244, .88, { N: 78, lx: -4, e: 'triste' })
       + arbusto(222, 252, 1.3, C.hojaO, 1)
-      + palmera(318, 246, 1) + elefante(334, 238, .9, { fl: -1, e: 'risa' })
+      + palmera(302, 246, 1) + elefante(318, 238, .85, { fl: -1, e: 'risa' })
       + mono(84, 232, .95, { e: 'pillo' }) + arbusto(84, 256, 1.5, C.hoja, 2)
       + flor(150, 254, C.rosa, 4.5) + flor(382, 254, C.sol, 4.5)),
 
@@ -453,7 +453,7 @@
       + jirafa(220, 248, .88, { N: 88, e: 'orgullo' })
       + corazon(304, 52, 1.5, C.rojo) + corazon(330, 82, .9, C.rosa) + corazon(274, 100, .7, C.rojo)
       + mono(78, 238, .9, { e: 'risa' }) + arbusto(72, 256, 1.4, C.hojaO, 2)
-      + palmera(346, 250, 1) + elefante(362, 242, .85, { fl: -1, e: 'risa' })
+      + palmera(330, 250, 1) + elefante(344, 242, .8, { fl: -1, e: 'risa' })
       + flor(150, 252, C.rosa, 5) + flor(300, 254, C.sol, 5) + hierba(120, 250, 12, C.hojaO)),
   });
 
