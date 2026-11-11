@@ -183,7 +183,7 @@
       + palo(50, 62, 51, 93, 5.5, C.crema, 7)
       + agua(mancha(50, 40, 31, 30, 3, .04), AMA)
       + vel(mancha(58, 50, 20, 18, 4, .15), AMAO, { o: .5 })
-      + pincel('M50,40 Q56,34 60,40 Q60,50 50,52 Q38,52 36,40 Q38,26 52,24 Q70,26 72,42', 6, ROSA, { f: 'l', o: .95 })
+      + pincel('M50,40 Q57,33 62,40 Q62,52 50,54 Q36,54 34,40 Q36,23 52,21 Q72,23 74,42', 7, ROSA, { f: 'l', o: .95 })
       + brillo(36, 25, 6, 3.4, -35, .65)),
 
     // Donut: anillo de masa, glaseado rosa y fideos
@@ -231,7 +231,7 @@
       + vel(mancha(58, 60, 28, 26, 4, .1), CIELOO, { o: .4 })
       + pincel('M20,35 A34,34 0 0 1 58,18', 4, ROSA, { f: 'l', o: .85 }) + pincel('M84,60 A34,34 0 0 1 62,84', 4, AMA, { f: 'l', o: .9 })
       + pincel('M30,76 A32,32 0 0 0 52,84', 3.4, HOJA, { f: 'l', o: .85 })
-      + agua(mancha(32, 34, 7, 11, 5, .1, 8, .6), PAPEL, { f: 'l', o: .95 }) + agua(mancha(66, 27, 3.4, 3.2, 6, .1), PAPEL, { f: 'l', o: .9 })),
+      + agua(mancha(32, 34, 7, 11, 5, .1, 8, .6), PAPEL, { f: 's', o: .9 }) + agua(mancha(66, 27, 3.4, 3.2, 6, .1), PAPEL, { f: 's', o: .9 })),
 
     // Cien: 100 a pincel rojo con subrayado doble
     fiesta_cien: () => svg('0 0 100 100',

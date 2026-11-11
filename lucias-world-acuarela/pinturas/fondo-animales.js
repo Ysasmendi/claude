@@ -17,7 +17,7 @@
     + agua(mancha(54, 88, 10, 18, 4, .15), lava(C.negro, .5), { f: 'l', o: .8 })
     + agua(liso([[34, 40], [48, 24], [74, 16], [104, 20], [124, 36], [132, 58], [100, 68], [60, 68]]), C.sol)
     + vel(mancha(106, 46, 22, 16, 6, .2), C.solO, { o: .5 })
-    + moneda(56, 36, 9, 7) + moneda(80, 26, 9, 8) + moneda(104, 34, 9, 9) + moneda(70, 52, 9, 10) + moneda(96, 54, 8.5, 11) + moneda(122, 54, 8.5, 12)
+    + moneda(46, 46, 9, 20) + moneda(112, 42, 9, 21) + moneda(86, 40, 9, 22) + moneda(56, 36, 9, 7) + moneda(80, 26, 9, 8) + moneda(104, 34, 9, 9) + moneda(70, 52, 9, 10) + moneda(96, 54, 8.5, 11) + moneda(122, 54, 8.5, 12)
     + pincel('M22,66 Q80,80 138,64', 9, carga(C.negro, .85))
     + moneda(32, 62, 10, 13)
     + agua(mancha(146, 118, 13, 4.5, 14, .12), C.sol, { f: 'l' }) + agua(mancha(22, 120, 12, 4, 15, .12), C.sol, { f: 'l' })
@@ -95,13 +95,13 @@
       + vel('M90,104 Q108,106 110,178 Q98,182 92,180Z', VERDEO, { o: .45 })
       + pincel('M54,142 Q82,150 112,142', 8, C.negro) + agua(mancha(84, 146, 6.5, 6, 4, .1), C.sol, { f: 'l' }) + `</g>`
       + `<g transform="translate(22 0) rotate(8 80 120)">`
-      + agua(mancha(80, 66, 24, 22, 7, .05), PIEL)
-      + agua('M56,68 Q56,98 80,108 Q104,98 104,68 Q92,84 80,80 Q68,84 56,68Z', PELO)
+      + agua(mancha(80, 66, 28, 24, 7, .05), PIEL)
+      + agua('M52,70 Q50,102 80,112 Q110,102 108,70 Q94,86 80,82 Q66,86 52,70Z', PELO)
       + agua(mancha(80, 76, 17, 5, 8, .12), PELO)
-      + ojo(71, 63, 3.2) + ojo(89, 63, 3.2) + agua(mancha(80, 70, 4.5, 4, 10, .1), pig('#E58A84'), { f: 'l' }) + colorete(64, 72, 5) + colorete(96, 72, 5)
-      + agua(mancha(80, 46, 33, 8, 13, .08), VERDEO)
-      + agua('M58,46 Q55,22 62,10 Q80,4 98,10 Q105,22 102,46Z', VERDE)
-      + pincel('M58,38 Q80,43 102,38', 7, C.negro) + agua(mancha(80, 40, 6, 5.5, 14, .1), C.sol, { f: 'l' })
+      + trazo('M62,78 Q70,72 78,78 M82,78 Q90,72 98,78', 2, carga(PELO, .6), { o: .85 }) + ojo(70, 62, 3.4) + ojo(90, 62, 3.4) + agua(mancha(80, 70, 4.5, 4, 10, .1), pig('#E58A84'), { f: 'l' }) + colorete(64, 72, 5) + colorete(96, 72, 5)
+      + agua(mancha(80, 46, 36, 8, 13, .08), VERDEO)
+      + agua('M56,46 Q52,20 60,8 Q80,2 100,8 Q108,20 104,46Z', VERDE)
+      + pincel('M56,38 Q80,44 104,38', 7, C.negro) + agua(mancha(80, 40, 6, 5.5, 14, .1), C.sol, { f: 'l' })
       + `</g>`
       + olla(100, 98, .48)
       + agua(mancha(166, 137, 6.5, 6.5, 6, .1), PIEL, { f: 'l' })

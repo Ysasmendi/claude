@@ -200,7 +200,7 @@
       + brillo(50, 52, 14, 6, -30, .9)
       + ojo(64, 78, 6.5) + ojo(98, 78, 6.5) + colorete(52, 98, 8) + colorete(110, 98, 8)
       + agua('M68,96 Q82,116 96,96 Q82,102 68,96Z', C.rojoO)
-      + pincel('M156.4,74.6 A14,14 0 0 1 156.4,93.4', 7, C.rojo) + pincel('M166.1,66 A27,27 0 0 1 166.1,102', 7, C.naranja) + pincel('M175.7,57.2 A40,40 0 0 1 175.7,110.8', 7, C.sol)),
+      + pincel('M150.4,74.6 A14,14 0 0 1 150.4,93.4', 6, C.rojo) + pincel('M160.1,66 A27,27 0 0 1 160.1,102', 6, C.naranja) + pincel('M169.7,57.2 A40,40 0 0 1 169.7,110.8', 6, C.sol)),
     // Piscina de bolas: bañera turquesa llena de bolas, flotador rosa y un patito que asoma
     web_piscina: (o = {}) => {
       const bola = (x, y, r, c, i) => agua(mancha(x, y, r, r * .95, i + 3, .08, 9), c, { f: 'l' }) + brillo(x - r * .3, y - r * .35, r * .35, r * .2, -35, .6);
@@ -310,6 +310,92 @@
         + trazo('M205,138 v24', 2.4, PAPEL, { o: .9 }) + vel('M214,114 H228 L224 168 H214Z', C.cieloO, { o: .25 })
         + agua(mancha(30, 160, 13, 12, 10, .08), C.naranja) + punto(26, 156, 2.6, '#8E6A52') + punto(35, 164, 2.4, '#8E6A52')
         + chispa(36, 28, 6, C.sol) + chispa(206, 30, 7, C.sol) + chispa(222, 76, 4.5, PAPEL));
+    },
+    // Lupa sobre el mundo: globito azul con tierra verde, visto a través de una lupa dorada
+    web_lupa_mundo: (o = {}) => svg('0 0 100 100',
+      agua(mancha(40, 42, 30, 29, 3, .05), C.azul)
+      + agua('M14,34 C20,24 32,24 36,30 C40,36 34,42 30,44 C28,50 22,54 16,50 C13,46 13,40 14,34Z', C.hoja)
+      + agua('M42,18 C48,13 58,16 58,22 C55,27 48,26 43,24Z', C.hoja, { f: 'l' })
+      + agua('M44,52 C50,48 58,50 61,56 C62,64 56,70 52,72 C47,67 45,60 44,52Z', C.hoja, { f: 'l' })
+      + brillo(27, 26, 7, 3.5, -30, .6)
+      + pincel('M74,75 L89,90', 7, C.rojo)
+      + agua(mancha(60, 60, 17, 17, 5, .04), C.cielo, { o: .7 })
+      + agua('M54,50 C60,46 68,50 69,56 C68,62 62,66 56,64 C52,60 52,54 54,50Z', C.hoja, { f: 'l', o: .9 })
+      + pincel(mancha(60, 60, 18, 18, 6, .03, 11), 4.4, C.solO)
+      + trazo('M49,55 A12,12 0 0 1 56,48', 2.6, PAPEL, { o: .9 })
+      + trazo('M70,72 l6,6', 1.4, C.grisO, { o: .6 })
+      + chispa(86, 14, 5, C.sol) + chispa(12, 84, 4, C.sol)),
+
+    // Pato de goma: patito amarillo de perfil
+    pato_goma: (o = {}) => svg('0 0 100 100',
+      sombra(52, 94, 38, .3)
+      + agua('M14,52 C10,44 12,36 16,34 C20,42 26,48 34,50 C40,46 52,46 62,50 C74,54 86,58 88,70 C88,84 74,92 52,92 C30,92 14,84 12,70 C11,62 12,56 14,52Z', C.sol)
+      + vel('M30,86 C54,96 84,84 88,68 C88,84 74,92 52,92Z', C.solO, { o: .5 })
+      + agua('M34,66 C40,58 56,58 64,64 C66,72 58,80 46,80 C38,80 32,74 34,66Z', C.solO, { f: 'l', o: .85 })
+      + trazo('M44,72 Q52,75 58,70', 1.4, C.solO, { o: .9 })
+      + agua(mancha(60, 32, 19, 18, 4, .06), C.sol)
+      + brillo(52, 22, 6, 3, -30, .7)
+      + agua('M74,33 C82,29 91,31 92,37 C91,42 84,44 76,42Z', C.naranja, { f: 'l' })
+      + trazo('M77,38.5 Q84,39.5 91,37.5', 1.2, LINEA, { o: .8 })
+      + ojo(66, 28, 2.8) + colorete(68, 39, 4)
+      + trazo('M52,14 Q54,9 60,12 M20,36 l-4,-5', 1.6, LINEA, { o: .7 })),
+
+    // Pompa de jabón: una burbuja grande con reflejos
+    burbuja_jabon: (o = {}) => svg('0 0 100 100',
+      vel(mancha(50, 50, 44, 44, 3, .03, 12), C.cielo, { o: .5 })
+      + vel(mancha(58, 58, 32, 32, 5, .06, 12), C.violeta, { o: .3 })
+      + vel(mancha(40, 40, 24, 24, 7, .06, 12), C.rosa, { o: .2 })
+      + trazo(mancha(50, 50, 44, 44, 3, .03, 12), 1.8, C.cieloO, { o: .6 })
+      + brillo(32, 28, 10, 5, -40, .95)
+      + trazo('M78,62 q4,-8 2,-16', 2.2, PAPEL, { o: .85 })),
+
+    // Cursor: mano que señala con el dedo, puño azul
+    cursor_mano: (o = {}) => svg('0 0 60 60',
+      agua('M18,30 V9 C18,4 26,4 26,9 V24 C27,21 33,21 34,25 C35,22 41,22 42,26 C43,24 49,24 49,29 V40 C49,50 42,56 33,56 C24,56 18,52 15,46 L9,36 C7,32 12,29 15,32Z', C.crema)
+      + vel('M38,30 C44,28 49,30 49,34 V40 C49,50 42,56 33,56 L30,52 C40,50 40,40 38,30Z', C.tierra, { o: .5 })
+      + trazo('M26,24 V32 M34,25 V32 M42,26 V33', 1.4, C.pajaO, { o: .8 })
+      + agua('M21,47 Q34,44 47,48 L46,56 Q34,58 22,56Z', C.azul)),
+
+    // Bola de discoteca: esfera plateada de facetas con cuerda y destellos
+    disco_bola: (o = {}) => {
+      const r = azar(7); let fac = '';
+      const tonos = [C.grisO, C.gris, PAPEL, C.cielo, C.violeta, C.rosa, C.sol];
+      for (let i = 0; i < 12; i++) { const a = r() * 6.28, q = Math.sqrt(r()) * 34; fac += vel(mancha(60 + Math.cos(a) * q, 88 + Math.sin(a) * q, 9 + r() * 5, 8 + r() * 5, i + 2, .15, 6), tonos[2 + Math.floor(r() * 5)], { o: .55 }); }
+      return svg('0 0 120 140',
+        sombra(60, 136, 28, .3)
+        + trazo('M60,2 V30', 3, C.grisO, { o: .9 }) + agua(mancha(60, 9, 3.4, 5.5, 2, .1), C.gris, { f: 'l' }) + agua(mancha(60, 23, 3.4, 5.5, 3, .1), C.gris, { f: 'l' })
+        + agua('M51,32 L69,32 L72,44 L48,44Z', C.grisO, { f: 'l' })
+        + agua(mancha(60, 88, 44, 44, 3, .03), '#DCE5F2')
+        + vel(mancha(74, 104, 36, 32, 4, .1), C.grisO, { o: .6 })
+        + fac
+        + trazo('M30,80 Q60,92 90,80 M24,98 Q60,112 96,98 M60,48 Q50,88 60,130 M60,48 Q74,88 60,130', 1.4, C.grisO, { o: .5 })
+        + brillo(44, 66, 12, 7, -40, .85)
+        + chispa(41, 64, 7, PAPEL) + chispa(86, 80, 4, PAPEL) + chispa(78, 108, 4.5, PAPEL) + chispa(14, 58, 6, C.sol) + chispa(108, 48, 5, C.rosaO) + chispa(110, 118, 4, C.azul) + chispa(10, 112, 3.5, C.sol));
+    },
+
+    // Dino que corre con la boca abierta: cuerpo verde, barriga lima, espinas naranjas
+    dino_corre: (o = {}) => {
+      const V = pig('#3DA84A'), VO = carga(V, .78), BL = '#E3F0A8';
+      return svg('0 0 220 160',
+        sombra(108, 150, 70, .3)
+        + trazo('M10,38 H30 M4,48 H20 M2,100 H22', 3.4, C.grisO, { o: .7 })
+        + agua('M78,92 L60,116 L46,124 C40,128 42,136 48,135 L66,131 C70,130 72,127 70,123 L94,102Z', VO)
+        + [[38, 61, -4], [60, 60, -10], [84, 52, -18], [108, 44, -14], [130, 41, -4]].map(([x, y, a]) => agua(`M${x - 8},${y + 4} Q${x},${y - 15} ${x + 8},${y + 4}Z`, C.naranja, { f: 'l', t: `rotate(${a} ${x} ${y})` })).join('')
+        + agua('M8,60 C30,64 52,66 70,62 C92,54 118,42 146,44 C162,46 170,58 170,72 C170,94 156,108 132,112 C110,116 86,112 72,98 C56,84 32,72 10,68 C4,67 3,61 8,60Z', V)
+        + agua('M60,88 C80,108 110,116 140,108 C156,102 166,90 170,76 C168,98 154,112 130,114 C100,118 74,110 60,88Z', BL, { o: .85 })
+        + punto(100, 64, 4.5, VO, .6) + punto(118, 55, 3.2, VO, .6) + punto(82, 72, 3.2, VO, .6)
+        + trazo('M82,102 q4,3 8,4 M100,110 q4,2 8,2.4 M120,112 q4,0 8,-1', 1.8, C.pajaO, { o: .7 })
+        + agua('M86,86 C92,68 124,70 126,92 C127,102 122,110 116,112 L132,128 L148,130 C154,131 154,140 148,141 H126 C121,141 119,137 121,133 L104,116 C90,114 82,100 86,86Z', V)
+        + trazo('M135,141 v-5 M141,141 v-5', 2, LINEA, { o: .7 })
+        + agua('M154,58 L208,54 L200,84 C184,80 168,72 154,66Z', C.rojoO)
+        + agua('M162,72 C176,72 190,78 198,84 C184,84 170,80 162,72Z', C.rosaO, { f: 'l' })
+        + agua('M152,64 C166,72 184,80 198,82 C206,83 206,92 198,94 C178,96 160,88 148,76Z', V)
+        + agua('M150,74 C166,84 184,90 204,90 L204,96 C180,96 160,90 150,78Z', BL, { f: 'l', o: .8 })
+        + agua('M170,72 L173,66 L176,73Z M184,78 L187,72 L190,79Z M172,58 L175,64 L178,58Z M186,57 L189,63 L192,56Z', PAPEL, { f: 'l' })
+        + agua('M146,54 C144,30 162,14 186,14 C204,14 216,24 216,40 C216,50 212,56 206,58 C188,60 170,60 152,62Z', V)
+        + brillo(166, 26, 9, 4, -20, .6)
+        + ojo(184, 33, 4.4) + trazo('M172,20 q10,-6 21,-1', 3, LINEA, { o: .85 }) + punto(208, 30, 2, LINEA, .8) + colorete(165, 50, 6)
+        + agua('M154,92 Q160,102 170,100 L168,106 Q158,106 150,96Z', V, { f: 'l' }) + trazo('M170,100 l4,-4 M170,100 l5,1', 1.8, LINEA, { o: .8 }));
     },
 /*FIN*/
   });
