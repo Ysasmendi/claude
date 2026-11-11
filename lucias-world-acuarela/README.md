@@ -1,6 +1,12 @@
-# Lucía's World · Safarrancho OS — edición acuarela (prueba de concepto)
+# Lucía's World · Safarrancho OS — edición acuarela
 
-> Copia de `lucias-world/` con otro estilo artístico. Los dibujos son los mismos: una función (`acuarela()`, justo después de `/*ILUS-FIN*/` en `index.html`) los transforma al pintarlos: agua los colores, cambia la tinta negra por una línea de pigmento translúcida y aplica un filtro que hace temblar los bordes y da grano al color. Las marionetas, el sol y la avioneta no llevan filtro porque se mueven por dentro y recalcularlo en cada fotograma frena los aparatos lentos. El resto de este documento describe la versión original.
+> Edición hermana de `lucias-world/` con todo el arte rehecho de cero en «tinta y aguada», al estilo de las ilustraciones de Quentin Blake para los libros de Roald Dahl: línea de plumilla nerviosa y acuarela suelta que no respeta la línea. Los 326 dibujos, las marionetas y la interfaz están pintados de nuevo; no queda ningún dibujo de la versión original.
+>
+> - **Caja de técnicas** (`AQ`, en `index.html` entre `/*AQ-INICIO*/` y `/*AQ-FIN*/`): manchas de agua con borde cargado, veladuras, pinceladas, línea de plumilla y paleta. Cambiar ahí el temblor, el desencaje del color o el grosor de la línea cambia todos los dibujos a la vez.
+> - **Pinturas** (`pinturas/*.js`): una familia de dibujos por archivo. Tras editarlas, `python3 montar.py` las vuelve a meter en `index.html`, que sigue siendo un único archivo.
+> - **Pendiente de pintar**: lo que se dibuja sobre lienzo (bolas de la piscina, pasillo y pistola de la Etiquetadora, estrella de píxeles de Música) y la bola de cristal.
+>
+> El resto de este documento describe el funcionamiento, que es el mismo de la versión original.
 
 Sistema operativo de juguete para niños, en un solo archivo HTML. Colores primarios, botones grandes, sonido 8 bits sintetizado y voz en español o inglés.
 
